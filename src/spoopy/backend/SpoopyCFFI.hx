@@ -1,6 +1,6 @@
 package spoopy.backend;
 
-#if (cpp && !cppia)
+#if (neko || cppia)
 import lime.system.CFFI;
 #end
 
