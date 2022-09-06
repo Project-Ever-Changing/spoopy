@@ -7,8 +7,5 @@
     "version": "0.0.1",
     "classPath": "spoopy",
     "releasenote": "",
-    "contributors": ["Feeshy"],
-    "dependencies": {
-      "lime": ""
-    }
+    "contributors": ["Feeshy"]
 }
