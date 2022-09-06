@@ -10,7 +10,7 @@ class SpoopyCFFI {
     #elseif (neko || cppia)
     private static var spoopy_application_init = CFFI.load("spoopy", "spoopy_application_init", 0);
     #else
-    private static function spoopy_application_init() {
+    private static function spoopy_application_init():Void {
         return;
     }
     #end
