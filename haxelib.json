@@ -1,0 +1,14 @@
+{
+    "name": "spoopy-engine",
+    "url" : "https://github.com/Just-Feeshy/spoopy-engine",
+    "license": "MIT",
+    "tags": ["game-engine", "game", "cpp", "neko"],
+    "description": "Spoopy Engine is a 3D graphics engine made for Project Night Terrors.",
+    "version": "0.0.1",
+    "classPath": "spoopy",
+    "releasenote": "",
+    "contributors": ["Feeshy"],
+    "dependencies": {
+      "lime": ""
+    }
+}
