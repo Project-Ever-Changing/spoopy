@@ -1,0 +1,47 @@
+<xml>
+    <set name="tool" value="exe" unless="iphone"/>
+	<set name="tool" value="static" if="iphone"/>
+
+    <include name="${HXCPP}/build-tool/BuildCommon.xml"/>
+
+    <section if="windows">
+        <include name="${HXCPP}/toolchain/msvc-toolchain.xml"/>
+    </section>
+
+    <section if="macos">
+        <set name="HXCPP_CLANG" value="1" />
+        <include name="${HXCPP}/toolchain/mac-toolchain.xml"/>
+    </section>
+
+    <section if="linux">
+        <include name="${HXCPP}/toolchain/linux-toolchain.xml"/>
+    </section>
+
+    <files id="spoopy-engine">
+        <compilerflag value="-Iinclude"/>
+
+        <compilerflag value="-DENABLED_SDL" unless="DISABLED_SDL" />
+        <compilerflag value="-DENABLED_GLAD" unless="DISABLED_GLAD" />
+
+	    <file name="src/SpoopyEngine.cpp" />
+    </files>
+
+    <target id="LIB" output="spoopy" tool="linker" toolid="${STD_MODULE_LINK}">
+
+        <section unless="static_link">
+            <ext value=".ndll" />
+            <files id="spoopy-engine" />
+
+            <outdir name="../ndll/Mac64" if="macos HXCPP_M64" />
+            <outdir name="../ndll/Mac" if="macos HXCPP_M32" />
+            <outdir name="../ndll/Windows64" if="windows HXCPP_M64" />
+            <outdir name="../ndll/Windows" if="windows HXCPP_M32" />
+            <outdir name="../ndll/Linux64" if="HXCPP_M64" />
+            <outdir name="../ndll/Linux" if="HXCPP_M32" />
+        </section>
+    </target>
+
+    <target id="default">
+	    <target id="LIB" />
+    </target>
+</xml>
