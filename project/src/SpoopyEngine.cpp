@@ -9,6 +9,8 @@
 #include <hx/CFFI.h>
 #include <hx/CFFIPrime.h>
 
+#include <SDL.h>
+
 #ifdef SPOOPY_METAL
 #include <Foundation/Foundation.hpp>
 #include <Metal/Metal.hpp>
