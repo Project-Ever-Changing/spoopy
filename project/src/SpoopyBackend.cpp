@@ -6,6 +6,8 @@
 #define NEKO_COMPATIBLE
 #endif
 
+#include <iostream>
+
 #include <hx/CFFI.h>
 #include <hx/CFFIPrime.h>
 
@@ -18,11 +20,17 @@
 #include <QuartzCore/QuartzCore.hpp>
 #endif
 
-#include <iostream>
+#ifdef SPOOPY_GLAD
+#include <glad/glad.h>
+#endif
 
 namespace spoopy {
     void spoopy_application_init() {
         std::cout << "hehe worked" << std::endl;
+
+        #ifdef SPOOPY_GLAD
+        gladLoadGLLoader(SDL_GL_GetProcAddress); //I don't think this works.
+        #endif
     }
     DEFINE_PRIME0v(spoopy_application_init);
 }

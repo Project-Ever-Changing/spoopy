@@ -43,7 +43,7 @@
             </section>
         </section>
 
-	    <file name="src/SpoopyEngine.cpp" />
+	    <file name="src/SpoopyBackend.cpp" />
     </files>
 
     <include name="lib/sdl/files.xml" />
@@ -55,7 +55,7 @@
         <files id="native-toolkit-sdl" if="LIME_SDL" unless="emscripten" />
 
         <section unless="static_link">
-            <ext value=".ndll" if="windows || mac || linux" />
+            <ext value=".ndll" />
         </section>
     </target>
 
