@@ -43,7 +43,7 @@
             </section>
         </section>
 
-	    <file name="src/SpoopyEngine.cpp" />
+	    <file name="src/SpoopyBackend.cpp" />
     </files>
 
     <include name="lib/sdl/files.xml" />
