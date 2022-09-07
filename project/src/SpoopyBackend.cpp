@@ -35,7 +35,8 @@ namespace spoopy {
     }
     DEFINE_PRIME0v(spoopy_application_init);
 
-    void spoopy_window_render() {
-        
+    void spoopy_window_render(value window) {
+        SDL_Window* targetWindow = (SDL_Window*)val_data(window);
     }
+    DEFINE_PRIME1v(spoopy_window_render);
 }
