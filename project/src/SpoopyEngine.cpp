@@ -9,6 +9,13 @@
 #include <hx/CFFI.h>
 #include <hx/CFFIPrime.h>
 
+#ifdef SPOOPY_METAL
+#include <Foundation/Foundation.hpp>
+#include <Metal/Metal.hpp>
+#include <Metal/shared_ptr.hpp>
+#include <QuartzCore/QuartzCore.hpp>
+#endif
+
 #include <iostream>
 
 namespace spoopy {
