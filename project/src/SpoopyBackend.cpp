@@ -10,19 +10,7 @@
 
 #include <hx/CFFI.h>
 #include <hx/CFFIPrime.h>
-
-#include <SDL.h>
-
-#ifdef SPOOPY_METAL
-#include <Foundation/Foundation.hpp>
-#include <Metal/Metal.hpp>
-#include <Metal/shared_ptr.hpp>
-#include <QuartzCore/QuartzCore.hpp>
-#endif
-
-#ifdef SPOOPY_GLAD
-#include <glad/glad.h>
-#endif
+#include <display/WindowGiver.h>
 
 namespace spoopy {
     /*
@@ -36,7 +24,7 @@ namespace spoopy {
     DEFINE_PRIME0v(spoopy_application_init);
 
     void spoopy_window_render(value window) {
-        SDL_Window* targetWindow = (SDL_Window*)val_data(window);
+        WindowGiver* targetWindow = (WindowGiver*)val_data(window);
     }
     DEFINE_PRIME1v(spoopy_window_render);
 }
