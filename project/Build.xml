@@ -24,24 +24,38 @@
 
         <compilerflag value="-DENABLED_SDL" />
 
-        <section if="mac || ios">
-            <compilerflag value="$-I{NATIVE_TOOLKIT_PATH}/metal-cpp/Foundation" />
-            <compilerflag value="$-I{NATIVE_TOOLKIT_PATH}/metal-cpp/Metal" />
-            <compilerflag value="$-I{NATIVE_TOOLKIT_PATH}/metal-cpp/QuartzCore" />
-            <compilerflag value="$-I{NATIVE_TOOLKIT_PATH}/metal-cpp/SingleHeader" />
+        <section unless="emscripten">
+            <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/include/" />
+            <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/include/configs/default/" unless="windows || mac || linux || rpi"/>
+            <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/include/configs/linux/" if="linux" unless="rpi"/>
+            <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/include/configs/windows/" if="windows" unless="winrt"/>
+            <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/include/configs/mac/" if="mac"/>
+            <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/include/configs/rpi/" if="rpi"/>
+            <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/include/configs/winrt/" if="winrt"/>
 
-            <compilerflag value="-DSPOOPY_METAL" />
+            <section if="mac || ios">
+                <compilerflag value="$-I{NATIVE_TOOLKIT_PATH}/metal-cpp/Foundation" />
+                <compilerflag value="$-I{NATIVE_TOOLKIT_PATH}/metal-cpp/Metal" />
+                <compilerflag value="$-I{NATIVE_TOOLKIT_PATH}/metal-cpp/QuartzCore" />
+                <compilerflag value="$-I{NATIVE_TOOLKIT_PATH}/metal-cpp/SingleHeader" />
+
+                <compilerflag value="-DSPOOPY_METAL" />
+            </section>
         </section>
 
 	    <file name="src/SpoopyEngine.cpp" />
     </files>
 
+    <include name="lib/sdl/files.xml" />
+
     <target id="LIB" output="spoopy" tool="linker" toolid="${STD_MODULE_LINK}">
         <outdir name="../ndll/${BINDIR}"/>
+        <files id="spoopy-engine" />
+
+        <files id="native-toolkit-sdl" if="LIME_SDL" unless="emscripten" />
 
         <section unless="static_link">
-            <ext value=".ndll" />
-            <files id="spoopy-engine" />
+            <ext value=".ndll" if="windows || mac || linux" />
         </section>
     </target>
 
