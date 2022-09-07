@@ -1,5 +1,4 @@
 <xml>
-    <!--<include />-->
     <include name="${HXCPP}/build-tool/BuildCommon.xml"/>
 
     <set name="tool" value="exe" unless="iphone"/>
