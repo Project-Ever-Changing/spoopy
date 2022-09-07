@@ -29,6 +29,8 @@
             <compilerflag value="$-I{NATIVE_TOOLKIT_PATH}/metal-cpp/Metal" />
             <compilerflag value="$-I{NATIVE_TOOLKIT_PATH}/metal-cpp/QuartzCore" />
             <compilerflag value="$-I{NATIVE_TOOLKIT_PATH}/metal-cpp/SingleHeader" />
+
+            <compilerflag value="-DSPOOPY_METAL" />
         </section>
 
 	    <file name="src/SpoopyEngine.cpp" />
