@@ -1,0 +1,3 @@
+[submodule "project/lib/metal-cpp"]
+	path = project/lib/metal-cpp
+	url = https://github.com/bkaradzic/metal-cpp.git

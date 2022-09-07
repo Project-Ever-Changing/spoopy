@@ -4,6 +4,8 @@
     <set name="tool" value="exe" unless="iphone"/>
 	<set name="tool" value="static" if="iphone"/>
 
+    <set name="NATIVE_TOOLKIT_PATH" value="lib" unless="NATIVE_TOOLKIT_PATH" />
+
     <section if="windows">
         <include name="${HXCPP}/toolchain/msvc-toolchain.xml"/>
     </section>
@@ -20,8 +22,14 @@
     <files id="spoopy-engine">
         <compilerflag value="-Iinclude"/>
 
-        <compilerflag value="-DENABLED_SDL" unless="DISABLED_SDL" />
-        <compilerflag value="-DENABLED_GLAD" unless="DISABLED_GLAD" />
+        <compilerflag value="-DENABLED_SDL" />
+
+        <section if="mac || ios">
+            <compilerflag value="$-I{NATIVE_TOOLKIT_PATH}/metal-cpp/Foundation" />
+            <compilerflag value="$-I{NATIVE_TOOLKIT_PATH}/metal-cpp/Metal" />
+            <compilerflag value="$-I{NATIVE_TOOLKIT_PATH}/metal-cpp/QuartzCore" />
+            <compilerflag value="$-I{NATIVE_TOOLKIT_PATH}/metal-cpp/SingleHeader" />
+        </section>
 
 	    <file name="src/SpoopyEngine.cpp" />
     </files>
