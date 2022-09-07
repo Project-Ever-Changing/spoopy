@@ -15,5 +15,5 @@ namespace spoopy {
     void spoopy_application_init() {
         std::cout << "hehe worked" << std::endl;
     }
-    DEFINE_PRIM(spoopy_application_init, 0);
+    DEFINE_PRIME0v(spoopy_application_init);
 }
