@@ -17,12 +17,19 @@ class EventHandler<T:String> {
         }
 
         if (!__events.exists(type)) {
+            var eventListener:EventListener = new EventListener();
+            eventListener.addCallback(listener);
+
             __events.set(type, listener);
         }else {
             var eventListener:EventListener = __events.get(type);
 
             if(eventListener.match(listener)) {
                 __events.remove(type);
+
+                eventListener = new EventListener();
+                eventListener.addCallback(listener);
+                __events.set(type, listener);
             }
         }
 
@@ -43,7 +50,7 @@ class EventHandler<T:String> {
         }
 
         if(eventListener.match(listener)) {
-            return;
+            __events.remove(type);
         }
     }
 

@@ -1,5 +1,6 @@
 package spoopy.events;
 
+@:allow(spoopy.events.EventHandler)
 class EventListener {
     var __callback:Void->Void;
 
@@ -7,7 +8,7 @@ class EventListener {
         return Reflect.compareMethods(this.__callback, callback);
     }
 
-    public function addCallback(callback:Void->Void):Void {
+    private function addCallback(callback:Void->Void):Void {
 
     }
 }
