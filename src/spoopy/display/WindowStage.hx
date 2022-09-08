@@ -11,7 +11,7 @@ class WindowStage {
     public var width(get, set):Int;
     public var height(get, set):Int;
 
-    public var frameRate(get, set):Int;
+    public var frameRate(get, set):Float;
     public var fullscreen(get, set):Bool;
 
     public function new(parent:Window) {
@@ -36,11 +36,11 @@ class WindowStage {
         return parent.height;
     }
 
-    @:noCompletion private inline function get_frameRate():Int {
+    @:noCompletion private inline function get_frameRate():Float {
         return parent.frameRate;
     }
 
-    @:noCompletion private function set_frameRate(value:Int):Int {
+    @:noCompletion private function set_frameRate(value:Float):Float {
         return parent.frameRate = value;
     }
 
