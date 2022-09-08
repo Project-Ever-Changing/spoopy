@@ -1,9 +1,9 @@
 package spoopy.display;
 
-import spoopy.events.EventHandler;
 import lime.ui.Window;
 import spoopy.events.EventHandler;
 import spoopy.events.EventListener;
+import spoopy.system.SpoopyUtils;
 
 /*
  * Window events pretty much.
@@ -45,6 +45,16 @@ class WindowStage extends EventHandler {
 
     public function new(parent:Window) {
         this.parent = parent;
+    }
+
+    override public function addEventListener(type:String, listener:Void->Void) {
+        var windowEventList:Array<String> = SpoopyUtils.getEnumValues(WindowEvents);
+
+        if(!windowEventList.contains(type)) {
+            return;
+        }
+
+        super.addEventListener(type, listener);
     }
 
     @:noCompletion private inline function get_width():Int {

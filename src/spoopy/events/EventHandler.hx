@@ -11,7 +11,7 @@ class EventHandler {
         //empty
     }
 
-    public function addEventListener(type:T, listener:Void->Void):Void {
+    public function addEventListener(type:String, listener:Void->Void):Void {
         if(listener != null) {
             return;
         }
@@ -42,7 +42,7 @@ class EventHandler {
         }
     }
 
-    public function removeEventListener(type:T, listener:Void->Void) {
+    public function removeEventListener(type:String, listener:Void->Void) {
         if (__events == null || listener == null) {
             return;
         }
@@ -58,7 +58,7 @@ class EventHandler {
         }
     }
 
-    public function hasEventListener(type:T):Bool {
+    public function hasEventListener(type:String):Bool {
         if (__events == null) {
             return false;
         }
