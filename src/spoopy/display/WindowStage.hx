@@ -1,8 +1,9 @@
 package spoopy.display;
 
+import spoopy.events.EventHandler;
 import lime.ui.Window;
 import spoopy.events.EventHandler;
-import spoopy.events.EventListeners;
+import spoopy.events.EventListener;
 
 /*
  * Window events pretty much.
@@ -36,7 +37,7 @@ import spoopy.events.EventListeners;
 /*
  * Handles anything having to do window related so the game doesn't have too.
  */
-class WindowStage extends EventHandler<WindowEvents> {
+class WindowStage extends EventHandler {
     public var parent(default, null):Window;
 
     public var width(get, set):Int;

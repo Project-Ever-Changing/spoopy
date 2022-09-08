@@ -4,8 +4,12 @@ package spoopy.events;
  * Concept "borrowed" from openfl, cause I'm lazy.
  * https://github.com/openfl/openfl
  */
-class EventHandler<T:String> {
-    var __events(default, null):Map<T, EventListener>;
+class EventHandler {
+    var __events(default, null):Map<String, EventListener>;
+
+    public function new() {
+        //empty
+    }
 
     public function addEventListener(type:T, listener:Void->Void):Void {
         if(listener != null) {
