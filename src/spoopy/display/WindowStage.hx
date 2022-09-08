@@ -6,12 +6,13 @@ import lime.ui.Window;
  * Handles anything having to do window related so the game doesn't have too.
  */
 class WindowStage {
-    public var parent(default, null):Window;
+    var parent:Window;
 
     public var width(get, set):Int;
     public var height(get, set):Int;
 
     public var frameRate(get, set):Int;
+    public var fullscreen(get, set):Bool;
 
     public function new(parent:Window) {
         this.parent = parent;
@@ -42,5 +43,13 @@ class WindowStage {
 
     @:noCompletion private function set_frameRate(value:Int):Int {
         return parent.frameRate = value;
+    }
+
+    @:noCompletion private inline function get_fullscreen():Bool {
+        return parent.fullscreen;
+    }
+
+    @:noCompletion private function set_fullscreen(value:Bool):Bool {
+        return parent.fullscreen = value;
     }
 }
