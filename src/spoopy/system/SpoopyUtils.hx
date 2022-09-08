@@ -12,7 +12,6 @@ class SpoopyUtils {
      * Method taken from the offical Haxe Code Cookbook website:
      * https://code.haxe.org/category/macros/enum-abstract-values.html
      */
-    #if macro
     public static inline function getEnumValues(path:Expr):Expr {
         var type = Context.getType(path.toString());
 
@@ -32,5 +31,4 @@ class SpoopyUtils {
                 throw new Error(path.toString()+ " should be @:enum abstract", path.pos);
         }
     }
-    #end
 }
