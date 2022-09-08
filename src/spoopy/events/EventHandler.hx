@@ -61,5 +61,4 @@ class EventHandler<T:String> {
 
         return __events.exists(type);
     }
-    
 }
