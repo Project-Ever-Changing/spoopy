@@ -7,7 +7,7 @@ import spoopy.events.EventListeners;
 /*
  * Window events pretty much.
  */
-abstract WindowEvents(String) to String from String {
+ @:enum abstract WindowEvents(String) to String from String {
     var ON_WINDOW_ACTIVE = "active";
     var ON_WINDOW_DEACTIVE = "deactive";
     var ON_WINDOW_CLOSE = "close";
