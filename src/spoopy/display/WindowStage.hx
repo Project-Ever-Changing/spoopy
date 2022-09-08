@@ -16,7 +16,6 @@ class WindowStage {
 
     public function new(parent:Window) {
         this.parent = parent;
-        super();
     }
 
     @:noCompletion private inline function get_width():Int {
