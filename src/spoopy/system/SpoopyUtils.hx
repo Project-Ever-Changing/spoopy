@@ -12,7 +12,7 @@ class SpoopyUtils {
      * Method taken from the offical Haxe Code Cookbook website:
      * https://code.haxe.org/category/macros/enum-abstract-values.html
      */
-    public static inline function getEnumValues(path:Expr):Expr {
+    public static macro function getEnumValues(path:Expr):Expr {
         var type = Context.getType(path.toString());
 
         switch (type.follow()) {
