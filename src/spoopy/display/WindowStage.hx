@@ -45,6 +45,7 @@ class WindowStage extends EventHandler {
 
     public function new(parent:Window) {
         this.parent = parent;
+        super();
     }
 
     override public function addEventListener(type:String, listener:Void->Void) {

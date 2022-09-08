@@ -7,10 +7,6 @@ package spoopy.events;
 class EventHandler {
     var __events(default, null):Map<String, EventListener>;
 
-    public function new() {
-        //empty
-    }
-
     public function addEventListener(type:String, listener:Void->Void):Void {
         if(listener != null) {
             return;
