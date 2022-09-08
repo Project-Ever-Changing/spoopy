@@ -9,6 +9,12 @@ class EventListener {
     }
 
     private function addCallback(callback:Void->Void):Void {
+        this.__callback = callback;
+    }
 
+    private function execute():Void {
+        if(__callback != null) {
+            __callback();
+        }
     }
 }
