@@ -1,4 +1,4 @@
-cd project
+cd ../../project
 
 haxelib run hxcpp Build.xml
 
