@@ -12,6 +12,9 @@ namespace spoopy {
         public:
             virtual ~WindowGiver();
 
+            WindowGiver(const WindowGiver &) = delete;
+            WindowGiver &operator=(const WindowGiver &) = delete;
+
             SDL_Renderer* sdlRenderer;
 			SDL_Texture* sdlTexture;
 			SDL_Window* sdlWindow;

@@ -17,9 +17,7 @@ namespace spoopy {
     * A useless method. (for now)
     */
     void spoopy_application_init() {
-        #ifdef SPOOPY_GLAD
-        gladLoadGLLoader(SDL_GL_GetProcAddress); //I don't think this works.
-        #endif
+        
     }
     DEFINE_PRIME0v(spoopy_application_init);
 
