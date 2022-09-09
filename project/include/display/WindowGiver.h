@@ -3,13 +3,6 @@
 
 #include <SDL.h>
 
-#ifdef SPOOPY_METAL
-#include <Foundation/Foundation.hpp>
-#include <Metal/Metal.hpp>
-#include <Metal/shared_ptr.hpp>
-#include <QuartzCore/QuartzCore.hpp>
-#endif
-
 #ifdef SPOOPY_GLAD
 #include <glad/glad.h>
 #endif

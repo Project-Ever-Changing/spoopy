@@ -6,6 +6,8 @@
 
     <set name="NATIVE_TOOLKIT_PATH" value="lib" unless="NATIVE_TOOLKIT_PATH" />
 
+    <set name="SPOOPY_VULKAN" value="1" />
+
     <section if="windows">
         <include name="${HXCPP}/toolchain/msvc-toolchain.xml"/>
     </section>
@@ -33,14 +35,7 @@
             <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/include/configs/rpi/" if="rpi"/>
             <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/include/configs/winrt/" if="winrt"/>
 
-            <section if="mac || ios">
-                <compilerflag value="$-I{NATIVE_TOOLKIT_PATH}/metal-cpp/Foundation" />
-                <compilerflag value="$-I{NATIVE_TOOLKIT_PATH}/metal-cpp/Metal" />
-                <compilerflag value="$-I{NATIVE_TOOLKIT_PATH}/metal-cpp/QuartzCore" />
-                <compilerflag value="$-I{NATIVE_TOOLKIT_PATH}/metal-cpp/SingleHeader" />
-
-                <compilerflag value="-DSPOOPY_METAL" />
-            </section>
+            <compilerflag value="-DSPOOPY_VULKAN" if="SPOOPY_VULKAN" />
         </section>
 
 	    <file name="src/SpoopyBackend.cpp" />
@@ -56,6 +51,11 @@
 
         <section unless="static_link">
             <ext value=".ndll" />
+
+            <section if="mac">
+                <vflag name="-framework" value="Cocoa" />
+                <vflag name="-framework" value="Foundation" />
+            </section>
         </section>
     </target>
 

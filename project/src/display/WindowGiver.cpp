@@ -1,7 +1,5 @@
 #include "WindowGiver.h"
 
-#include <SDL.h>
-
 namespace spoopy {
     WindowGiver::~WindowGiver() {
         if(sdlWindow != nullptr) {
