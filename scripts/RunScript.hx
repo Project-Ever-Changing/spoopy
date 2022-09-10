@@ -18,7 +18,7 @@ class RunScript {
 
         for(i in 0...shellScripts.length) {
             if(FileSystem.exists(Sys.getCwd() + fileLocation + shellScripts[i])) {
-                Sys.setCwd("sh " + Sys.getCwd() + fileLocation + shellScripts[i]);
+                Sys.command("sh " + Sys.getCwd() + fileLocation + shellScripts[i]);
             }else {
                 Log.error("Could not find shellscript: " + Sys.getCwd() + fileLocation + shellScripts[i]);
             }
