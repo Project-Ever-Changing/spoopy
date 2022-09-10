@@ -28,12 +28,9 @@ class RunScript {
 
                 @:final var batchFile:String = "spoopy-compiler.bat";
 
-                var scriptSourcePath = PathUtils.getHaxelibPath("spoopy");
+                var scriptSourcePath = Sys.getCwd();
                 scriptSourcePath = PathUtils.combine(scriptSourcePath, "bin");
 				scriptSourcePath = PathUtils.combine(scriptSourcePath, batchFile);
-
-                trace(Sys.getCwd());
-                trace(haxePath + "\\" + batchFile);
 
                 if(FileSystem.exists(scriptSourcePath)) {
                     File.copy(scriptSourcePath, haxePath + "\\" + batchFile);
