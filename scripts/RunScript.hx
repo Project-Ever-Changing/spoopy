@@ -13,12 +13,14 @@ class RunScript {
             "compile.sh"
         ];
 
+        var fileLocation:String = "scripts/shell/";
+
         for(i in 0...shellScripts.length) {
             try {
                 trace(Sys.getCwd() + shellScripts[i]);
-                Sys.setCwd("sh " + Sys.getCwd() + "scripts/shell/" + shellScripts[i]);
+                Sys.setCwd("sh " + Sys.getCwd() + fileLocation + shellScripts[i]);
             }catch(e:Dynamic) {
-                Log.error("Could not find shellscript: " + Sys.getCwd() + shellScripts[i]);
+                Log.error("Could not find shellscript: " + fileLocation + shellScripts[i]);
             }
         }
     }
