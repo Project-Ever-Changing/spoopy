@@ -17,10 +17,10 @@ class RunScript {
 
         for(i in 0...shellScripts.length) {
             try {
-                trace(Sys.getCwd() + shellScripts[i]);
+                trace(Sys.getCwd() + fileLocation + shellScripts[i]);
                 Sys.setCwd("sh " + Sys.getCwd() + fileLocation + shellScripts[i]);
             }catch(e:Dynamic) {
-                Log.error("Could not find shellscript: " + fileLocation + shellScripts[i]);
+                Log.error("Could not find shellscript: " + Sys.getCwd() + fileLocation + shellScripts[i]);
             }
         }
     }
