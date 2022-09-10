@@ -15,7 +15,7 @@ class RunScript {
 
         for(i in 0...shellScripts.length) {
             try {
-                trace("hehe");
+                trace(Sys.getCwd() + shellscript[i]);
                 Sys.setCwd("sh " + Sys.getCwd() + shellScripts[i]);
             }catch(e:Dynamic) {
                 Log.error("Could not find shellscript: " + Sys.getCwd() + shellScripts[i]);
