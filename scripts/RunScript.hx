@@ -24,7 +24,7 @@ class RunScript {
             }
 
             if(args.length > 1) {
-                switch(args[1]) {
+                switch(args[1].toLowerCase()) {
                     case "Windows" | "Windows64":
                         for(i in 0...shellScripts.length) {
                             if(FileSystem.exists(Sys.getCwd() + fileLocation + shellScripts[i])) {
