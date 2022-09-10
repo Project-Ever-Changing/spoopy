@@ -78,6 +78,6 @@ class RunScript {
         }
 
         Sys.setCwd(cwd);
-		Sys.exit(Sys.command("haxelib", ["run", "spoopy"].concat(args)));
+		Sys.exit(1);
     }
 }
