@@ -32,7 +32,7 @@ class RunScript {
                 scriptSourcePath = PathUtils.combine(scriptSourcePath, "bin");
 				scriptSourcePath = PathUtils.combine(scriptSourcePath, batchFile);
 
-                trace(scriptSourcePath);
+                trace(Sys.getCwd());
                 trace(haxePath + "\\" + batchFile);
 
                 if(FileSystem.exists(scriptSourcePath)) {
