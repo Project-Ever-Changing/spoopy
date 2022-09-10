@@ -1,6 +1,7 @@
 package;
 
 import hxp.*;
+import sys.io.File;
 import sys.FileSystem;
 
 class RunScript {
@@ -16,10 +17,9 @@ class RunScript {
         var fileLocation:String = "scripts/shell/";
 
         for(i in 0...shellScripts.length) {
-            try {
-                trace(Sys.getCwd() + fileLocation + shellScripts[i]);
+            if(FileSystem.exists(Sys.getCwd() + fileLocation + shellScripts[i])) {
                 Sys.setCwd("sh " + Sys.getCwd() + fileLocation + shellScripts[i]);
-            }catch(e:Dynamic) {
+            }else {
                 Log.error("Could not find shellscript: " + Sys.getCwd() + fileLocation + shellScripts[i]);
             }
         }
