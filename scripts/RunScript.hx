@@ -32,6 +32,8 @@ class RunScript {
                 scriptSourcePath = PathUtils.combine(scriptSourcePath, "bin");
 				scriptSourcePath = PathUtils.combine(scriptSourcePath, batchFile);
 
+                trace("I'm windows");
+
                 if (FileSystem.exists(scriptSourcePath)) {
                     trace(haxePath + "\\" + batchFile);
                     File.copy(scriptSourcePath, haxePath + "\\" + batchFile);
@@ -57,6 +59,8 @@ class RunScript {
             ];
 
             @:final var fileLocation:String = "scripts/shell/";
+
+            trace("I'm linux");
 
             switch(args[1].toLowerCase()) {
                 case "Windows" | "Windows64":
