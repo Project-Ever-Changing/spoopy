@@ -33,6 +33,7 @@ class RunScript {
 				scriptSourcePath = PathUtils.combine(scriptSourcePath, batchFile);
 
                 if (FileSystem.exists(scriptSourcePath)) {
+                    trace(haxePath + "\\" + batchFile);
                     File.copy(scriptSourcePath, haxePath + "\\" + batchFile);
                 }else {
                     Log.error("Could not find the spoopy-compiler alias script. You can try 'haxelib selfupdate' and run setup again.");
