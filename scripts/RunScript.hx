@@ -26,7 +26,7 @@ class RunScript {
 					haxePath = "C:\\HaxeToolkit\\haxe\\";
                 }
 
-                @:final var batchFile:String = "spoopy-compiler.bat";
+                @:final var batchFile:String = "spoopy.bat";
 
                 var scriptSourcePath = Sys.getCwd();
                 scriptSourcePath = PathUtils.combine(scriptSourcePath, "bin");
@@ -35,18 +35,18 @@ class RunScript {
                 if(FileSystem.exists(scriptSourcePath)) {
                     File.copy(scriptSourcePath, haxePath + "\\" + batchFile);
                 }else {
-                    Log.error("Could not find the spoopy-compiler alias script. You can try 'haxelib selfupdate' and run setup again.");
+                    Log.error("Could not find the spoopy alias script. You can try 'haxelib selfupdate' and run setup again.");
                 }
             }else {
                 @:final var binPath = if (FileSys.isMac) "/usr/local/bin" else "/usr/bin";
-                @:final var shellScript = PathUtils.getHaxelibPath("spoopy") + "bin/spoopy-compiler.sh";
+                @:final var shellScript = PathUtils.getHaxelibPath("spoopy") + "bin/spoopy.sh";
 
 				if (FileSystem.exists(shellScript)) {
-					Sys.command("sudo", ["cp", shellScript, binPath + "/spoopy-compiler"]);
-					Sys.command("sudo", ["chmod", "+x", binPath + "/spoopy-compiler"]);
+					Sys.command("sudo", ["cp", shellScript, binPath + "/spoopy"]);
+					Sys.command("sudo", ["chmod", "+x", binPath + "/spoopy"]);
 				}
 				else {
-					Log.error("Could not find the spoopy-compiler alias script. You can try 'haxelib selfupdate' and run setup again.");
+					Log.error("Could not find the spoopy alias script. You can try 'haxelib selfupdate' and run setup again.");
 				}
             }
         }else if(args.length > 1 && args[0] == "build") {
@@ -75,6 +75,9 @@ class RunScript {
                         }
                     }
             }
+        }else {
+            Sys.setCwd(cwd);
+		    Sys.exit(Sys.command("haxelib", ["run", "lime"].concat(args)));
         }
 
         Sys.setCwd(cwd);
