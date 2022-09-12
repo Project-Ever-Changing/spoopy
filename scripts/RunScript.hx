@@ -83,7 +83,9 @@ class RunScript {
                         }
                     }
 
-                    compileGraphics();
+                    if(args[2] != "-cppOnly") {
+                        compileGraphics();
+                    }
             }
         }else {
             if(FileSys.isWindows) {
