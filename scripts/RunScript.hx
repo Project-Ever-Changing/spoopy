@@ -133,14 +133,14 @@ class RunScript {
 
     static inline function compileGraphics():Void {
         @:final var binPath = if (FileSys.isMac) "/usr/local/bin" else "/usr/bin";
-        binPath = PathUtils.combine(binPath, "glslc");
+        binPath += "/glslc";
 
         var cacheDirectory:Array<String> = FileSystem.readDirectory("shaders/VKGL");
 
         for(i in 0...cacheDirectory.length) {
             var split:Array<String> = cacheDirectory[i].split(".");
 
-            if(split[split.length - 1] == "spv") {
+            if(split[split.length - 1].trim() == "spv") {
                 FileSystem.deleteFile("shaders/VKGL/" + cacheDirectory[i]);
             }
         }
