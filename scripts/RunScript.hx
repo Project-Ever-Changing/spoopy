@@ -41,6 +41,8 @@ class RunScript {
                 @:final var binPath = if (FileSys.isMac) "/usr/local/bin" else "/usr/bin";
                 @:final var shellScript = PathUtils.getHaxelibPath("spoopy") + "bin/spoopy.sh";
 
+                trace(shellScript);
+
 				if (FileSystem.exists(shellScript)) {
 					Sys.command("sudo", ["cp", shellScript, binPath + "/spoopy"]);
 					Sys.command("sudo", ["chmod", "+x", binPath + "/spoopy"]);
