@@ -81,6 +81,24 @@ class RunScript {
         }else if(args.length > 0) {
             Sys.setCwd(cwd);
 		    Sys.exit(Sys.command("haxelib", ["run", "lime"].concat(args)));
+        }else {
+            if(FileSys.isWindows) {
+                @:final var displayScript:String = "scripts/batch/display.bat";
+
+                if(FileSystem.exists(Sys.getCwd() + displayScript)) {
+                    Sys.command(Sys.getCwd() + displayScript);
+                }else {
+                    Log.error("Could not find shellscript: " + Sys.getCwd() + displayScript);
+                }
+            }else {
+                @:final var displayScript:String = "scripts/shell/display.sh";
+
+                if(FileSystem.exists(Sys.getCwd() + displayScript)) {
+                    Sys.command("sh", [Sys.getCwd() + displayScript]);
+                }else {
+                    Log.error("Could not find shellscript: " + Sys.getCwd() + displayScript);
+                }
+            }
         }
 
         Sys.setCwd(cwd);
