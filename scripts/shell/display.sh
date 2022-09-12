@@ -19,7 +19,7 @@ echo "${BOLD}SpoopyEngine Command-Line Tools"
 echo ""
 echo "${REGULAR}Basic Commands: "
 echo ""
-echo "  create : Create a new project using Lime"
+echo "  build : Compile necessary requirements to use Spoopy Engine"
 echo "  setup : setup spoopy library"
 
 sleep 1
