@@ -111,7 +111,7 @@ class RunScript {
             var cacheDirectory:Array<String> = FileSystem.readDirectory("shaders/VKGL");
 
             for(i in 0...cacheDirectory.length) {
-                Sys.command(binPath, ["shaders/VKGL/" + cacheDirectory[i], "-o", cacheDirectory[i] + ".spv"]);
+                Sys.command(binPath, ["shaders/VKGL/" + cacheDirectory[i], "-o", "shaders/VKGL/" + cacheDirectory[i] + ".spv"]);
             }
         }
     }
