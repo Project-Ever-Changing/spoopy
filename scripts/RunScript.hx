@@ -76,9 +76,9 @@ class RunScript {
                             Log.error("Could not find shellscript: " + Sys.getCwd() + fileLocation + shellScripts[i]);
                         }
                     }
-            }
 
-            compileGraphics();
+                    compileGraphics();
+            }
         }else {
             if(FileSys.isWindows) {
                 @:final var displayScript:String = "scripts/batch/display.bat";
@@ -104,15 +104,13 @@ class RunScript {
     }
 
     static inline function compileGraphics():Void {
-        if(!FileSys.isWindows) {
-            @:final var binPath = if (FileSys.isMac) "/usr/local/bin" else "/usr/bin";
-            binPath = PathUtils.combine(binPath, "glslc");
+        @:final var binPath = if (FileSys.isMac) "/usr/local/bin" else "/usr/bin";
+        binPath = PathUtils.combine(binPath, "glslc");
 
-            var cacheDirectory:Array<String> = FileSystem.readDirectory("shaders/VKGL");
+        var cacheDirectory:Array<String> = FileSystem.readDirectory("shaders/VKGL");
 
-            for(i in 0...cacheDirectory.length) {
-                Sys.command(binPath, ["shaders/VKGL/" + cacheDirectory[i], "-o", "shaders/VKGL/" + cacheDirectory[i] + ".spv"]);
-            }
+        for(i in 0...cacheDirectory.length) {
+            Sys.command(binPath, ["shaders/VKGL/" + cacheDirectory[i], "-o", "shaders/VKGL/" + cacheDirectory[i] + ".spv"]);
         }
     }
 }
