@@ -39,7 +39,10 @@ class RunScript {
                 }
             }else {
                 @:final var binPath = if (FileSys.isMac) "/usr/local/bin" else "/usr/bin";
-                @:final var shellScript = PathUtils.getHaxelibPath("spoopy") + "bin/spoopy.sh";
+                
+                var shellScript = Sys.getCwd();
+                shellScript = PathUtils.combine(shellScript, "bin");
+                shellScript = PathUtils.combine(shellScript, "spoopy.sh");
 
                 trace(shellScript);
 
