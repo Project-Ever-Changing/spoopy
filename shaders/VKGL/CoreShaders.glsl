@@ -10,6 +10,7 @@ vec2 vertices[] = vec2[] (
 void main() {
     gl_Position = vec4(vertices[gl_VertexIndex], 0.0, 1.0);
 }
+#endif
 
 #ifdef COMPILE_FRAGMENT
 layout(location == 0) out vec4 DST_color;
