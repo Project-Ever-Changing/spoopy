@@ -1,6 +1,9 @@
 RED="\033[1;31m"
 NOCOLOR="\033[0m"
 
+BOLD=`tput bold`
+REGULAR=`tput rmso`
+
 echo ""
 echo "${RED} @@@@@@   @@@@@@@    @@@@@@    @@@@@@   @@@@@@@   @@@ @@@     @@@@@@@@  @@@  @@@   @@@@@@@@  @@@  @@@  @@@  @@@@@@@@  ${NOCOLOR}"
 echo "${RED}@@@@@@@   @@@@@@@@  @@@@@@@@  @@@@@@@@  @@@@@@@@  @@@ @@@     @@@@@@@@  @@@@ @@@  @@@@@@@@@  @@@  @@@@ @@@  @@@@@@@@  ${NOCOLOR}"
@@ -13,9 +16,9 @@ echo "${RED}    !:!   :!:       :!:  !:!  :!:  !:!  :!:         :!:       :!:   
 echo "${RED}:::: ::    ::       ::::: ::  ::::: ::   ::          ::        :: ::::   ::   ::   ::: ::::   ::   ::   ::   :: ::::  ${NOCOLOR}"
 echo "${RED}:: : :     :         : :  :    : :  :    :           :        : :: ::   ::    :    :: :: :   :    ::    :   : :: ::   ${NOCOLOR}"
 echo ""
-echo "𝗦𝗽𝗼𝗼𝗽𝘆𝗘𝗻𝗴𝗶𝗻𝗲 𝗖𝗼𝗺𝗺𝗮𝗻𝗱-𝗟𝗶𝗻𝗲 𝗧𝗼𝗼𝗹𝘀"
+echo "${BOLD}SpoopyEngine Command-Line Tools"
 echo ""
-echo "Basic Commands: "
+echo "${REGULAR}Basic Commands: "
 echo ""
 echo "  create : Create a new project using Lime"
 echo "  build : Compile necessary requirements to use Spoopy Engine"
