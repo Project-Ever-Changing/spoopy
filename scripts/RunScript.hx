@@ -53,12 +53,11 @@ class RunScript {
 				}
             }
         }else if(args.length > 1 && args[0] == "build") {
+            @:final var fileLocation:String = "scripts/shell/";
+
             @:final var shellScripts:Array<String> = [
                 "build.sh",
-                "compile.sh"
             ];
-
-            @:final var fileLocation:String = "scripts/shell/";
 
             switch(args[1].toLowerCase()) {
                 case "Windows" | "Windows64":
@@ -78,6 +77,8 @@ class RunScript {
                         }
                     }
             }
+
+            compileGraphics();
         }else {
             if(FileSys.isWindows) {
                 @:final var displayScript:String = "scripts/batch/display.bat";
@@ -100,5 +101,18 @@ class RunScript {
 
         Sys.setCwd(cwd);
 		Sys.exit(1);
+    }
+
+    static inline function compileGraphics():Void {
+        if(!FileSys.isWindows) {
+            @:final var binPath = if (FileSys.isMac) "/usr/local/bin" else "/usr/bin";
+            binPath = PathUtils.combine(binPath, "glslc");
+
+            var cacheDirectory:Array<String> = FileSystem.readDirectory("shaders/VKGL");
+
+            for(i in 0...cacheDirectory.length) {
+                Sys.command(binPath, ["shaders/VKGL/" + cacheDirectory[i], "-o", cacheDirectory[i] + ".spv"]);
+            }
+        }
     }
 }
