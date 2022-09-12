@@ -19,6 +19,12 @@ class RunScript {
                 Sys.command("haxelib", ["install", "lime"]);
             }
 
+            @:final var answer:Bool = askYN("Do you want to setup the command alias?");
+
+            if(!answer) {
+                return;
+            }
+            
             if(FileSys.isWindows) {
                 var haxePath:String = Sys.getEnv("HAXEPATH");
 
@@ -102,6 +108,28 @@ class RunScript {
         Sys.setCwd(cwd);
 		Sys.exit(1);
     }
+
+    static inline function readLine() {
+        return Sys.stdin().readLine();
+    }
+
+    static function askYN(question:String):Bool
+        {
+            while (true)
+            {
+                Sys.println("");
+                Sys.println(question + " [y/n]?");
+    
+                return switch (readLine())
+                {
+                    case "n", "No", "no": false;
+                    case "y", "Yes", "yes": true;
+                    case _: false;
+                }
+            }
+    
+            return null;
+        }
 
     static inline function compileGraphics():Void {
         @:final var binPath = if (FileSys.isMac) "/usr/local/bin" else "/usr/bin";
