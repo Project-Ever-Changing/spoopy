@@ -140,7 +140,7 @@ class RunScript {
         for(i in 0...cacheDirectory.length) {
             var split:Array<String> = cacheDirectory[i].split(".");
 
-            if(split[split.length - 1].trim() == "spv") {
+            if(split[split.length - 1] == "spv") {
                 FileSystem.deleteFile("shaders/VKGL/" + cacheDirectory[i]);
             }
         }
