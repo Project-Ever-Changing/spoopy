@@ -78,9 +78,6 @@ class RunScript {
                         }
                     }
             }
-        }else if(args.length > 0) {
-            Sys.setCwd(cwd);
-		    Sys.exit(Sys.command("haxelib", ["run", "lime"].concat(args)));
         }else {
             if(FileSys.isWindows) {
                 @:final var displayScript:String = "scripts/batch/display.bat";

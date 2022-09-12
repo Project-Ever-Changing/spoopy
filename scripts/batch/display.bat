@@ -18,5 +18,4 @@ echo 𝗦𝗽𝗼𝗼𝗽𝘆𝗘𝗻𝗴𝗶𝗻𝗲 𝗖𝗼𝗺𝗺𝗮𝗻�
 echo Basic Commands:
 
 echo   create : Create a new project using Lime
-echo   build : Compile necessary requirements to use Spoopy Engine
 echo   setup : setup spoopy library
