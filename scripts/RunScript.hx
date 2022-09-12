@@ -44,8 +44,6 @@ class RunScript {
                 shellScript = PathUtils.combine(shellScript, "bin");
                 shellScript = PathUtils.combine(shellScript, "spoopy.sh");
 
-                trace(shellScript);
-
 				if (FileSystem.exists(shellScript)) {
 					Sys.command("sudo", ["cp", shellScript, binPath + "/spoopy"]);
 					Sys.command("sudo", ["chmod", "+x", binPath + "/spoopy"]);
@@ -80,7 +78,7 @@ class RunScript {
                         }
                     }
             }
-        }else {
+        }else if(args.length > 0) {
             Sys.setCwd(cwd);
 		    Sys.exit(Sys.command("haxelib", ["run", "lime"].concat(args)));
         }
