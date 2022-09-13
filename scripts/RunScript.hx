@@ -115,23 +115,20 @@ class RunScript {
         return Sys.stdin().readLine();
     }
 
-    static function askYN(question:String):Bool
-        {
-            while (true)
-            {
-                Sys.println("");
-                Sys.println(question + " [y/n]?");
-    
-                return switch (readLine())
-                {
-                    case "n", "No", "no": false;
-                    case "y", "Yes", "yes": true;
-                    case _: false;
-                }
+    static function askYN(question:String):Bool {
+        while (true) {
+            Sys.println("");
+            Sys.println(question + " [y/n]?");
+
+            return switch (readLine()) {
+                case "n", "No", "no": false;
+                case "y", "Yes", "yes": true;
+                case _: false;
             }
-    
-            return null;
         }
+
+        return null;
+    }
 
     static inline function compileGraphics():Void {
         @:final var binPath = if (FileSys.isMac) "/usr/local/bin" else "/usr/bin";

@@ -15,6 +15,8 @@ namespace spoopy {
             WindowGiver(const WindowGiver &) = delete;
             WindowGiver &operator=(const WindowGiver &) = delete;
 
+            void createWindowSurface();
+
             SDL_Renderer* sdlRenderer;
 			SDL_Texture* sdlTexture;
 			SDL_Window* sdlWindow;

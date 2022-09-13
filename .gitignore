@@ -2,9 +2,4 @@ export/
 project/obj
 .DS_Store
 
-ndll/Linux64\*.hash
-ndll/Linux\*.hash
-ndll/Windows64\*.hash
-ndll/Windows\*.hash
-ndll/Mac64\*.hash
-ndll/Mac\*.hash
+ndll
