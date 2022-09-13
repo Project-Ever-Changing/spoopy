@@ -10,7 +10,7 @@
 
 #include <hx/CFFI.h>
 #include <hx/CFFIPrime.h>
-#include <display/WindowGiver.h>
+#include <device/WindowDevice.h>
 
 namespace spoopy {
     /*
@@ -22,7 +22,7 @@ namespace spoopy {
     DEFINE_PRIME0v(spoopy_application_init);
 
     void spoopy_window_render(value window) {
-        WindowGiver* targetWindow = (WindowGiver*)val_data(window);
+        WindowDevice* targetWindow = (WindowDevice*)val_data(window);
     }
     DEFINE_PRIME1v(spoopy_window_render);
 }

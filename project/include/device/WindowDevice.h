@@ -10,12 +10,12 @@
 #endif
 
 namespace spoopy {
-    class WindowGiver {
+    class WindowDevice {
         public:
-            virtual ~WindowGiver();
+            virtual ~WindowDevice();
 
-            WindowGiver(const WindowGiver &) = delete;
-            WindowGiver &operator=(const WindowGiver &) = delete;
+            WindowDevice(const WindowDevice &) = delete;
+            WindowDevice &operator=(const WindowDevice &) = delete;
 
             #ifdef SPOOPY_VULKAN
             void createWindowSurfaceVulkan(VkInstance instance, VkSurfaceKHR* surface);
