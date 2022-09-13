@@ -2,10 +2,7 @@
 #define SPOOPY_UI_WINDOW_H
 
 #include <SDL.h>
-
-#ifdef SPOOPY_GLAD
-#include <glad/glad.h>
-#endif
+#include <SDL_vulkan.h>
 
 namespace spoopy {
     class WindowGiver {
@@ -15,7 +12,7 @@ namespace spoopy {
             WindowGiver(const WindowGiver &) = delete;
             WindowGiver &operator=(const WindowGiver &) = delete;
 
-            void createWindowSurface();
+            void createWindowSurface(VkInstance instance, VkSurfaceKHR* surface);
 
             SDL_Renderer* sdlRenderer;
 			SDL_Texture* sdlTexture;
