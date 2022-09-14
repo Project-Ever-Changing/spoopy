@@ -9,7 +9,7 @@ namespace spoopy {
     bool DeviceManager::checkLayerSupportForVulkan() {
         uint32_t layers;
 
-        vkEnumerateInstanceLayerProperties(&layers, nullptr);
+        //vkEnumerateInstanceLayerProperties(&layers, nullptr);
         return true;
     }
     #endif

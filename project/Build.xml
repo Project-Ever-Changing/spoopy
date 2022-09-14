@@ -6,7 +6,10 @@
 
     <set name="NATIVE_TOOLKIT_PATH" value="lib" unless="NATIVE_TOOLKIT_PATH" />
 
+    <set name="SPOOPY_SDL" value="1" />
     <set name="SPOOPY_VULKAN" value="1" />
+
+    <include name="${NATIVE_TOOLKIT_PATH}/sdl/files.xml" if="SPOOPY_SDL" />
 
     <section if="windows">
         <include name="${HXCPP}/toolchain/msvc-toolchain.xml"/>
@@ -21,9 +24,30 @@
         <include name="${HXCPP}/toolchain/linux-toolchain.xml"/>
     </section>
 
-    <files id="native-toolkit-sdl-depends">
-        <depend name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan.h" />
-        <depend name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_core.h" />
+    <files id="native-toolkit-sdl-extensions">
+        <depend name="${NATIVE_TOOLKIT_PATH}/sdl/include/SDL_vulkan.h" />
+
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vk_icd.h" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vk_layer.h" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vk_platform.h" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vk_sdk_platform.h" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_fuchsia.h" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_core.h" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan.h" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_mir.h" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_vi.h" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_wayland.h" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_xcb.h" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_xlib_xrandr.h" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_xlib.h" />
+
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_android.h" if="android" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_ios.h" if="ios" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_macos.h" if="mac" />
+
+        <section if="32">
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_win32.h" if="windows" />
+        </section>
     </files>
 
     <files id="spoopy-engine">
@@ -51,6 +75,8 @@
             <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/include/configs/winrt/" if="winrt"/>
             <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/" />
 
+            <include name="${NATIVE_TOOLKIT_PATH}/sdl/defines.xml" />
+
             <compilerflag value="-DSPOOPY_VULKAN" if="SPOOPY_VULKAN" />
         </section>
 
@@ -61,24 +87,64 @@
         <file name="src/system/CFFIPointer.cpp" />
     </files>
 
-    <include name="lib/sdl/files.xml" />
-
     <target id="LIB" output="spoopy" tool="linker" toolid="${STD_MODULE_LINK}">
         <outdir name="../ndll/${BINDIR}"/>
         <files id="spoopy-engine" />
 
-        <files id="native-toolkit-sdl" if="LIME_SDL" unless="emscripten" />
+        <files id="native-toolkit-sdl" if="SPOOPY_SDL" unless="emscripten" />
+        <!--<files id="native-toolkit-sdl-extensions" if="SPOOPY_SDL" unless="emscripten" />-->
 
-        <section unless="static_link">
-            <ext value=".ndll" />
-
+        <section if="static_link">
             <section if="mac">
+                <vflag name="-l" value="iconv"/>
+                <vflag name="-framework" value="Carbon" />
                 <vflag name="-framework" value="Cocoa" />
                 <vflag name="-framework" value="Foundation" />
+                <vflag name="-framework" value="CoreVideo" />
+                <vflag name="-framework" value="OpenGL" />
+                <vflag name="-framework" value="ForceFeedback" />
+                <vflag name="-framework" value="IOKit" />
+                <vflag name="-framework" value="CoreAudio" />
+                <vflag name="-framework" value="AudioUnit" />
 
                 <lib name="-L../templates/bin/hl/${BINDIR}" if="hashlink" />
                 <lib name="-lhl" if="hashlink" />
             </section>
+
+            <section if="windows">
+                <lib name="gdi32.lib" />
+                <lib name="opengl32.lib" />
+                <lib name="user32.lib" />
+                <lib name="kernel32.lib" />
+                <lib name="advapi32.lib" />
+                <lib name="winmm.lib" />
+                <lib name="imm32.lib"  />
+                <lib name="ole32.lib" />
+                <lib name="oleaut32.lib" />
+                <lib name="version.lib" />
+                <lib name="ws2_32.lib"  />
+                <lib name="wldap32.lib" />
+                <lib name="shell32.lib" />
+                <lib name="comdlg32.lib" />
+            </section>
+
+            <section if="android">
+                <lib name="-Wl,--undefined=Java_org_libsdl_app_SDLActivity_nativeInit" if="SNOW_USE_SDL"/>
+                <lib name="-ldl" />
+                <lib name="-llog" />
+                <lib name="-landroid" />
+                <lib name="-lEGL" />
+                <lib name="-lGLESv2" />
+                <lib name="-lGLESv1_CM" />
+            </section>
+
+            <section if="linux">
+                <lib name="-lpthread" />
+                <lib name="-lrt" />
+                <lib name="-lGL" />
+            </section>
+
+            <ext value=".ndll" />
         </section>
     </target>
 
