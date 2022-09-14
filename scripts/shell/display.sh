@@ -21,5 +21,3 @@ echo "${REGULAR}Basic Commands: "
 echo ""
 echo "  build : Compile necessary requirements to use Spoopy Engine"
 echo "  setup : setup spoopy library"
-
-sleep 1
