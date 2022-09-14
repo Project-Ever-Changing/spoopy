@@ -7,6 +7,8 @@
 
 #ifdef SPOOPY_VULKAN
 #include <SDL_vulkan.h>
+#include <vulkan/vulkan.h>
+#include <vulkan/vulkan_core.h>
 #endif
 
 namespace spoopy {
@@ -14,11 +16,8 @@ namespace spoopy {
         public:
             virtual ~WindowDevice();
 
-            WindowDevice(const WindowDevice &) = delete;
-            WindowDevice &operator=(const WindowDevice &) = delete;
-
             #ifdef SPOOPY_VULKAN
-            void createWindowSurfaceVulkan(VkInstance instance, VkSurfaceKHR* surface);
+            virtual void createWindowSurfaceVulkan(VkInstance instance, VkSurfaceKHR* surface);
             #endif
 
             SDL_Renderer* sdlRenderer;

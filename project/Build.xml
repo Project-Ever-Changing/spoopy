@@ -21,10 +21,25 @@
         <include name="${HXCPP}/toolchain/linux-toolchain.xml"/>
     </section>
 
+    <files id="native-toolkit-sdl-depends">
+        <depend name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan.h" />
+        <depend name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_core.h" />
+    </files>
+
     <files id="spoopy-engine">
         <compilerflag value="-Iinclude"/>
 
         <compilerflag value="-DENABLED_SDL" />
+
+        <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/hashlink/src" />
+
+        <section if="hashlink">
+			<compilerflag value="-DLIME_HASHLINK" />
+		</section>
+
+        <section if="hashlink">
+			<compilerflag value="-DLIBHL_EXPORTS" />
+		</section>
 
         <section unless="emscripten">
             <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/include/" />
@@ -34,11 +49,16 @@
             <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/include/configs/mac/" if="mac"/>
             <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/include/configs/rpi/" if="rpi"/>
             <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/include/configs/winrt/" if="winrt"/>
+            <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/" />
 
             <compilerflag value="-DSPOOPY_VULKAN" if="SPOOPY_VULKAN" />
         </section>
 
 	    <file name="src/SpoopyBackend.cpp" />
+        <file name="src/device/WindowDevice.cpp" />
+        <file name="src/device/DeviceManager.cpp" />
+        <file name="src/system/CFFI.cpp" />
+        <file name="src/system/CFFIPointer.cpp" />
     </files>
 
     <include name="lib/sdl/files.xml" />
@@ -55,6 +75,9 @@
             <section if="mac">
                 <vflag name="-framework" value="Cocoa" />
                 <vflag name="-framework" value="Foundation" />
+
+                <lib name="-L../templates/bin/hl/${BINDIR}" if="hashlink" />
+                <lib name="-lhl" if="hashlink" />
             </section>
         </section>
     </target>
