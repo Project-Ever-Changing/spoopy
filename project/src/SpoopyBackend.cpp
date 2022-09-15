@@ -24,7 +24,9 @@ namespace spoopy {
     * A useless method. (for now)
     */
     void spoopy_application_init() {
-        
+        #ifdef COMPILED_LIBS
+        std::cout << "yay! celebrate!" << std::endl;
+        #endif
     }
     DEFINE_PRIME0v(spoopy_application_init);
 

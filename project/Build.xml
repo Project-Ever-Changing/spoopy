@@ -4,12 +4,13 @@
     <set name="tool" value="exe" unless="iphone"/>
 	<set name="tool" value="static" if="iphone"/>
 
-    <set name="NATIVE_TOOLKIT_PATH" value="lib" unless="NATIVE_TOOLKIT_PATH" />
-
     <set name="SPOOPY_SDL" value="1" />
     <set name="SPOOPY_VULKAN" value="1" />
 
-    <include name="${NATIVE_TOOLKIT_PATH}/sdl/files.xml" if="SPOOPY_SDL" />
+    <set name="NATIVE_TOOLKIT_PATH" value="lib" unless="NATIVE_TOOLKIT_PATH" />
+    <set name="NATIVE_TOOLKIT_SDL_STATIC" value="1" if="android" />
+    <set name="NATIVE_TOOLKIT_HAVE_SDL" value="1" if="SPOOPY_SDL" />
+    <set name="NATIVE_TOOLKIT_SDL_ANGLE" value="1" />
 
     <section if="windows">
         <include name="${HXCPP}/toolchain/msvc-toolchain.xml"/>
@@ -58,7 +59,7 @@
         <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/hashlink/src" />
 
         <section if="hashlink">
-			<compilerflag value="-DLIME_HASHLINK" />
+			<compilerflag value="-DSPOOPY_HASHLINK" />
 		</section>
 
         <section if="hashlink">
@@ -73,7 +74,7 @@
             <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/include/configs/mac/" if="mac"/>
             <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/include/configs/rpi/" if="rpi"/>
             <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/include/configs/winrt/" if="winrt"/>
-            <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/" />
+            <!--<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/" />-->
 
             <include name="${NATIVE_TOOLKIT_PATH}/sdl/defines.xml" />
 
@@ -87,15 +88,19 @@
         <file name="src/system/CFFIPointer.cpp" />
     </files>
 
+    <include name="${NATIVE_TOOLKIT_PATH}/sdl/files.xml" if="SPOOPY_SDL" />
+
     <target id="LIB" output="spoopy" tool="linker" toolid="${STD_MODULE_LINK}">
         <outdir name="../ndll/${BINDIR}"/>
         <files id="spoopy-engine" />
 
-        <files id="native-toolkit-sdl" if="SPOOPY_SDL" unless="emscripten" />
+        <!--<files id="native-toolkit-sdl" if="SPOOPY_SDL" unless="emscripten" />-->
         <!--<files id="native-toolkit-sdl-extensions" if="SPOOPY_SDL" unless="emscripten" />-->
 
         <section if="static_link">
             <section if="mac">
+                <compilerflag name="-DCOMPILED_LIBS" />
+
                 <vflag name="-l" value="iconv"/>
                 <vflag name="-framework" value="Carbon" />
                 <vflag name="-framework" value="Cocoa" />
@@ -126,6 +131,9 @@
                 <lib name="wldap32.lib" />
                 <lib name="shell32.lib" />
                 <lib name="comdlg32.lib" />
+
+                <lib name="-libpath:../templates/bin/hl/windows" if="hashlink" />
+				<lib name="libhl.lib" if="hashlink" />
             </section>
 
             <section if="android">
