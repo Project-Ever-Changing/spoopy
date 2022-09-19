@@ -94,7 +94,7 @@
         <outdir name="../ndll/${BINDIR}"/>
         <files id="spoopy-engine" />
 
-        <!--<files id="native-toolkit-sdl" if="SPOOPY_SDL" unless="emscripten" />-->
+        <files id="native-toolkit-sdl" if="SPOOPY_SDL" unless="emscripten" />
         <!--<files id="native-toolkit-sdl-extensions" if="SPOOPY_SDL" unless="emscripten" />-->
 
         <section if="static_link">

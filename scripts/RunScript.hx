@@ -59,27 +59,35 @@ class RunScript {
 				}
             }
         }else if(args.length > 1 && args[0] == "build") {
-            @:final var fileLocation:String = "scripts/shell/";
+            @:final var fileLocation:String = "scripts/";
 
-            @:final var shellScripts:Array<String> = [
-                "build.sh",
-            ];
+            var scripts:Array<String> = [];
+
+            if(FileSys.isWindows) {
+                scripts = [
+                    "batch/build.bat"
+                ];
+            }else {
+                scripts = [
+                    "shell/build.sh"
+                ];
+            }
 
             switch(args[1].toLowerCase()) {
                 case "Windows" | "Windows64":
-                    for(i in 0...shellScripts.length) {
-                        if(FileSystem.exists(Sys.getCwd() + fileLocation + shellScripts[i])) {
-                            Sys.command(Sys.getCwd() + fileLocation + shellScripts[i]);
+                    for(i in 0...scripts.length) {
+                        if(FileSystem.exists(Sys.getCwd() + fileLocation + scripts[i])) {
+                            Sys.command(Sys.getCwd() + fileLocation + scripts[i]);
                         }else {
-                            Log.error("Could not find shellscript: " + Sys.getCwd() + fileLocation + shellScripts[i]);
+                            Log.error("Could not find script: " + Sys.getCwd() + fileLocation + scripts[i]);
                         }
                     }
                 default:
-                    for(i in 0...shellScripts.length) {
-                        if(FileSystem.exists(Sys.getCwd() + fileLocation + shellScripts[i])) {
-                            Sys.command("sh", [Sys.getCwd() + fileLocation + shellScripts[i]]);
+                    for(i in 0...scripts.length) {
+                        if(FileSystem.exists(Sys.getCwd() + fileLocation + scripts[i])) {
+                            Sys.command("sh", [Sys.getCwd() + fileLocation + scripts[i]]);
                         }else {
-                            Log.error("Could not find shellscript: " + Sys.getCwd() + fileLocation + shellScripts[i]);
+                            Log.error("Could not find script: " + Sys.getCwd() + fileLocation + scripts[i]);
                         }
                     }
 
@@ -94,7 +102,7 @@ class RunScript {
                 if(FileSystem.exists(Sys.getCwd() + displayScript)) {
                     Sys.command(Sys.getCwd() + displayScript);
                 }else {
-                    Log.error("Could not find shellscript: " + Sys.getCwd() + displayScript);
+                    Log.error("Could not find script: " + Sys.getCwd() + displayScript);
                 }
             }else {
                 @:final var displayScript:String = "scripts/shell/display.sh";
@@ -102,7 +110,7 @@ class RunScript {
                 if(FileSystem.exists(Sys.getCwd() + displayScript)) {
                     Sys.command("sh", [Sys.getCwd() + displayScript]);
                 }else {
-                    Log.error("Could not find shellscript: " + Sys.getCwd() + displayScript);
+                    Log.error("Could not find script: " + Sys.getCwd() + displayScript);
                 }
             }
         }

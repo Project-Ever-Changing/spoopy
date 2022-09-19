@@ -1,6 +1,6 @@
 cd project
 
-haxelib run hxcpp Build.xml
+arch -arm64 haxelib run hxcpp Build.xml
 
 rm -Rf "obj"
 
