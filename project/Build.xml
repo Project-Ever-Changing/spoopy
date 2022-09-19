@@ -8,9 +8,11 @@
     <set name="SPOOPY_VULKAN" value="1" />
 
     <set name="NATIVE_TOOLKIT_PATH" value="lib" unless="NATIVE_TOOLKIT_PATH" />
-    <set name="NATIVE_TOOLKIT_SDL_STATIC" value="1" if="android" />
     <set name="NATIVE_TOOLKIT_HAVE_SDL" value="1" if="SPOOPY_SDL" />
+    <set name="NATIVE_TOOLKIT_SDL_STATIC" value="1" />
     <set name="NATIVE_TOOLKIT_SDL_ANGLE" value="1" />
+
+    <set name="OUTPUT_DIR" value="../ndll" unless="OUTPUT_DIR" />
 
     <section if="windows">
         <include name="${HXCPP}/toolchain/msvc-toolchain.xml"/>
@@ -66,6 +68,11 @@
 			<compilerflag value="-DLIBHL_EXPORTS" />
 		</section>
 
+        <section if="emscripten">
+			<compilerflag value="-s" />
+			<compilerflag value="USE_SDL=2" />
+		</section>
+
         <section unless="emscripten">
             <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/include/" />
             <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/include/configs/default/" unless="windows || mac || linux || rpi"/>
@@ -76,45 +83,39 @@
             <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/include/configs/winrt/" if="winrt"/>
             <!--<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/" />-->
 
-            <include name="${NATIVE_TOOLKIT_PATH}/sdl/defines.xml" />
-
             <compilerflag value="-DSPOOPY_VULKAN" if="SPOOPY_VULKAN" />
         </section>
+
+        <section if="rpi">
+            <compilerflag value="-I/opt/vc/include" />
+            <compilerflag value="-I/opt/vc/include/interface/vcos/pthreads" />
+            <compilerflag value="-I/opt/vc/include/interface/vmcs_host/linux" />
+            <compilerflag value="-lbrcmGLESv2" />
+            <compilerflag value="-lbrcmEGL" />
+            <compilerflag value="-Wl,--no-undefined -lm -L/opt/vc/lib -lbcm_host -ldl -lpthread -lrt" />
+		</section>
 
 	    <file name="src/SpoopyBackend.cpp" />
         <file name="src/device/WindowDevice.cpp" />
         <file name="src/device/DeviceManager.cpp" />
+
         <file name="src/system/CFFI.cpp" />
         <file name="src/system/CFFIPointer.cpp" />
+        <file name="src/hx/CFFIExt.cpp" />
     </files>
 
-    <include name="${NATIVE_TOOLKIT_PATH}/sdl/files.xml" if="SPOOPY_SDL" />
+    <include name="${NATIVE_TOOLKIT_PATH}/sdl/files.xml" />
 
     <target id="LIB" output="spoopy" tool="linker" toolid="${STD_MODULE_LINK}">
-        <outdir name="../ndll/${BINDIR}"/>
+        <outdir name="${OUTPUT_DIR}/${BINDIR}"/>
         <files id="spoopy-engine" />
 
         <files id="native-toolkit-sdl" if="SPOOPY_SDL" unless="emscripten" />
         <!--<files id="native-toolkit-sdl-extensions" if="SPOOPY_SDL" unless="emscripten" />-->
 
-        <section if="static_link">
-            <section if="mac">
-                <compilerflag name="-DCOMPILED_LIBS" />
+        <section unless="static_link">
 
-                <vflag name="-l" value="iconv"/>
-                <vflag name="-framework" value="Carbon" />
-                <vflag name="-framework" value="Cocoa" />
-                <vflag name="-framework" value="Foundation" />
-                <vflag name="-framework" value="CoreVideo" />
-                <vflag name="-framework" value="OpenGL" />
-                <vflag name="-framework" value="ForceFeedback" />
-                <vflag name="-framework" value="IOKit" />
-                <vflag name="-framework" value="CoreAudio" />
-                <vflag name="-framework" value="AudioUnit" />
-
-                <lib name="-L../templates/bin/hl/${BINDIR}" if="hashlink" />
-                <lib name="-lhl" if="hashlink" />
-            </section>
+		    <ext value=".ndll" />
 
             <section if="windows">
                 <lib name="gdi32.lib" />
@@ -152,7 +153,24 @@
                 <lib name="-lGL" />
             </section>
 
-            <ext value=".ndll" />
+            <section if="mac">
+                <vflag name="-l" value="iconv" />
+				<vflag name="-framework" value="IOKit" />
+				<vflag name="-framework" value="Foundation" />
+				<vflag name="-framework" value="CoreAudio" />
+				<vflag name="-framework" value="CoreVideo" />
+				<vflag name="-framework" value="Cocoa" />
+				<vflag name="-framework" value="OpenGL" />
+				<vflag name="-framework" value="AudioToolbox" />
+				<vflag name="-framework" value="AudioUnit" />
+				<vflag name="-framework" value="ForceFeedback" />
+				<vflag name="-framework" value="Carbon" />
+				<vflag name="-framework" value="AppKit" />
+				<vflag name="-framework" value="OpenAL" />
+
+                <lib name="-L../templates/bin/hl/${BINDIR}" if="hashlink" />
+                <lib name="-lhl" if="hashlink" />
+            </section>
         </section>
     </target>
 
