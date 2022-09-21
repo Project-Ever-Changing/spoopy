@@ -1,0 +1,83 @@
+<xml>
+    <set name="SPOOPY_SDL_PATH" value=".." />
+
+    <set name="NATIVE_TOOLKIT_SDL_STATIC" value="1" if="android"/>
+    <include name="${SPOOPY_SDL_PATH}/lib/sdl/files.xml"/>
+
+    <set name="MACOSX_DEPLOYMENT_TARGET" value="10.6" if="mac" unless="MACOSX_DEPLOYMENT_TARGET"/>
+
+    <files id='spoopy-sdl'>
+
+        <compilerflag value='-DLINC_SDL'/>
+        <compilerflag value='-DLINC_SDL_WITH_SDL_MAIN'                               if="android"/>
+
+        <compilerflag value='-I${SPOOPY_SDL_PATH}/linc/'/>
+        <compilerflag value='-I${SPOOPY_SDL_PATH}/lib/sdl/include/'/>
+        <compilerflag value='-I${SPOOPY_SDL_PATH}/lib/sdl/include/configs/default/'    unless='windows || mac || linux'/>
+        <compilerflag value='-I${SPOOPY_SDL_PATH}/lib/sdl/include/configs/linux/'      if='linux'/>
+        <compilerflag value='-I${SPOOPY_SDL_PATH}/lib/sdl/include/configs/windows/'    if='windows'/>
+        <compilerflag value='-I${SPOOPY_SDL_PATH}/lib/sdl/include/configs/mac/'        if='mac'/>
+
+        <include name="${SPOOPY_SDL_PATH}/lib/sdl/defines.xml" />
+    </files>
+
+    <files id="__lib__">
+        <compilerflag value='-I${SPOOPY_SDL_PATH}/linc/'/>
+    </files>
+
+    <files id="__main__">
+        <compilerflag value='-I${SPOOPY_SDL_PATH}/linc/'/>
+        <compilerflag value='-I${SPOOPY_SDL_PATH}/lib/sdl/include/'/>
+        <compilerflag value='-I${SPOOPY_SDL_PATH}/lib/sdl/include/configs/default/'    unless='windows || mac || linux'/>
+        <compilerflag value='-I${SPOOPY_SDL_PATH}/lib/sdl/include/configs/linux/'      if='linux'/>
+        <compilerflag value='-I${SPOOPY_SDL_PATH}/lib/sdl/include/configs/windows/'    if='windows'/>
+        <compilerflag value='-I${SPOOPY_SDL_PATH}/lib/sdl/include/configs/mac/'        if='mac'/>
+    </files>
+
+    <target id="spoopers-sdl">
+        <files id="native-toolkit-sdl" unless="linc_sdl_prebuilt"/>
+
+        <section if="mac">
+            <vflag name="-l" value="iconv"/>
+            <vflag name="-framework" value="Carbon" />
+            <vflag name="-framework" value="Cocoa" />
+            <vflag name="-framework" value="Foundation" />
+            <vflag name="-framework" value="CoreVideo" />
+            <vflag name="-framework" value="OpenGL" />
+            <vflag name="-framework" value="ForceFeedback" />
+            <vflag name="-framework" value="IOKit" />
+            <vflag name="-framework" value="CoreAudio" />
+            <vflag name="-framework" value="AudioUnit" />
+            <vflag name="-framework" value="AudioToolbox" />
+        </section>
+
+        <section if="windows">
+            <lib name="gdi32.lib" />
+            <lib name="opengl32.lib" />
+            <lib name="user32.lib" />
+            <lib name="kernel32.lib" />
+            <lib name="advapi32.lib" />
+            <lib name="winmm.lib" />
+            <lib name="imm32.lib"  />
+            <lib name="ole32.lib" />
+            <lib name="oleaut32.lib" />
+            <lib name="version.lib" />
+            <lib name="ws2_32.lib"  />
+            <lib name="wldap32.lib" />
+            <lib name="shell32.lib" />
+            <lib name="comdlg32.lib" />
+        </section>
+
+        <section if="android">
+            <lib name="-Wl,--undefined=Java_org_libsdl_app_SDLActivity_nativeInit"/>
+            <lib name="-ldl" />
+            <lib name="-llog" />
+            <lib name="-landroid" />
+            <lib name="-lEGL" />
+            <lib name="-lGLESv2" />
+            <lib name="-lGLESv1_CM" />
+            <lib name="-lOpenSLES" />
+         </section> <!-- android -->
+
+    </target>
+</xml>
