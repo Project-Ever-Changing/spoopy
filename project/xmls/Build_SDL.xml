@@ -1,28 +1,11 @@
 <xml>
-    <set name="SPOOPY_SDL_PATH" value=".." />
+    <set name="SPOOPY_SDL_PATH" value="../" />
 
+    <set name="NATIVE_TOOLKIT_PATH" value="lib" unless="NATIVE_TOOLKIT_PATH" />
     <set name="NATIVE_TOOLKIT_SDL_STATIC" value="1" if="android"/>
-    <include name="${SPOOPY_SDL_PATH}/lib/sdl/files.xml"/>
+    <include name="${SPOOPY_SDL_PATH}lib/sdl/files.xml"/>
 
     <set name="MACOSX_DEPLOYMENT_TARGET" value="10.6" if="mac" unless="MACOSX_DEPLOYMENT_TARGET"/>
-
-    <files id='spoopy-sdl'>
-        <compilerflag value='-I${SPOOPY_SDL_PATH}/lib/sdl/include/'/>
-        <compilerflag value='-I${SPOOPY_SDL_PATH}/lib/sdl/include/configs/default/'    unless='windows || mac || linux'/>
-        <compilerflag value='-I${SPOOPY_SDL_PATH}/lib/sdl/include/configs/linux/'      if='linux'/>
-        <compilerflag value='-I${SPOOPY_SDL_PATH}/lib/sdl/include/configs/windows/'    if='windows'/>
-        <compilerflag value='-I${SPOOPY_SDL_PATH}/lib/sdl/include/configs/mac/'        if='mac'/>
-
-        <include name="${SPOOPY_SDL_PATH}/lib/sdl/defines.xml" />
-    </files>
-
-    <files id="__main__">
-        <compilerflag value='-I${SPOOPY_SDL_PATH}/lib/sdl/include/'/>
-        <compilerflag value='-I${SPOOPY_SDL_PATH}/lib/sdl/include/configs/default/'    unless='windows || mac || linux'/>
-        <compilerflag value='-I${SPOOPY_SDL_PATH}/lib/sdl/include/configs/linux/'      if='linux'/>
-        <compilerflag value='-I${SPOOPY_SDL_PATH}/lib/sdl/include/configs/windows/'    if='windows'/>
-        <compilerflag value='-I${SPOOPY_SDL_PATH}/lib/sdl/include/configs/mac/'        if='mac'/>
-    </files>
 
     <target id="spoopers-sdl">
         <files id="native-toolkit-sdl" unless="linc_sdl_prebuilt"/>
