@@ -3,7 +3,7 @@
     <set name="NATIVE_TOOLKIT_PATH" value="lib" />
 
     <!--Libraries-->
-    <include name="xmls/Build_SDL.xml" />
+    <include name="modules/Build_SDL.xml" />
 
     <include name="${HXCPP}/build-tool/BuildCommon.xml"/>
 
