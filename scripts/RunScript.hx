@@ -73,6 +73,10 @@ class RunScript {
                 ];
             }
 
+            if(!FileSystem.exists(Sys.getCwd() + "ndll")) {
+                FileSystem.createDirectory(Sys.getCwd() + "ndll");
+            }
+
             switch(args[1].toLowerCase()) {
                 case "Windows" | "Windows64":
                     for(i in 0...scripts.length) {
