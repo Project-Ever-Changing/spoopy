@@ -5,6 +5,7 @@ haxelib run hxcpp Build.xml
 rm -Rf "obj"
 
 cd ../
+ls
 cd ndll
 
 {
