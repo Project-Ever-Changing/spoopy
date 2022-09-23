@@ -99,6 +99,12 @@ class RunScript {
                         compileGraphics();
                     }
             }
+        }else if(args[0] == "ls") {
+            if(args.length > 1) {
+                Sys.command("ls", [Sys.getCwd() + args[1]]);
+            }else {
+                Sys.command("ls");
+            }
         }else {
             if(FileSys.isWindows) {
                 @:final var displayScript:String = "scripts/batch/display.bat";
