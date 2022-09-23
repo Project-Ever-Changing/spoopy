@@ -4,7 +4,7 @@ haxelib run hxcpp Build.xml
 
 rm -Rf "obj"
 
-cd ../../ndll
+cd ndll
 
 {
     rm Windows64/*.hash
