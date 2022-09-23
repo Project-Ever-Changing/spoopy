@@ -1,10 +1,10 @@
 cd project
 
-arch -arm64 haxelib run hxcpp Build.xml
+haxelib run hxcpp Build.xml
 
 rm -Rf "obj"
 
-cd ../ndll
+cd ../../ndll
 
 {
     rm Windows64/*.hash
