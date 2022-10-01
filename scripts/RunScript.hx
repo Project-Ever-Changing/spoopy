@@ -83,7 +83,7 @@ class RunScript {
 
             for(k in libraries.keys()) {
                 if(!FileSystem.exists(Sys.getCwd() + "/project/lib/" + k)) {
-                    Sys.command("git", [libraries.get(k), Sys.getCwd() + "/project/lib"]);
+                    Sys.command("git", ["clone", libraries.get(k), Sys.getCwd() + "/project/lib"]);
                 }
             }
 
