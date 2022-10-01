@@ -60,6 +60,10 @@ class RunScript {
             }
         }else if(args.length > 1 && args[0] == "build") {
             @:final var fileLocation:String = "scripts/";
+            @:final var libraries:Map<String, String> = [
+                "sdl" => "https://github.com/native-toolkit/libsdl",
+                "hashlink" => "https://github.com/HaxeFoundation/hashlink.git"
+            ];
 
             var scripts:Array<String> = [];
 
@@ -75,6 +79,12 @@ class RunScript {
 
             if(!FileSystem.exists(Sys.getCwd() + "ndll")) {
                 FileSystem.createDirectory(Sys.getCwd() + "ndll");
+            }
+
+            for(k in libraries.keys()) {
+                if(!FileSystem.exists(Sys.getCwd() + "/project/lib/" + k)) {
+                    Sys.command("git", [libraries.get(k), Sys.getCwd() + "/project/lib"]);
+                }
             }
 
             switch(args[1].toLowerCase()) {

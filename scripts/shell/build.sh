@@ -1,5 +1,8 @@
 cd project
 
+git submodule innit
+git submodule update
+
 haxelib run hxcpp Build.xml
 
 rm -Rf "obj"
