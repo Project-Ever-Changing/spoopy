@@ -90,7 +90,7 @@ class RunScript {
             */
 
             Sys.command("git", ["submodule", "init"]);
-            Sys.command("git", ["clone", libraries.get(k), Sys.getCwd() + "/project/lib"]);
+            Sys.command("git", ["submodule", "update"]);
 
             switch(args[1].toLowerCase()) {
                 case "Windows" | "Windows64":
