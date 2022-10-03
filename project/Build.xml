@@ -109,6 +109,32 @@
 	<set name="LIBSUFFIX" value="${HX_TARGET_SUFFIX}" if="HX_TARGET_SUFFIX" />
 	<set name="LIBSUFFIX" value="${LIBEXTRA}" unless="LIBSUFFIX" />
 
+	<files id="native-toolkit-sdl-extensions">
+        <depend name="${NATIVE_TOOLKIT_PATH}/sdl/include/SDL_vulkan.h" />
+
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vk_icd.h" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vk_layer.h" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vk_platform.h" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vk_sdk_platform.h" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_fuchsia.h" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_core.h" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan.h" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_mir.h" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_vi.h" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_wayland.h" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_xcb.h" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_xlib_xrandr.h" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_xlib.h" />
+
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_android.h" if="android" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_ios.h" if="ios" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_macos.h" if="mac" />
+
+        <section if="32">
+            <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_win32.h" if="windows" />
+        </section>
+    </files>
+
 	<target id="spoopy" output="${LIBPREFIX}spoopy${DEBUGEXTRA}${LIBSUFFIX}" tool="linker" toolid="${STD_MODULE_LINK}">
 
 		<outdir name="${OUTPUT_DIR}/${BINDIR}" />
@@ -116,7 +142,7 @@
 		<files id="spoopy" />
 		<files id="android-cpufeatures" if="android" />
 
-		<!--<files id="native-toolkit-sdl" if="SPOOPY_SDL" unless="emscripten" />-->
+		<files id="native-toolkit-sdl" if="SPOOPY_SDL" unless="emscripten" />
 
 		<section unless="static_link">
 
