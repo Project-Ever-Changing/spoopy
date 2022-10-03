@@ -102,7 +102,7 @@
 
 	</files>
 
-	<include name="lib/sdl/files.xml" />
+	<include name="files.xml" />
 
 	<set name="DEBUGEXTRA" value="-debug" if="fulldebug" />
 	<set name="LIBSUFFIX" value="${HX_TARGET_SUFFIX}" if="HX_TARGET_SUFFIX" />
