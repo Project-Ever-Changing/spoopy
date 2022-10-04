@@ -128,7 +128,7 @@
 
         <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_android.h" if="android" />
         <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_ios.h" if="ios" />
-        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_macos.h" if="mac" />
+        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_macos.h" if="SPOOPY_MAC" />
 
         <section if="32">
             <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_win32.h" if="windows" />
@@ -142,7 +142,10 @@
 		<files id="spoopy" />
 		<files id="android-cpufeatures" if="android" />
 
-		<files id="native-toolkit-sdl" if="SPOOPY_SDL" unless="emscripten" />
+		<section if="SPOOPY_SDL">
+			<files id="native-toolkit-sdl" unless="emscripten" />
+			<!--<files id="native-toolkit-sdl-extensions" if="SPOOPY_VULKAN" unless="emscripten" />-->
+		</section>
 
 		<section unless="static_link">
 
@@ -203,9 +206,9 @@
 				<vflag name="-framework" value="Carbon" />
 				<vflag name="-framework" value="AppKit" />
 
+				<lib name="dynamic/dylib/libMoltenVK.dylib" />
 				<lib name="-L../templates/bin/hl/${BINDIR}" if="SPOOPY_HASHLINK" />
 				<lib name="-lhl" if="SPOOPY_HASHLINK" />
-
 			</section>
 
 			<section if="android">

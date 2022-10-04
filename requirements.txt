@@ -1,0 +1,6 @@
+If Mac: 
+version +10.11
+brew
+git
+haxe
+lime
