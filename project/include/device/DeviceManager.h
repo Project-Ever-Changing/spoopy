@@ -14,11 +14,13 @@ namespace spoopy {
             const bool enableLayerSupport = true;
 
             #ifdef SPOOPY_VULKAN
-            virtual void initAppWithVulkan(std::string name);
+            virtual void initAppWithVulkan(std::string name, unsigned int version[3]);
             virtual bool checkLayerSupportForVulkan();
             #endif
         private:
+            #ifdef SPOOPY_VULKAN
             const std::vector<const char*> validationLayers = {"VK_LAYER_KHRONOS_validation"};
+            #endif
     };
 }
 #endif
