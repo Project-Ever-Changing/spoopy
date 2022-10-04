@@ -37,6 +37,10 @@
 
 		</section>
 
+		<section if="SPOOPY_VULKAN">
+			<compilerflag value="-DSPOOPY_VULKAN" />
+		</section>
+
 		<section unless="SPOOPY_HASHLINK">
 
 			<compilerflag value="-DLIBHL_EXPORTS" />

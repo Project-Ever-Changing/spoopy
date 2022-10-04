@@ -11,6 +11,8 @@ namespace spoopy {
         public:
             virtual ~DeviceManager();
 
+            const bool enableLayerSupport = true;
+
             #ifdef SPOOPY_VULKAN
             virtual void initAppWithVulkan(std::string name);
             virtual bool checkLayerSupportForVulkan();
