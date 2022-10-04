@@ -16,6 +16,7 @@ namespace spoopy {
             #ifdef SPOOPY_VULKAN
             virtual void initAppWithVulkan(std::string name, unsigned int version[3]);
             virtual bool checkLayerSupportForVulkan();
+            virtual std::vector<const char*> getRequiredExtensions();
             #endif
         private:
             #ifdef SPOOPY_VULKAN

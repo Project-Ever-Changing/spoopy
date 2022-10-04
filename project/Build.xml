@@ -113,6 +113,7 @@
 	<set name="LIBSUFFIX" value="${HX_TARGET_SUFFIX}" if="HX_TARGET_SUFFIX" />
 	<set name="LIBSUFFIX" value="${LIBEXTRA}" unless="LIBSUFFIX" />
 
+	<!--
 	<files id="native-toolkit-sdl-extensions">
         <depend name="${NATIVE_TOOLKIT_PATH}/sdl/include/SDL_vulkan.h" />
 
@@ -138,6 +139,7 @@
             <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_win32.h" if="windows" />
         </section>
     </files>
+	-->
 
 	<target id="spoopy" output="${LIBPREFIX}spoopy${DEBUGEXTRA}${LIBSUFFIX}" tool="linker" toolid="${STD_MODULE_LINK}">
 

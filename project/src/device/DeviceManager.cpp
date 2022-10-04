@@ -16,6 +16,10 @@ namespace spoopy {
         appInfo.apiVersion = VK_API_VERSION_1_0;
 
         VkInstanceCreateInfo info = {};
+        info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+        info.pApplicationInfo = &appInfo;
+
+        //auto extensions 
     }
 
     bool DeviceManager::checkLayerSupportForVulkan() {
@@ -42,6 +46,18 @@ namespace spoopy {
         }
 
         return true;
+    }
+
+    std::vector<const char*> DeviceManager::getRequiredExtensions() {
+        unsigned int count;
+
+        std::vector<const char*> extensions = {};
+
+        if(enableLayerSupport) {
+            extensions.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
+        }
+
+        return extensions;
     }
     #endif
 
