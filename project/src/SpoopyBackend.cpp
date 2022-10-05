@@ -48,6 +48,8 @@ namespace spoopy {
         
         #ifdef SPOOPY_VULKAN
         device -> initAppWithVulkan(name.c_str(), version);
+        device -> setupDebugMessenger();
+        
         #endif
 
         return CFFIPointer(device, apply_gc_device);

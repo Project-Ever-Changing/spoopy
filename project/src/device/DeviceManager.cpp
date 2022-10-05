@@ -43,6 +43,19 @@ namespace spoopy {
         hasRequiredInstanceExtensionsVulkan();
     }
 
+    void DeviceManager::setupDebugMessenger() {
+        if(!enableLayerSupport) {
+            return;
+        }
+
+        VkDebugUtilsMessengerCreateInfoEXT debugInfo = {};
+        populateDebugMessageVulkan(debugInfo);
+        
+        if(CreateDebugUtilsMessengerVulkan(instance, &debugInfo, nullptr, &debugMessenger) != VK_SUCCESS) {
+            throw std::runtime_error("failed to set up debug messenger!");
+        }
+    }
+
     void DeviceManager::hasRequiredInstanceExtensionsVulkan() { //long name for a method lol.
         uint32_t count = 0;
         vkEnumerateInstanceExtensionProperties(nullptr, &count, nullptr);
@@ -114,6 +127,23 @@ namespace spoopy {
         }
 
         return extensions;
+    }
+
+    VkResult DeviceManager::CreateDebugUtilsMessengerVulkan(
+    VkInstance instance,
+    const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
+    const VkAllocationCallbacks *pAllocator,
+    VkDebugUtilsMessengerEXT *pDebugMessenger) {
+        auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(
+            instance,
+            "vkCreateDebugUtilsMessengerEXT"
+        );
+
+        if (func != nullptr) {
+            return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
+        } else {
+            return VK_ERROR_EXTENSION_NOT_PRESENT;
+        }
     }
     #endif
 
