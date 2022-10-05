@@ -27,7 +27,7 @@ namespace spoopy {
             const bool enableLayerSupport = true;
 
             #ifdef SPOOPY_VULKAN
-            virtual void initAppWithVulkan(const char* name, int version[3]);
+            virtual void initAppWithVulkan(const char* name, const int version[3]);
             virtual void populateDebugMessageVulkan(VkDebugUtilsMessengerCreateInfoEXT &info);
             virtual void hasRequiredInstanceExtensionsVulkan();
             virtual bool checkLayerSupportForVulkan();

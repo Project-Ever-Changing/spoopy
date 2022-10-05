@@ -2,7 +2,7 @@
 
 namespace spoopy {
     #ifdef SPOOPY_VULKAN
-    void DeviceManager::initAppWithVulkan(const char* name, int version[3]) {
+    void DeviceManager::initAppWithVulkan(const char* name, const int version[3]) {
         if(enableLayerSupport && !checkLayerSupportForVulkan()) {
             throw std::runtime_error("validation layers requested, but not available!");
         }

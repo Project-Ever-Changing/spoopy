@@ -46,6 +46,11 @@ namespace spoopy {
         const int version[3] = {v, vBeta, vAlpha};
 
         DeviceManager* device = new DeviceManager();
+        
+        #ifdef SPOOPY_VULKAN
+        device -> initAppWithVulkan(name.c_str(), version);
+        #endif
+
         return CFFIPointer(device, apply_gc_device);
     }
     DEFINE_PRIME4(spoopy_assign_application_device);
