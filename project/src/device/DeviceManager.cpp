@@ -32,7 +32,12 @@ namespace spoopy {
             populateDebugMessageVulkan(debugInfo);
             info.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debugInfo;
         }else {
+            info.enabledLayerCount = 0;
+            info.pNext = nullptr;
+        }
 
+        if (vkCreateInstance(&info, nullptr, &instance) != VK_SUCCESS) {
+            throw std::runtime_error("failed to create instance!");
         }
     }
 

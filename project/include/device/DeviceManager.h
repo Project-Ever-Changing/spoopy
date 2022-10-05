@@ -7,6 +7,18 @@
 #include "WindowDevice.h"
 
 namespace spoopy {
+    #ifdef SPOOPY_VULKAN
+    static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
+        VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+        VkDebugUtilsMessageTypeFlagsEXT messageType,
+        const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData,
+        void *pUserData) {
+        std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
+
+        return VK_FALSE;
+    }
+    #endif
+
     class DeviceManager {
         public:
             virtual ~DeviceManager();
@@ -21,6 +33,7 @@ namespace spoopy {
             #endif
         private:
             #ifdef SPOOPY_VULKAN
+            VkInstance instance;
             const std::vector<const char*> validationLayers = {"VK_LAYER_KHRONOS_validation"};
             #endif
     };
