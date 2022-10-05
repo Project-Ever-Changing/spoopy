@@ -7,7 +7,6 @@
 #endif
 
 #include <iostream>
-#include <string>
 
 #include <system/CFFIPointer.h>
 #include <device/WindowDevice.h>
