@@ -1,7 +1,8 @@
 #ifndef SPOOPY_DEVICE_MANAGER_H
 #define SPOOPY_DEVICE_MANAGER_H
 
-#include <string>
+#include <cstring>
+#include <unordered_set>
 #include <vector>
 
 #include "WindowDevice.h"
@@ -26,8 +27,9 @@ namespace spoopy {
             const bool enableLayerSupport = true;
 
             #ifdef SPOOPY_VULKAN
-            virtual void initAppWithVulkan(std::string name, unsigned int version[3]);
+            virtual void initAppWithVulkan(const char* name, int version[3]);
             virtual void populateDebugMessageVulkan(VkDebugUtilsMessengerCreateInfoEXT &info);
+            virtual void hasRequiredInstanceExtensionsVulkan();
             virtual bool checkLayerSupportForVulkan();
             virtual std::vector<const char*> getRequiredExtensions();
             #endif

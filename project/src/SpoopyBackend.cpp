@@ -7,6 +7,7 @@
 #endif
 
 #include <iostream>
+#include <string>
 
 #include <system/CFFIPointer.h>
 #include <device/WindowDevice.h>
@@ -40,4 +41,12 @@ namespace spoopy {
         return CFFIPointer(device, apply_gc_device);
     }
     DEFINE_PRIME0(spoopy_device_create);
+
+    value spoopy_assign_application_device(HxString name, int v, int vBeta, int vAlpha) {
+        const int version[3] = {v, vBeta, vAlpha};
+
+        DeviceManager* device = new DeviceManager();
+        return CFFIPointer(device, apply_gc_device);
+    }
+    DEFINE_PRIME4(spoopy_assign_application_device);
 }

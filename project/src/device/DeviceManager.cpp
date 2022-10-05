@@ -2,14 +2,14 @@
 
 namespace spoopy {
     #ifdef SPOOPY_VULKAN
-    void DeviceManager::initAppWithVulkan(std::string name, unsigned int version[3]) {
+    void DeviceManager::initAppWithVulkan(const char* name, int version[3]) {
         if(enableLayerSupport && !checkLayerSupportForVulkan()) {
             throw std::runtime_error("validation layers requested, but not available!");
         }
 
         VkApplicationInfo appInfo = {};
         appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-        appInfo.pApplicationName = name.c_str();
+        appInfo.pApplicationName = name;
         appInfo.applicationVersion = VK_MAKE_VERSION(version[0], version[1], version[2]);
         appInfo.pEngineName = "Spoopy Engine";
         appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
@@ -38,6 +38,34 @@ namespace spoopy {
 
         if (vkCreateInstance(&info, nullptr, &instance) != VK_SUCCESS) {
             throw std::runtime_error("failed to create instance!");
+        }
+
+        hasRequiredInstanceExtensionsVulkan();
+    }
+
+    void DeviceManager::hasRequiredInstanceExtensionsVulkan() { //long name for a method lol.
+        uint32_t count = 0;
+        vkEnumerateInstanceExtensionProperties(nullptr, &count, nullptr);
+        std::vector<VkExtensionProperties> extensions(count);
+        vkEnumerateInstanceExtensionProperties(nullptr, &count, extensions.data());
+
+        std::cout << "available extensions:" << std::endl;
+        std::unordered_set<std::string> available;
+
+        for(const auto& extension: extensions) {
+            std::cout << "\t" << extension.extensionName << std::endl;
+            available.insert(extension.extensionName);
+        }
+
+        std::cout << "required extensions:" << std::endl;
+        auto requiredExtensions = getRequiredExtensions();
+
+        for (const auto &extension: requiredExtensions) {
+            std::cout << "\t" << extension << std::endl;
+
+            if (available.find(extension) == available.end()) {
+                throw std::runtime_error("Missing required SDL extensions");
+            }
         }
     }
 
