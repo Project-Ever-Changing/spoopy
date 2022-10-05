@@ -19,7 +19,32 @@ namespace spoopy {
         info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
         info.pApplicationInfo = &appInfo;
 
-        //auto extensions 
+        auto extensions = getRequiredExtensions();
+        info.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
+        info.ppEnabledExtensionNames = extensions.data();
+
+        VkDebugUtilsMessengerCreateInfoEXT debugInfo = {};
+
+        if(enableLayerSupport) {
+            info.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+            info.ppEnabledExtensionNames = validationLayers.data();
+
+            populateDebugMessageVulkan(debugInfo);
+            info.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debugInfo;
+        }else {
+
+        }
+    }
+
+    void DeviceManager::populateDebugMessageVulkan(VkDebugUtilsMessengerCreateInfoEXT &info) {
+        info.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+        info.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
+                                    VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+        info.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
+                                VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
+                                VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+        info.pfnUserCallback = debugCallback;
+        info.pUserData = nullptr;
     }
 
     bool DeviceManager::checkLayerSupportForVulkan() {
@@ -49,8 +74,6 @@ namespace spoopy {
     }
 
     std::vector<const char*> DeviceManager::getRequiredExtensions() {
-        unsigned int count;
-
         std::vector<const char*> extensions = {};
 
         if(enableLayerSupport) {
