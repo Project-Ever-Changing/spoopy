@@ -107,10 +107,40 @@ namespace spoopy {
         vkEnumeratePhysicalDevices(instance, &count, devices.data());
 
         for(const auto &device: devices) {
-            if(isSuitableDevice(device)) {
-                //Hmmmm.... I need more thought with this.
+            if(!isSuitableDevice(device)) {
+                return;
+            }
+
+            auto props = VkPhysicalDeviceProperties{};
+            vkGetPhysicalDeviceProperties(device, &props);
+
+            if(props.deviceType == VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
+                physicalDevice = device;
+                break;
             }
         }
+
+        if(physicalDevice == VK_NULL_HANDLE) {
+            for(const auto &device: devices) {
+                if(!isSuitableDevice(device)) {
+                    return;
+                }
+
+                auto props = VkPhysicalDeviceProperties{};
+                vkGetPhysicalDeviceProperties(device, &props);
+
+                if(props.deviceType == VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) {
+                    physicalDevice = device;
+                    break;
+                }
+            }
+        }
+
+        if (physicalDevice == VK_NULL_HANDLE) {
+            throw std::runtime_error("Failed to find a suitable GPU!");
+        }
+
+        vkGetPhysicalDeviceProperties(physicalDevice, &properties);
     }
 
     bool DeviceManager::isSuitableDevice(VkPhysicalDevice device) {

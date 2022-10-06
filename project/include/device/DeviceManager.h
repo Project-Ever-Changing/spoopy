@@ -48,6 +48,7 @@ namespace spoopy {
             VkInstance instance;
             VkDebugUtilsMessengerEXT debugMessenger;
             VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
+            VkPhysicalDeviceProperties properties;
 
             VkSurfaceKHR surface_;
 
