@@ -108,7 +108,7 @@ namespace spoopy {
 
         for(const auto &device: devices) {
             if(isSuitableDevice(device)) {
-
+                //Hmmmm.... I need more thought with this.
             }
         }
     }
