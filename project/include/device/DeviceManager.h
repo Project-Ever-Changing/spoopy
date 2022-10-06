@@ -31,6 +31,8 @@ namespace spoopy {
             virtual void setupDebugMessenger();
             virtual void populateDebugMessageVulkan(VkDebugUtilsMessengerCreateInfoEXT &info);
             virtual void hasRequiredInstanceExtensionsVulkan();
+            virtual void choosePhysicalDeviceVulkan();
+            virtual bool isSuitableDevice(VkPhysicalDevice device);
             virtual bool checkLayerSupportForVulkan();
             virtual VkInstance getInstance();
             virtual VkSurfaceKHR* getSurface();

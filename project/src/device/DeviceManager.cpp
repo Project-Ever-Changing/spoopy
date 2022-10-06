@@ -1,5 +1,7 @@
 #include <device/DeviceManager.h>
 
+#include "../structs/QueneFamilyIndices.hpp"
+
 namespace spoopy {
     #ifdef SPOOPY_VULKAN
     void DeviceManager::initAppWithVulkan(const char* name, const int version[3]) {
@@ -91,6 +93,28 @@ namespace spoopy {
                                 VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
         info.pfnUserCallback = debugCallback;
         info.pUserData = nullptr;
+    }
+
+    void DeviceManager::choosePhysicalDeviceVulkan() {
+        uint32_t count = 0;
+        vkEnumeratePhysicalDevices(instance, &count, nullptr);
+
+        if(count == 0) {
+            throw std::runtime_error("Failed to find GPUs with Vulkan support!");
+        }
+
+        std::vector<VkPhysicalDevice> devices(count);
+        vkEnumeratePhysicalDevices(instance, &count, devices.data());
+
+        for(const auto &device: devices) {
+            if(isSuitableDevice(device)) {
+
+            }
+        }
+    }
+
+    bool DeviceManager::isSuitableDevice(VkPhysicalDevice device) {
+        return false;
     }
 
     bool DeviceManager::checkLayerSupportForVulkan() {
