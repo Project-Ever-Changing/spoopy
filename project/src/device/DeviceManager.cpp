@@ -145,6 +145,10 @@ namespace spoopy {
             return VK_ERROR_EXTENSION_NOT_PRESENT;
         }
     }
+
+    VkSurfaceKHR DeviceManager::getSurface() {
+        return surface_;
+    }
     #endif
 
     DeviceManager::~DeviceManager() {

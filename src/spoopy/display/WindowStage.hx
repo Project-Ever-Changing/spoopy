@@ -2,11 +2,14 @@ package spoopy.display;
 
 import lime.ui.Window;
 
+import spoopy.SpoopyEngine;
+import spoopy.backend.WindowRenderer;
+
 /*
  * Handles anything having to do window related so the game doesn't have too.
  */
 class WindowStage {
-    var parent:Window;
+    var parent(default, set):Window;
 
     public var width(get, set):Int;
     public var height(get, set):Int;
@@ -14,8 +17,13 @@ class WindowStage {
     public var frameRate(get, set):Float;
     public var fullscreen(get, set):Bool;
 
+    public var applyWindowSurface:Bool = true;
+
+    @:noCompletion var __renderer:WindowRenderer;
+
     public function new(parent:Window) {
         this.parent = parent;
+        renderer = new WindowRenderer(this);
     }
 
     @:noCompletion private inline function get_width():Int {
@@ -50,5 +58,13 @@ class WindowStage {
 
     @:noCompletion private function set_fullscreen(value:Bool):Bool {
         return parent.fullscreen = value;
+    }
+
+    @:noCompletion private function set_parent(window:Window):Window {
+        if(applyWindowSurface) {
+            __renderer.applyWindowSurface(SpoopyEngine.device);
+        }
+
+        return parent = window;
     }
 }

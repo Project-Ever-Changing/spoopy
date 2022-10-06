@@ -32,6 +32,8 @@ namespace spoopy {
 
     void spoopy_window_render(value window) {
         WindowDevice* targetWindow = (WindowDevice*)val_data(window);
+        
+        
     }
     DEFINE_PRIME1v(spoopy_window_render);
 
@@ -49,7 +51,6 @@ namespace spoopy {
         #ifdef SPOOPY_VULKAN
         device -> initAppWithVulkan(name.c_str(), version);
         device -> setupDebugMessenger();
-        
         #endif
 
         return CFFIPointer(device, apply_gc_device);
