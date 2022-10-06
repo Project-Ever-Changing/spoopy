@@ -64,7 +64,7 @@ class WindowStage {
     }
 
     @:noCompletion private function set_parent(window:Window):Window {
-        if(applyWindowSurface) {
+        if(applyWindowSurface && __renderer != null) {
             __renderer.applyWindowSurface(device);
         }
 
