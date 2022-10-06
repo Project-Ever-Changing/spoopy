@@ -17,7 +17,7 @@ class WindowRenderer {
 
     public function applyWindowSurface(device:SpoopyDevice):Void {
         #if !(air && js && html5 && flash)
-        if(parent.window.__backend.handle != null && device.__manager.handle != null) {
+        if(parent.parent.__backend.handle != null && device.__manager.handle != null) {
             
         }
         #end

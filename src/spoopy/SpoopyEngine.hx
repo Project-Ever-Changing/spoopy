@@ -6,9 +6,9 @@ import lime.app.Application;
 
 @:access(spoopy.backend.SpoopyCFFI)
 class SpoopyEngine {
-    var initializedApp:Bool = false;
+    static var initializedApp:Bool = false;
 
-    public var device(default, null):SpoopyDevice;
+    public static var device(default, null):SpoopyDevice;
 
     public static inline function init():Void {
         if(initializedApp) {

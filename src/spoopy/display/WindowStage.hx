@@ -1,9 +1,9 @@
 package spoopy.display;
 
-import lime.ui.Window;
-
 import spoopy.SpoopyEngine;
+import spoopy.SpoopyDevice;
 import spoopy.backend.WindowRenderer;
+import lime.ui.Window;
 
 /*
  * Handles anything having to do window related so the game doesn't have too.
@@ -19,11 +19,14 @@ class WindowStage {
 
     public var applyWindowSurface:Bool = true;
 
+    public var device:SpoopyDevice;
+
     @:noCompletion var __renderer:WindowRenderer;
 
     public function new(parent:Window) {
         this.parent = parent;
-        renderer = new WindowRenderer(this);
+        __renderer = new WindowRenderer(this);
+        device = SpoopyEngine.device;
     }
 
     @:noCompletion private inline function get_width():Int {
@@ -62,7 +65,7 @@ class WindowStage {
 
     @:noCompletion private function set_parent(window:Window):Window {
         if(applyWindowSurface) {
-            __renderer.applyWindowSurface(SpoopyEngine.device);
+            __renderer.applyWindowSurface(device);
         }
 
         return parent = window;
