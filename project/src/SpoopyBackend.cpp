@@ -35,12 +35,13 @@ namespace spoopy {
     }
     DEFINE_PRIME0v(spoopy_application_init);
 
-    void spoopy_window_render(value window, value device) {
+    void spoopy_apply_surface(value window, value device) {
         WindowDevice* targetWindow = (WindowDevice*)val_data(window);
         DeviceManager* targetDevice = (DeviceManager*)val_data(device);
         
+        
     }
-    DEFINE_PRIME2v(spoopy_window_render);
+    DEFINE_PRIME2v(spoopy_apply_surface);
 
     value spoopy_device_create() {
         DeviceManager* device = new DeviceManager();
