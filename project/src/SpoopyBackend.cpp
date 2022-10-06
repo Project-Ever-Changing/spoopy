@@ -15,6 +15,11 @@
 using namespace lime;
 
 namespace spoopy {
+    void apply_gc_window(value handle) {
+        WindowDevice* window = (WindowDevice*)val_data(handle);
+        delete window;
+    } 
+
     void apply_gc_device(value handle) {
         DeviceManager* device = (DeviceManager*)val_data(handle);
         delete device;
@@ -30,12 +35,12 @@ namespace spoopy {
     }
     DEFINE_PRIME0v(spoopy_application_init);
 
-    void spoopy_window_render(value window) {
+    void spoopy_window_render(value window, value device) {
         WindowDevice* targetWindow = (WindowDevice*)val_data(window);
-        
+        DeviceManager* targetDevice = (DeviceManager*)val_data(device);
         
     }
-    DEFINE_PRIME1v(spoopy_window_render);
+    DEFINE_PRIME2v(spoopy_window_render);
 
     value spoopy_device_create() {
         DeviceManager* device = new DeviceManager();
