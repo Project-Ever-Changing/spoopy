@@ -32,7 +32,8 @@ namespace spoopy {
             virtual void populateDebugMessageVulkan(VkDebugUtilsMessengerCreateInfoEXT &info);
             virtual void hasRequiredInstanceExtensionsVulkan();
             virtual bool checkLayerSupportForVulkan();
-            virtual VkSurfaceKHR getSurface();
+            virtual VkInstance getInstance();
+            virtual VkSurfaceKHR* getSurface();
             virtual std::vector<const char*> getRequiredExtensions();
 
             virtual VkResult CreateDebugUtilsMessengerVulkan(VkInstance instance,

@@ -39,7 +39,9 @@ namespace spoopy {
         WindowDevice* targetWindow = (WindowDevice*)val_data(window);
         DeviceManager* targetDevice = (DeviceManager*)val_data(device);
         
-        
+        #ifdef SPOOPY_VULKAN
+        targetWindow -> createWindowSurfaceVulkan(targetDevice -> getInstance(), targetDevice -> getSurface());
+        #endif
     }
     DEFINE_PRIME2v(spoopy_apply_surface);
 

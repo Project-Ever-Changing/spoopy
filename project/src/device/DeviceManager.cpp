@@ -146,8 +146,12 @@ namespace spoopy {
         }
     }
 
-    VkSurfaceKHR DeviceManager::getSurface() {
-        return surface_;
+    VkSurfaceKHR* DeviceManager::getSurface() {
+        return &surface_;
+    }
+
+    VkInstance DeviceManager::getInstance() {
+        return instance;
     }
     #endif
 
