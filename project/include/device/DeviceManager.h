@@ -2,10 +2,12 @@
 #define SPOOPY_DEVICE_MANAGER_H
 
 #include <cstring>
+#include <set>
 #include <unordered_set>
 #include <vector>
 
 #include "WindowDevice.h"
+#include "../structs/QueneFamilyIndices.hpp"
 
 namespace spoopy {
     #ifdef SPOOPY_VULKAN
@@ -32,10 +34,13 @@ namespace spoopy {
             virtual void populateDebugMessageVulkan(VkDebugUtilsMessengerCreateInfoEXT &info);
             virtual void hasRequiredInstanceExtensionsVulkan();
             virtual void choosePhysicalDeviceVulkan();
+            virtual void createLogicalDeviceVulkan();
             virtual bool isSuitableDevice(VkPhysicalDevice device);
+            virtual bool checkDeviceExtensionSupportVulkan(VkPhysicalDevice device);
             virtual bool checkLayerSupportForVulkan();
             virtual VkInstance getInstance();
             virtual VkSurfaceKHR* getSurface();
+            virtual QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
             virtual std::vector<const char*> getRequiredExtensions();
 
             virtual VkResult CreateDebugUtilsMessengerVulkan(VkInstance instance,
@@ -51,8 +56,12 @@ namespace spoopy {
             VkPhysicalDeviceProperties properties;
 
             VkSurfaceKHR surface_;
+            VkDevice device_;
+            VkQueue graphicsQueue_;
+            VkQueue presentQueue_;
 
             const std::vector<const char*> validationLayers = {"VK_LAYER_KHRONOS_validation"};
+            const std::vector<const char*> deviceExtensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
             #endif
     };
 }

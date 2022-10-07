@@ -1,7 +1,5 @@
 #include <device/DeviceManager.h>
 
-#include "../structs/QueneFamilyIndices.hpp"
-
 namespace spoopy {
     #ifdef SPOOPY_VULKAN
     void DeviceManager::initAppWithVulkan(const char* name, const int version[3]) {
@@ -143,6 +141,55 @@ namespace spoopy {
         vkGetPhysicalDeviceProperties(physicalDevice, &properties);
     }
 
+    void DeviceManager::createLogicalDeviceVulkan() {
+        QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
+
+        std::vector<VkDeviceQueueCreateInfo> queueInfos;
+        std::set<uint32_t> uniqueQueueFamilies = {indices.graphicsFamily, indices.presentFamily};
+
+        float queuePriority = 1.0f;
+
+        for (uint32_t queueFamily: uniqueQueueFamilies) {
+            VkDeviceQueueCreateInfo queueInfo = {};
+            queueInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+            queueInfo.queueFamilyIndex = queueFamily;
+            queueInfo.queueCount = 1;
+            queueInfo.pQueuePriorities = &queuePriority;
+            queueInfos.push_back(queueInfo);
+        }
+
+        VkPhysicalDeviceFeatures deviceFeatures = {};
+        deviceFeatures.samplerAnisotropy = VK_TRUE;
+
+        VkDeviceCreateInfo info = {};
+        info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+
+        info.queueCreateInfoCount = static_cast<uint32_t>(queueInfos.size());
+        info.pQueueCreateInfos = queueInfos.data();
+
+        info.pEnabledFeatures = &deviceFeatures;
+        info.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
+        info.ppEnabledExtensionNames = deviceExtensions.data();
+
+        try {
+            if (enableLayerSupport) {
+                info.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+                info.ppEnabledLayerNames = validationLayers.data();
+            } else {
+                info.enabledLayerCount = 0;
+            }
+        }catch(...) {
+            std::cout << "Validation layers is deprecated" << std::endl;
+        }
+
+        if (vkCreateDevice(physicalDevice, &info, nullptr, &device_) != VK_SUCCESS) {
+            throw std::runtime_error("failed to create logical device!");
+        }
+
+        vkGetDeviceQueue(device_, indices.graphicsFamily, 0, &graphicsQueue_);
+        vkGetDeviceQueue(device_, indices.presentFamily, 0, &presentQueue_);
+    }
+
     bool DeviceManager::isSuitableDevice(VkPhysicalDevice device) {
         return false;
     }
@@ -173,6 +220,27 @@ namespace spoopy {
         return true;
     }
 
+    bool DeviceManager::checkDeviceExtensionSupportVulkan(VkPhysicalDevice device) {
+        uint32_t count;
+        vkEnumerateDeviceExtensionProperties(device, nullptr, &count, nullptr);
+        std::vector<VkExtensionProperties> availableExtensions(count);
+
+        vkEnumerateDeviceExtensionProperties(
+            device,
+            nullptr,
+            &count,
+            availableExtensions.data()
+        );
+
+        std::set<std::string> requiredExtensions(deviceExtensions.begin(), deviceExtensions.end());
+
+        for (const auto &extension: availableExtensions) {
+            requiredExtensions.erase(extension.extensionName);
+        }
+
+        return requiredExtensions.empty();
+    }
+
     std::vector<const char*> DeviceManager::getRequiredExtensions() {
         std::vector<const char*> extensions = {};
 
@@ -181,6 +249,40 @@ namespace spoopy {
         }
 
         return extensions;
+    }
+
+    QueueFamilyIndices DeviceManager::findQueueFamilies(VkPhysicalDevice device) {
+        QueueFamilyIndices indices;
+
+        uint32_t queueFamilyCount = 0;
+        vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
+
+        std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+        vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
+
+        int index = 0;
+
+        for(const auto &queueFamily: queueFamilies) {
+            if (queueFamily.queueCount > 0 && queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
+                indices.graphicsFamily = index;
+                indices.graphicsFamilyHasValue = true;
+            }
+
+            VkBool32 presentSupport = false;
+            vkGetPhysicalDeviceSurfaceSupportKHR(device, index, surface_, &presentSupport);
+            if (queueFamily.queueCount > 0 && presentSupport) {
+                indices.presentFamily = index;
+                indices.presentFamilyHasValue = true;
+            }
+
+            if (indices.isComplete()) {
+                break;
+            }
+
+            index++;
+        }
+
+        return indices;
     }
 
     VkResult DeviceManager::CreateDebugUtilsMessengerVulkan(

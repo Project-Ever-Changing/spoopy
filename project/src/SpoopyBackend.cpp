@@ -45,12 +45,6 @@ namespace spoopy {
     }
     DEFINE_PRIME2v(spoopy_apply_surface);
 
-    value spoopy_device_create() {
-        DeviceManager* device = new DeviceManager();
-        return CFFIPointer(device, apply_gc_device);
-    }
-    DEFINE_PRIME0(spoopy_device_create);
-
     value spoopy_assign_application_device(HxString name, int v, int vBeta, int vAlpha) {
         const int version[3] = {v, vBeta, vAlpha};
 
@@ -64,4 +58,22 @@ namespace spoopy {
         return CFFIPointer(device, apply_gc_device);
     }
     DEFINE_PRIME4(spoopy_assign_application_device);
+
+    void spoopy_assign_physical_device(value device) {
+        DeviceManager* targetDevice = (DeviceManager*)val_data(device);
+
+        #ifdef SPOOPY_VULKAN
+        targetDevice -> choosePhysicalDeviceVulkan();
+        #endif
+    }
+    DEFINE_PRIME1v(spoopy_assign_physical_device);
+
+    void spoopy_assign_logical_device(value device) {
+        DeviceManager* targetDevice = (DeviceManager*)val_data(device);
+
+        #ifdef SPOOPY_VULKAN
+        targetDevice -> createLogicalDeviceVulkan();
+        #endif
+    }
+    DEFINE_PRIME1v(spoopy_assign_logical_device);
 }
