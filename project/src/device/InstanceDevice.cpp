@@ -47,6 +47,8 @@ namespace spoopy {
             instanceInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
 		    instanceInfo.ppEnabledLayerNames = validationLayers.data();
         }
+
+        checkVulkan(vkCreateInstance(&instanceInfo, nullptr, &instance));
         #endif
     }
 
@@ -88,6 +90,20 @@ namespace spoopy {
         outExtensions.emplace_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
         return true;
     }
+
+    #ifdef SPOOPY_DEBUG_MESSENGER
+    VKAPI_ATTR VkBool32 VKAPI_CALL CallbackDebug(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageTypes, 
+	const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData, void *pUserData) {
+        if (messageSeverity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT)
+            Log::Warning(pCallbackData->pMessage, '\n');
+        else if (messageSeverity &  VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT)
+            Log::Info(pCallbackData->pMessage, '\n');
+        else
+            Log::Error(pCallbackData->pMessage, '\n');
+
+        return VK_FALSE;
+    }
+    #endif
 
     uint32_t InstanceDevice::getAPIVersion() {
         #if defined(VK_VERSION_1_1)

@@ -28,7 +28,14 @@ namespace spoopy {
             #endif
 
             #ifdef SPOOPY_VULKAN
-            virtual uint32_t getAPIVersion(); 
+            virtual uint32_t getAPIVersion();
+
+            #ifdef SPOOPY_DEBUG_MESSENGER
+            virtual VKAPI_ATTR VkBool32 VKAPI_CALL CallbackDebug(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageTypes, 
+	        const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData, void *pUserData);
+            #endif
+
+            VkInstance instance = VK_NULL_HANDLE;
 
             const std::vector<const char*> validationLayers = {"VK_LAYER_KHRONOS_validation"};
             #endif
