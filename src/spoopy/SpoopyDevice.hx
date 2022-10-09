@@ -1,12 +1,11 @@
 package spoopy;
 
-import spoopy.backend.DeviceManager;
-import spoopy.backend.DeviceManager;
+import spoopy.backend.DeviceGroup;
 
 class SpoopyDevice {
-    @:noCompletion var __manager:DeviceManager;
+    @:noCompletion var __manager:DeviceGroup;
 
     public function new() {
-        __manager = new DeviceManager();
+        __manager = new DeviceGroup();
     }
 }

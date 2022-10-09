@@ -91,9 +91,8 @@
 		</section>
 
 		<file name="src/SpoopyBackend.cpp" />
-        <file name="src/device/WindowDevice.cpp" />
-        <file name="src/device/DeviceManager.cpp" />
-
+        <file name="src/ui/Window.cpp" />
+		<file name="src/device/InstanceDevice.cpp" />
         <file name="src/system/CFFI.cpp" />
         <file name="src/system/CFFIPointer.cpp" />
         <file name="src/hx/CFFIExt.cpp" />
@@ -113,34 +112,6 @@
 	<set name="LIBSUFFIX" value="${HX_TARGET_SUFFIX}" if="HX_TARGET_SUFFIX" />
 	<set name="LIBSUFFIX" value="${LIBEXTRA}" unless="LIBSUFFIX" />
 
-	<!--
-	<files id="native-toolkit-sdl-extensions">
-        <depend name="${NATIVE_TOOLKIT_PATH}/sdl/include/SDL_vulkan.h" />
-
-        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vk_icd.h" />
-        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vk_layer.h" />
-        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vk_platform.h" />
-        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vk_sdk_platform.h" />
-        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_fuchsia.h" />
-        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_core.h" />
-        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan.h" />
-        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_mir.h" />
-        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_vi.h" />
-        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_wayland.h" />
-        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_xcb.h" />
-        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_xlib_xrandr.h" />
-        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_xlib.h" />
-
-        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_android.h" if="android" />
-        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_ios.h" if="ios" />
-        <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_macos.h" if="SPOOPY_MAC" />
-
-        <section if="32">
-            <file name="${NATIVE_TOOLKIT_PATH}/sdl/src/video/khronos/vulkan/vulkan_win32.h" if="windows" />
-        </section>
-    </files>
-	-->
-
 	<target id="spoopy" output="${LIBPREFIX}spoopy${DEBUGEXTRA}${LIBSUFFIX}" tool="linker" toolid="${STD_MODULE_LINK}">
 
 		<outdir name="${OUTPUT_DIR}/${BINDIR}" />
@@ -150,7 +121,6 @@
 
 		<section if="SPOOPY_SDL">
 			<files id="native-toolkit-sdl" unless="emscripten" />
-			<!--<files id="native-toolkit-sdl-extensions" if="SPOOPY_VULKAN" unless="emscripten" />-->
 		</section>
 
 		<section unless="static_link">
@@ -285,5 +255,4 @@
 	<target id="default">
 		<target id="spoopy" />
 	</target>
-
 </xml>

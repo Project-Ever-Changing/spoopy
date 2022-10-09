@@ -1,11 +1,11 @@
 package spoopy.backend;
 
-class DeviceManager {
+class DeviceGroup {
     public var handle:Dynamic;
 
     public function new() {
         #if !macro
-        handle = 
+        //handle = 
         #end
     }
 }

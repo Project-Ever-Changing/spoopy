@@ -6,15 +6,19 @@
 #include <SDL.h>
 
 #ifdef SPOOPY_VULKAN
-#include <SDL_vulkan.h>
-#include <vulkan/vulkan.h>
-#include <vulkan/vulkan_core.h>
+    #include <SDL_vulkan.h>
+    #include <vulkan/vulkan.h>
+    #include <vulkan/vulkan_core.h>
+
+    #ifdef SPOOPY_WIN32
+        #include <vulkan/vulkan_win32.h>
+    #endif
 #endif
 
 namespace spoopy {
-    class WindowDevice {
+    class Window {
         public:
-            virtual ~WindowDevice();
+            virtual ~Window();
 
             #ifdef SPOOPY_VULKAN
             virtual void createWindowSurfaceVulkan(VkInstance instance, VkSurfaceKHR* surface);
