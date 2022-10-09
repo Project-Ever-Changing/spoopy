@@ -2,6 +2,7 @@
 #define SPOOPY_INSTANCE_DEVICE_H
 
 #include <vector>
+#include <set>
 
 #include <ui/Window.h>
 
@@ -15,7 +16,7 @@ namespace spoopy {
             virtual bool getEnabledValidationLayers() const;
 
             #ifdef SPOOPY_VULKAN
-            virtual bool getAvailableVulkanExtensions(std::vector<std::string>& outExtensions);
+            virtual bool getAvailableVulkanExtensions(std::vector<const char*>& outExtensions);
             #endif
         private:
             Window* window;
@@ -27,7 +28,7 @@ namespace spoopy {
             #endif
 
             #ifdef SPOOPY_VULKAN
-            uint32_t getAPIVersion(); 
+            virtual uint32_t getAPIVersion(); 
 
             const std::vector<const char*> validationLayers = {"VK_LAYER_KHRONOS_validation"};
             #endif

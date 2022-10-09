@@ -18,7 +18,35 @@ namespace spoopy {
             throw "Validation layers requested, but not available!\n";
         }
 
+        std::vector<const char*> extensions;
+        if(!getAvailableVulkanExtensions(extensions)) {
+            throw "Unable to find any extensions";
+        }
 
+        VkInstanceCreateInfo instanceInfo = {};
+        instanceInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+        instanceInfo.pApplicationInfo = &appInfo;
+        instanceInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
+        instanceInfo.ppEnabledExtensionNames = extensions.data();
+
+        #ifdef SPOOPY_DEBUG_MESSENGER
+        VkDebugUtilsMessengerCreateInfoEXT debugUtilsMessengerCreateInfo = {};
+        #endif
+
+        if(enableValidationLayers) {
+            #ifdef SPOOPY_DEBUG_MESSENGER
+            debugUtilsMessengerCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+            debugUtilsMessengerCreateInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | 
+                VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+            debugUtilsMessengerCreateInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | 
+                VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+            debugUtilsMessengerCreateInfo.pfnUserCallback = &CallbackDebug;
+            instanceInfo.pNext = static_cast<VkDebugUtilsMessengerCreateInfoEXT *>(&debugUtilsMessengerCreateInfo);
+            #endif
+
+            instanceInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+		    instanceInfo.ppEnabledLayerNames = validationLayers.data();
+        }
         #endif
     }
 
@@ -31,7 +59,7 @@ namespace spoopy {
     }
 
     #ifdef SPOOPY_VULKAN
-    bool InstanceDevice::getAvailableVulkanExtensions(std::vector<std::string>& outExtensions) {
+    bool InstanceDevice::getAvailableVulkanExtensions(std::vector<const char*>& outExtensions) {
         uint32_t ext_count = 0;
 
         if(window == nullptr) {
@@ -54,7 +82,6 @@ namespace spoopy {
         }
 
         for (uint32_t i = 0; i < ext_count; i++) {
-            std::cout << i << ": " << ext_names[i] << "\n";
             outExtensions.emplace_back(ext_names[i]);
         }
 
