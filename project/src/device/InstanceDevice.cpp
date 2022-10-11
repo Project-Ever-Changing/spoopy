@@ -7,11 +7,10 @@ namespace spoopy {
         const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData, void *pUserData) {
             if (messageSeverity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) {
                 SPOOPY_LOG_WARN(pCallbackData->pMessage, '\n');
-                //Log::Warn(pCallbackData->pMessage, '\n');
             }else if (messageSeverity &  VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT) {
-                //Log::Info(pCallbackData->pMessage, '\n');
+                SPOOPY_LOG_INFO(pCallbackData->pMessage, '\n');
             }else {
-                //Log::Error(pCallbackData->pMessage, '\n');
+                SPOOPY_LOG_ERROR(pCallbackData->pMessage, '\n');
             }
 
             return VK_FALSE;
