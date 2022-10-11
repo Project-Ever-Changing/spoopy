@@ -12,6 +12,7 @@
 	<set name="SPOOPY_VULKAN" value="1" />
 	<set name="SPOOPY_HASHLINK" value="1" if="hashlink" />
 	<set name="SPOOPY_SDL" value="1" />
+	<set name="SPOOPY_DEBUG_MESSENGER" value="1" />
 	<set name="SPOOPY_SDL_ANGLE" value="1" if="windows SPOOPY_SDL_ANGLE" unless="static_link" />
 	<set name="SPOOPY_SDL_ANGLE" value="1" if="windows angle" unless="static_link" />
 	<set name="SPOOPY_SDL_ANGLE" value="1" if="winrt" />
@@ -27,24 +28,31 @@
 
 		<compilerflag value="-Iinclude" />
 
+		<section if="HXCPP_CPP17">
+			<compilerflag value="-pedantic-errors" />
+			
+			<compilerflag value="-Werror" />
+			<compilerflag value="-Wc++17-extensions" />
+		</section>
+
 		<file name="src/SpoopyBackend.cpp" />
 
 		<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/hashlink/src" />
 
 		<section if="SPOOPY_HASHLINK">
-
 			<compilerflag value="-DSPOOPY_HASHLINK" />
-
 		</section>
 
 		<section if="SPOOPY_VULKAN">
 			<compilerflag value="-DSPOOPY_VULKAN" />
 		</section>
 
+		<section if="SPOOPY_DEBUG_MESSENGER">
+			<compilerflag value="-DSPOOPY_DEBUG_MESSENGER" />
+		</section>
+
 		<section unless="SPOOPY_HASHLINK">
-
 			<compilerflag value="-DLIBHL_EXPORTS" />
-
 		</section>
 
 		<section if="SPOOPY_SDL">
@@ -94,6 +102,7 @@
 		<file name="src/SpoopyBackend.cpp" />
         <file name="src/ui/Window.cpp" />
 		<file name="src/device/InstanceDevice.cpp" />
+		<file name="src/core/Log.cpp" />
         <file name="src/system/CFFI.cpp" />
         <file name="src/system/CFFIPointer.cpp" />
         <file name="src/hx/CFFIExt.cpp" />

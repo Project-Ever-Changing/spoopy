@@ -38,5 +38,6 @@ namespace spoopy {
 
     value spoopy_create_surface_device(HxString name, int major, int minor, int patch) {
         const int version[3] = {major, minor, patch};
+        return nullptr;
     }
 }

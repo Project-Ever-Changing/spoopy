@@ -13,6 +13,8 @@
     #endif
 #endif
 
+#include <core/Log.h>
+
 namespace spoopy {
     #ifdef SPOOPY_VULKAN
     void checkVulkan(VkResult result);

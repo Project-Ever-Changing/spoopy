@@ -7,6 +7,13 @@
 #include <ui/Window.h>
 
 namespace spoopy {
+    #ifdef SPOOPY_VULKAN
+        #ifdef SPOOPY_DEBUG_MESSENGER
+        static VKAPI_ATTR VkBool32 VKAPI_CALL CallbackDebug(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageTypes, 
+        const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData, void *pUserData);
+        #endif
+    #endif
+
     class InstanceDevice {
         public:
             InstanceDevice(Window* window);
@@ -29,11 +36,6 @@ namespace spoopy {
 
             #ifdef SPOOPY_VULKAN
             virtual uint32_t getAPIVersion();
-
-            #ifdef SPOOPY_DEBUG_MESSENGER
-            virtual VKAPI_ATTR VkBool32 VKAPI_CALL CallbackDebug(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageTypes, 
-	        const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData, void *pUserData);
-            #endif
 
             VkInstance instance = VK_NULL_HANDLE;
 
