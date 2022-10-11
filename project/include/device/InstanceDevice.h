@@ -11,6 +11,9 @@ namespace spoopy {
         #ifdef SPOOPY_DEBUG_MESSENGER
         static VKAPI_ATTR VkBool32 VKAPI_CALL CallbackDebug(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageTypes, 
         const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData, void *pUserData);
+        #else
+        static VKAPI_ATTR VkBool32 VKAPI_CALL CallbackDebug(VkDebugReportFlagsEXT flags, VkDebugReportObjectTypeEXT objectType, uint64_t object, size_t location, int32_t messageCode,
+		const char *pLayerPrefix, const char *pMessage, void *pUserData);
         #endif
     #endif
 
