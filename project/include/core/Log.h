@@ -1,8 +1,6 @@
 #ifndef SPOOPY_LOG_H
 #define SPOOPY_LOG_H
 
-#include <iostream>
-
 namespace spoopy {
     class Log {
         public:
