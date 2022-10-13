@@ -23,6 +23,7 @@ namespace spoopy {
             virtual ~InstanceDevice();
 
             virtual void createInstance(const char* name, const int version[3]);
+            virtual void createDebugMessenger();
             virtual bool getEnabledValidationLayers() const;
 
             #ifdef SPOOPY_VULKAN
@@ -40,7 +41,16 @@ namespace spoopy {
             #ifdef SPOOPY_VULKAN
             virtual uint32_t getAPIVersion();
 
+            PFN_vkCreateDebugReportCallbackEXT fvkCreateDebugReportCallbackEXT = nullptr;
+            PFN_vkCreateDebugUtilsMessengerEXT fvkCreateDebugUtilsMessengerEXT = nullptr;
+
             VkInstance instance = VK_NULL_HANDLE;
+
+            #ifdef SPOOPY_DEBUG_MESSENGER
+            VkDebugUtilsMessengerEXT debugMessenger = VK_NULL_HANDLE;
+            #else
+            VkDebugReportCallbackEXT debugReportCallback = VK_NULL_HANDLE;
+            #endif
 
             const std::vector<const char*> validationLayers = {"VK_LAYER_KHRONOS_validation"};
             #endif

@@ -33,6 +33,11 @@ namespace spoopy {
 
     InstanceDevice::InstanceDevice(Window* window) {
         this -> window = window;
+
+        #ifdef SPOOPY_VULKAN
+        fvkCreateDebugReportCallbackEXT = reinterpret_cast<PFN_vkCreateDebugReportCallbackEXT>(vkGetInstanceProcAddr(instance, "vkCreateDebugReportCallbackEXT"));
+        fvkCreateDebugUtilsMessengerEXT = reinterpret_cast<PFN_vkCreateDebugUtilsMessengerEXT>(vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT"));
+        #endif
     }
 
     void InstanceDevice::createInstance(const char* name, const int version[3]) {
@@ -80,6 +85,34 @@ namespace spoopy {
         }
 
         checkVulkan(vkCreateInstance(&instanceInfo, nullptr, &instance));
+        #endif
+    }
+
+    void InstanceDevice::createDebugMessenger() {
+        #ifdef SPOOPY_VULKAN
+            if(!enableValidationLayers) {
+                return;
+            }
+
+            #ifdef SPOOPY_DEBUG_MESSENGER
+            VkDebugUtilsMessengerCreateInfoEXT debugUtilsMessengerCreateInfo = {};
+            debugUtilsMessengerCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+            debugUtilsMessengerCreateInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | 
+                VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+            debugUtilsMessengerCreateInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | 
+                VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+            debugUtilsMessengerCreateInfo.pfnUserCallback = &CallbackDebug;
+            checkVulkan(fvkCreateDebugUtilsMessengerEXT(instance, &debugUtilsMessengerCreateInfo, nullptr, &debugMessenger));
+            #else
+            VkDebugReportCallbackCreateInfoEXT debugReportCallbackCreateInfo = {};
+            debugReportCallbackCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT;
+            debugReportCallbackCreateInfo.pNext = nullptr;
+            debugReportCallbackCreateInfo.flags = VK_DEBUG_REPORT_ERROR_BIT_EXT | VK_DEBUG_REPORT_WARNING_BIT_EXT | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT;
+            debugReportCallbackCreateInfo.pfnCallback = &CallbackDebug;
+            debugReportCallbackCreateInfo.pUserData = nullptr;
+            auto debugReportResult = fvkCreateDebugReportCallbackEXT(instance, &debugReportCallbackCreateInfo, nullptr, &debugReportCallback);
+            checkVulkan(debugReportResult);
+            #endif
         #endif
     }
 
