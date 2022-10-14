@@ -111,7 +111,7 @@ namespace spoopy {
         #endif
     }
 
-    bool InstanceDevice::getEnabledValidationLayers() const {
+    const bool InstanceDevice::getEnabledValidationLayers() const {
         return enableValidationLayers;
     }
 
@@ -152,6 +152,10 @@ namespace spoopy {
 
         outExtensions.emplace_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
         return true;
+    }
+
+    const VkInstance &InstanceDevice::getInstance() const {
+        return instance;
     }
 
     uint32_t InstanceDevice::getAPIVersion() {

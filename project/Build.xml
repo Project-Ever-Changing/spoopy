@@ -103,6 +103,7 @@
 		<file name="src/SpoopyBackend.cpp" />
         <file name="src/ui/Window.cpp" />
 		<file name="src/device/InstanceDevice.cpp" />
+		<file name="src/device/PhysicalDevice.cpp" />
 		<file name="src/core/Log.cpp" />
         <file name="src/system/CFFI.cpp" />
         <file name="src/system/CFFIPointer.cpp" />
