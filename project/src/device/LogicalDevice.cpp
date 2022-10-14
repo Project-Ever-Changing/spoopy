@@ -22,6 +22,76 @@ namespace spoopy {
 
         auto physicalDeviceFeatures = physical.getFeatures();
 	    VkPhysicalDeviceFeatures enabledFeatures = {};
+
+        if(physicalDeviceFeatures.sampleRateShading) {
+		    enabledFeatures.sampleRateShading = VK_TRUE;
+        }
+
+        if(physicalDeviceFeatures.fillModeNonSolid) {
+		    enabledFeatures.fillModeNonSolid = VK_TRUE;
+
+            if (physicalDeviceFeatures.wideLines) {
+			    enabledFeatures.wideLines = VK_TRUE;
+            }
+        }else {
+            SPOOPY_LOG_WARN("GPU does not support wireframe pipelines!\n");
+        }
+
+        if(physicalDeviceFeatures.samplerAnisotropy) {
+            enabledFeatures.samplerAnisotropy = VK_TRUE;
+        }else {
+            SPOOPY_LOG_WARN("GPU does not support sampler anisotropy!\n");
+        }
+
+        if(physicalDeviceFeatures.textureCompressionBC) {
+            enabledFeatures.textureCompressionBC = VK_TRUE;
+        }else if(physicalDeviceFeatures.textureCompressionASTC_LDR) {
+            enabledFeatures.textureCompressionASTC_LDR = VK_TRUE;
+        }else if(physicalDeviceFeatures.textureCompressionETC2) {
+            enabledFeatures.textureCompressionETC2 = VK_TRUE;
+        }
+
+        if(physicalDeviceFeatures.vertexPipelineStoresAndAtomics) {
+            enabledFeatures.vertexPipelineStoresAndAtomics = VK_TRUE;
+        }else {
+            SPOOPY_LOG_WARN("GPU does not support vertex pipeline stores and atomics!\n");
+        }
+
+        if(physicalDeviceFeatures.fragmentStoresAndAtomics) {
+            enabledFeatures.fragmentStoresAndAtomics = VK_TRUE;
+        }else {
+            SPOOPY_LOG_WARN("GPU does not support fragment stores and atomics!\n");
+        }
+
+        if(physicalDeviceFeatures.shaderStorageImageExtendedFormats) {
+            enabledFeatures.shaderStorageImageExtendedFormats = VK_TRUE;
+        }else {
+            SPOOPY_LOG_WARN("GPU does not support shader storage extended formats!");
+        }
+
+        if(physicalDeviceFeatures.shaderStorageImageWriteWithoutFormat) {
+            enabledFeatures.shaderStorageImageWriteWithoutFormat = VK_TRUE;
+        }else {
+            SPOOPY_LOG_WARN("GPU does not support shader storage write without format!\n");
+        }
+
+        if(physicalDeviceFeatures.geometryShader) {
+            enabledFeatures.geometryShader = VK_TRUE;
+        }else {
+            SPOOPY_LOG_WARN("GPU does not support geometry shaders!\n");
+        }
+
+        if(physicalDeviceFeatures.tessellationShader) {
+            enabledFeatures.tessellationShader = VK_TRUE;
+        }else {
+            SPOOPY_LOG_WARN("GPU does not support tessellation shaders!\n");
+        }
+
+        if(physicalDeviceFeatures.multiViewport) {
+            enabledFeatures.multiViewport = VK_TRUE;
+        }else {
+            SPOOPY_LOG_WARN("GPU does not support multi viewports!\n");
+        }
         #endif
     }
 
