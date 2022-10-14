@@ -34,6 +34,7 @@
 			
 			<compilerflag value="-Werror" />
 			<compilerflag value="-Wc++17-extensions" />
+			<compilerflag value="-std=c++17" />
 		</section>
 
 		<file name="src/SpoopyBackend.cpp" />
@@ -106,6 +107,7 @@
 		<file name="src/device/InstanceDevice.cpp" />
 		<file name="src/device/PhysicalDevice.cpp" />
 		<file name="src/device/LogicalDevice.cpp" />
+		<file name="src/families/QueueFamilyIndices.cpp" />
 		<file name="src/core/Log.cpp" />
         <file name="src/system/CFFI.cpp" />
         <file name="src/system/CFFIPointer.cpp" />
