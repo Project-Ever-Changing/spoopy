@@ -15,6 +15,11 @@ namespace spoopy {
         vkEnumeratePhysicalDevices(instance.getInstance(), &physicalCount, physicalDevices.data());
 
         physicalDevice = getSuitablePhysical(physicalDevices);
+        vkGetPhysicalDeviceProperties(physicalDevice, &properties);
+        vkGetPhysicalDeviceFeatures(physicalDevice, &features);
+        vkGetPhysicalDeviceMemoryProperties(physicalDevice, &memoryProperties);
+
+        sampleCountBits = getMaxUsableSampleCount(physicalDevice);
         #endif
     }
 

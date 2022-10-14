@@ -23,6 +23,10 @@ namespace spoopy {
         private:
             #ifdef SPOOPY_VULKAN
             VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
+            VkPhysicalDeviceProperties properties = {};
+            VkPhysicalDeviceFeatures features = {};
+            VkPhysicalDeviceMemoryProperties memoryProperties = {};
+            VkSampleCountFlagBits sampleCountBits = VK_SAMPLE_COUNT_1_BIT;
             #endif
     };
 }

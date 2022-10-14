@@ -27,6 +27,8 @@ namespace spoopy {
 
     void FvkDestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT messenger, const VkAllocationCallbacks *pAllocator);
     void FvkDestroyDebugReportCallbackEXT(VkInstance instance, VkDebugReportCallbackEXT callback, const VkAllocationCallbacks *pAllocator);
+
+    VkSampleCountFlagBits getMaxUsableSampleCount(VkPhysicalDevice &physicalDevice);
     #endif
 }
 #endif
