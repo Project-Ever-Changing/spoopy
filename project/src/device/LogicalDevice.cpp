@@ -92,6 +92,11 @@ namespace spoopy {
         }else {
             SPOOPY_LOG_WARN("GPU does not support multi viewports!\n");
         }
+
+        VkDeviceCreateInfo deviceInfo = {};
+        deviceInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+        deviceInfo.queueCreateInfoCount = static_cast<uint32_t>(queueFamily -> queueCreateInfos.size());
+        deviceInfo.pQueueCreateInfos = queueFamily -> queueCreateInfos.data();
         #endif
     }
 

@@ -50,7 +50,6 @@ namespace spoopy {
 
     #ifdef SPOOPY_VULKAN
     void QueueFamilyIndices::createQueueInfos() {
-        std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
 	    float queuePriorities[1] = {0.0f};
 
         if (supportedQueues & VK_QUEUE_GRAPHICS_BIT) {

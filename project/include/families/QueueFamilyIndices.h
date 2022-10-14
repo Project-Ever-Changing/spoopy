@@ -22,6 +22,10 @@ namespace spoopy {
             uint32_t presentFamily = 0;
             uint32_t computeFamily = 0;
             uint32_t transferFamily = 0;
+
+            #ifdef SPOOPY_VULKAN
+            std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
+            #endif
         private:
             #ifdef SPOOPY_VULKAN
             VkQueueFlags supportedQueues = {};
