@@ -47,4 +47,44 @@ namespace spoopy {
         }
         #endif
     }
+
+    #ifdef SPOOPY_VULKAN
+    void QueueFamilyIndices::createQueueInfos() {
+        std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
+	    float queuePriorities[1] = {0.0f};
+
+        if (supportedQueues & VK_QUEUE_GRAPHICS_BIT) {
+            VkDeviceQueueCreateInfo graphicsQueueCreateInfo = {};
+            graphicsQueueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+            graphicsQueueCreateInfo.queueFamilyIndex = graphicsFamily;
+            graphicsQueueCreateInfo.queueCount = 1;
+            graphicsQueueCreateInfo.pQueuePriorities = queuePriorities;
+            queueCreateInfos.emplace_back(graphicsQueueCreateInfo);
+        } else {
+            graphicsFamily = 0;
+        }
+
+        if (supportedQueues & VK_QUEUE_COMPUTE_BIT && computeFamily != graphicsFamily) {
+            VkDeviceQueueCreateInfo computeQueueCreateInfo = {};
+            computeQueueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+            computeQueueCreateInfo.queueFamilyIndex = computeFamily;
+            computeQueueCreateInfo.queueCount = 1;
+            computeQueueCreateInfo.pQueuePriorities = queuePriorities;
+            queueCreateInfos.emplace_back(computeQueueCreateInfo);
+        } else {
+            computeFamily = graphicsFamily;
+        }
+
+        if (supportedQueues & VK_QUEUE_TRANSFER_BIT && transferFamily != graphicsFamily && transferFamily != computeFamily) {
+            VkDeviceQueueCreateInfo transferQueueCreateInfo = {};
+            transferQueueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+            transferQueueCreateInfo.queueFamilyIndex = transferFamily;
+            transferQueueCreateInfo.queueCount = 1;
+            transferQueueCreateInfo.pQueuePriorities = queuePriorities;
+            queueCreateInfos.emplace_back(transferQueueCreateInfo);
+        } else {
+            transferFamily = graphicsFamily;
+        }
+    }
+    #endif
 }

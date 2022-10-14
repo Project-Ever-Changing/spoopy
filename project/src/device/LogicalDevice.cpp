@@ -16,6 +16,12 @@ namespace spoopy {
         #endif
     }
 
+    void LogicalDevice::initDevice() {
+        #ifdef SPOOPY_VULKAN
+        
+        #endif
+    }
+
     LogicalDevice::~LogicalDevice() {
         if(queueFamily != nullptr) {
             delete queueFamily;

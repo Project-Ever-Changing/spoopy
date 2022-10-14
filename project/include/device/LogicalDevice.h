@@ -19,6 +19,8 @@ namespace spoopy {
         public:
             explicit LogicalDevice(const InstanceDevice &instance, const PhysicalDevice &physical);
             virtual ~LogicalDevice();
+
+            virtual void initDevice();
         private:
             const QueueFamilyIndices* queueFamily;
 

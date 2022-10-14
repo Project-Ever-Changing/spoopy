@@ -13,12 +13,16 @@ namespace spoopy {
             #else
             QueueFamilyIndices(uint32_t queues);
             #endif
-        private:
+
+            #ifdef SPOOPY_VULKAN
+            virtual void createQueueInfos();
+            #endif
+
             uint32_t graphicsFamily = 0;
             uint32_t presentFamily = 0;
             uint32_t computeFamily = 0;
             uint32_t transferFamily = 0;
-
+        private:
             #ifdef SPOOPY_VULKAN
             VkQueueFlags supportedQueues = {};
 
