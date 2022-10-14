@@ -63,5 +63,43 @@ namespace spoopy {
                 return "Unknown Vulkan error";
         }
     }
+
+    VkResult FvkCreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo, 
+	const VkAllocationCallbacks *pAllocator, VkDebugUtilsMessengerEXT *pDebugMessenger) {
+        auto func = reinterpret_cast<PFN_vkCreateDebugUtilsMessengerEXT>(vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT"));
+
+        if(func) {
+            return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
+        }
+
+        return VK_ERROR_EXTENSION_NOT_PRESENT;
+    }
+
+    VkResult FvkCreateDebugReportCallbackEXT(VkInstance instance, const VkDebugReportCallbackCreateInfoEXT *pCreateInfo,
+    const VkAllocationCallbacks *pAllocator, VkDebugReportCallbackEXT *pCallback) {
+        auto func = reinterpret_cast<PFN_vkCreateDebugReportCallbackEXT>(vkGetInstanceProcAddr(instance, "vkCreateDebugReportCallbackEXT"));
+
+        if (func) {
+            return func(instance, pCreateInfo, pAllocator, pCallback);
+        }
+
+        return VK_ERROR_EXTENSION_NOT_PRESENT;
+    }
+
+    void FvkDestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT messenger, const VkAllocationCallbacks *pAllocator) {
+        auto func = reinterpret_cast<PFN_vkDestroyDebugUtilsMessengerEXT>(vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT"));
+
+        if(func) {
+            func(instance, messenger, pAllocator);
+        }
+    }
+
+    void FvkDestroyDebugReportCallbackEXT(VkInstance instance, VkDebugReportCallbackEXT callback, const VkAllocationCallbacks *pAllocator) {
+        auto func = reinterpret_cast<PFN_vkDestroyDebugReportCallbackEXT>(vkGetInstanceProcAddr(instance, "vkDestroyDebugReportCallbackEXT"));
+
+        if (func) {
+            func(instance, callback, pAllocator);
+        }
+    }
     #endif
 }

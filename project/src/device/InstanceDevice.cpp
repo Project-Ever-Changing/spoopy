@@ -33,11 +33,6 @@ namespace spoopy {
 
     InstanceDevice::InstanceDevice(Window* window) {
         this -> window = window;
-
-        #ifdef SPOOPY_VULKAN
-        fvkCreateDebugReportCallbackEXT = reinterpret_cast<PFN_vkCreateDebugReportCallbackEXT>(vkGetInstanceProcAddr(instance, "vkCreateDebugReportCallbackEXT"));
-        fvkCreateDebugUtilsMessengerEXT = reinterpret_cast<PFN_vkCreateDebugUtilsMessengerEXT>(vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT"));
-        #endif
     }
 
     void InstanceDevice::createInstance(const char* name, const int version[3]) {
@@ -102,7 +97,7 @@ namespace spoopy {
             debugUtilsMessengerCreateInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | 
                 VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
             debugUtilsMessengerCreateInfo.pfnUserCallback = &CallbackDebug;
-            checkVulkan(fvkCreateDebugUtilsMessengerEXT(instance, &debugUtilsMessengerCreateInfo, nullptr, &debugMessenger));
+            checkVulkan(FvkCreateDebugUtilsMessengerEXT(instance, &debugUtilsMessengerCreateInfo, nullptr, &debugMessenger));
             #else
             VkDebugReportCallbackCreateInfoEXT debugReportCallbackCreateInfo = {};
             debugReportCallbackCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT;
@@ -110,7 +105,7 @@ namespace spoopy {
             debugReportCallbackCreateInfo.flags = VK_DEBUG_REPORT_ERROR_BIT_EXT | VK_DEBUG_REPORT_WARNING_BIT_EXT | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT;
             debugReportCallbackCreateInfo.pfnCallback = &CallbackDebug;
             debugReportCallbackCreateInfo.pUserData = nullptr;
-            auto debugReportResult = fvkCreateDebugReportCallbackEXT(instance, &debugReportCallbackCreateInfo, nullptr, &debugReportCallback);
+            auto debugReportResult = FvkCreateDebugReportCallbackEXT(instance, &debugReportCallbackCreateInfo, nullptr, &debugReportCallback);
             checkVulkan(debugReportResult);
             #endif
         #endif
@@ -121,7 +116,19 @@ namespace spoopy {
     }
 
     InstanceDevice::~InstanceDevice() {
+        #ifdef SPOOPY_VULKAN
+            #ifdef SPOOPY_DEBUG_MESSENGER
+            FvkDestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
+            #else
+            FvkDestroyDebugReportCallbackEXT(instance, debugReportCallback, nullptr);
+            #endif
 
+            vkDestroyInstance(instance, nullptr);
+        #endif
+
+        if(window != nullptr) {
+            window = nullptr;
+        }
     }
 
     #ifdef SPOOPY_VULKAN

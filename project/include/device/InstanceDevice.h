@@ -41,9 +41,6 @@ namespace spoopy {
             #ifdef SPOOPY_VULKAN
             virtual uint32_t getAPIVersion();
 
-            PFN_vkCreateDebugReportCallbackEXT fvkCreateDebugReportCallbackEXT = nullptr;
-            PFN_vkCreateDebugUtilsMessengerEXT fvkCreateDebugUtilsMessengerEXT = nullptr;
-
             VkInstance instance = VK_NULL_HANDLE;
 
             #ifdef SPOOPY_DEBUG_MESSENGER

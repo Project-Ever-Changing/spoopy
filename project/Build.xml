@@ -13,6 +13,7 @@
 	<set name="SPOOPY_HASHLINK" value="1" if="hashlink" />
 	<set name="SPOOPY_SDL" value="1" />
 	<!--<set name="SPOOPY_DEBUG_MESSENGER" value="1" />-->
+	<set name="SPOOPY_DEBUG" value="1" if="HXCPP_DEBUG" />
 	<set name="SPOOPY_SDL_ANGLE" value="1" if="windows SPOOPY_SDL_ANGLE" unless="static_link" />
 	<set name="SPOOPY_SDL_ANGLE" value="1" if="windows angle" unless="static_link" />
 	<set name="SPOOPY_SDL_ANGLE" value="1" if="winrt" />
