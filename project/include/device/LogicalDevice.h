@@ -22,7 +22,7 @@ namespace spoopy {
 
             virtual void initDevice();
         private:
-            const QueueFamilyIndices* queueFamily;
+            QueueFamilyIndices* queueFamily;
 
             const InstanceDevice &instance;
             const PhysicalDevice &physical;

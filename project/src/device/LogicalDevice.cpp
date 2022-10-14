@@ -18,6 +18,8 @@ namespace spoopy {
 
     void LogicalDevice::initDevice() {
         #ifdef SPOOPY_VULKAN
+        queueFamily -> createQueueInfos();
+
         auto physicalDeviceFeatures = physical.getFeatures();
 	    VkPhysicalDeviceFeatures enabledFeatures = {};
         #endif
