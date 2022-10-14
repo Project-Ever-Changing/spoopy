@@ -19,7 +19,7 @@ namespace spoopy {
 
     class InstanceDevice {
         public:
-            InstanceDevice(Window* window);
+            InstanceDevice(const Window &window);
             virtual ~InstanceDevice();
 
             virtual void createInstance(const char* name, const int version[3]);
@@ -30,7 +30,7 @@ namespace spoopy {
             virtual bool getAvailableVulkanExtensions(std::vector<const char*>& outExtensions);
             #endif
         private:
-            Window* window;
+            const Window &window;
 
             #ifdef SPOOPY_DEBUG
             const bool enableValidationLayers = false;

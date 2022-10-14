@@ -31,8 +31,8 @@ namespace spoopy {
         #endif
     #endif
 
-    InstanceDevice::InstanceDevice(Window* window) {
-        this -> window = window;
+    InstanceDevice::InstanceDevice(const Window &window): window(window) {
+        //empty
     }
 
     void InstanceDevice::createInstance(const char* name, const int version[3]) {
@@ -125,31 +125,23 @@ namespace spoopy {
 
             vkDestroyInstance(instance, nullptr);
         #endif
-
-        if(window != nullptr) {
-            window = nullptr;
-        }
     }
 
     #ifdef SPOOPY_VULKAN
     bool InstanceDevice::getAvailableVulkanExtensions(std::vector<const char*>& outExtensions) {
         uint32_t ext_count = 0;
 
-        if(window == nullptr) {
-            throw "Unable to find window.";
-        }
-
-        if(window -> sdlWindow == nullptr) {
+        if(window.sdlWindow == nullptr) {
             throw "Unable to find SDL window.";
         }
 
-        if(!SDL_Vulkan_GetInstanceExtensions(window -> sdlWindow, &ext_count, nullptr)) {
+        if(!SDL_Vulkan_GetInstanceExtensions(window.sdlWindow, &ext_count, nullptr)) {
             std::cout << "Unable to query the number of Vulkan instance extensions\n";
             return false;
         }
 
         std::vector<const char*> ext_names(ext_count);
-        if (!SDL_Vulkan_GetInstanceExtensions(window -> sdlWindow, &ext_count, ext_names.data())) {
+        if (!SDL_Vulkan_GetInstanceExtensions(window.sdlWindow, &ext_count, ext_names.data())) {
             std::cout << "Unable to query the number of Vulkan instance extension names\n";
             return false;
         }
