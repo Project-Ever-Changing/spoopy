@@ -6,6 +6,7 @@
 namespace spoopy {
     struct Devices {
         static const std::vector<const char*> Extensions;
+        static const std::vector<const char*> ValidationLayers;
     };
 }
 #endif

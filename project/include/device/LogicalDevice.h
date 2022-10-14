@@ -26,6 +26,11 @@ namespace spoopy {
 
             const InstanceDevice &instance;
             const PhysicalDevice &physical;
+
+            #ifdef SPOOPY_VULKAN
+            VkDevice logical = VK_NULL_HANDLE;
+            VkPhysicalDeviceFeatures enabledFeatures = {};
+            #endif
     };
 }
 #endif

@@ -21,7 +21,6 @@ namespace spoopy {
         queueFamily -> createQueueInfos();
 
         auto physicalDeviceFeatures = physical.getFeatures();
-	    VkPhysicalDeviceFeatures enabledFeatures = {};
 
         if(physicalDeviceFeatures.sampleRateShading) {
 		    enabledFeatures.sampleRateShading = VK_TRUE;
@@ -97,6 +96,16 @@ namespace spoopy {
         deviceInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
         deviceInfo.queueCreateInfoCount = static_cast<uint32_t>(queueFamily -> queueCreateInfos.size());
         deviceInfo.pQueueCreateInfos = queueFamily -> queueCreateInfos.data();
+
+        if(instance.getEnabledValidationLayers()) {
+            deviceInfo.enabledLayerCount = static_cast<uint32_t>(Devices::ValidationLayers.size());
+            deviceInfo.ppEnabledLayerNames = Devices::ValidationLayers.data();
+        }
+
+        deviceInfo.enabledExtensionCount = static_cast<uint32_t>(Devices::Extensions.size());
+        deviceInfo.ppEnabledExtensionNames = Devices::Extensions.data();
+        deviceInfo.pEnabledFeatures = &enabledFeatures;
+        checkVulkan(vkCreateDevice(physical.getPhysicalDevice(), &deviceInfo, nullptr, &logical));
         #endif
     }
 
