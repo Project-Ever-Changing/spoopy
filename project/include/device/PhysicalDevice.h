@@ -19,6 +19,7 @@ namespace spoopy {
             virtual uint32_t scoreDeviceSuitability(VkPhysicalDevice device);
 
             virtual const VkPhysicalDevice &getPhysicalDevice() const;
+            virtual const VkPhysicalDeviceFeatures &getFeatures() const;
             #endif
         private:
             #ifdef SPOOPY_VULKAN
