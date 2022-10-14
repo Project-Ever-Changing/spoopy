@@ -1,9 +1,8 @@
 #include <device/PhysicalDevice.h>
 #include <device/InstanceDevice.h>
+#include <device/Devices.h>
 
 #include <iomanip>
-
-#include <device/Devices.h>
 
 namespace spoopy {
     PhysicalDevice::PhysicalDevice(const InstanceDevice &instance) {
