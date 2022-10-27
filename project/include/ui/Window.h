@@ -10,7 +10,7 @@ namespace spoopy {
             virtual ~Window();
 
             #ifdef SPOOPY_VULKAN
-            virtual void createWindowSurfaceVulkan(VkInstance instance, VkSurfaceKHR* surface);
+            virtual void createWindowSurfaceVulkan(VkInstance instance, VkSurfaceKHR* surface) const;
             #endif
 
             SDL_Renderer* sdlRenderer;
