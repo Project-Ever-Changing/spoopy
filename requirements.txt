@@ -1,4 +1,5 @@
 If Mac: 
+vulkan 1.3.204 or higher
 version +10.11
 brew
 git
