@@ -1,5 +1,5 @@
-#ifndef SPOOPY_LOGICAL_DEIVCE_H
-#define SPOOPY_LOGICAL_DEIVCE_H
+#ifndef SPOOPY_LOGICAL_DEVICE_H
+#define SPOOPY_LOGICAL_DEVICE_H
 
 #include <vector>
 
