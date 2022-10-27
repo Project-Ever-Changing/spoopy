@@ -85,5 +85,12 @@ namespace spoopy {
             transferFamily = graphicsFamily;
         }
     }
+
+    void QueueFamilyIndices::getLogicalDeviceQueuesVulkan(VkDevice _device) {
+        vkGetDeviceQueue(_device, graphicsFamily, 0, &graphicsQueue);
+        vkGetDeviceQueue(_device, presentFamily, 0, &presentQueue);
+        vkGetDeviceQueue(_device, computeFamily, 0, &computeQueue);
+        vkGetDeviceQueue(_device, transferFamily, 0, &transferQueue);
+    }
     #endif
 }

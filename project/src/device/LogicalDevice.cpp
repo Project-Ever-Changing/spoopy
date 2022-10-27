@@ -106,6 +106,8 @@ namespace spoopy {
         deviceInfo.ppEnabledExtensionNames = Devices::Extensions.data();
         deviceInfo.pEnabledFeatures = &enabledFeatures;
         checkVulkan(vkCreateDevice(physical.getPhysicalDevice(), &deviceInfo, nullptr, &logical));
+
+        queueFamily -> getLogicalDeviceQueuesVulkan(logical);
         #endif
     }
 

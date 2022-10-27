@@ -16,6 +16,7 @@ namespace spoopy {
 
             #ifdef SPOOPY_VULKAN
             virtual void createQueueInfos();
+            virtual void getLogicalDeviceQueuesVulkan(VkDevice _device);
             #endif
 
             uint32_t graphicsFamily = 0;
