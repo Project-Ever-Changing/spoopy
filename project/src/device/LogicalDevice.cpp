@@ -115,5 +115,10 @@ namespace spoopy {
         if(queueFamily != nullptr) {
             delete queueFamily;
         }
+
+        #ifdef SPOOPY_VULKAN
+        checkVulkan(vkDeviceWaitIdle(logical));
+        vkDestroyDevice(logical, nullptr);
+        #endif
     }
 }
