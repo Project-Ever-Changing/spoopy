@@ -1,6 +1,6 @@
 package spoopy.backend;
 
-class GeneralPipeline {
+class DevicesPipeline {
     
 
     public function new() {
