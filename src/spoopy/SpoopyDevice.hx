@@ -1,11 +1,11 @@
 package spoopy;
 
-import spoopy.backend.DeviceGroup;
+import spoopy.backend.GeneralPipeline;
 
 class SpoopyDevice {
-    @:noCompletion var __manager:DeviceGroup;
+    @:noCompletion var __manager:GeneralPipeline;
 
     public function new() {
-        __manager = new DeviceGroup();
+        __manager = new GeneralPipeline();
     }
 }

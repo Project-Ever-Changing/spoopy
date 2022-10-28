@@ -1,7 +1,7 @@
 package spoopy.backend;
 
-class DeviceGroup {
-    public var handle:Dynamic;
+class GeneralPipeline {
+    
 
     public function new() {
         #if !macro
