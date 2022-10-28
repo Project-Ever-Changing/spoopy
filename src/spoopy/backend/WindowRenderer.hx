@@ -1,6 +1,5 @@
 package spoopy.backend;
 
-import spoopy.SpoopyDevice;
 import spoopy.display.WindowStage;
 
 @:access(lime.ui.Window)
