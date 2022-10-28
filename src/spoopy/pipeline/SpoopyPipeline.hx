@@ -1,6 +1,6 @@
-package spoopy;
+package pipeline;
 
-import spoopy.backend.DevicesPipeline;
+import backend.DevicesPipeline;
 
 class SpoopyPipeline {
     @:noCompletion var __manager:DevicesPipeline;

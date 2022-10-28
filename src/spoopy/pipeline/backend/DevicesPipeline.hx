@@ -1,4 +1,4 @@
-package spoopy.backend;
+package pipeline.backend;
 
 class DevicesPipeline {
     
