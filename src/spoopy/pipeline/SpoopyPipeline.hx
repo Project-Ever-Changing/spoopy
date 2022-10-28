@@ -8,6 +8,6 @@ class SpoopyPipeline {
     @:noCompletion var __graphics:GraphicsPipline;
 
     public function new() {
-        __manager = new DevicesPipeline();
+
     }
 }
