@@ -4,5 +4,5 @@
 
     <sourcepath name="utils" />
 
-    <haxeflag name="--macro" value="BuildMacros.build()" />
+    <haxeflag name="--macro" value="src.spoopy.macros.BuildMacros.build()" />
 </project>
