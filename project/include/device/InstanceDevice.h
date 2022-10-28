@@ -29,7 +29,7 @@ namespace spoopy {
             #ifdef SPOOPY_VULKAN
             virtual bool getAvailableVulkanExtensions(std::vector<const char*>& outExtensions);
 
-            virtual const VkInstance &getInstance() const;
+            virtual const VkInstance &getInstance() const {return instance;}
             #endif
         private:
             const Window &window;

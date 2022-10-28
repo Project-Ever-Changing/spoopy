@@ -21,6 +21,11 @@ namespace spoopy {
             virtual ~LogicalDevice();
 
             virtual void initDevice();
+
+            uint32_t GetGraphicsFamily() const {return queueFamily -> graphicsFamily;}
+            uint32_t GetPresentFamily() const {return queueFamily -> presentFamily;}
+            uint32_t GetComputeFamily() const {return queueFamily -> computeFamily;}
+            uint32_t GetTransferFamily() const {return queueFamily -> transferFamily;}
         private:
             QueueFamilyIndices* queueFamily;
 

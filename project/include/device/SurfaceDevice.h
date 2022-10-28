@@ -23,6 +23,8 @@ namespace spoopy {
 
             #ifdef SPOOPY_VULKAN
             VkSurfaceKHR surface = VK_NULL_HANDLE;
+            VkSurfaceCapabilitiesKHR capabilities = {};
+            VkSurfaceFormatKHR format = {};
             #endif
     };
 }

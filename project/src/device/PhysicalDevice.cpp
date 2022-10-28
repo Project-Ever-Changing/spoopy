@@ -80,13 +80,5 @@ namespace spoopy {
 
         return score;
     }
-
-    const VkPhysicalDevice &PhysicalDevice::getPhysicalDevice() const {
-        return physicalDevice;
-    }
-
-    const VkPhysicalDeviceFeatures &PhysicalDevice::getFeatures() const {
-        return features;
-    }
     #endif
 }

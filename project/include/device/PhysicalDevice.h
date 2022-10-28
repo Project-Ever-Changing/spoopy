@@ -18,8 +18,8 @@ namespace spoopy {
             virtual VkPhysicalDevice getSuitablePhysical(const std::vector<VkPhysicalDevice> &physicalDevices);
             virtual uint32_t scoreDeviceSuitability(VkPhysicalDevice device);
 
-            virtual const VkPhysicalDevice &getPhysicalDevice() const;
-            virtual const VkPhysicalDeviceFeatures &getFeatures() const;
+            virtual const VkPhysicalDevice &getPhysicalDevice() const {return physicalDevice;}
+            virtual const VkPhysicalDeviceFeatures &getFeatures() const {return features;}
             #endif
         private:
             #ifdef SPOOPY_VULKAN

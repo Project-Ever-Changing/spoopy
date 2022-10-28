@@ -154,10 +154,6 @@ namespace spoopy {
         return true;
     }
 
-    const VkInstance &InstanceDevice::getInstance() const {
-        return instance;
-    }
-
     uint32_t InstanceDevice::getAPIVersion() {
         #if defined(VK_VERSION_1_1)
         uint32_t api_version = 0;
