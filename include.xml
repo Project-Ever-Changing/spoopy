@@ -3,4 +3,6 @@
     <ndll name="spoopy" />
 
     <sourcepath name="utils" />
+
+    <haxeflag name="--macro" value="BuildMacros.build()" />
 </project>

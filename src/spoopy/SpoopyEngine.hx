@@ -4,6 +4,9 @@ import spoopy.backend.SpoopyCFFI;
 import lime.utils.Log;
 import lime.app.Application;
 
+@:buildXml(
+    '<set name="LIME_SDL" value="0" />'
+)
 class SpoopyEngine {
     static var initializedApp:Bool = false;
 
