@@ -1,7 +1,6 @@
 package spoopy.display;
 
 import spoopy.SpoopyEngine;
-import spoopy.SpoopyDevice;
 import spoopy.backend.WindowRenderer;
 import lime.ui.Window;
 
@@ -24,7 +23,6 @@ class WindowStage {
     public function new(parent:Window) {
         this.parent = parent;
         __renderer = new WindowRenderer(this);
-        device = SpoopyEngine.device;
     }
 
     @:noCompletion private inline function get_width():Int {
@@ -63,7 +61,7 @@ class WindowStage {
 
     @:noCompletion private function set_parent(window:Window):Window {
         if(applyWindowSurface && __renderer != null) {
-            __renderer.applyWindowSurface(device);
+            //__renderer.applyWindowSurface(device);
         }
 
         return parent = window;
