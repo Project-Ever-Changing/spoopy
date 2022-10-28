@@ -19,8 +19,6 @@ class WindowStage {
 
     public var applyWindowSurface:Bool = true;
 
-    public var device:SpoopyDevice;
-
     @:noCompletion var __renderer:WindowRenderer;
 
     public function new(parent:Window) {
