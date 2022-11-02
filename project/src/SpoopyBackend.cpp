@@ -59,4 +59,19 @@ namespace spoopy {
 
     }
     DEFINE_PRIME2v(spoopy_apply_surface);
+
+    /*
+    * Testing Purposes
+    */
+    bool spoopy_test_SDL() {
+        #ifdef SPOOPY_SDL
+        return 1;
+        #endif
+
+        #ifdef LIME_SDL
+        return 2;
+        #endif
+
+        return 0;
+    }
 }
