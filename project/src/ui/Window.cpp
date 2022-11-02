@@ -42,7 +42,12 @@ namespace spoopy {
     }
 
     Window::~Window() {
-        
+        #ifdef SPOOPY_SDL
+        if(sdlWindow != nullptr) {
+			SDL_DestroyWindow (sdlWindow);
+			delete sdlWindow;
+		}
+        #endif
     }
     #endif
 }
