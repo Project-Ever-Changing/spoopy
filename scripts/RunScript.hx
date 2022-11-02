@@ -106,10 +106,6 @@ class RunScript {
                             Log.error("Could not find script: " + Sys.getCwd() + fileLocation + scripts[i]);
                         }
                     }
-
-                    if(args[2] != "-cppOnly") {
-                        compileGraphics();
-                    }
             }
         }else if(args[0] == "ls") {
             if(args.length > 1) {
@@ -157,10 +153,6 @@ class RunScript {
                         }else {
                             Log.error("Could not find script: " + Sys.getCwd() + fileLocation + scripts[i]);
                         }
-                    }
-
-                    if(args[2] != "-cppOnly") {
-                        compileGraphics();
                     }
             }
         }else {
