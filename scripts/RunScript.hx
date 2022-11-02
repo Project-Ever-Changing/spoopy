@@ -118,6 +118,11 @@ class RunScript {
                 Sys.command("ls");
             }
         }else if(args[0] == "destroy") {
+            if(args.length <= 1) {
+                Log.error("Incorrect number of arguments for command 'build'");
+                return;
+            }
+
             @:final var fileLocation:String = "scripts/";
 
             var scripts:Array<String> = [];
