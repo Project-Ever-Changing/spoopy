@@ -4,7 +4,10 @@
 #include <iostream>
 
 #ifdef SPOOPY_VULKAN
-    #include <SDL_vulkan.h>
+    #ifdef SPOOPY_SDL
+        #include <SDL_vulkan.h>
+    #endif
+    
     #include <vulkan/vulkan.h>
     #include <vulkan/vulkan_core.h>
 

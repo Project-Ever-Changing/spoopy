@@ -11,7 +11,7 @@
     <set name="SPOOPY_MAC" value="1" if="mac || macos" />
 	<set name="SPOOPY_VULKAN" value="1" />
 	<set name="SPOOPY_HASHLINK" value="1" if="hashlink" />
-	<set name="SPOOPY_SDL" value="0" />
+	<!--<set name="SPOOPY_SDL" value="1" />-->
 	<!--<set name="SPOOPY_DEBUG_MESSENGER" value="1" />-->
 	<set name="SPOOPY_DEBUG" value="1" if="HXCPP_DEBUG" />
 	<set name="SPOOPY_SDL_ANGLE" value="1" if="windows SPOOPY_SDL_ANGLE" unless="static_link" />
@@ -24,6 +24,8 @@
 
 	<set name="NATIVE_TOOLKIT_SDL_STATIC" value="1" />
 	<set name="NATIVE_TOOLKIT_SDL_ANGLE" value="1" if="SPOOPY_SDL_ANGLE" />
+
+	<set name="SPOOPY_SDL" value="1" if="LIME_SDL" />
 
 	<files id="spoopy">
 
