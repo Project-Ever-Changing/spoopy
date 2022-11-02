@@ -55,10 +55,15 @@ class RunScript {
 					Sys.command("sudo", ["chmod", "+x", binPath + "/spoopy"]);
 				}
 				else {
-					Log.error("Could not find the spoopy alias script. You can try 'haxelib selfupdate' and run setup again.");
+					Log.error("Could not find the spoopy alias script. You can try 'spoopy selfupdate' and run setup again.");
 				}
             }
-        }else if(args.length > 1 && args[0] == "build") {
+        }else if(args[0] == "build") {
+            if(args.length <= 1) {
+                Log.error("Incorrect number of arguments for command 'build'");
+                return;
+            }
+
             @:final var fileLocation:String = "scripts/";
             @:final var libraries:Map<String, String> = [
                 "sdl" => "https://github.com/native-toolkit/libsdl",
