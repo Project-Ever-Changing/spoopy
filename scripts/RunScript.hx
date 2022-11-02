@@ -117,6 +117,47 @@ class RunScript {
             }else {
                 Sys.command("ls");
             }
+        }else if(args[0] == "destroy") {
+            @:final var fileLocation:String = "scripts/";
+
+            var scripts:Array<String> = [];
+
+            if(!FileSystem.exists(Sys.getCwd() + "ndll")) {
+                return;
+            }
+
+            if(FileSys.isWindows) {
+                scripts = [
+                    "batch/destroy.bat"
+                ];
+            }else {
+                scripts = [
+                    "shell/destroy.sh"
+                ];
+            }
+
+            switch(args[1].toLowerCase()) {
+                case "Windows" | "Windows64":
+                    for(i in 0...scripts.length) {
+                        if(FileSystem.exists(Sys.getCwd() + fileLocation + scripts[i])) {
+                            Sys.command(Sys.getCwd() + fileLocation + scripts[i]);
+                        }else {
+                            Log.error("Could not find script: " + Sys.getCwd() + fileLocation + scripts[i]);
+                        }
+                    }
+                default:
+                    for(i in 0...scripts.length) {
+                        if(FileSystem.exists(Sys.getCwd() + fileLocation + scripts[i])) {
+                            Sys.command("sh", [Sys.getCwd() + fileLocation + scripts[i]]);
+                        }else {
+                            Log.error("Could not find script: " + Sys.getCwd() + fileLocation + scripts[i]);
+                        }
+                    }
+
+                    if(args[2] != "-cppOnly") {
+                        compileGraphics();
+                    }
+            }
         }else {
             if(FileSys.isWindows) {
                 @:final var displayScript:String = "scripts/batch/display.bat";
