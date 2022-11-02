@@ -1,6 +1,6 @@
 cd project
 
-git submodule innit
+git submodule init
 git submodule update
 
 haxelib run hxcpp Build.xml

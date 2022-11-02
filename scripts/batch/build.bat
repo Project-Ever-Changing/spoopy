@@ -1,5 +1,8 @@
 @echo off
 
+git submodule init
+git submodule update
+
 cd "project"
 haxelib run hxcpp Build.xml
 DEL  "obj"

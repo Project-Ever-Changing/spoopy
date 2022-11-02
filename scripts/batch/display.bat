@@ -1,6 +1,4 @@
-Bash Script
-
-@echo off
+echo off
 
 SET RED=[1;31m
 SET NOCOLOR=[0m
@@ -23,4 +21,5 @@ echo "%REGULAR%Basic Commands: "
 echo ""
 echo "  build : Compile necessary requirements to use Spoopy Engine"
 echo "  setup : setup spoopy library"
+echo "  destroy : Destroy necessary requirements."
 echo "  ls : get long list from directory inside the library"
