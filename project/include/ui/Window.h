@@ -16,8 +16,8 @@ namespace spoopy {
 
             #ifdef SPOOPY_VULKAN
             virtual void createWindowSurfaceVulkan(VkInstance instance, VkSurfaceKHR* surface) const;
-            virtual int32_t getExtensionCount() const;
-            virtual std::vector<const char*> getInstanceExtensions(int32_t extensionCount) const;
+            virtual uint32_t getExtensionCount() const;
+            virtual std::vector<const char*> getInstanceExtensions(uint32_t extensionCount) const;
 
             virtual bool foundedInstanceExtensions() const {return foundInstanceExtensions;}
             #endif

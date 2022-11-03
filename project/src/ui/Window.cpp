@@ -12,7 +12,7 @@ namespace spoopy {
         #endif
     }
 
-    int32_t Window::getExtensionCount() const {
+    uint32_t Window::getExtensionCount() const {
         uint32_t count = 0;
 
         #ifdef SPOOPY_SDL
@@ -31,7 +31,7 @@ namespace spoopy {
         return count;
     }
 
-    std::vector<const char*> Window::getInstanceExtensions(int32_t extensionCount) const {
+    std::vector<const char*> Window::getInstanceExtensions(uint32_t extensionCount) const {
         std::vector<const char*> names(extensionCount);
 
         #ifdef SPOOPY_SDL
