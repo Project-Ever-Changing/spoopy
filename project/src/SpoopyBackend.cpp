@@ -11,8 +11,6 @@
 #include <system/CFFIPointer.h>
 #include <device/InstanceDevice.h>
 
-//#include <volk.c>
-
 using namespace lime;
 
 namespace spoopy {

@@ -12,6 +12,13 @@ class RunScript {
         var args = Sys.args();
         var cwd = args.pop();
 
+        commands(args);
+
+        Sys.setCwd(cwd);
+		Sys.exit(1);
+    }
+
+    static inline function commands(args:Array<String>):Void {
         if (args.length > 0 && args[0] == "setup") {
             var limeDirectory = Haxelib.getPath(new Haxelib("lime"));
 
@@ -115,7 +122,7 @@ class RunScript {
             }
         }else if(args[0] == "destroy") {
             if(args.length <= 1) {
-                Log.error("Incorrect number of arguments for command 'build'");
+                Log.error("Incorrect number of arguments for command 'destroy'");
                 return;
             }
 
@@ -155,6 +162,18 @@ class RunScript {
                         }
                     }
             }
+        }else if(args[0] == "update") {
+            if(args.length <= 1) {
+                Log.error("Incorrect number of arguments for command 'update'");
+                return;
+            }
+
+            Sys.command("haxelib", ["update", "spoopy"]);
+            
+            commands(["destroy", args[1]]);
+            commands(["build", args[1]]);
+        }else if(args.length > 0) {
+            Log.error("Invalid command: '" + args[0] + "'");
         }else {
             if(FileSys.isWindows) {
                 @:final var displayScript:String = "scripts/batch/display.bat";
@@ -174,9 +193,6 @@ class RunScript {
                 }
             }
         }
-
-        Sys.setCwd(cwd);
-		Sys.exit(1);
     }
 
     static inline function readLine() {
