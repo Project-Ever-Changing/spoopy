@@ -29,10 +29,10 @@ namespace spoopy {
             #endif
         private:
             #ifdef SPOOPY_SDL
+            bool foundInstanceExtensions = false;
+
 			SDL_GLContext context;
             #endif
-
-            bool foundInstanceExtensions{false};
     };
 }
 #endif
