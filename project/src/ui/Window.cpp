@@ -50,7 +50,7 @@ namespace spoopy {
         #ifdef SPOOPY_SDL
         if(sdlWindow != nullptr) {
 			SDL_DestroyWindow(sdlWindow);
-			delete sdlWindow;
+			sdlWindow = nullptr;
 		}
         #endif
     }
