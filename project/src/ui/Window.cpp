@@ -16,11 +16,11 @@ namespace spoopy {
         int32_t count = 0;
 
         #ifdef SPOOPY_SDL
-        if(window.sdlWindow == nullptr) {
+        if(sdlWindow == nullptr) {
             throw "Unable to find SDL window.";
         }
 
-        if(!SDL_Vulkan_GetInstanceExtensions(window.sdlWindow, &count, nullptr)) {
+        if(!SDL_Vulkan_GetInstanceExtensions(sdlWindow, &count, nullptr)) {
             std::cout << "Unable to query the number of Vulkan instance extensions\n";
             return -1;
         }
@@ -33,7 +33,7 @@ namespace spoopy {
         std::vector<const char*> names(extensionCount);
 
         #ifdef SPOOPY_SDL
-        if (!SDL_Vulkan_GetInstanceExtensions(window.sdlWindow, &extensionCount, names.data())) {
+        if (!SDL_Vulkan_GetInstanceExtensions(sdlWindow, &extensionCount, names.data())) {
             std::cout << "Unable to query the number of Vulkan instance extension names\n";
         }
         #endif
