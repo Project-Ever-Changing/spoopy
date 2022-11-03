@@ -129,7 +129,7 @@ namespace spoopy {
 
     #ifdef SPOOPY_VULKAN
     bool InstanceDevice::getAvailableVulkanExtensions(std::vector<const char*>& outExtensions) {
-        int32_t ext_count = 0;
+        uint32_t ext_count = 0;
 
         ext_count = window.getExtensionCount();
 
@@ -140,11 +140,16 @@ namespace spoopy {
         std::vector<const char*> ext_names(ext_count);
         ext_names = window.getInstanceExtensions(ext_count);
 
+        if(!window.foundedInstanceExtensions()) {
+            return false;
+        }
+
         for (uint32_t i = 0; i < ext_count; i++) {
             outExtensions.emplace_back(ext_names[i]);
         }
 
         outExtensions.emplace_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
+        
         return true;
     }
 

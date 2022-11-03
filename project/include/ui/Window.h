@@ -18,6 +18,8 @@ namespace spoopy {
             virtual void createWindowSurfaceVulkan(VkInstance instance, VkSurfaceKHR* surface) const;
             virtual int32_t getExtensionCount() const;
             virtual std::vector<const char*> getInstanceExtensions(int32_t extensionCount) const;
+
+            virtual bool foundedInstanceExtensions() const {return foundInstanceExtensions;}
             #endif
 
             #ifdef SPOOPY_SDL
@@ -29,6 +31,8 @@ namespace spoopy {
             #ifdef SPOOPY_SDL
 			SDL_GLContext context;
             #endif
+
+            bool foundInstanceExtensions = false;
     };
 }
 #endif
