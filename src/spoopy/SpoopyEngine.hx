@@ -17,5 +17,7 @@ class SpoopyEngine {
         }
 
         initializedApp = true;
+
+        SpoopyCFFI.spoopy_test_SDL();
     }
 }

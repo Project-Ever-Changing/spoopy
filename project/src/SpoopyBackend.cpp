@@ -63,7 +63,7 @@ namespace spoopy {
     /*
     * Testing Purposes
     */
-    bool spoopy_test_SDL() {
+    int spoopy_test_SDL() {
         #ifdef SPOOPY_SDL
         return 1;
         #endif
@@ -74,4 +74,5 @@ namespace spoopy {
 
         return 0;
     }
+    DEFINE_PRIME0(spoopy_test_SDL);
 }
