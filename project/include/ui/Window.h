@@ -32,7 +32,7 @@ namespace spoopy {
 			SDL_GLContext context;
             #endif
 
-            const bool foundInstanceExtensions = false;
+            bool foundInstanceExtensions;
     };
 }
 #endif
