@@ -7,6 +7,7 @@
 #endif
 
 #include <iostream>
+#include <cstdlib>
 
 #include <system/CFFIPointer.h>
 #include <device/InstanceDevice.h>
@@ -57,6 +58,13 @@ namespace spoopy {
 
     }
     DEFINE_PRIME2v(spoopy_apply_surface);
+
+    value spoopy_window_get_title(value window) {
+        Window* targetWindow = (Window*)val_data (window);
+        const char* title = targetWindow -> getWindowTitle();
+        return title ? alloc_string(type) : alloc_null();
+    }
+    DEFINE_PRIME1(spoopy_window_get_title);
 
     /*
     * Testing Purposes

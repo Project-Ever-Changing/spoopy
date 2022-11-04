@@ -46,6 +46,21 @@ namespace spoopy {
         return names;
     }
 
+    const char* Window::getWindowTitle() const {
+
+        /*
+        * In a scenario that I would need to tell the application to use
+        * GLFW in a certain case, this would be a really simple implementation.
+        */
+        #ifdef SPOOPY_SDL
+        if(sdlWindow != nullptr) {
+            return SDL_GetWindowTitle(sdlWindow);
+        }
+        #endif
+
+        return nullptr; //aka. 0
+    }
+
     Window::~Window() {
         #ifdef SPOOPY_SDL
         if(sdlWindow != nullptr) {

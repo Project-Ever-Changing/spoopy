@@ -8,62 +8,72 @@ import lime.ui.Window;
  * Handles anything having to do window related so the game doesn't have too.
  */
 class WindowStage {
-    var parent(default, set):Window;
-
     public var width(get, set):Int;
     public var height(get, set):Int;
 
     public var frameRate(get, set):Float;
     public var fullscreen(get, set):Bool;
 
+    public var windowTitle(get, never):String;
+
     public var applyWindowSurface:Bool = true;
+
+    @:noCompletion var __parent(default, set):Window;
 
     @:noCompletion var __renderer:WindowRenderer;
 
-    public function new(parent:Window) {
-        this.parent = parent;
+    public function new(__parent:Window) {
+        this.__parent = __parent;
         __renderer = new WindowRenderer(this);
     }
 
     @:noCompletion private inline function get_width():Int {
-        return parent.width;
+        return __parent.width;
     }
 
     @:noCompletion private function set_width(value:Int):Int {
-        parent.resize(value, parent.height);
-        return parent.width;
+        __parent.resize(value, __parent.height);
+        return __parent.width;
     }
 
     @:noCompletion private inline function get_height():Int {
-        return parent.height;
+        return __parent.height;
     }
 
     @:noCompletion private function set_height(value:Int):Int {
-        parent.resize(parent.width, value);
-        return parent.height;
+        __parent.resize(__parent.width, value);
+        return __parent.height;
     }
 
     @:noCompletion private inline function get_frameRate():Float {
-        return parent.frameRate;
+        return __parent.frameRate;
     }
 
     @:noCompletion private function set_frameRate(value:Float):Float {
-        return parent.frameRate = value;
+        return __parent.frameRate = value;
     }
 
     @:noCompletion private inline function get_fullscreen():Bool {
-        return parent.fullscreen;
+        return __parent.fullscreen;
     }
 
     @:noCompletion private function set_fullscreen(value:Bool):Bool {
-        return parent.fullscreen = value;
+        return __parent.fullscreen = value;
     }
 
-    @:noCompletion private function set_parent(window:Window):Window {
+    @:noCompletion private function set___parent(window:Window):Window {
         if(applyWindowSurface && __renderer != null) {
             //__renderer.applyWindowSurface(device);
         }
 
-        return parent = window;
+        return __parent = window;
+    }
+
+    @:noCompletion private function get_windowTitle():String {
+        if(__renderer != null) {
+            return __renderer.getWindowTitle(__parent);
+        }
+
+        return "";
     }
 }

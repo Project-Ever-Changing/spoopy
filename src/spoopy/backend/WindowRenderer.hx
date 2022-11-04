@@ -1,6 +1,8 @@
 package spoopy.backend;
 
 import spoopy.display.WindowStage;
+import spoopy.backend.SpoopyCFFI;
+import lime.ui.Window;
 
 @:access(lime.ui.Window)
 @:access(spoopy.display.WindowStage)
@@ -12,6 +14,16 @@ class WindowRenderer {
 
     public function new(parent:WindowStage) {
         this.parent = parent;
+    }
+
+    public function getWindowTitle(window:Window):String {
+        #if (cpp && !cppia)
+        if(window.backend.handle != null) {
+            return SpoopyCFFI.spoopy_window_get_title(window.backend.handle);
+        }
+        #end
+
+        return "";
     }
 
     /*

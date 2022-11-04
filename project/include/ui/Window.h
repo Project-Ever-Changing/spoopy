@@ -14,6 +14,8 @@ namespace spoopy {
         public:
             virtual ~Window();
 
+            virtual const char* getWindowTitle() const;
+
             #ifdef SPOOPY_VULKAN
             virtual void createWindowSurfaceVulkan(VkInstance instance, VkSurfaceKHR* surface) const;
             virtual uint32_t getExtensionCount() const;
