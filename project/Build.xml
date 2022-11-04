@@ -135,6 +135,7 @@
 		<file name="lime_src/system/ValuePointer.cpp" />
 		<file name="lime_src/system/JNI.cpp" if="android" />
 
+		<file name="lime_src/ui/DropEvent.cpp" />
 		<file name="lime_src/ui/JoystickEvent.cpp" />
 		<file name="lime_src/ui/KeyEvent.cpp" />
 		<file name="lime_src/ui/MouseEvent.cpp" />
