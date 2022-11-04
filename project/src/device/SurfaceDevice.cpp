@@ -1,6 +1,6 @@
 #include <device/SurfaceDevice.h>
 
-#include <ui/Window.h>
+#include <ui/SpoopyWindow.h>
 #include <device/InstanceDevice.h>
 #include <device/LogicalDevice.h>
 #include <device/PhysicalDevice.h>
