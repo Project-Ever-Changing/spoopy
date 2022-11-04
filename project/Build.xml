@@ -109,7 +109,14 @@
 		<!--Lime Stuff-->
 		<file name="lime_src/system/CFFI.cpp" />
         <file name="lime_src/system/CFFIPointer.cpp" />
-        <file name="lime_src/hx/CFFIExt.cpp" />
+		<file name="lime_src/system/ClipboardEvent.cpp" />
+		<file name="lime_src/system/DisplayMode.cpp" />
+		<file name="lime_src/system/Locale.cpp" unless="SPOOPY_MAC || ios" />
+		<file name="lime_src/system/Locale.mm" if="SPOOPY_MAC || ios" />
+		<file name="lime_src/system/SensorEvent.cpp" />
+		<file name="lime_src/system/System.cpp" />
+		<file name="lime_src/system/ValuePointer.cpp" />
+		<file name="lime_src/hx/CFFIExt.cpp" />
 	</files>
 
 	<files id="android-cpufeatures">
