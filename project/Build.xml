@@ -27,6 +27,7 @@
 	<files id="spoopy">
 
 		<compilerflag value="-Iinclude" />
+		<compilerflag value="-Ilime_include" />
 
 		<file name="src/SpoopyBackend.cpp" />
 
@@ -92,7 +93,7 @@
 		</section>
 
 		
-
+		<!--Spoopy Stuff-->
 		<file name="src/SpoopyHelpers.cpp" />
 		<file name="src/SpoopyBackend.cpp" />
         <file name="src/ui/SpoopyWindow.cpp" />
@@ -103,9 +104,12 @@
 		<file name="src/device/SurfaceDevice.cpp" />
 		<file name="src/families/QueueFamilyIndices.cpp" />
 		<file name="src/core/Log.cpp" />
-        <file name="src/system/CFFI.cpp" />
-        <file name="src/system/CFFIPointer.cpp" />
-        <file name="src/hx/CFFIExt.cpp" />
+
+
+		<!--Lime Stuff-->
+		<file name="lime_src/system/CFFI.cpp" />
+        <file name="lime_src/system/CFFIPointer.cpp" />
+        <file name="lime_src/hx/CFFIExt.cpp" />
 	</files>
 
 	<files id="android-cpufeatures">
