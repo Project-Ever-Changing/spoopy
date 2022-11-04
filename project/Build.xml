@@ -95,7 +95,7 @@
 
 		<file name="src/SpoopyHelpers.cpp" />
 		<file name="src/SpoopyBackend.cpp" />
-        <file name="src/ui/Window.cpp" />
+        <file name="src/ui/SpoopyWindow.cpp" />
 		<file name="src/device/Devices.cpp" />
 		<file name="src/device/InstanceDevice.cpp" />
 		<file name="src/device/PhysicalDevice.cpp" />
