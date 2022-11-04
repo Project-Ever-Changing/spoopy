@@ -9,7 +9,7 @@ namespace spoopy {
     class InstanceDevice;
     class LogicalDevice;
     class PhysicalDevice;
-    class Window;
+    class SpoopyWindow;
 
     class SurfaceDevice {
         public:
