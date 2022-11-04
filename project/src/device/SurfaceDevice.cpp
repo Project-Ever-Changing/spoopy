@@ -6,7 +6,7 @@
 #include <device/PhysicalDevice.h>
 
 namespace spoopy {
-    SurfaceDevice::SurfaceDevice(const InstanceDevice &instance, const PhysicalDevice &physical, const LogicalDevice &logical, const Window &window):
+    SurfaceDevice::SurfaceDevice(const InstanceDevice &instance, const PhysicalDevice &physical, const LogicalDevice &logical, const SpoopyWindow &window):
     instance(instance),
 	physical(physical),
 	logical(logical),
