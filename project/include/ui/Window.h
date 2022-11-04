@@ -29,6 +29,9 @@ namespace spoopy {
             #endif
         private:
             #ifdef SPOOPY_SDL
+            /*
+            * Not the best setup for this.
+            */
             mutable bool foundInstanceExtensions = false;
 
 			SDL_GLContext context;
