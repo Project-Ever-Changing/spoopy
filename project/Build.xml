@@ -1,7 +1,6 @@
 <xml>
 
 	<set name="PLATFORM" value="android-21" if="android" />
-	<set name="HXCPP_CPP17" value="1" />
 
 	<include name="${HXCPP}/build-tool/BuildCommon.xml" />
 
@@ -28,14 +27,6 @@
 	<files id="spoopy">
 
 		<compilerflag value="-Iinclude" />
-
-		<section if="HXCPP_CPP17">
-			<compilerflag value="-pedantic-errors" />
-			
-			<compilerflag value="-Werror" />
-			<compilerflag value="-Wc++17-extensions" />
-			<compilerflag value="-std=c++17" />
-		</section>
 
 		<file name="src/SpoopyBackend.cpp" />
 
