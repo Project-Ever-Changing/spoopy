@@ -143,6 +143,9 @@
 		<file name="lime_src/ui/TouchEvent.cpp" />
 		<file name="lime_src/ui/WindowEvent.cpp" />
 
+		<file name="lime_src/utils/ArrayBufferView.cpp" />
+		<file name="lime_src/utils/Bytes.cpp" />
+
 		<file name="lime_src/hx/CFFIExt.cpp" />
 	</files>
 
