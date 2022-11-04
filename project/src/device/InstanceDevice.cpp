@@ -31,7 +31,7 @@ namespace spoopy {
         #endif
     #endif
 
-    InstanceDevice::InstanceDevice(const Window &window): window(window) {
+    InstanceDevice::InstanceDevice(const SpoopyWindow &window): window(window) {
         //empty
     }
 

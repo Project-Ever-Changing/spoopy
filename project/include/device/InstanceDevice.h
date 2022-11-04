@@ -4,7 +4,7 @@
 #include <vector>
 #include <set>
 
-#include <ui/Window.h>
+#include <ui/SpoopyWindow.h>
 
 namespace spoopy {
     #ifdef SPOOPY_VULKAN
@@ -19,7 +19,7 @@ namespace spoopy {
 
     class InstanceDevice {
         public:
-            explicit InstanceDevice(const Window &window);
+            explicit InstanceDevice(const SpoopyWindow &window);
             virtual ~InstanceDevice();
 
             virtual void createInstance(const char* name, const int version[3]);
@@ -32,7 +32,7 @@ namespace spoopy {
             virtual const VkInstance &getInstance() const {return instance;}
             #endif
         private:
-            const Window &window;
+            const SpoopyWindow &window;
 
             #ifdef SPOOPY_DEBUG
             const bool enableValidationLayers = false;

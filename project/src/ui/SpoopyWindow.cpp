@@ -1,10 +1,10 @@
 #include <iostream>
 
-#include <ui/Window.h>
+#include <ui/SpoopyWindow.h>
 
 namespace spoopy {
     #ifdef SPOOPY_VULKAN
-    void Window::createWindowSurfaceVulkan(VkInstance instance, VkSurfaceKHR* surface) const {
+    void SpoopyWindow::createWindowSurfaceVulkan(VkInstance instance, VkSurfaceKHR* surface) const {
         #ifdef SPOOPY_SDL
         if(!SDL_Vulkan_CreateSurface(sdlWindow, instance, surface)) {
             throw std::runtime_error("Failed to create Window Surface for Vulkan API!");
@@ -12,7 +12,7 @@ namespace spoopy {
         #endif
     }
 
-    uint32_t Window::getExtensionCount() const {
+    uint32_t SpoopyWindow::getExtensionCount() const {
         uint32_t count = 0;
 
         #ifdef SPOOPY_SDL
@@ -31,7 +31,7 @@ namespace spoopy {
         return count;
     }
 
-    std::vector<const char*> Window::getInstanceExtensions(uint32_t extensionCount) const {
+    std::vector<const char*> SpoopyWindow::getInstanceExtensions(uint32_t extensionCount) const {
         std::vector<const char*> names(extensionCount);
 
         #ifdef SPOOPY_SDL
@@ -46,7 +46,7 @@ namespace spoopy {
         return names;
     }
 
-    const char* Window::getWindowTitle() const {
+    const char* SpoopyWindow::getWindowTitle() const {
 
         /*
         * In a scenario that I would need to tell the application to use
@@ -61,7 +61,7 @@ namespace spoopy {
         return nullptr; //aka. 0
     }
 
-    Window::~Window() {
+    SpoopyWindow::~SpoopyWindow() {
         #ifdef SPOOPY_SDL
         if(sdlWindow != nullptr) {
 			SDL_DestroyWindow(sdlWindow);

@@ -10,9 +10,9 @@
 #include <SpoopyHelpers.h>
 
 namespace spoopy {
-    class Window {
+    class SpoopyWindow {
         public:
-            virtual ~Window();
+            virtual ~SpoopyWindow();
 
             virtual const char* getWindowTitle() const;
 

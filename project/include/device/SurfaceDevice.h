@@ -13,13 +13,13 @@ namespace spoopy {
 
     class SurfaceDevice {
         public:
-            explicit SurfaceDevice(const InstanceDevice &instance, const PhysicalDevice &physical, const LogicalDevice &logical, const Window &window);
+            explicit SurfaceDevice(const InstanceDevice &instance, const PhysicalDevice &physical, const LogicalDevice &logical, const SpoopyWindow &window);
             ~SurfaceDevice();
         private:
             const InstanceDevice &instance;
             const PhysicalDevice &physical;
             const LogicalDevice &logical;
-            const Window &window;
+            const SpoopyWindow &window;
 
             #ifdef SPOOPY_VULKAN
             VkSurfaceKHR surface = VK_NULL_HANDLE;
