@@ -120,6 +120,7 @@
 		<file name="lime_src/app/ApplicationEvent.cpp" />
 
 		<file name="lime_src/graphics/ImageBuffer.cpp" />
+		<file name="lime_src/graphics/RenderEvent.cpp" />
 
 		<file name="lime_src/system/CFFI.cpp" />
         <file name="lime_src/system/CFFIPointer.cpp" />
