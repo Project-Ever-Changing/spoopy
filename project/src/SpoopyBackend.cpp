@@ -19,7 +19,7 @@ namespace spoopy {
     * Destruction.
     */
     void apply_gc_window(value handle) {
-        Window* window = (Window*)val_data(handle);
+        SpoopyWindow* window = (SpoopyWindow*)val_data(handle);
         delete window;
     }
 
@@ -34,7 +34,7 @@ namespace spoopy {
     value spoopy_create_instance_device(value window, HxString name, int major, int minor, int patch) {
         const int version[3] = {major, minor, patch};
 
-        Window* cast_Window = (Window*)val_data(window);
+        SpoopyWindow* cast_Window = (SpoopyWindow*)val_data(window);
 
         InstanceDevice* instanceDevice = new InstanceDevice(*cast_Window);
         instanceDevice -> createInstance(name.c_str(), version);
@@ -60,7 +60,7 @@ namespace spoopy {
     DEFINE_PRIME2v(spoopy_apply_surface);
 
     value spoopy_window_get_title(value window) {
-        Window* targetWindow = (Window*)val_data (window);
+        SpoopyWindow* targetWindow = (SpoopyWindow*)val_data (window);
         const char* title = targetWindow -> getWindowTitle();
         return title ? alloc_string(title) : alloc_null();
     }
