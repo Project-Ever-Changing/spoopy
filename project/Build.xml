@@ -121,7 +121,6 @@
 
 		<file name="lime_src/graphics/ImageBuffer.cpp" />
 		<file name="lime_src/graphics/RenderEvent.cpp" />
-		<file name="lime_src/graphics/opengl/OpenGLBindings.cpp" />
 
 		<file name="lime_src/math/Rectangle.cpp" />
 
