@@ -62,7 +62,7 @@ namespace spoopy {
     value spoopy_window_get_title(value window) {
         Window* targetWindow = (Window*)val_data (window);
         const char* title = targetWindow -> getWindowTitle();
-        return title ? alloc_string(type) : alloc_null();
+        return title ? alloc_string(title) : alloc_null();
     }
     DEFINE_PRIME1(spoopy_window_get_title);
 
