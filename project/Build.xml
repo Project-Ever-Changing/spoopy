@@ -128,7 +128,7 @@
 		<file name="lime_src/system/SensorEvent.cpp" />
 		<file name="lime_src/system/System.cpp" />
 		<file name="lime_src/system/ValuePointer.cpp" />
-		<file name="lime_src/system/JNI.cpp" />
+		<file name="lime_src/system/JNI.cpp" if="android" />
 
 		<file name="lime_src/hx/CFFIExt.cpp" />
 	</files>
