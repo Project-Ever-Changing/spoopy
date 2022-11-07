@@ -105,48 +105,9 @@
 		<file name="src/families/QueueFamilyIndices.cpp" />
 		<file name="src/core/Log.cpp" />
 
-
-		<!--Lime Stuff-->
-		<section if="SPOOPY_SDL">
-			<file name="lime_src/backend/sdl/SDLApplication.cpp" />
-			<file name="lime_src/backend/sdl/SDLGamepad.cpp" />
-			<file name="lime_src/backend/sdl/SDLJoystick.cpp" />
-			<file name="lime_src/backend/sdl/SDLKeyCode.cpp" />
-			<file name="lime_src/backend/sdl/SDLMutex.cpp" />
-			<file name="lime_src/backend/sdl/SDLSystem.cpp" />
-			<file name="lime_src/backend/sdl/SDLWindow.cpp" />
-		</section>
-
-		<file name="lime_src/app/ApplicationEvent.cpp" />
-
-		<file name="lime_src/graphics/ImageBuffer.cpp" />
-		<file name="lime_src/graphics/RenderEvent.cpp" />
-
-		<file name="lime_src/math/Rectangle.cpp" />
-
-		<file name="lime_src/system/CFFI.cpp" />
-        <file name="lime_src/system/CFFIPointer.cpp" />
-		<file name="lime_src/system/ClipboardEvent.cpp" />
-		<file name="lime_src/system/DisplayMode.cpp" />
-		<file name="lime_src/system/Locale.cpp" unless="SPOOPY_MAC" />
-		<file name="lime_src/system/Locale.mm" if="SPOOPY_MAC" />
-		<file name="lime_src/system/SensorEvent.cpp" />
-		<file name="lime_src/system/System.cpp" />
-		<file name="lime_src/system/ValuePointer.cpp" />
-		<file name="lime_src/system/JNI.cpp" if="android" />
-
-		<file name="lime_src/ui/DropEvent.cpp" />
-		<file name="lime_src/ui/JoystickEvent.cpp" />
-		<file name="lime_src/ui/KeyEvent.cpp" />
-		<file name="lime_src/ui/MouseEvent.cpp" />
-		<file name="lime_src/ui/TextEvent.cpp" />
-		<file name="lime_src/ui/TouchEvent.cpp" />
-		<file name="lime_src/ui/WindowEvent.cpp" />
-
-		<file name="lime_src/utils/ArrayBufferView.cpp" />
-		<file name="lime_src/utils/Bytes.cpp" />
-
-		<file name="lime_src/hx/CFFIExt.cpp" />
+		<file name="src/system/CFFI.cpp" />
+        <file name="src/system/CFFIPointer.cpp" />
+        <file name="src/hx/CFFIExt.cpp" />
 	</files>
 
 	<files id="android-cpufeatures">
