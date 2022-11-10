@@ -511,4 +511,38 @@ class LimeTools {
 
         return null;
     }
+
+    private function getBuildNumber_SVN(project:HXProject, increment:Bool = true):String {
+        var cache = Log.mute;
+        Log.mute = true;
+
+        var output = System.runProcess("", "svn", ["info"], true, true, true);
+
+        Log.mute = cache;
+
+        if (output != null) {
+            var searchString = "Revision: ";
+            var index = output.indexOf(searchString);
+
+            if (index > -1) {
+                var value = Std.parseInt(output.substring(index + searchString.length, output.indexOf("\n", index)));
+
+                if (value != null) {
+                    var buildNumber = project.meta.buildNumber;
+
+                    if (buildNumber != null && buildNumber.indexOf("+") > -1) {
+                        var modifier = Std.parseInt(buildNumber.substr(buildNumber.indexOf("+") + 1));
+
+                        if (modifier != null) {
+                            value += modifier;
+                        }
+                    }
+
+                    return project.meta.buildNumber = Std.string(value);
+                }
+            }
+        }
+
+        return null;
+    }
 }
