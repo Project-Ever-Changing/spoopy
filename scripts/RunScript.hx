@@ -255,8 +255,10 @@ class RunScript {
             return;
         }
 
-        if(!builtNDLL && args[1] == "-updateCPP") {
-            updateCMD(args);
+        if(args.length > 2) {
+            if(!builtNDLL && args[2] == "-updateCPP") {
+                updateCMD(args);
+            }
         }
     }
 
