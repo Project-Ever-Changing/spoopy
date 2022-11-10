@@ -8,6 +8,8 @@ import hxp.Haxelib;
 import hxp.Log;
 
 class RunScript {
+    static var builtNDLL:Bool = false;
+
     public static function main() {
         var args = Sys.args();
         var cwd = args.pop();
@@ -19,7 +21,7 @@ class RunScript {
     }
 
     static inline function commands(args:Array<String>):Void {
-        if(args.length == 0) {
+        if(args.length == 0 || args[0] == "help") {
             if(FileSys.isWindows) {
                 @:final var displayScript:String = "scripts/batch/display.bat";
 
@@ -52,6 +54,8 @@ class RunScript {
                 destroyCMD(args);
             case "update":
                 updateCMD(args);
+            case "test":
+                testCMD(args);
             default:
                 Log.error("Invalid command: '" + args[0] + "'");
         }
@@ -166,6 +170,7 @@ class RunScript {
                         Sys.command(Sys.getCwd() + fileLocation + scripts[i]);
                     }else {
                         Log.error("Could not find script: " + Sys.getCwd() + fileLocation + scripts[i]);
+                        return;
                     }
                 }
             default:
@@ -174,9 +179,12 @@ class RunScript {
                         Sys.command("sh", [Sys.getCwd() + fileLocation + scripts[i]]);
                     }else {
                         Log.error("Could not find script: " + Sys.getCwd() + fileLocation + scripts[i]);
+                        return;
                     }
                 }
         }
+
+        builtNDLL = true;
     }
 
     static inline function lsCMD(args:Array<String>):Void {
@@ -239,8 +247,16 @@ class RunScript {
 
         Sys.command("haxelib", ["update", "spoopy"]);
         
-        commands(["destroy", args[1]]);
-        commands(["build", args[1]]);
+        destroyCMD(["", args[1]]);
+        buildCMD(["", args[1]]);
+    }
+
+    static inline function testCMD(args:Array<String>):Void {
+        if(!builtNDLL) {
+            updateCMD(args);
+        }
+
+
     }
 
     /*
