@@ -168,23 +168,21 @@ class RunScript {
                 for(i in 0...scripts.length) {
                     if(FileSystem.exists(Sys.getCwd() + fileLocation + scripts[i])) {
                         Sys.command(Sys.getCwd() + fileLocation + scripts[i]);
+                        builtNDLL = true;
                     }else {
                         Log.error("Could not find script: " + Sys.getCwd() + fileLocation + scripts[i]);
-                        return;
                     }
                 }
             default:
                 for(i in 0...scripts.length) {
                     if(FileSystem.exists(Sys.getCwd() + fileLocation + scripts[i])) {
                         Sys.command("sh", [Sys.getCwd() + fileLocation + scripts[i]]);
+                        builtNDLL = true;
                     }else {
                         Log.error("Could not find script: " + Sys.getCwd() + fileLocation + scripts[i]);
-                        return;
                     }
                 }
         }
-
-        builtNDLL = true;
     }
 
     static inline function lsCMD(args:Array<String>):Void {
