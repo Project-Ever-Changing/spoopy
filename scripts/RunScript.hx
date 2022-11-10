@@ -250,11 +250,9 @@ class RunScript {
     }
 
     static inline function testCMD(args:Array<String>):Void {
-        if(!builtNDLL) {
+        if(!builtNDLL && args[1] == "-updateCPP") {
             updateCMD(args);
         }
-
-
     }
 
     /*
