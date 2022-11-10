@@ -250,6 +250,11 @@ class RunScript {
     }
 
     static inline function testCMD(args:Array<String>):Void {
+        if(args.length <= 1) {
+            Log.error("Incorrect number of arguments for command 'update'");
+            return;
+        }
+
         if(!builtNDLL && args[1] == "-updateCPP") {
             updateCMD(args);
         }
