@@ -259,6 +259,10 @@ class RunScript {
             updateCMD(args);
         }
 
+
+    }
+
+    static inline function buildProject():Void {
         
     }
 
