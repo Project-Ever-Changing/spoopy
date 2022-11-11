@@ -259,11 +259,7 @@ class RunScript {
             updateCMD(args);
         }
 
-
-    }
-
-    static inline function buildProject():Void {
-        
+        var cmdTools:CommandLineTools = new CommandLineTools();
     }
 
     /*

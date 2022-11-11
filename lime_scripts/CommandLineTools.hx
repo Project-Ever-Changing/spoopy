@@ -21,9 +21,9 @@ import utils.PlatformSetup;
 @:access(lime.tools.HXProject)
 class CommandLineTools
 {
-	public static var commandName = "lime";
-	public static var defaultLibrary = "lime";
-	public static var defaultLibraryName = "Lime";
+	public static var commandName = "spoopy";
+	public static var defaultLibrary = "spoopy";
+	public static var defaultLibraryName = "spoopy";
 
 	private var additionalArguments:Array<String>;
 	private var command:String;

@@ -1,5 +1,5 @@
 -main RunScript
--neko ../run.n
+-neko run.n
 
 -cp scripts
 -cp lime_scripts
