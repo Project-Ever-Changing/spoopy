@@ -1,6 +1,8 @@
 -main RunScript
 -neko ../run.n
+
 -cp scripts
+-cp lime_scripts
 
 -lib hxp
 -lib mlib
