@@ -7,6 +7,8 @@ import utils.PathUtils;
 import hxp.Haxelib;
 import hxp.Log;
 
+import lime.LimeTools;
+
 class RunScript {
     static var builtNDLL:Bool = false;
 

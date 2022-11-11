@@ -14,6 +14,11 @@ import utils.CreateTemplate;
 import utils.JavaExternGenerator;
 import utils.PlatformSetup;
 
+/*
+* Directly copied from
+* https://github.com/openfl/lime/blob/develop/tools/CommandLineTools.hx
+*/
+
 class LimeTools {
     private var targetFlags:Map<String, String>;
 
