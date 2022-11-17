@@ -3,6 +3,7 @@
 	<set name="PLATFORM" value="android-21" if="android" />
 
 	<include name="${HXCPP}/build-tool/BuildCommon.xml" />
+	<!--<include name=>-->
 
 	<set name="ios" value="1" if="iphone" />
 	<set name="tvos" value="1" if="appletv" />
