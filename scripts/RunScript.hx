@@ -162,6 +162,7 @@ class RunScript {
         }
 
         Sys.command("git", ["submodule", "update", "--init", "--recursive"]);
+        Sys.command("git", ["submodule", "update", "--remote"]);
 
         switch(args[1].toLowerCase()) {
             case "Windows" | "Windows64":
