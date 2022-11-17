@@ -161,8 +161,7 @@ class RunScript {
             FileSystem.createDirectory(Sys.getCwd() + "ndll");
         }
 
-        Sys.command("git", ["submodule", "init"]);
-        Sys.command("git", ["submodule", "update"]);
+        Sys.command("git", ["submodule", "update", "--init", "--recursive"]);
 
         switch(args[1].toLowerCase()) {
             case "Windows" | "Windows64":
