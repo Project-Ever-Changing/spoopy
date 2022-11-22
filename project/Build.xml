@@ -3,7 +3,6 @@
 	<set name="PLATFORM" value="android-21" if="android" />
 
 	<include name="${HXCPP}/build-tool/BuildCommon.xml" />
-	<include name="../lime_project/Build.xml" />
 
 	<set name="ios" value="1" if="iphone" />
 	<set name="tvos" value="1" if="appletv" />
@@ -12,6 +11,7 @@
 	<set name="SPOOPY_VULKAN" value="1" />
 	<set name="SPOOPY_HASHLINK" value="1" if="hashlink" />
 	<set name="SPOOPY_DEBUG" value="1" if="HXCPP_DEBUG" />
+	<set name="SPOOPY_SDL" value="1" />
 	<set name="SPOOPY_SDL_ANGLE" value="1" if="windows SPOOPY_SDL_ANGLE" unless="static_link" />
 	<set name="SPOOPY_SDL_ANGLE" value="1" if="windows angle" unless="static_link" />
 	<set name="SPOOPY_SDL_ANGLE" value="1" if="winrt" />
@@ -23,7 +23,10 @@
 	<set name="NATIVE_TOOLKIT_SDL_STATIC" value="1" />
 	<set name="NATIVE_TOOLKIT_SDL_ANGLE" value="1" if="SPOOPY_SDL_ANGLE" />
 
-	<set name="SPOOPY_SDL" value="1" />
+	<set name="INCLUDE_SDL" value="1" if="SPOOPY_SDL" />
+	<set name="INCLUDE_MAC" value ="1" />
+
+	<include name="../lime_project/Build.xml" />
 
 	<files id="spoopy">
 
