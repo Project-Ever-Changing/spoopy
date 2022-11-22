@@ -1,6 +1,5 @@
 package;
 
-import lime.tools.HXProject;
 import sys.io.File;
 import sys.FileSystem;
 import massive.sys.io.FileSys;
@@ -55,8 +54,6 @@ class RunScript {
                 destroyCMD(args);
             case "update":
                 updateCMD(args);
-            case "test":
-                testCMD(args);
             default:
                 Log.error("Invalid command: '" + args[0] + "'");
         }
@@ -248,23 +245,6 @@ class RunScript {
         
         destroyCMD(["", args[1]]);
         buildCMD(["", args[1]]);
-    }
-
-    @:access(CommandLineTools)
-    static inline function testCMD(args:Array<String>):Void {
-        if(args.length <= 1) {
-            Log.error("Incorrect number of arguments for command 'test'");
-            return;
-        }
-
-        if(!builtNDLL) {
-            updateCMD(args);
-        }
-
-        var cmdTools:CommandLineTools = new CommandLineTools();
-        var project:HXProject = cmdTools.initializeProject();
-
-        cmdTools.buildProject(project);
     }
 
     /*
