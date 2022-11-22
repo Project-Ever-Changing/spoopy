@@ -24,7 +24,7 @@
 	<set name="NATIVE_TOOLKIT_SDL_ANGLE" value="1" if="SPOOPY_SDL_ANGLE" />
 
 	<set name="INCLUDE_SDL" value="1" if="SPOOPY_SDL" />
-	<set name="INCLUDE_MAC" value ="1" />
+	<set name="INCLUDE_MAC" value ="1" if="SPOOPY_MAC" />
 
 	<include name="../lime_project/Build.xml" />
 
