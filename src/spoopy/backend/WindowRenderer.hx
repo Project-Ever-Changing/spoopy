@@ -16,7 +16,9 @@ class WindowRenderer {
     public function new(parent:WindowStage) {
         this.parent = parent;
 
-        this.parent.__parent = new WindowBackend(this.parent.__parent);
+        if(this.parent.__parent == null) {
+            this.parent.__parent = new WindowBackend(this.parent.__parent);
+        }
     }
 
     public function getWindowTitle(window:Window):String {
