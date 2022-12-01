@@ -18,7 +18,7 @@ class WindowRenderer {
 
     public function getWindowTitle(window:Window):String {
         #if (cpp && !cppia)
-        //trace(Reflect.hasField(window.__backend, "handle"));
+        trace(Reflect.getProperty(window, "__backend"));
 
         /*
         if(window.__backend.handle != null) {
