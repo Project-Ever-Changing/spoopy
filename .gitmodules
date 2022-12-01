@@ -4,6 +4,3 @@
 [submodule "project/lib/hashlink"]
 	path = project/lib/hashlink
 	url = https://github.com/HaxeFoundation/hashlink.git
-[submodule "lime_project"]
-	path = lime_project
-	url = https://github.com/Just-Feeshy/lib-lime-project.git
