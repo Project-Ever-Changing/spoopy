@@ -19,7 +19,7 @@ class WindowRenderer {
     public function getWindowTitle(window:Window):String {
         #if (cpp && !cppia)
         if(window.__backend.handle != null) {
-            return SpoopyCFFI.spoopy_window_get_title(window.__backend.handle);
+            return SpoopyCFFI.spoopy_window_get_title(window.__backend.handle.sdlWindow);
         }
         #end
 
