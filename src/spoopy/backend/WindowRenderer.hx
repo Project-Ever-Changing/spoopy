@@ -17,7 +17,7 @@ class WindowRenderer {
         this.parent = parent;
 
         if(this.parent.__parent == null) {
-            this.parent.__parent = new WindowBackend(this.parent.__parent);
+            this.parent.__parent.__backend = new WindowBackend(this.parent.__parent);
         }
     }
 
