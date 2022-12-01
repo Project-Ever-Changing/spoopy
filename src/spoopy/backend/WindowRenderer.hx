@@ -18,7 +18,7 @@ class WindowRenderer {
 
     public function getWindowTitle(window:Window):String {
         #if (cpp && !cppia)
-        window.setTitle("goofy haha");
+        window.title = "goofy haha";
 
         /*
         if(window.__backend.handle != null) {
