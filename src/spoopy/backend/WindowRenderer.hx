@@ -1,6 +1,7 @@
 package spoopy.backend;
 
 import spoopy.display.WindowStage;
+import spoopy.display.WindowStage;
 import spoopy.backend.SpoopyCFFI;
 import lime.ui.Window;
 
@@ -14,12 +15,12 @@ class WindowRenderer {
 
     public function new(parent:WindowStage) {
         this.parent = parent;
+
+        this.parent.__parent = new WindowBackend(this.parent.__parent);
     }
 
     public function getWindowTitle(window:Window):String {
         #if (cpp && !cppia)
-        window.title = "goofy haha";
-
         /*
         if(window.__backend.handle != null) {
             trace(window.__backend.handle);
@@ -41,3 +42,13 @@ class WindowRenderer {
     }
     */
 }
+
+#if air
+@:noCompletion private typedef WindowBackend = lime._internal.backend.air.AIRWindow;
+#elseif flash
+@:noCompletion private typedef WindowBackend = lime._internal.backend.flash.FlashWindow;
+#elseif (js && html5)
+@:noCompletion private typedef WindowBackend = lime._internal.backend.html5.HTML5Window;
+#else
+@:noCompletion private typedef WindowBackend = lime._internal.backend.native.NativeWindow;
+#end
