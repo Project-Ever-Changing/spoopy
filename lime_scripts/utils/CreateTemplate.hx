@@ -3,6 +3,7 @@ package utils;
 import hxp.*;
 import lime.tools.HXProject;
 import lime.tools.ProjectHelper;
+import utils.SpoopyLibInfo;
 import sys.FileSystem;
 
 @:access(lime.tools.HXProject)
@@ -107,7 +108,7 @@ class CreateTemplate
 
 		if (projectName == "project")
 		{
-			projectName = CommandLineTools.defaultLibrary;
+			projectName = SpoopyLibInfo.defaultLibrary;
 
 			if (sampleName != null)
 			{
@@ -117,7 +118,7 @@ class CreateTemplate
 
 		if (projectName == null || projectName == "")
 		{
-			projectName = CommandLineTools.defaultLibrary;
+			projectName = SpoopyLibInfo.defaultLibrary;
 		}
 
 		if (projectName != null && projectName != "")
@@ -308,12 +309,12 @@ class CreateTemplate
 
 		if (projectName == null || projectName == "")
 		{
-			projectName = CommandLineTools.defaultLibrary;
+			projectName = SpoopyLibInfo.defaultLibrary;
 		}
 
 		if (sampleName == null || sampleName == "")
 		{
-			Log.error("You must specify a sample name to copy when using \"" + CommandLineTools.commandName + " create\"");
+			Log.error("You must specify a sample name to copy when using \"" + SpoopyLibInfo.commandName + " create\"");
 			return;
 		}
 
@@ -325,7 +326,7 @@ class CreateTemplate
 		{
 			outputPath = sampleName;
 			sampleName = projectName;
-			projectName = CommandLineTools.defaultLibrary;
+			projectName = SpoopyLibInfo.defaultLibrary;
 			project = HXProject.fromHaxelib(new Haxelib(projectName), defines);
 		}
 
@@ -402,24 +403,24 @@ class CreateTemplate
 
 		if (templates.length == 0)
 		{
-			projectName = CommandLineTools.defaultLibrary;
+			projectName = SpoopyLibInfo.defaultLibrary;
 		}
 
 		Log.println("\x1b[1mYou must specify a template when using the 'create' command.\x1b[0m");
 		Log.println("");
 
-		if (projectName == CommandLineTools.commandName)
+		if (projectName == SpoopyLibInfo.commandName)
 		{
-			Log.println(" " + Log.accentColor + "Usage:\x1b[0m \x1b[1m" + CommandLineTools.commandName + "\x1b[0m create project (directory)");
-			Log.println(" " + Log.accentColor + "Usage:\x1b[0m \x1b[1m" + CommandLineTools.commandName + "\x1b[0m create extension (directory)");
+			Log.println(" " + Log.accentColor + "Usage:\x1b[0m \x1b[1m" + SpoopyLibInfo.commandName + "\x1b[0m create project (directory)");
+			Log.println(" " + Log.accentColor + "Usage:\x1b[0m \x1b[1m" + SpoopyLibInfo.commandName + "\x1b[0m create extension (directory)");
 		}
 
 		Log.println(" "
 			+ Log.accentColor
 			+ "Usage:\x1b[0m \x1b[1m"
-			+ CommandLineTools.commandName
+			+ SpoopyLibInfo.commandName
 			+ "\x1b[0m create "
-			+ (projectName != CommandLineTools.commandName ? projectName + " " : "")
+			+ (projectName != SpoopyLibInfo.commandName ? projectName + " " : "")
 			+ "<sample> (directory)");
 
 		if (templates.length > 0)
