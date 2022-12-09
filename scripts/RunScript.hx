@@ -260,7 +260,7 @@ class RunScript {
             return;
         }
 
-        CreateTemplate.createProject(["lime", args[1]], userDefines, null);
+        CreateTemplate.createProject(["project", args[1]], userDefines, null);
     }
 
     /*
