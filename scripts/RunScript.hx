@@ -54,6 +54,8 @@ class RunScript {
                 destroyCMD(args);
             case "update":
                 updateCMD(args);
+            case "project":
+                
             default:
                 Log.error("Invalid command: '" + args[0] + "'");
         }
