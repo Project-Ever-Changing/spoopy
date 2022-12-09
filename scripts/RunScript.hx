@@ -260,7 +260,7 @@ class RunScript {
             return;
         }
 
-        CreateTemplate.createProject([args[1]], userDefines, null);
+        CreateTemplate.createProject(["spoopy", args[1]], userDefines, null);
     }
 
     /*

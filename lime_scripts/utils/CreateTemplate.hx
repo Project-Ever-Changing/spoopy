@@ -7,72 +7,7 @@ import utils.SpoopyLibInfo;
 import sys.FileSystem;
 
 @:access(lime.tools.HXProject)
-class CreateTemplate
-{
-	public static function createExtension(words:Array<String>, userDefines:Map<String, Dynamic>):Void
-	{
-		var title = "SampleExtension";
-
-		if (words.length > 1)
-		{
-			title = words[1];
-		}
-
-		var file = StringTools.replace(title, " ", "");
-		var extension = StringTools.replace(file, "-", "_");
-		var className = extension.substr(0, 1).toUpperCase() + extension.substr(1);
-
-		var context:Dynamic = {};
-		context.file = file;
-		context.extension = extension;
-		context.className = className;
-		context.extensionLowerCase = extension.toLowerCase();
-		context.extensionUpperCase = extension.toUpperCase();
-		context.ANDROID_TARGET_SDK_VERSION = "::ANDROID_TARGET_SDK_VERSION::";
-		context.ANDROID_MINIMUM_SDK_VERSION = "::ANDROID_MINIMUM_SDK_VERSION::";
-		context.META_BUILD_NUMBER = "::META_BUILD_NUMBER::";
-		context.META_VERSION = "::META_VERSION::";
-		context.ANDROID_GRADLE_PLUGIN = "::ANDROID_GRADLE_PLUGIN::";
-
-		System.mkdir(title);
-		System.recursiveCopyTemplate([Haxelib.getPath(new Haxelib("lime"), true) + "/templates"], "extension", title, context);
-
-		if (FileSystem.exists(title + "/Extension.hx"))
-		{
-			FileSystem.rename(title + "/Extension.hx", title + "/" + className + ".hx");
-		}
-
-		if (FileSystem.exists(title + "/project/common/Extension.cpp"))
-		{
-			FileSystem.rename(title + "/project/common/Extension.cpp", title + "/project/common/" + file + ".cpp");
-		}
-
-		if (FileSystem.exists(title + "/project/include/Extension.h"))
-		{
-			FileSystem.rename(title + "/project/include/Extension.h", title + "/project/include/" + file + ".h");
-		}
-
-		if (FileSystem.exists(title + "/dependencies/android/src/main/java/org/haxe/extension/Extension.java"))
-		{
-			FileSystem.rename(title
-				+ "/dependencies/android/src/main/java/org/haxe/extension/Extension.java",
-				title
-				+ "/dependencies/android/src/main/java/org/haxe/extension/"
-				+ file
-				+ ".java");
-		}
-
-		if (FileSystem.exists(title))
-		{
-			System.mkdir(title + "/ndll");
-			System.mkdir(title + "/ndll/Linux");
-			System.mkdir(title + "/ndll/Linux64");
-			System.mkdir(title + "/ndll/Mac");
-			System.mkdir(title + "/ndll/Mac64");
-			System.mkdir(title + "/ndll/Windows");
-		}
-	}
-
+class CreateTemplate {
 	public static function createProject(words:Array<String>, userDefines:Map<String, Dynamic>, overrides:HXProject):Void
 	{
 		var colonIndex = words[0].indexOf(":");
