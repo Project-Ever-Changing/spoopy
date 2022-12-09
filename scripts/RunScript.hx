@@ -1,5 +1,6 @@
 package;
 
+import utils.CreateTemplate;
 import sys.io.File;
 import sys.FileSystem;
 import massive.sys.io.FileSys;
@@ -10,9 +11,13 @@ import hxp.Log;
 class RunScript {
     static var builtNDLL:Bool = false;
 
+    static var userDefines:Map<String, Dynamic>;
+
     public static function main() {
         var args = Sys.args();
         var cwd = args.pop();
+        
+        userDefines = new Map<String, Dynamic>();
 
         commands(args);
 
@@ -54,8 +59,8 @@ class RunScript {
                 destroyCMD(args);
             case "update":
                 updateCMD(args);
-            case "project":
-                
+            case "create":
+                createCMD(args);
             default:
                 Log.error("Invalid command: '" + args[0] + "'");
         }
@@ -247,6 +252,15 @@ class RunScript {
         
         destroyCMD(["", args[1]]);
         buildCMD(["", args[1]]);
+    }
+
+    static inline function createCMD(args:Array<String>):Void {
+        if(args.length <= 1) {
+            Log.error("Incorrect number of arguments for command 'create'");
+            return;
+        }
+
+        CreateTemplate.createProject([args[1]], userDefines, null);
     }
 
     /*
