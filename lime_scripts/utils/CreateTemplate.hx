@@ -257,20 +257,6 @@ class CreateTemplate
 				System.mkdir(folder);
 				ProjectHelper.recursiveSmartCopyTemplate(project, "project", folder, context);
 
-				try
-				{
-					if (FileSystem.exists(folder + "/Project.hxproj"))
-					{
-						if (FileSystem.exists(folder + "/" + title + ".hxproj"))
-						{
-							FileSystem.deleteFile(folder + "/" + title + ".hxproj");
-						}
-
-						FileSystem.rename(folder + "/Project.hxproj", folder + "/" + title + ".hxproj");
-					}
-				}
-				catch (e:Dynamic) {}
-
 				return;
 			}
 		}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+    <!-- ____________________________ Application Settings ___________________________ -->
+	
+	<meta title="::title::" package="::packageName::" version="::version::" company="::company::" />
+	<app main="Main" path="Export" file="::file::" />
+
+    <!-- ____________________________ Window Settings ___________________________ -->
+
+	<!--These window settings apply to all targets-->
+	<window width="1280" height="720" fps="120" background="#000000" hardware="true" vsync="false" />
+	
+    <!-- _____________________________ Path Settings ____________________________ -->
+
+	<source path="source" />
+    <assets path="assets" />
+
+    <!-- _______________________________ Libraries ______________________________ -->
+	
+	<haxelib name="lime" />
+    <haxelib name="spoopy">
+
+    <!-- _____________________________ Build Config ____________________________ -->
+
+	<set name="BUILD_DIR" value="export/debug" if="debug" />
+	<set name="BUILD_DIR" value="export/release" if="release" />
+	<set name="BUILD_DIR" value="export/32bit" if="32" />
+</project>
