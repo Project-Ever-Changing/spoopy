@@ -15,10 +15,6 @@ class WindowRenderer {
 
     public function new(parent:WindowStage) {
         this.parent = parent;
-
-        if(this.parent.__parent == null) {
-            this.parent.__parent.__backend = new WindowBackend(this.parent.__parent);
-        }
     }
 
     public function getWindowTitle(window:Window):String {
@@ -44,13 +40,3 @@ class WindowRenderer {
     }
     */
 }
-
-#if air
-@:noCompletion private typedef WindowBackend = lime._internal.backend.air.AIRWindow;
-#elseif flash
-@:noCompletion private typedef WindowBackend = lime._internal.backend.flash.FlashWindow;
-#elseif (js && html5)
-@:noCompletion private typedef WindowBackend = lime._internal.backend.html5.HTML5Window;
-#else
-@:noCompletion private typedef WindowBackend = lime._internal.backend.native.NativeWindow;
-#end
