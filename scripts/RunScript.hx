@@ -261,6 +261,7 @@ class RunScript {
         }
 
         var project:SpoopyProject = new SpoopyProject();
+        trace(project.project);
         CreateTemplate.createProject(["project", args[1]], userDefines, project.project);
     }
 
