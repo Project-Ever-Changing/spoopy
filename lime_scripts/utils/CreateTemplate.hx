@@ -190,8 +190,7 @@ class CreateTemplate {
 				}*/
 
 				if(project.templatePaths.length == 0) {
-					trace(Sys.getCwd());
-					//project.templatePaths = [Sys.getCwd];
+					project.templatePaths = [Sys.getCwd() + "templates"];
 				}
 				
 				System.mkdir(folder);
