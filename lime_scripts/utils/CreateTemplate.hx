@@ -6,6 +6,10 @@ import lime.tools.ProjectHelper;
 import utils.SpoopyLibInfo;
 import sys.FileSystem;
 
+/*
+* Slighty modified version of:
+* https://github.com/openfl/lime/blob/master/tools/utils/CreateTemplate.hx
+*/
 @:access(lime.tools.HXProject)
 class CreateTemplate {
 	public static function createProject(words:Array<String>, userDefines:Map<String, Dynamic>, overrides:HXProject):Void
