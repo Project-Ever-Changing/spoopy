@@ -260,7 +260,8 @@ class RunScript {
             return;
         }
 
-        CreateTemplate.createProject(["project", args[1]], userDefines, null);
+        var project:SpoopyProject = new SpoopyProject();
+        CreateTemplate.createProject(["project", args[1]], userDefines, project.project);
     }
 
     /*
