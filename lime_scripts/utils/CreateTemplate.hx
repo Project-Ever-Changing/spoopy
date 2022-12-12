@@ -189,7 +189,10 @@ class CreateTemplate {
 
 				}*/
 
-				trace(project.templatePaths);
+				if(project.templatePaths.length == 0) {
+					trace(Sys.getCwd());
+					//project.templatePaths = [Sys.getCwd];
+				}
 				
 				System.mkdir(folder);
 				ProjectHelper.recursiveSmartCopyTemplate(project, "project", folder, context);
