@@ -65,6 +65,10 @@ class CreateTemplate {
 			var defines = new Map<String, Dynamic>();
 			var project = HXProject.fromHaxelib(new Haxelib(projectName), defines);
 
+			if(project.templatePaths.length == 0) {
+				project.templatePaths = [Sys.getCwd() + "templates"];
+			}
+
 			if (project != null)
 			{
 				var company = "Company Name";
@@ -192,10 +196,6 @@ class CreateTemplate {
 					folder = Path.tryFullPath (words[2]);
 
 				}*/
-
-				if(project.templatePaths.length == 0) {
-					project.templatePaths = [Sys.getCwd() + "templates"];
-				}
 				
 				System.mkdir(folder);
 				ProjectHelper.recursiveSmartCopyTemplate(project, "project", folder, context);
