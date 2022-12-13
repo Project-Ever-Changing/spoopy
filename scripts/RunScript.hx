@@ -259,10 +259,10 @@ class RunScript {
             return;
         }
 
-        trace('neko >> ${neko.vm.Module.local().name}');
-
         //var project:SpoopyProject = new SpoopyProject();
         //CreateTemplate.createProject(["project", args[1]], userDefines, project.project);
+
+        trace(Sys.getCwd());
     }
 
     /*
