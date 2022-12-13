@@ -5,8 +5,7 @@ import sys.io.File;
 import sys.FileSystem;
 import massive.sys.io.FileSys;
 import utils.PathUtils;
-import hxp.Haxelib;
-import hxp.Log;
+import hxp.*;
 
 class RunScript {
     static var builtNDLL:Bool = false;
@@ -260,7 +259,7 @@ class RunScript {
             return;
         }
 
-        trace(Sys.programPath());
+        trace(Path.expand("hehe"));
 
         //var project:SpoopyProject = new SpoopyProject();
         //CreateTemplate.createProject(["project", args[1]], userDefines, project.project);
