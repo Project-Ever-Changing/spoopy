@@ -260,7 +260,7 @@ class RunScript {
             return;
         }
 
-        trace(FileSystem.fullPath("hi"));
+        trace(Sys.programPath());
 
         //var project:SpoopyProject = new SpoopyProject();
         //CreateTemplate.createProject(["project", args[1]], userDefines, project.project);
