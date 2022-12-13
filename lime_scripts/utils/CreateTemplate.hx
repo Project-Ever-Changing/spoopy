@@ -196,8 +196,6 @@ class CreateTemplate {
 					folder = Path.tryFullPath (words[2]);
 
 				}*/
-
-				folder = "hehe";
 				
 				System.mkdir(folder);
 				ProjectHelper.recursiveSmartCopyTemplate(project, "project", folder, context);
