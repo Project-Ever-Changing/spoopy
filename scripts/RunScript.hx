@@ -15,12 +15,12 @@ class RunScript {
     public static function main() {
         var args = Sys.args();
         var cwd = args.pop();
+
+        trace(Sys.getCwd());
         
         userDefines = new Map<String, Dynamic>();
 
         commands(args);
-
-        trace(Sys.getCwd());
 
         Sys.setCwd(cwd);
 		Sys.exit(1);
