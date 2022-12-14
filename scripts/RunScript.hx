@@ -214,7 +214,7 @@ class RunScript {
             default:
                 for(i in 0...scripts.length) {
                     if(FileSystem.exists(Sys.getCwd() + fileLocation + scripts[i])) {
-                        Sys.command("sh", [Sys.getCwd() + fileLocation + scripts[i]]);
+                        Sys.command("bash", [Sys.getCwd() + fileLocation + scripts[i]]);
                     }else {
                         Log.error("Could not find script: " + Sys.getCwd() + fileLocation + scripts[i]);
                     }
@@ -241,6 +241,7 @@ class RunScript {
         }
 
         createMissing("docs", "spoopy-project-dir.txt");
+        runScript("scripts", "create-template");
     }
 
     /*
@@ -248,6 +249,16 @@ class RunScript {
     */
     static inline function readLine() {
         return Sys.stdin().readLine();
+    }
+
+    static inline function runScript(path:String, file:String):Void {
+        if(FileSys.isWindows) {
+            @:final var script:String = path + "/batch/" + file + ".bat";
+            Sys.command(script);
+        }else {
+            @:final var script:String = path + "/shell/" + file + ".sh";
+            Sys.command("bash", [Sys.getCwd() + script]);
+        }
     }
 
     static function askYN(question:String):Bool {
@@ -269,16 +280,6 @@ class RunScript {
         if(!FileSystem.exists(file)) {
             File.saveContent(folder + "/" + file, "Location of template project. hehe.");
         }
-    }
-
-    static function runScript(path:String, file:String):Void {
-        if(FileSys.isWindows) {
-            @:final var script:String = path + "/" + file + ".bat";
-        }else {
-            @:final var script:String = path + "/" + file + ".sh";
-        }
-
-        
     }
 
     /*
