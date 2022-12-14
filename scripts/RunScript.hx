@@ -254,10 +254,10 @@ class RunScript {
     static inline function runScript(path:String, file:String):Void {
         if(FileSys.isWindows) {
             @:final var script:String = path + "/batch/" + file + ".bat";
-            Sys.command(script);
+            Sys.command(Sys.getCwd() + script);
         }else {
             @:final var script:String = path + "/shell/" + file + ".sh";
-            Sys.command("bash", [Sys.getCwd() + script]);
+            Sys.command("sh", [Sys.getCwd() + script]);
         }
     }
 
