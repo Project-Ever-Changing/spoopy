@@ -257,7 +257,7 @@ class RunScript {
             Sys.command(Sys.getCwd() + script);
         }else {
             @:final var script:String = path + "/shell/" + file + ".sh";
-            Sys.command("sh", [Sys.getCwd() + script]);
+            Sys.command("bash", [Sys.getCwd() + script]);
         }
     }
 
