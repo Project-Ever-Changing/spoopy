@@ -20,6 +20,8 @@ class RunScript {
 
         commands(args);
 
+        trace(Sys.getCwd());
+
         Sys.setCwd(cwd);
 		Sys.exit(1);
     }
@@ -259,10 +261,10 @@ class RunScript {
             return;
         }
 
+        trace("test");
+
         //var project:SpoopyProject = new SpoopyProject();
         //CreateTemplate.createProject(["project", args[1]], userDefines, project.project);
-
-        trace(FileSystem.readDirectory("user.dir"));
     }
 
     /*
