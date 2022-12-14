@@ -15,8 +15,6 @@ class RunScript {
     public static function main() {
         var args = Sys.args();
         var cwd = args.pop();
-
-        trace(Sys.getCwd());
         
         userDefines = new Map<String, Dynamic>();
 
