@@ -259,10 +259,8 @@ class RunScript {
             return;
         }
 
-        trace(SpoopySystem.getPWD());
-
-        //var project:SpoopyProject = new SpoopyProject();
-        //CreateTemplate.createProject(["project", args[1]], userDefines, project.project);
+        var project:SpoopyProject = new SpoopyProject();
+        CreateTemplate.createProject(["project", args[1]], userDefines, project.project);
     }
 
     /*
