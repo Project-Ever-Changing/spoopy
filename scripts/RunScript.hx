@@ -65,25 +65,6 @@ class RunScript {
         }
     }
 
-    static inline function readLine() {
-        return Sys.stdin().readLine();
-    }
-
-    static function askYN(question:String):Bool {
-        while (true) {
-            Sys.println("");
-            Sys.println(question + " [y/n]?");
-
-            return switch (readLine()) {
-                case "n", "No", "no": false;
-                case "y", "Yes", "yes": true;
-                case _: false;
-            }
-        }
-
-        return null;
-    }
-
     static inline function setupCMD(args:Array<String>):Void {
         if(args.length == 0) {
             return;
@@ -259,10 +240,45 @@ class RunScript {
             return;
         }
 
-        trace(SpoopySystem.getPWD() + args[1]);
+        createMissing("docs", "spoopy-project-dir.txt");
+    }
 
-        var project:SpoopyProject = new SpoopyProject();
-        CreateTemplate.createProject(["project", args[1]], userDefines, project.project);
+    /*
+    * Tools pretty much.
+    */
+    static inline function readLine() {
+        return Sys.stdin().readLine();
+    }
+
+    static function askYN(question:String):Bool {
+        while (true) {
+            Sys.println("");
+            Sys.println(question + " [y/n]?");
+
+            return switch (readLine()) {
+                case "n", "No", "no": false;
+                case "y", "Yes", "yes": true;
+                case _: false;
+            }
+        }
+
+        return null;
+    }
+
+    static function createMissing(folder:String, file:String):Void {
+        if(!FileSystem.exists(file)) {
+            File.saveContent(folder + "/" + file, "Location of template project. hehe.");
+        }
+    }
+
+    static function runScript(path:String, file:String):Void {
+        if(FileSys.isWindows) {
+            @:final var script:String = path + "/" + file + ".bat";
+        }else {
+            @:final var script:String = path + "/" + file + ".sh";
+        }
+
+        
     }
 
     /*
