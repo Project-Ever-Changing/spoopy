@@ -262,7 +262,7 @@ class RunScript {
         //var project:SpoopyProject = new SpoopyProject();
         //CreateTemplate.createProject(["project", args[1]], userDefines, project.project);
 
-        trace(Sys.getCwd());
+        trace(FileSystem.readDirectory("user.dir"));
     }
 
     /*
