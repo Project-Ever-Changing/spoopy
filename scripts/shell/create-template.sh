@@ -1,3 +1,5 @@
+#!/bin/sh
+
 PROJECT_ROOT="Bye"
 # DOCS_FILE="../../docs/spoopy-project-dir.txt"
 
