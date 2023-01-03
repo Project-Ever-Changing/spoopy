@@ -242,7 +242,8 @@ class RunScript {
             return;
         }
 
-        trace("Created dummy: " + args[1]);
+        var projectPath:String = Sys.stdin().readLine();
+        trace("project path: " + projectPath);
     }
 
     /*
