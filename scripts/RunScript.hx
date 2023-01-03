@@ -249,6 +249,8 @@ class RunScript {
 
         var project:SpoopyProject = new SpoopyProject();
         CreateTemplate.createProject(["project", args[1]], userDefines, project.project);
+
+        trace("Success! Your project is located at: " + projectPath + "/" + args[1]);
     }
 
     /*
