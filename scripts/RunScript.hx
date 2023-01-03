@@ -241,6 +241,8 @@ class RunScript {
             Log.error("Incorrect number of arguments for command 'create'");
             return;
         }
+
+        trace("Created dummy: " + args[1]);
     }
 
     /*
