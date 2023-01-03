@@ -247,13 +247,14 @@ class RunScript {
         Sys.stdout().writeString("Project Path: ");
 
         var projectPath:String = Sys.stdin().readLine();
+        projectPath = projectPath.replace("'", "").replace('"', "");
         CreateTemplate.destination = projectPath;
 
         var project:SpoopyProject = new SpoopyProject();
         CreateTemplate.createProject(["project", args[1]], userDefines, project.project);
 
         if(args[2] == "-debug") {
-            trace("Project is located at: " + projectPath.replace("'", "") + "/" + args[1]);
+            trace("Project is located at: " + projectPath + "/" + args[1]);
         }
     }
 
