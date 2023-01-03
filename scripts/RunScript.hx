@@ -7,6 +7,8 @@ import massive.sys.io.FileSys;
 import utils.PathUtils;
 import hxp.*;
 
+using StringTools;
+
 class RunScript {
     static var builtNDLL:Bool = false;
 
@@ -250,7 +252,9 @@ class RunScript {
         var project:SpoopyProject = new SpoopyProject();
         CreateTemplate.createProject(["project", args[1]], userDefines, project.project);
 
-        trace("Success! Your project is located at: " + projectPath + "/" + args[1]);
+        if(args[2] == "-debug") {
+            trace("Project is located at: " + projectPath.replace("'", "").replace('"', "") + "/" + args[1]);
+        }
     }
 
     /*
