@@ -241,9 +241,6 @@ class RunScript {
             Log.error("Incorrect number of arguments for command 'create'");
             return;
         }
-
-        createMissing("docs", "spoopy-project-dir.txt");
-        runScript("scripts", "create-template");
     }
 
     /*
@@ -276,12 +273,6 @@ class RunScript {
         }
 
         return null;
-    }
-
-    static function createMissing(folder:String, file:String):Void {
-        if(!FileSystem.exists(file)) {
-            File.saveContent(folder + "/" + file, "Location of template project. hehe.");
-        }
     }
 
     /*
