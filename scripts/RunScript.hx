@@ -245,8 +245,10 @@ class RunScript {
         Sys.stdout().writeString("Project Path: ");
 
         var projectPath:String = Sys.stdin().readLine();
+        CreateTemplate.destination = projectPath;
 
-
+        var project:SpoopyProject = new SpoopyProject();
+        CreateTemplate.createProject(["project", args[1]], userDefines, project.project);
     }
 
     /*

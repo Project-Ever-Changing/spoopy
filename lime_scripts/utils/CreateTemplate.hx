@@ -12,6 +12,8 @@ import sys.FileSystem;
 */
 @:access(lime.tools.HXProject)
 class CreateTemplate {
+	public static var destination:String = "";
+
 	public static function createProject(words:Array<String>, userDefines:Map<String, Dynamic>, overrides:HXProject):Void
 	{
 		var colonIndex = words[0].indexOf(":");
@@ -174,28 +176,7 @@ class CreateTemplate {
 					Reflect.setField(context, define, userDefines.get(define));
 				}
 
-				var folder = name;
-
-				if (colonIndex > -1)
-				{
-					if (words.length > 1)
-					{
-						folder = Path.tryFullPath(words[1]);
-					}
-				}
-				else
-				{
-					if (words.length > 2)
-					{
-						folder = Path.tryFullPath(words[2]);
-					}
-				}
-
-				/*if (words.length > 2) {
-
-					folder = Path.tryFullPath (words[2]);
-
-				}*/
+				var folder = destination + "/" + name;
 				
 				System.mkdir(folder);
 				ProjectHelper.recursiveSmartCopyTemplate(project, "project", folder, context);
