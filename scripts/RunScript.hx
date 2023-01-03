@@ -253,7 +253,7 @@ class RunScript {
         CreateTemplate.createProject(["project", args[1]], userDefines, project.project);
 
         if(args[2] == "-debug") {
-            trace("Project is located at: " + projectPath.replace("'", "").replace('"', "") + "/" + args[1]);
+            trace("Project is located at: " + projectPath.replace("'", "") + "/" + args[1]);
         }
     }
 
