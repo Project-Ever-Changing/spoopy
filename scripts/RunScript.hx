@@ -214,7 +214,7 @@ class RunScript {
             default:
                 for(i in 0...scripts.length) {
                     if(FileSystem.exists(Sys.getCwd() + fileLocation + scripts[i])) {
-                        Sys.command("bash", [Sys.getCwd() + fileLocation + scripts[i]]);
+                        Sys.command("sh", [Sys.getCwd() + fileLocation + scripts[i]]);
                     }else {
                         Log.error("Could not find script: " + Sys.getCwd() + fileLocation + scripts[i]);
                     }
@@ -242,10 +242,11 @@ class RunScript {
             return;
         }
 
-        Sys.stdout().writeString("test: ");
+        Sys.stdout().writeString("Project Path: ");
 
         var projectPath:String = Sys.stdin().readLine();
-        trace("project path: " + projectPath);
+
+
     }
 
     /*
@@ -261,7 +262,7 @@ class RunScript {
             Sys.command(Sys.getCwd() + script);
         }else {
             @:final var script:String = path + "/shell/" + file + ".sh";
-            Sys.command("bash", [Sys.getCwd() + script]);
+            Sys.command("sh", [Sys.getCwd() + script]);
         }
     }
 
