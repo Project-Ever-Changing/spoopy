@@ -3,7 +3,7 @@
     <!-- ____________________________ Application Settings ___________________________ -->
 	
 	<meta title="::title::" package="::packageName::" version="::version::" company="::company::" />
-	<app main="Main" path="Export" file="::file::" />
+	<app main="Main" path="export" file="::file::" />
 
     <!-- ____________________________ Window Settings ___________________________ -->
 
@@ -18,7 +18,7 @@
     <!-- _______________________________ Libraries ______________________________ -->
 	
 	<haxelib name="lime" />
-    <haxelib name="spoopy">
+    <haxelib name="spoopy" />
 
     <!-- _____________________________ Build Config ____________________________ -->
 
