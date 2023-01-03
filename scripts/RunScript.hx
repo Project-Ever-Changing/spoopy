@@ -1,6 +1,5 @@
 package;
 
-import utils.CreateTemplate;
 import sys.io.File;
 import sys.FileSystem;
 import massive.sys.io.FileSys;
@@ -12,13 +11,9 @@ using StringTools;
 class RunScript {
     static var builtNDLL:Bool = false;
 
-    static var userDefines:Map<String, Dynamic>;
-
     public static function main() {
         var args = Sys.args();
         var cwd = args.pop();
-        
-        userDefines = new Map<String, Dynamic>();
 
         commands(args);
 
@@ -248,10 +243,9 @@ class RunScript {
 
         var projectPath:String = Sys.stdin().readLine();
         projectPath = projectPath.replace("'", "").replace('"', "");
-        CreateTemplate.destination = projectPath;
 
         var project:SpoopyProject = new SpoopyProject();
-        CreateTemplate.createProject(["project", args[1]], userDefines, project.project);
+        project.copyAndCreateTemplate(args[1], projectPath);
 
         if(args[2] == "-debug") {
             trace("Project is located at: " + projectPath + "/" + args[1]);
