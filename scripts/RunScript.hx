@@ -230,8 +230,10 @@ class RunScript {
 
         Sys.command("haxelib", ["update", "spoopy"]);
         
-        destroyCMD(["", args[1]]);
-        buildCMD(["", args[1]]);
+        if(args[2] == "-cpp") {
+            destroyCMD(["", args[1]]);
+            buildCMD(["", args[1]]);
+        }
     }
 
     static inline function createCMD(args:Array<String>):Void {
