@@ -242,6 +242,8 @@ class RunScript {
             return;
         }
 
+        Sys.stdout().writeString("test: ");
+
         var projectPath:String = Sys.stdin().readLine();
         trace("project path: " + projectPath);
     }
