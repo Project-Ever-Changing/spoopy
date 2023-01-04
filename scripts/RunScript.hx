@@ -295,10 +295,10 @@ class RunScript {
             .trim();
 
         for(i in 0...projectPath.length) {
-            if(projectPath.charAt(i) == "\"") {
-                trace("Found it!");
-            }
+            trace(projectPath.charAt(i));
         }
+
+        trace("\"");
 
         return cleanedPath;
     }
