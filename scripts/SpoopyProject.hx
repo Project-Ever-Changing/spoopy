@@ -16,6 +16,10 @@ class SpoopyProject {
         project.architectures = [];
     }
 
+    public function addTemplate(arg:String):Void {
+        project.templatePaths.push(arg);
+    }
+
     public function copyAndCreateTemplate(name:String, destination:String):Void {
 
         /*
@@ -71,8 +75,6 @@ class SpoopyProject {
         project.meta.version = version;
         project.meta.company = company;
         project.app.file = file;
-
-        project.templatePaths.push("templates");
 
         var context:Dynamic = {};
 

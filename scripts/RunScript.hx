@@ -248,10 +248,11 @@ class RunScript {
             .replace('"', "");
 
         var project:SpoopyProject = new SpoopyProject();
+        project.addTemplate("templates");
         project.copyAndCreateTemplate(args[1], projectPath);
 
         if(args[2] == "-debug") {
-            trace("Project is located at: " + projectPath + "/" + args[1]);
+            Log.info("Project is located at: " + projectPath + "/" + args[1]);
         }
     }
 
