@@ -243,11 +243,6 @@ class RunScript {
 
         var projectPath:String = Sys.stdin().readLine();
 
-        projectPath = projectPath
-            .replace("'", "")
-            .replace('"', "")
-            .trim();
-
         cleanPath(projectPath);
 
         var project:SpoopyProject = new SpoopyProject();
@@ -291,14 +286,17 @@ class RunScript {
         return null;
     }
 
-    static function cleanPath(path:String):String {
-        var alphaNumeric:EReg = new EReg("/[a-zA-Z0-9]", "g");
-
+    static function cleanPath(projectPath:String):String {
         var cleanedPath:String = "";
 
-        for(i in 0...path.length) {
-            if(alphaNumeric.match(path.charAt(i))) {
-                trace(path.charAt(i));
+        projectPath = projectPath
+            .replace("'", "")
+            .replace('"', "")
+            .trim();
+
+        for(i in 0...projectPath.length) {
+            if(projectPath.charAt(i) == "\"") {
+                trace("Found it!");
             }
         }
 
