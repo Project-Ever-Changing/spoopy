@@ -1,11 +1,11 @@
 package spoopy.backend;
 
-import spoopy.display.WindowStage;
+import spoopy.display.SpoopyWindow;
 import spoopy.backend.SpoopyCFFI;
 import lime.ui.Window;
 
 @:access(lime.ui.Window)
-@:access(spoopy.display.WindowStage)
+@:access(spoopy.display.SpoopyWindow)
 @:access(spoopy.SpoopyDevice)
 class WindowRenderer {
     public var handle:Dynamic;
