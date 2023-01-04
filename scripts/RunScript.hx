@@ -242,7 +242,7 @@ class RunScript {
         Sys.stdout().writeString("Project Path: ");
 
         var projectPath:String = Sys.stdin().readLine();
-        
+
         projectPath = projectPath
             .replace("'", "")
             .replace('"', "")
