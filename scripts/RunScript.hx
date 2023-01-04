@@ -248,6 +248,8 @@ class RunScript {
             .replace('"', "")
             .trim();
 
+        cleanPath(projectPath);
+
         var project:SpoopyProject = new SpoopyProject();
         project.addTemplate("templates");
         project.copyAndCreateTemplate(args[1], projectPath);
