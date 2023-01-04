@@ -243,7 +243,12 @@ class RunScript {
 
         var projectPath:String = Sys.stdin().readLine();
 
-        cleanPath(projectPath);
+        projectPath = projectPath
+            .replace("'", "")
+            .replace('"', "")
+            .trim();
+
+        trace('\\');
 
         var project:SpoopyProject = new SpoopyProject();
         project.addTemplate("templates");
@@ -284,23 +289,6 @@ class RunScript {
         }
 
         return null;
-    }
-
-    static function cleanPath(projectPath:String):String {
-        var cleanedPath:String = "";
-
-        projectPath = projectPath
-            .replace("'", "")
-            .replace('"', "")
-            .trim();
-
-        for(i in 0...projectPath.length) {
-            trace(projectPath.charAt(i));
-        }
-
-        trace("\"");
-
-        return cleanedPath;
     }
 
     /*
