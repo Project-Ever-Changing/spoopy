@@ -245,7 +245,8 @@ class RunScript {
 
         projectPath = projectPath
             .replace("'", "")
-            .replace('"', "");
+            .replace('"', "")
+            .trim();
 
         var project:SpoopyProject = new SpoopyProject();
         project.addTemplate("templates");
