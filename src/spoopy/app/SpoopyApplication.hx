@@ -1,4 +1,4 @@
-package app;
+package spoopy.app;
 
 import lime.app.Application;
 
