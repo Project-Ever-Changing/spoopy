@@ -10,9 +10,9 @@ import lime.ui.Window;
 class WindowRenderer {
     public var handle:Dynamic;
 
-    var parent:WindowStage;
+    var parent:SpoopyWindow;
 
-    public function new(parent:WindowStage) {
+    public function new(parent:SpoopyWindow) {
         this.parent = parent;
     }
 
