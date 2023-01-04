@@ -72,6 +72,8 @@ class SpoopyProject {
         project.meta.company = company;
         project.app.file = file;
 
+        project.templatePaths.push("templates");
+
         var context:Dynamic = {};
 
         context.title = title;
@@ -80,6 +82,6 @@ class SpoopyProject {
         context.company = company;
         context.file = file;
 
-        ProjectHelper.recursiveSmartCopyTemplate(project, "project", name, context);
+        ProjectHelper.recursiveSmartCopyTemplate(project, "project", destination + "/" + name, context);
     }
 }
