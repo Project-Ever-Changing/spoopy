@@ -3,6 +3,7 @@ package spoopy.app;
 import spoopy.display.SpoopyWindow;
 import lime.ui.Window;
 import lime.app.Application;
+import lime.utils.Log;
 
 class SpoopyApplication extends Application {
     public var spoopyWindow(get, null):SpoopyWindow;
