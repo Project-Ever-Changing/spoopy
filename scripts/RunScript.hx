@@ -292,7 +292,7 @@ class RunScript {
     }
 
     static function cleanPath(path:String):String {
-        var alphaNumeric:EReg = new EReg("[a-zA-Z0-9]/ ", "");
+        var alphaNumeric:EReg = new EReg("[a-zA-Z0-9]/ ", "g");
 
         var cleanedPath:String = "";
 
