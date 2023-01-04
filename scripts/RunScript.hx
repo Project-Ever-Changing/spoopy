@@ -242,7 +242,7 @@ class RunScript {
         Sys.stdout().writeString("Project Path: ");
 
         var projectPath:String = Sys.stdin().readLine();
-        projectPath = projectPath.replace("'", "").replace('"', "");
+        projectPath = projectPath.replace("'", "").replace('"', "").trim();
 
         var project:SpoopyProject = new SpoopyProject();
         project.copyAndCreateTemplate(args[1], projectPath);
