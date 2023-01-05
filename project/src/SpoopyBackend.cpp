@@ -62,7 +62,10 @@ namespace spoopy {
     value spoopy_window_get_title(value window) {
         SpoopyWindow* targetWindow = (SpoopyWindow*)val_data (window);
         const char* title = targetWindow -> getWindowTitle();
-        return title ? alloc_string(title) : alloc_null();
+
+        std::cout << title << std::endl;
+
+        return "Test Title";
 
        /*
        SDL_Window* sourceWindow = (SDL_Window*)val_data(window);
