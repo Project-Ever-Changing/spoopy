@@ -239,7 +239,7 @@ class RunScript {
             return;
         }
 
-        Sys.stdout().writeString("Project Path: ");
+        Sys.stdout().writeString("Project Directory: ");
 
         var projectPath:String = Sys.stdin().readLine();
 

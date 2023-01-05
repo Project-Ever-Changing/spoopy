@@ -55,7 +55,7 @@ namespace spoopy {
     DEFINE_PRIME0v(spoopy_application_init);
 
     void spoopy_apply_surface(value window, value device) {
-
+        
     }
     DEFINE_PRIME2v(spoopy_apply_surface);
 
