@@ -60,10 +60,10 @@ namespace spoopy {
     DEFINE_PRIME2v(spoopy_apply_surface);
 
     value spoopy_window_get_title(value window) {
-        SpoopyWindow* targetWindow = (SpoopyWindow*)val_data (window);
-        const char* title = targetWindow -> getWindowTitle();
+        //SpoopyWindow* targetWindow = (SpoopyWindow*)val_data (window);
+        //const char* title = targetWindow -> getWindowTitle();
 
-        std::cout << title << std::endl;
+        //std::cout << title << std::endl;
 
         return alloc_string("Test Title");
 
