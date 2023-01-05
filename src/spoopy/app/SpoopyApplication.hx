@@ -23,7 +23,7 @@ class SpoopyApplication extends Application {
     }
 
     @:noCompletion function get_spoopyWindow():SpoopyWindow {
-        if(spoopyWindow == null) {
+        if(__spoopyWindow == null) {
             Log.error("[SpoopyWindow] is detected as null!");
         }
 
