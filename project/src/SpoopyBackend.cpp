@@ -60,9 +60,15 @@ namespace spoopy {
     DEFINE_PRIME2v(spoopy_apply_surface);
 
     value spoopy_window_get_title(value window) {
-        SpoopyWindow* targetWindow = (SpoopyWindow*)val_data (window);
+        /*
+        SDLWindow* targetWindow = (SDLWindow*)val_data (window);
         const char* title = targetWindow -> getWindowTitle();
         return title ? alloc_string(title) : alloc_null();
+        */
+
+       SDL_Window* sourceWindow = (SDL_Window*)val_data(window);
+       const char* title = SDL_GetWindowTitle(sourceWindow);
+       return title ? alloc_string(title) : alloc_null();
     }
     DEFINE_PRIME1(spoopy_window_get_title);
 
