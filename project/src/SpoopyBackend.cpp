@@ -7,7 +7,7 @@
 #endif
 
 #ifdef _WIN32
-
+    //I haven't come up with anything to include.
 #else
     #include <dlfcn.h>
 #endif
@@ -57,6 +57,8 @@ namespace spoopy {
         #ifdef COMPILED_LIBS
         std::cout << "initialized application!" << std::endl;
         #endif
+
+        
     }
     DEFINE_PRIME0v(spoopy_application_init);
 

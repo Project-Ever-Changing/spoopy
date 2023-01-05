@@ -15,13 +15,6 @@ class SpoopyEngine {
 
         initializedApp = true;
 
-        switch(SpoopyCFFI.spoopy_test_SDL()) {
-            case 0:
-                trace("SDL was not successful :(");
-            case 1:
-                trace("SDL worked successfully! :D");
-            case 2:
-                trace("SDL worked... but only with Lime");
-        }
+        SpoopyCFFI.spoopy_application_init();
     }
 }

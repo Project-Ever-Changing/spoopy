@@ -193,7 +193,7 @@
 				<vflag name="-framework" value="Carbon" />
 				<vflag name="-framework" value="AppKit" />
 
-				<lib name="deps/dylib/libMoltenVK.dylib" />
+				<lib name="deps/Mac/libMoltenVK.dylib" />
 				<lib name="-L../templates/bin/hl/${BINDIR}" if="SPOOPY_HASHLINK" />
 				<lib name="-lhl" if="SPOOPY_HASHLINK" />
 			</section>
