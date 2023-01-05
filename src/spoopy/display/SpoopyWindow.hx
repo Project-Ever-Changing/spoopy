@@ -5,7 +5,7 @@ import spoopy.backend.WindowRenderer;
 import lime.ui.Window;
 
 /*
- * Handles anything having to do window related so the game doesn't have too.
+ * Lime Window Wrapper.
  */
 class SpoopyWindow {
     public var width(get, set):Int;
