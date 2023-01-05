@@ -65,7 +65,7 @@ namespace spoopy {
 
         std::cout << title << std::endl;
 
-        return "Test Title";
+        return alloc_string("Test Title");
 
        /*
        SDL_Window* sourceWindow = (SDL_Window*)val_data(window);
