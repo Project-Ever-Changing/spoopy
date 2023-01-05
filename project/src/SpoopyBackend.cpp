@@ -6,6 +6,12 @@
 #define NEKO_COMPATIBLE
 #endif
 
+#ifdef _WIN32
+
+#else
+    #include <dlfcn.h>
+#endif
+
 #include <iostream>
 #include <cstdlib>
 

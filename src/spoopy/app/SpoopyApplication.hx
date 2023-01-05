@@ -1,5 +1,6 @@
 package spoopy.app;
 
+import spoopy.SpoopyEngine;
 import spoopy.display.SpoopyWindow;
 import lime.ui.Window;
 import lime.app.Application;
@@ -12,6 +13,8 @@ class SpoopyApplication extends Application {
 
     public function new() {
         super();
+
+        SpoopyEngine.init();
     }
 
     @:noCompletion override function __addWindow(window:Window):Void {
