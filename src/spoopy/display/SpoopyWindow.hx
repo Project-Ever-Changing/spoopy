@@ -18,8 +18,9 @@ class SpoopyWindow {
 
     public var applyWindowSurface:Bool = true;
 
-    @:noCompletion var __parent(default, set):Window;
+    public var parent(get, never):Window;
 
+    @:noCompletion var __parent(default, set):Window;
     @:noCompletion var __renderer:WindowRenderer;
 
     public function new(__parent:Window) {
@@ -75,5 +76,9 @@ class SpoopyWindow {
         }
 
         return "";
+    }
+
+    @:noCompletion private function get_parent():Window {
+        return __parent;
     }
 }
