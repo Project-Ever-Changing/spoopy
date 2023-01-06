@@ -19,8 +19,6 @@ namespace spoopy {
         #ifndef EMSCRIPTEN
 		if (flags & WINDOW_FLAG_ALWAYS_ON_TOP) sdlWindowFlags |= SDL_WINDOW_ALWAYS_ON_TOP;
 		#endif
-
-        cause error
     }
 
     SpoopySDLWindow::~SpoopySDLWindow() {
