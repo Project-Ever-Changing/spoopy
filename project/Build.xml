@@ -97,6 +97,8 @@
 
 		
 		<!--Spoopy Stuff-->
+		<file name="src/sdl/SpoopySDLWindow" />
+
 		<file name="src/SpoopyHelpers.cpp" />
 		<file name="src/SpoopyBackend.cpp" />
         <file name="src/ui/SpoopyWindow.cpp" />

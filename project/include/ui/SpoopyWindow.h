@@ -4,13 +4,13 @@
 #include <vector>
 
 #ifdef SPOOPY_SDL
-#include <SDL.h>
+#include <sdl/SpoopySDLWindow.h>
 #endif
 
 #include <SpoopyHelpers.h>
 
 namespace spoopy {
-    class SpoopyWindow {
+    class SpoopyWindow: public SpoopySDLWindow {
         public:
             virtual ~SpoopyWindow();
 

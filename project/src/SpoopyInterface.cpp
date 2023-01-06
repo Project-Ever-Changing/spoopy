@@ -10,3 +10,6 @@
     #define INITIALIZED_SPOOPY_BACKEND
 #endif
 
+namespace spoopy {
+    
+}
