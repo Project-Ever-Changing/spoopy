@@ -32,6 +32,7 @@
 		<compilerflag value="-Iinclude" />
 		<compilerflag value="-Ilime_include" />
 
+		<file name="src/SpoopyInterface.cpp" />
 		<file name="src/SpoopyBackend.cpp" />
 
 		<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/hashlink/src" />
@@ -97,7 +98,7 @@
 
 		
 		<!--Spoopy Stuff-->
-		<file name="src/sdl/SpoopySDLWindow" />
+		<file name="src/sdl/SpoopySDLWindow.cpp" />
 
 		<file name="src/SpoopyHelpers.cpp" />
 		<file name="src/SpoopyBackend.cpp" />
