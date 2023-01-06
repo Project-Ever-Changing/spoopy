@@ -9,6 +9,7 @@
 
     <set name="SPOOPY_MAC" value="1" if="mac || macos" />
 	<set name="SPOOPY_VULKAN" value="1" />
+	<set name="SPOOPY_SUPPORT_LIME" value="1" />
 	<set name="SPOOPY_HASHLINK" value="1" if="hashlink" />
 	<set name="SPOOPY_DEBUG" value="1" if="HXCPP_DEBUG" />
 	<set name="SPOOPY_SDL" value="1" />
@@ -42,6 +43,10 @@
 
 		<section if="SPOOPY_VULKAN">
 			<compilerflag value="-DSPOOPY_VULKAN" />
+		</section>
+
+		<section if="SPOOPY_SUPPORT_LIME">
+			<compilerflag value="-DSPOOPY_SUPPORT_LIME" />
 		</section>
 
 		<section if="SPOOPY_DEBUG_MESSENGER">
@@ -196,8 +201,12 @@
 				<vflag name="-framework" value="AppKit" />
 
 				<lib name="deps/Mac/libMoltenVK.dylib" />
-				<lib name="deps/Mac/lime.hdll" if="SPOOPY_HASHLINK" />
-				<lib name="deps/Mac/lime.ndll" unless="SPOOPY_HASHLINK" />
+
+				<section if="SPOOPY_SUPPORT_LIME">
+					<lib name="deps/Mac/lime.hdll" if="SPOOPY_HASHLINK" />
+					<lib name="deps/Mac/lime.ndll" unless="SPOOPY_HASHLINK" />
+				</section>
+				
 				<lib name="-L../templates/bin/hl/${BINDIR}" if="SPOOPY_HASHLINK" />
 				<lib name="-lhl" if="SPOOPY_HASHLINK" />
 			</section>
