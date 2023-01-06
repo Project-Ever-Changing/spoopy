@@ -16,6 +16,7 @@
 	<set name="SPOOPY_SDL_ANGLE" value="1" if="windows angle" unless="static_link" />
 	<set name="SPOOPY_SDL_ANGLE" value="1" if="winrt" />
 
+	<set name="DEPS_DIR" value="deps" unless="DEPS_DIR" />
 	<set name="OUTPUT_DIR" value="../ndll" unless="OUTPUT_DIR" />
 	<set name="NATIVE_TOOLKIT_PATH" value="lib" unless="NATIVE_TOOLKIT_PATH" />
 	<set name="NATIVE_TOOLKIT_HAVE_SDL" value="1" if="SPOOPY_SDL" />
@@ -138,7 +139,8 @@
 
 		<section unless="static_link">
 
-			<ext value=".ndll" />
+			<ext value=".ndll" if="windows || SPOOPY_MAC || linux" />
+			<ext value=".hdll" if="SPOOPY_HASHLINK" />
 
 			<section if="windows">
 
@@ -194,6 +196,8 @@
 				<vflag name="-framework" value="AppKit" />
 
 				<lib name="deps/Mac/libMoltenVK.dylib" />
+				<lib name="deps/Mac/lime.hdll" if="SPOOPY_HASHLINK" />
+				<lib name="deps/Mac/lime.ndll" unless="SPOOPY_HASHLINK" />
 				<lib name="-L../templates/bin/hl/${BINDIR}" if="SPOOPY_HASHLINK" />
 				<lib name="-lhl" if="SPOOPY_HASHLINK" />
 			</section>
