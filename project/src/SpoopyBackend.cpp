@@ -6,6 +6,10 @@
 #define NEKO_COMPATIBLE
 #endif
 
+#ifdef SPOOPY_SUPPORT_LIME
+#include <ExternalInterface.cpp>
+#endif
+
 #include <iostream>
 #include <cstdlib>
 
