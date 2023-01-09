@@ -67,7 +67,7 @@ class SpoopyNativeWindow {
             parent.__y = SpoopyCFFI.spoopy_window_get_y(handle);
 
             parent.__hidden = (Reflect.hasField(attributes, "hidden") && attributes.hidden);
-            
+            parent.id = SpoopyCFFI.spoopy_window_get_id(handle);
         }
         #end
     }
