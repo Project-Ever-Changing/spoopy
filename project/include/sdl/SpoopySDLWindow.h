@@ -13,6 +13,8 @@ namespace spoopy {
             virtual int getX() const;
             virtual int getY() const;
 
+            virtual uint32_t getID() const;
+
             /*
             * Idc about using a getter for this tbh.
             */

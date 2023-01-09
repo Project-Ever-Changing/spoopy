@@ -1,6 +1,7 @@
 package spoopy.backend;
 
 import spoopy.backend.SpoopyCFFI;
+import spoopy.backend.SpoopyCFFI;
 
 import lime.ui.WindowAttributes;
 import lime.system.DisplayMode;
@@ -61,6 +62,11 @@ class SpoopyNativeWindow {
         if(handle != null) {
             parent.__width = width;
             parent.__height = height;
+
+            parent.__x = SpoopyCFFI.spoopy_window_get_x(handle);
+            parent.__y = SpoopyCFFI.spoopy_window_get_y(handle);
+
+            parent.__hidden = (Reflect.hasField(attributes, "hidden") && attributes.hidden);
             
         }
         #end

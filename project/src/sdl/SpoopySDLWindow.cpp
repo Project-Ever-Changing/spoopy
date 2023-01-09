@@ -62,6 +62,10 @@ namespace spoopy {
 		return y;
 	}
 
+	uint32_t SpoopySDLWindow::getID() const {
+		return SDL_GetWindowID(m_window);
+	}
+
     SpoopySDLWindow::~SpoopySDLWindow() const {
 		if(m_window != nullptr) {
 			SDL_DestroyWindow (m_window);
