@@ -87,20 +87,4 @@ namespace spoopy {
        */
     }
     DEFINE_PRIME1(spoopy_window_get_title);
-
-    /*
-    * Testing Purposes
-    */
-    int spoopy_test_SDL() {
-        #ifdef SPOOPY_SDL
-        return 1;
-        #endif
-
-        #ifdef LIME_SDL
-        return 2;
-        #endif
-
-        return 0;
-    }
-    DEFINE_PRIME0(spoopy_test_SDL);
 }

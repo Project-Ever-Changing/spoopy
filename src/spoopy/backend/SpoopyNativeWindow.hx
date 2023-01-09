@@ -49,6 +49,8 @@ class SpoopyNativeWindow {
 		if (Reflect.hasField(attributes, "resizable") && attributes.resizable) flags |= cast SDL_WindowFlags.WINDOW_FLAG_RESIZABLE;
 
         flags |= SDL_WindowFlags.WINDOW_FLAG_VULKAN;
+
+        
     }
 }
 
