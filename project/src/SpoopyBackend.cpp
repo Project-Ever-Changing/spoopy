@@ -39,6 +39,7 @@ namespace spoopy {
         SpoopyWindow* window = new SpoopyWindow(width, height, flags, title.c_str());
         return CFFIPointer(window, apply_gc_window);
     }
+    DEFINE_PRIME4(spoopy_create_window);
 
     value spoopy_create_instance_device(value window, HxString name, int major, int minor, int patch) {
         const int version[3] = {major, minor, patch};
@@ -69,6 +70,18 @@ namespace spoopy {
         
     }
     DEFINE_PRIME2v(spoopy_apply_surface);
+
+    int spoopy_window_get_x(value window) {
+        SpoopyWindow* cast_Window = (SpoopyWindow*)val_data(window);
+        return cast_Window -> getX();
+    }
+    DEFINE_PRIME1(spoopy_window_get_x);
+
+    int spoopy_window_get_y(value window) {
+        SpoopyWindow* cast_Window = (SpoopyWindow*)val_data(window);
+        return cast_Window -> getY();
+    }
+    DEFINE_PRIME1(spoopy_window_get_y);
 
     value spoopy_window_get_title(value window) {
         /*

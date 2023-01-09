@@ -1,5 +1,7 @@
 package spoopy.backend;
 
+import spoopy.backend.SpoopyCFFI;
+
 import lime.ui.WindowAttributes;
 import lime.system.DisplayMode;
 import lime.ui.MouseCursor;
@@ -50,7 +52,18 @@ class SpoopyNativeWindow {
 
         flags |= SDL_WindowFlags.WINDOW_FLAG_VULKAN;
 
-        
+        var width = Reflect.hasField(attributes, "width") ? attributes.width : #if desktop 800 #else 0 #end;
+		var height = Reflect.hasField(attributes, "height") ? attributes.height : #if desktop 600 #else 0 #end;
+
+        #if (!macro && lime_cffi)
+        handle = SpoopyCFFI.spoopy_create_window(width, height, flags, title);
+
+        if(handle != null) {
+            parent.__width = width;
+            parent.__height = height;
+            
+        }
+        #end
     }
 }
 

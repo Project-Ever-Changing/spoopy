@@ -10,6 +10,9 @@ namespace spoopy {
             SpoopySDLWindow(int width, int height, int flags, const char* title);
             ~SpoopySDLWindow();
 
+            virtual int getX() const;
+            virtual int getY() const;
+
             /*
             * Idc about using a getter for this tbh.
             */
