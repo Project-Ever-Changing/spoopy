@@ -89,6 +89,12 @@ namespace spoopy {
     }
     DEFINE_PRIME1(spoopy_window_get_id);
 
+    double spoopy_window_get_scale(value window) {
+        SpoopyWindow* cast_Window = (SpoopyWindow*)val_data(window);
+        return cast_Window -> getScale();
+    }
+    DEFINE_PRIME1(spoopy_window_get_scale);
+
     value spoopy_window_get_title(value window) {
         /*
         SpoopyWindow* targetWindow = (SpoopyWindow*)val_data (window);

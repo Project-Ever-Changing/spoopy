@@ -14,13 +14,12 @@ namespace spoopy {
             virtual int getY() const;
 
             virtual uint32_t getID() const;
+            virtual double getScale() const;
 
             /*
             * Idc about using a getter for this tbh.
             */
             SDL_Window* m_window;
-            //SDL_Renderer* m_Renderer;
-			//SDL_Texture* m_Textures;
     };
 }
 #endif

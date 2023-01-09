@@ -10,6 +10,8 @@ namespace spoopy {
 	/*
 	* Heavily modified version of Lime's SDLWindow to support vulkan only.
 	* https://github.com/openfl/lime/blob/develop/project/src/backend/sdl/SDLWindow.cpp
+	*
+	* Also, graphics are gonna be handled by the GPU only. (Or atleast that's what it's suppose to.)
 	*/
     SpoopySDLWindow::SpoopySDLWindow(int width, int height, int flags, const char* title) {
 
@@ -49,6 +51,34 @@ namespace spoopy {
 		*/
 		m_window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, sdlFlags);
     }
+
+	/*
+	* I can't really find anything on get window scale with Vulkan,
+	* hopefully this is a nice method.
+	*/
+	double SpoopySDLWindow::getScale() const {
+		int pixels_width;
+		int pixels_height;
+
+		int window_width;
+		int window_height;
+
+		SDL_GetWindowSize(m_window, &window_width, &window_height);
+
+		#ifdef SPOOPY_VULKAN
+		SDL_Vulkan_GetDrawableSize(m_window, &pixels_width, &pixel_height);
+		#else
+		/*
+		* Normally I would use the `SDL_GetRendererOutputSize` but Vulkan is completely different from OpenGL.
+		* I don't know if SDL Renderer has a Vulkan backend.
+		*/
+
+		pixels_width = window_width;
+		pixels_height = window_height;
+		#endif
+
+		return double(pixels_width / window_width) * double(pixels_height / window_height);
+	}
 
 	int SpoopySDLWindow::getX() const {
 		int x, y;
