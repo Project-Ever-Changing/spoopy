@@ -66,7 +66,7 @@ namespace spoopy {
 		SDL_GetWindowSize(m_window, &window_width, &window_height);
 
 		#ifdef SPOOPY_VULKAN
-		SDL_Vulkan_GetDrawableSize(m_window, &pixels_width, &pixel_height);
+		SDL_Vulkan_GetDrawableSize(m_window, &pixels_width, &pixels_height);
 		#else
 		/*
 		* Normally I would use the `SDL_GetRendererOutputSize` but Vulkan is completely different from OpenGL.
