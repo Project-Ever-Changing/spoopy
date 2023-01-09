@@ -83,9 +83,9 @@ namespace spoopy {
     }
     DEFINE_PRIME1(spoopy_window_get_y);
 
-    uint32_t spoopy_window_get_id(value window) {
+    int32_t spoopy_window_get_id(value window) {
         SpoopyWindow* cast_Window = (SpoopyWindow*)val_data(window);
-        return cast_Window -> getID();
+        return (int32_t)cast_Window -> getID();
     }
     DEFINE_PRIME1(spoopy_window_get_id);
 
