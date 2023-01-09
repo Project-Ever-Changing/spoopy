@@ -12,8 +12,6 @@
 namespace spoopy {
     class SpoopyWindow: public SpoopySDLWindow {
         public:
-            virtual ~SpoopyWindow();
-
             virtual const char* getWindowTitle() const;
 
             #ifdef SPOOPY_VULKAN
@@ -23,20 +21,12 @@ namespace spoopy {
 
             virtual bool foundedInstanceExtensions() const {return foundInstanceExtensions;}
             #endif
-
-            #ifdef SPOOPY_SDL
-            SDL_Renderer* sdlRenderer;
-			SDL_Texture* sdlTexture;
-			SDL_Window* sdlWindow;
-            #endif
         private:
             #ifdef SPOOPY_SDL
             /*
             * Not the best setup for this.
             */
             mutable bool foundInstanceExtensions = false;
-
-			SDL_GLContext context;
             #endif
     };
 }

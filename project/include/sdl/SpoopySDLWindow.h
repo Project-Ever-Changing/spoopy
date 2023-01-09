@@ -14,6 +14,8 @@ namespace spoopy {
             * Idc about using a getter for this tbh.
             */
             SDL_Window* m_window;
+            SDL_Renderer* m_Renderer;
+			SDL_Texture* m_Textures;
     };
 }
 #endif

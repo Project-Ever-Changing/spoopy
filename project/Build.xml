@@ -32,7 +32,6 @@
 		<compilerflag value="-Iinclude" />
 		<compilerflag value="-Ilime_include" />
 
-		<file name="src/SpoopyInterface.cpp" />
 		<file name="src/SpoopyBackend.cpp" />
 
 		<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/hashlink/src" />

@@ -35,6 +35,10 @@ namespace spoopy {
     /*
     * Creation
     */
+    value spoopy_create_window(int width, int height, int flags, HxString title) {
+        
+    }
+
     value spoopy_create_instance_device(value window, HxString name, int major, int minor, int patch) {
         const int version[3] = {major, minor, patch};
 

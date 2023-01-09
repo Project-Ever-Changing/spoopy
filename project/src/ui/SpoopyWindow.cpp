@@ -60,14 +60,5 @@ namespace spoopy {
 
         return nullptr; //aka. 0
     }
-
-    SpoopyWindow::~SpoopyWindow() {
-        #ifdef SPOOPY_SDL
-        if(sdlWindow != nullptr) {
-			SDL_DestroyWindow(sdlWindow);
-			sdlWindow = nullptr;
-		}
-        #endif
-    }
     #endif
 }
