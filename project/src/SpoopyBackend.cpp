@@ -36,7 +36,8 @@ namespace spoopy {
     * Creation
     */
     value spoopy_create_window(int width, int height, int flags, HxString title) {
-        
+        SpoopyWindow* window = new SpoopyWindow(width, height, flags, title.c_str());
+        return CFFIPointer(window, apply_gc_window);
     }
 
     value spoopy_create_instance_device(value window, HxString name, int major, int minor, int patch) {
