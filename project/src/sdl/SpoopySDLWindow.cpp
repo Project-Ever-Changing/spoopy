@@ -50,7 +50,7 @@ namespace spoopy {
 		m_window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, sdlFlags);
     }
 
-	int SpoopySDLWindow::getX() {
+	int SpoopySDLWindow::getX() const {
 		int x, y;
 		SDL_GetWindowPosition(m_window, &x, &y);
 		return x;
@@ -66,7 +66,7 @@ namespace spoopy {
 		return SDL_GetWindowID(m_window);
 	}
 
-    SpoopySDLWindow::~SpoopySDLWindow() const {
+    SpoopySDLWindow::~SpoopySDLWindow() {
 		if(m_window != nullptr) {
 			SDL_DestroyWindow (m_window);
 			m_window = 0;
