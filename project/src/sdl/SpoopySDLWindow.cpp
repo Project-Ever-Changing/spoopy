@@ -25,7 +25,7 @@ namespace spoopy {
 		if (flags & SDL_WINDOW_MAXIMIZED) sdlFlags |= SDL_WINDOW_MAXIMIZED;
 
         #ifndef EMSCRIPTEN
-		if (flags & WINDOW_FLAG_ALWAYS_ON_TOP) sdlFlags |= SDL_WINDOW_ALWAYS_ON_TOP;
+		if (flags & SDL_WINDOW_ALWAYS_ON_TOP) sdlFlags |= SDL_WINDOW_ALWAYS_ON_TOP;
 		#endif
 
 		#if defined(SPOOPY_VULKAN) && !defined(EMSCRIPTEN)
