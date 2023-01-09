@@ -1,6 +1,8 @@
 #ifndef SPOOPY_SDL_WINDOW
 #define SPOOPY_SDL_WINDOW
 
+#include <SpoopyHelpers.h>
+
 #ifdef SPOOPY_SDL
 #include <SDL.h>
 

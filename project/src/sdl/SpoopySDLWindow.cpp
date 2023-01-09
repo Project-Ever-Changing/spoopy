@@ -2,6 +2,7 @@
 #include <sdl/SpoopySDLWindow.h>
 
 #ifdef HX_WINDOWS
+
 #include <SDL_syswm.h>
 #include <Windows.h>
 #endif

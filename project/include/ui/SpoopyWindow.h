@@ -7,8 +7,6 @@
 #include <sdl/SpoopySDLWindow.h>
 #endif
 
-#include <SpoopyHelpers.h>
-
 namespace spoopy {
     class SpoopyWindow: public SpoopySDLWindow {
         public:
@@ -25,7 +23,7 @@ namespace spoopy {
             #endif
         private:
             #ifdef SPOOPY_SDL
-            
+
             /*
             * Not the best setup for this.
             */
