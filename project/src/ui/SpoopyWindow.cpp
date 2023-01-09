@@ -20,7 +20,7 @@ namespace spoopy {
             throw "Unable to find SDL window.";
         }
 
-        if(!SDL_Vulkan_GetInstanceExtensions(sdlWindow, &count, nullptr)) {
+        if(!SDL_Vulkan_GetInstanceExtensions(m_window, &count, nullptr)) {
             std::cout << "Unable to query the number of Vulkan instance extensions\n";
             foundInstanceExtensions = false;
         }else {
