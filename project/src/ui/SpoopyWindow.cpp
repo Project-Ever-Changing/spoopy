@@ -6,7 +6,7 @@ namespace spoopy {
     #ifdef SPOOPY_VULKAN
     void SpoopyWindow::createWindowSurfaceVulkan(VkInstance instance, VkSurfaceKHR* surface) const {
         #ifdef SPOOPY_SDL
-        if(!SDL_Vulkan_CreateSurface(sdlWindow, instance, surface)) {
+        if(!SDL_Vulkan_CreateSurface(m_window, instance, surface)) {
             throw std::runtime_error("Failed to create Window Surface for Vulkan API!");
         }
         #endif
@@ -16,7 +16,7 @@ namespace spoopy {
         uint32_t count = 0;
 
         #ifdef SPOOPY_SDL
-        if(sdlWindow == nullptr) {
+        if(m_window == nullptr) {
             throw "Unable to find SDL window.";
         }
 
@@ -35,7 +35,7 @@ namespace spoopy {
         std::vector<const char*> names(extensionCount);
 
         #ifdef SPOOPY_SDL
-        if (!SDL_Vulkan_GetInstanceExtensions(sdlWindow, &extensionCount, names.data())) {
+        if (!SDL_Vulkan_GetInstanceExtensions(m_window, &extensionCount, names.data())) {
             std::cout << "Unable to query the number of Vulkan instance extension names\n";
             foundInstanceExtensions = false;
         }else {
@@ -53,8 +53,8 @@ namespace spoopy {
         * GLFW in a certain case, this would be a really simple implementation.
         */
         #ifdef SPOOPY_SDL
-        if(sdlWindow != nullptr) {
-            return SDL_GetWindowTitle(sdlWindow);
+        if(m_window != nullptr) {
+            return SDL_GetWindowTitle(m_window);
         }
         #endif
 
