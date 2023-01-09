@@ -12,6 +12,8 @@
 namespace spoopy {
     class SpoopyWindow: public SpoopySDLWindow {
         public:
+            SpoopyWindow(int width, int height, int flags, const char* title): SpoopySDLWindow(width, height, flags, title) {};
+
             virtual const char* getWindowTitle() const;
 
             #ifdef SPOOPY_VULKAN
