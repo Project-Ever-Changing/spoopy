@@ -4,7 +4,8 @@
 
 namespace spoopy {
     class SpoopySDLWindow {
-        SpoopySDLWindow(int width, int height, int flags, const char* title);
-        ~SpoopySDLWindow();
+        public:
+            SpoopySDLWindow(int width, int height, int flags, const char* title);
+            ~SpoopySDLWindow();
     };
 }
