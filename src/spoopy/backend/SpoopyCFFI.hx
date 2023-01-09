@@ -14,11 +14,7 @@ class SpoopyCFFI {
     public static var spoopy_application_init = CFFI.load("spoopy", "spoopy_application_init", 0);
     public static var spoopy_window_get_title = CFFI.load("spoopy", "spoopy_window_get_title", 1);
     public static var spoopy_create_window = CFFI.load("spoopy", "spoopy_create_window", 4);
-
-    /*
-    * Testing Stuff
-    */
-    public static var spoopy_test_SDL = CFFI.load("spoopy", "spoopy_test_SDL", 0);
+    
     #else
     public static function spoopy_application_init():Void {
         return;
