@@ -1,12 +1,10 @@
 package spoopy.backend;
 
-import lime._internal.backend.native.NativeWindow;
 import lime.ui.WindowAttributes;
 import lime.system.DisplayMode;
 import lime.ui.MouseCursor;
 import lime.ui.Window;
 
-@:access(lime._internal.backend.native.NativeWindow)
 @:access(lime.system.DisplayMode)
 @:access(lime.ui.Window)
 class SpoopyNativeWindow {
@@ -41,13 +39,37 @@ class SpoopyNativeWindow {
 
         if (Reflect.hasField(contextAttributes, "type") && contextAttributes.type == CAIRO) contextAttributes.hardware = false;
 
-		if (Reflect.hasField(attributes, "allowHighDPI") && attributes.allowHighDPI) flags |= cast WindowFlags.WINDOW_FLAG_ALLOW_HIGHDPI;
-		if (Reflect.hasField(attributes, "alwaysOnTop") && attributes.alwaysOnTop) flags |= cast WindowFlags.WINDOW_FLAG_ALWAYS_ON_TOP;
-		if (Reflect.hasField(attributes, "borderless") && attributes.borderless) flags |= cast WindowFlags.WINDOW_FLAG_BORDERLESS;
-		if (Reflect.hasField(attributes, "fullscreen") && attributes.fullscreen) flags |= cast WindowFlags.WINDOW_FLAG_FULLSCREEN;
-		if (Reflect.hasField(attributes, "hidden") && attributes.hidden) flags |= cast WindowFlags.WINDOW_FLAG_HIDDEN;
-		if (Reflect.hasField(attributes, "maximized") && attributes.maximized) flags |= cast WindowFlags.WINDOW_FLAG_MAXIMIZED;
-		if (Reflect.hasField(attributes, "minimized") && attributes.minimized) flags |= cast WindowFlags.WINDOW_FLAG_MINIMIZED;
-		if (Reflect.hasField(attributes, "resizable") && attributes.resizable) flags |= cast WindowFlags.WINDOW_FLAG_RESIZABLE;
+		if (Reflect.hasField(attributes, "allowHighDPI") && attributes.allowHighDPI) flags |= cast SDL_WindowFlags.WINDOW_FLAG_ALLOW_HIGHDPI;
+		if (Reflect.hasField(attributes, "alwaysOnTop") && attributes.alwaysOnTop) flags |= cast SDL_WindowFlags.WINDOW_FLAG_ALWAYS_ON_TOP;
+		if (Reflect.hasField(attributes, "borderless") && attributes.borderless) flags |= cast SDL_WindowFlags.WINDOW_FLAG_BORDERLESS;
+		if (Reflect.hasField(attributes, "fullscreen") && attributes.fullscreen) flags |= cast SDL_WindowFlags.WINDOW_FLAG_FULLSCREEN;
+		if (Reflect.hasField(attributes, "hidden") && attributes.hidden) flags |= cast SDL_WindowFlags.WINDOW_FLAG_HIDDEN;
+		if (Reflect.hasField(attributes, "maximized") && attributes.maximized) flags |= cast SDL_WindowFlags.WINDOW_FLAG_MAXIMIZED;
+		if (Reflect.hasField(attributes, "minimized") && attributes.minimized) flags |= cast SDL_WindowFlags.WINDOW_FLAG_MINIMIZED;
+		if (Reflect.hasField(attributes, "resizable") && attributes.resizable) flags |= cast SDL_WindowFlags.WINDOW_FLAG_RESIZABLE;
+
+        flags |= SDL_WindowFlags.WINDOW_FLAG_VULKAN;
     }
+}
+
+@:enum private abstract SDL_WindowFlags(Int) {
+	var WINDOW_FLAG_FULLSCREEN:SDL_WindowFlags = 0x00000001;
+	var WINDOW_FLAG_BORDERLESS:SDL_WindowFlags = 0x00000002;
+	var WINDOW_FLAG_RESIZABLE:SDL_WindowFlags = 0x00000004;
+	var WINDOW_FLAG_HARDWARE:SDL_WindowFlags = 0x00000008;
+	var WINDOW_FLAG_VSYNC:SDL_WindowFlags = 0x00000010;
+	var WINDOW_FLAG_HW_AA:SDL_WindowFlags = 0x00000020;
+	var WINDOW_FLAG_HW_AA_HIRES:SDL_WindowFlags = 0x00000060;
+	var WINDOW_FLAG_ALLOW_SHADERS:SDL_WindowFlags = 0x00000080;
+	var WINDOW_FLAG_REQUIRE_SHADER:SDL_WindowFlags = 0x00000100;
+	var WINDOW_FLAG_DEPTH_BUFFER:SDL_WindowFlags = 0x00000200;
+	var WINDOW_FLAG_STENCIL_BUFFER:SDL_WindowFlags = 0x00000400;
+	var WINDOW_FLAG_ALLOW_HIGHDPI:SDL_WindowFlags = 0x00000800;
+	var WINDOW_FLAG_HIDDEN:SDL_WindowFlags = 0x00001000;
+	var WINDOW_FLAG_MINIMIZED:SDL_WindowFlags = 0x00002000;
+	var WINDOW_FLAG_MAXIMIZED:SDL_WindowFlags = 0x00004000;
+	var WINDOW_FLAG_ALWAYS_ON_TOP:SDL_WindowFlags = 0x00008000;
+	var WINDOW_FLAG_COLOR_DEPTH_32_BIT:SDL_WindowFlags = 0x00010000;
+    var WINDOW_FLAG_VULKAN:SDL_WindowFlags = 0x10000000;
+    var WINDOW_FLAG_METAL:SDL_WindowFlags = 0x20000000;
 }
