@@ -75,7 +75,7 @@ namespace spoopy {
     value spoopy_create_physical_device(value instance) {
         InstanceDevice* cast_Instance = (InstanceDevice*)val_data(instance);
 
-        PhysicalDevice* physical = new PhysicalDevice(&cast_Instance);
+        PhysicalDevice* physical = new PhysicalDevice(&&cast_Instance);
         return CFFIPointer(physical, apply_gc_window);
     }
     DEFINE_PRIME1(spoopy_create_physical_device);
