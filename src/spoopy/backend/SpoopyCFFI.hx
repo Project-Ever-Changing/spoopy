@@ -17,6 +17,7 @@ class SpoopyCFFI {
     public static var spoopy_create_physical_device = new cpp.Callable<cpp.Object->cpp.Object>(cpp.Prime._loadPrime("spoopy", "spoopy_create_physical_device", "oo", false));
     public static var spoopy_create_logical_device = new cpp.Callable<cpp.Object->cpp.Object->cpp.Object>(cpp.Prime._loadPrime("spoopy", "spoopy_create_logical_device", "ooo", false));
     public static var spoopy_create_surface = new cpp.Callable<cpp.Object->cpp.Object->cpp.Object->cpp.Object->cpp.Object>(cpp.Prime._loadPrime("spoopy", "spoopy_create_surface", "ooooo", false));
+    public static var spoopy_window_alert = new cpp.Object<cpp.Object->String->String->cpp.Void>(cpp.Prime._loadPrime("spoopy", "spoopy_window_alert", "ossv", false));
 
     #elseif (neko || cppia)
     public static var spoopy_application_init = CFFI.load("spoopy", "spoopy_application_init", 0);
@@ -30,6 +31,7 @@ class SpoopyCFFI {
     public static var spoopy_create_physical_device = CFFI.load("spoopy", "spoopy_create_physical_device", 1);
     public static var spoopy_create_logical_device = CFFI.load("spoopy", "spoopy_create_logical_device", 2);
     public static var spoopy_create_surface = CFFI.load("spoopy", "spoopy_create_surface", 4);
+    public static var spoopy_window_alert = CFFI.load("spoopy", "spoopy_window_alert", 3);
 
     #else
     public static function spoopy_application_init():Void {
@@ -74,6 +76,10 @@ class SpoopyCFFI {
 
     public static function spoopy_create_surface(value1:Dynamic, value2:Dynamic, value3:Dynamic, value4:Dynamic):Dynamic {
         return null;
+    }
+
+    public static function spoopy_window_alert(value:Dynamic, string1:String, string2:String):Void {
+        return;
     }
     #end
 }

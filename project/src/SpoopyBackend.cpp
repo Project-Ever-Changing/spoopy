@@ -141,6 +141,12 @@ namespace spoopy {
     }
     DEFINE_PRIME1(spoopy_window_get_scale);
 
+    void spoopy_window_alert(value window_handle, HxString message, HxString title) {
+        SpoopyWindow* window = (SpoopyWindow*)val_data(window_handle);
+        window -> alert(message.c_str(), title.c_str());
+    }
+    DEFINE_PRIME3v(spoopy_window_alert);
+
     value spoopy_window_get_title(value window) {
         /*
         SpoopyWindow* targetWindow = (SpoopyWindow*)val_data (window);

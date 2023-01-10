@@ -18,6 +18,8 @@ namespace spoopy {
             virtual uint32_t getID() const;
             virtual double getScale() const;
 
+            virtual void alert(const char* message, const char* title);
+
             /*
             * Idc about using a getter for this tbh.
             */

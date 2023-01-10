@@ -81,6 +81,30 @@ namespace spoopy {
 		return double(pixels_width / window_width) * double(pixels_height / window_height);
 	}
 
+	void SpoopySDLWindow::alert (const char* message, const char* title) {
+		#if defined (HX_WINDOWS) && !defined (HX_WINRT)
+		int count = 0;
+		int speed = 0;
+		bool stopOnForeground = true;
+
+		SDL_SysWMinfo info;
+		SDL_VERSION (&info.version);
+		SDL_GetWindowWMInfo (sdlWindow, &info);
+
+		FLASHWINFO fi;
+		fi.cbSize = sizeof (FLASHWINFO);
+		fi.hwnd = info.info.win.window;
+		fi.dwFlags = stopOnForeground ? FLASHW_ALL | FLASHW_TIMERNOFG : FLASHW_ALL | FLASHW_TIMER;
+		fi.uCount = count;
+		fi.dwTimeout = speed;
+		FlashWindowEx (&fi);
+		#endif
+
+		if (message) {
+			SDL_ShowSimpleMessageBox (SDL_MESSAGEBOX_INFORMATION, title, message, sdlWindow);
+		}
+	}
+
 	int SpoopySDLWindow::getX() const {
 		int x, y;
 		SDL_GetWindowPosition(m_window, &x, &y);
