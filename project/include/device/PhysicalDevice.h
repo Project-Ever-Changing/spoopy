@@ -12,7 +12,7 @@ namespace spoopy {
 
     class PhysicalDevice {
         public:
-            PhysicalDevice(const InstanceDevice &instance);
+            PhysicalDevice(InstanceDevice &instance);
 
             #ifdef SPOOPY_VULKAN
             virtual VkPhysicalDevice getSuitablePhysical(const std::vector<VkPhysicalDevice> &physicalDevices);
