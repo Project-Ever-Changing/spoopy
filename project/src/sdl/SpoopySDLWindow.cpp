@@ -101,7 +101,7 @@ namespace spoopy {
 		#endif
 
 		if (message) {
-			SDL_ShowSimpleMessageBox (SDL_MESSAGEBOX_INFORMATION, title, message, sdlWindow);
+			SDL_ShowSimpleMessageBox (SDL_MESSAGEBOX_INFORMATION, title, message, m_window);
 		}
 	}
 
