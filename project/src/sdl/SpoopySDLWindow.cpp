@@ -105,6 +105,13 @@ namespace spoopy {
 		}
 	}
 
+	void SpoopySDLWindow::close() {
+		if(m_window != nullptr) {
+			SDL_DestroyWindow(m_window);
+			m_window = 0;
+		}
+	}
+
 	int SpoopySDLWindow::getX() const {
 		int x, y;
 		SDL_GetWindowPosition(m_window, &x, &y);

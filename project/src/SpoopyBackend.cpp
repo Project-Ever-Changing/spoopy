@@ -147,6 +147,11 @@ namespace spoopy {
     }
     DEFINE_PRIME3v(spoopy_window_alert);
 
+    void spoopy_window_close(value window_handle) {
+        SpoopyWindow* window = (SpoopyWindow*)val_data(window_handle);
+        window -> close();
+    }
+
     value spoopy_window_get_title(value window) {
         /*
         SpoopyWindow* targetWindow = (SpoopyWindow*)val_data (window);

@@ -2,6 +2,7 @@ package spoopy.backend.native;
 
 import spoopy.backend.SpoopyCFFI;
 import spoopy.backend.SpoopyCFFI;
+import spoopy.backend.SpoopyCFFI;
 
 import lime.ui.WindowAttributes;
 import lime.system.DisplayMode;
@@ -17,6 +18,8 @@ class SpoopyNativeWindow {
     private var cursor:MouseCursor;
     private var displayMode:DisplayMode;
 	private var surface:SpoopyNativeSurface;
+
+	private var closing:Bool = false;
 
     public function new(parent:Window) {
         this.parent = parent;
@@ -81,6 +84,25 @@ class SpoopyNativeWindow {
 			#if (!macro && lime_cffi)
 			SpoopyCFFI.spoopy_window_alert(handle, message, title);
 			#end
+		}
+	}
+
+	public function close():Void {
+		if(!closing) {
+			closing = true;
+			parent.onClose.dispatch();
+
+			if(!parent.onClose.canceled) {
+				if (handle != null) {
+					#if (!macro && lime_cffi)
+					SpoopyCFFI.spoopy_window_close(handle);
+					#end
+
+					handle = null;
+				}
+			}else {
+				closing = false;
+			}
 		}
 	}
 }
