@@ -76,7 +76,11 @@ class SpoopyNativeWindow {
     }
 
 	public function alert(message:String, title:String):Void {
-		
+		if (handle != null) {
+			#if (!macro && lime_cffi)
+			NativeCFFI.lime_window_alert(handle, message, title);
+			#end
+		}
 	}
 }
 
