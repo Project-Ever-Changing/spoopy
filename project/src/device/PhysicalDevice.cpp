@@ -5,7 +5,7 @@
 #include <iomanip>
 
 namespace spoopy {
-    PhysicalDevice::PhysicalDevice(InstanceDevice &instance) {
+    PhysicalDevice::PhysicalDevice(const InstanceDevice &instance) {
         #ifdef SPOOPY_VULKAN
         uint32_t physicalCount;
 
