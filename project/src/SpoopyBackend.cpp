@@ -84,7 +84,7 @@ namespace spoopy {
         InstanceDevice* cast_Instance = (InstanceDevice*)val_data(instance);
         PhysicalDevice* cast_Physical = (PhysicalDevice*)val_data(physical);
 
-        LogicalDevice* logical = new LogicalDevice(cast_Instance, cast_Physical);
+        LogicalDevice* logical = new LogicalDevice(*cast_Instance, *cast_Physical);
         logical -> initDevice();
 
         return CFFIPointer(logical, apply_gc_logical_device);
@@ -97,7 +97,7 @@ namespace spoopy {
         LogicalDevice* logical = (LogicalDevice*)val_data(logical_handle);
         SpoopyWindow* window = (SpoopyWindow*)val_data(window_handle);
 
-        SurfaceDevice* surface = new SurfaceDevice(instance, physical, logical, window);
+        SurfaceDevice* surface = new SurfaceDevice(*instance, *physical, *logical, *window);
         return CFFIPointer(surface);
     }
     DEFINE_PRIME4(spoopy_create_surface);
