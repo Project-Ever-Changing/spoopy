@@ -1,6 +1,7 @@
 package spoopy.backend.native;
 
 import spoopy.backend.SpoopyCFFI;
+import spoopy.backend.SpoopyCFFI;
 
 import lime.ui.WindowAttributes;
 import lime.system.DisplayMode;
@@ -78,7 +79,7 @@ class SpoopyNativeWindow {
 	public function alert(message:String, title:String):Void {
 		if (handle != null) {
 			#if (!macro && lime_cffi)
-			NativeCFFI.lime_window_alert(handle, message, title);
+			SpoopyCFFI.spoopy_window_alert(handle, message, title);
 			#end
 		}
 	}
