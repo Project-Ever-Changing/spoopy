@@ -15,6 +15,9 @@
 
 #include <system/CFFIPointer.h>
 #include <device/InstanceDevice.h>
+#include <device/LogicalDevice.h>
+#include <device/PhysicalDevice.h>
+#include <device/SurfaceDevice.h>
 
 using namespace lime;
 
@@ -30,6 +33,21 @@ namespace spoopy {
     void apply_gc_instance_device(value handle) {
         InstanceDevice* instanceDevice = (InstanceDevice*)val_data(handle);
         delete instanceDevice;
+    }
+
+    void apply_gc_physical_device(value handle) {
+        PhysicalDevice* physicalDevice = (PhysicalDevice*)val_data(handle);
+        delete physicalDevice;
+    }
+
+    void apply_gc_logical_device(value handle) {
+        LogicalDevice* logicalDevice = (LogicalDevice*)val_data(handle);
+        delete logicalDevice;
+    }
+
+    void apply_gc_surface(value handle) {
+        SurfaceDevice* surface = (SurfaceDevice*)val_data(handle);
+        delete surface;
     }
 
     /*
@@ -54,6 +72,36 @@ namespace spoopy {
     }
     DEFINE_PRIME5(spoopy_create_instance_device);
 
+    value spoopy_create_physical_device(value instance) {
+        InstanceDevice* cast_Instance = (InstanceDevice*)val_data(instance);
+
+        PhysicalDevice* physical = new PhysicalDevice(cast_Instance);
+        return CFFIPointer(physical, apply_gc_window);
+    }
+    DEFINE_PRIME1(spoopy_create_physical_device);
+
+    value spoopy_create_logical_device(value instance, value physical) {
+        InstanceDevice* cast_Instance = (InstanceDevice*)val_data(instance);
+        PhysicalDevice* cast_Physical = (PhysicalDevice*)val_data(physical);
+
+        LogicalDevice* logical = new LogicalDevice(cast_Instance, cast_Physical);
+        logical -> initDevice();
+
+        return CFFIPointer(logical, apply_gc_logical_device);
+    }
+    DEFINE_PRIME2(spoopy_create_logical_device);
+
+    value spoopy_create_surface(value instance_handle, value physical_handle, value logical_handle, value window_handle) {
+        InstanceDevice* instance = (InstanceDevice*)val_data(instance_handle);
+        PhysicalDevice* physical = (PhysicalDevice*)val_data(physical_handle);
+        LogicalDevice* logical = (LogicalDevice*)val_data(logical_handle);
+        SpoopyWindow* window = (SpoopyWindow*)val_data(window_handle);
+
+        SurfaceDevice* surface = new SurfaceDevice(instance, physical, logical, window);
+        return CFFIPointer(surface);
+    }
+    DEFINE_PRIME4(spoopy_create_surface);
+
     /*
     * Other
     */
@@ -61,8 +109,6 @@ namespace spoopy {
         #ifdef COMPILED_LIBS
         std::cout << "initialized application!" << std::endl;
         #endif
-
-
     }
     DEFINE_PRIME0v(spoopy_application_init);
 

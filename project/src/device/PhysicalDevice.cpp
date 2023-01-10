@@ -14,6 +14,11 @@ namespace spoopy {
         vkEnumeratePhysicalDevices(instance.getInstance(), &physicalCount, physicalDevices.data());
 
         physicalDevice = getSuitablePhysical(physicalDevices);
+
+        if (!physicalDevice) {
+		    throw std::runtime_error("Vulkan runtime error!\nFailed to find a suitable GPU!");
+        }
+
         vkGetPhysicalDeviceProperties(physicalDevice, &properties);
         vkGetPhysicalDeviceFeatures(physicalDevice, &features);
         vkGetPhysicalDeviceMemoryProperties(physicalDevice, &memoryProperties);
