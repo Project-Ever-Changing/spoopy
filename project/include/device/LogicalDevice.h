@@ -17,7 +17,7 @@ namespace spoopy {
 
     class LogicalDevice {
         public:
-            explicit LogicalDevice(const InstanceDevice &instance, const PhysicalDevice &physical);
+            LogicalDevice(const InstanceDevice &instance, const PhysicalDevice &physical);
             virtual ~LogicalDevice();
 
             virtual void initDevice();

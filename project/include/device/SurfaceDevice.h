@@ -13,7 +13,7 @@ namespace spoopy {
 
     class SurfaceDevice {
         public:
-            explicit SurfaceDevice(const InstanceDevice &instance, const PhysicalDevice &physical, const LogicalDevice &logical, const SpoopyWindow &window);
+            SurfaceDevice(const InstanceDevice &instance, const PhysicalDevice &physical, const LogicalDevice &logical, const SpoopyWindow &window);
             ~SurfaceDevice();
         private:
             const InstanceDevice &instance;

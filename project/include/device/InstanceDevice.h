@@ -19,7 +19,7 @@ namespace spoopy {
 
     class InstanceDevice {
         public:
-            explicit InstanceDevice(const SpoopyWindow &window);
+            InstanceDevice(const SpoopyWindow &window);
             virtual ~InstanceDevice();
 
             virtual void createInstance(const char* name, const int version[3]);
