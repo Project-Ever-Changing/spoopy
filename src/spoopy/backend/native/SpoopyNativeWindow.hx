@@ -3,6 +3,7 @@ package spoopy.backend.native;
 import spoopy.backend.SpoopyCFFI;
 import spoopy.backend.SpoopyCFFI;
 import spoopy.backend.SpoopyCFFI;
+import spoopy.backend.SpoopyCFFI;
 
 import lime.ui.WindowAttributes;
 import lime.system.DisplayMode;
@@ -103,6 +104,20 @@ class SpoopyNativeWindow {
 			}else {
 				closing = false;
 			}
+		}
+	}
+
+	public function context_flip():Void {
+		/*
+		* Empty until I can figure something out.
+		*/
+	}
+
+	public function focus():Void {
+		if(handle != null) {
+			#if (!macro && lime_cffi)
+			SpoopyCFFI.spoopy_window_focus(handle);
+			#end
 		}
 	}
 }

@@ -19,6 +19,7 @@ namespace spoopy {
             virtual double getScale() const;
 
             virtual void alert(const char* message, const char* title);
+            virtual void focus();
             virtual void close();
 
             /*

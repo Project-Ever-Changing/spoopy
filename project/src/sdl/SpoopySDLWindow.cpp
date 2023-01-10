@@ -105,6 +105,10 @@ namespace spoopy {
 		}
 	}
 
+	void SpoopySDLWindow::focus() {
+		SDL_RaiseWindow(m_window);
+	}
+
 	void SpoopySDLWindow::close() {
 		if(m_window != nullptr) {
 			SDL_DestroyWindow(m_window);

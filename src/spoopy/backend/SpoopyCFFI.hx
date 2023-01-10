@@ -19,6 +19,7 @@ class SpoopyCFFI {
     public static var spoopy_create_surface = new cpp.Callable<cpp.Object->cpp.Object->cpp.Object->cpp.Object->cpp.Object>(cpp.Prime._loadPrime("spoopy", "spoopy_create_surface", "ooooo", false));
     public static var spoopy_window_alert = new cpp.Object<cpp.Object->String->String->cpp.Void>(cpp.Prime._loadPrime("spoopy", "spoopy_window_alert", "ossv", false));
     public static var spoopy_window_close = new cpp.Object<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("spoopy", "spoopy_window_close", "ov", false));
+    public static var spoopy_window_focus = new cpp.Object<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("spoopy", "spoopy_window_focus", "ov", false));
 
     #elseif (neko || cppia)
     public static var spoopy_application_init = CFFI.load("spoopy", "spoopy_application_init", 0);
@@ -34,6 +35,7 @@ class SpoopyCFFI {
     public static var spoopy_create_surface = CFFI.load("spoopy", "spoopy_create_surface", 4);
     public static var spoopy_window_alert = CFFI.load("spoopy", "spoopy_window_alert", 3);
     public static var spoopy_window_close = CFFI.load("spoopy", "spoopy_window_close", 1);
+    public static var spoopy_window_focus = CFFI.load("spoopy", "spoopy_window_focus", 1);
 
     #else
     public static function spoopy_application_init():Void {
@@ -85,6 +87,10 @@ class SpoopyCFFI {
     }
 
     public static function spoopy_window_close(value:Dynamic):Void {
+        return;
+    }
+
+    public static function spoopy_window_focus(value:Dynamic):Void {
         return;
     }
     #end

@@ -152,6 +152,11 @@ namespace spoopy {
         window -> close();
     }
 
+    void spoopy_window_focus(value window_handle) {
+        SpoopyWindow* window = (SpoopyWindow*)val_data(window_handle);
+        window -> focus();
+    }
+
     value spoopy_window_get_title(value window) {
         /*
         SpoopyWindow* targetWindow = (SpoopyWindow*)val_data (window);
