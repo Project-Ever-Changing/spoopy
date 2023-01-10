@@ -29,7 +29,7 @@ class SpoopyNativeSurface {
     private function recursivelyGetVersionFromString(version:String):Array<Int> {
         var v:Array<Int> = version.split(".");
 
-        if(v.length >= 3) {
+        if(v.length < 3) {
             return recursivelyGetVersionFromString(version + ".0");
         }
 
