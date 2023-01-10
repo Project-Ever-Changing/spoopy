@@ -1,4 +1,4 @@
-package spoopy.backend;
+package spoopy.backend.native;
 
 import spoopy.backend.SpoopyCFFI;
 
@@ -15,6 +15,7 @@ class SpoopyNativeWindow {
     private var parent:Window;
     private var cursor:MouseCursor;
     private var displayMode:DisplayMode;
+	private var surface:SpoopyNativeSurface;
 
     public function new(parent:Window) {
         this.parent = parent;
@@ -57,6 +58,7 @@ class SpoopyNativeWindow {
 
         #if (!macro && lime_cffi)
         handle = SpoopyCFFI.spoopy_create_window(width, height, flags, title);
+		surface = new SpoopyNativeSurface(parent.application, this);
 
         if(handle != null) {
             parent.__width = width;
@@ -72,6 +74,10 @@ class SpoopyNativeWindow {
 		parent.__scale = SpoopyCFFI.spoopy_window_get_scale(handle);
         #end
     }
+
+	public function alert(message:String, title:String):Void {
+		
+	}
 }
 
 @:enum private abstract SDL_WindowFlags(Int) {
