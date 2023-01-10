@@ -1,8 +1,6 @@
 package spoopy.backend.native;
 
 import spoopy.backend.SpoopyCFFI;
-import spoopy.backend.SpoopyCFFI;
-import spoopy.backend.SpoopyCFFI;
 
 import lime.app.Application;
 
