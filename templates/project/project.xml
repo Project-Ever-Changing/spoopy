@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+    <!-- _____________________________ Application Settings _____________________________ -->
+	
+	<meta title="::title::" package="::packageName::" version="::version::" company="::company::" />
+	<app main="Main" path="export" file="::file::" />
+
+    <!-- _____________________________ Window Settings _____________________________ -->
+
+	<!--These window settings apply to all targets-->
+	<window width="1280" height="720" fps="120" background="#000000" hardware="true" vsync="false" />
+	
+    <!-- _____________________________ Path Settings _____________________________ -->
+
+	<source path="libs" />
+	<source path="source" />
+
+    <assets path="assets" />
+
+    <!-- _____________________________ Libraries _____________________________ -->
+	
+	<haxelib name="lime" />
+    <haxelib name="spoopy" />
+
+    <!-- _____________________________ Build Config _____________________________ -->
+
+	<!-- Implement Vulkan Into Project (optional) -->
+	<define name="spoopy-vulkan" if="desktop" unless="mac || ios" />
+
+	<!-- Implement Metal Into Project (optional) -->
+	<define name="spoopy-metal" if="mac || ios" />
+
+	<set name="BUILD_DIR" value="export/debug" if="debug" />
+	<set name="BUILD_DIR" value="export/release" if="release" />
+	<set name="BUILD_DIR" value="export/32bit" if="32" />
+</project>

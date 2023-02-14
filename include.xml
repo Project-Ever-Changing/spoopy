@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension>
+    <!--Spoopy Config-->
+    <set name="SPOOPY_MAC" value="1" if="mac || macos" />
+
+    <templatePath name="templates" />
+
+    <section unless="spoopy-vulkan">
+        <class remove="spoopy.backend.vulkan.SpoopyNativeSurface" />
+        <class remove="spoopy.backend.vulkan.SpoopyNativeWindowSurface" />
+        <class remove="spoopy.backend.vulkan.SpoopyNativeApplication" />
+
+        <class remove="spoopy.graphics.vulkan.SpoopySwapChain" />
+    </section>
+
+    <section unless="spoopy-metal">
+        <class remove="spoopy.backend.metal.SpoopyNativeSurface" />
+    </section>
+</extension>

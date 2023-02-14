@@ -1,0 +1,11 @@
+{
+    "name": "spoopy",
+    "url" : "https://github.com/Just-Feeshy/spoopy-engine",
+    "license": "MIT",
+    "tags": ["game-engine", "game", "cpp", "neko", "vulkan", "metal"],
+    "description": "Spoopy Engine is a 3D graphics engine made for Ever Changing.",
+    "classPath": "src/",
+    "version": "0.0.1",
+    "releasenote": "",
+    "contributors": ["Feeshy", "TPWAG"]
+}

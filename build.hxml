@@ -1,0 +1,11 @@
+-main RunScript
+-neko run.n
+
+-cp scripts
+-cp lime-tools
+-cp platforms
+
+-lib hxp
+-lib mlib
+-lib lime
+-lib haxe-ws
