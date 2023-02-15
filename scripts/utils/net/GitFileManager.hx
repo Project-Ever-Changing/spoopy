@@ -10,11 +10,8 @@ using StringTools;
 
 class GitFileManager {
     public static inline function download(url:String, downloadPath:String):Void {
-        trace(url);
-
-        var host:Host = new Host(url.trim());
-        var gitSocket:Socket = new Socket();
-
-        gitSocket.bind(host, 9418);
+        var url = "https://github.com";
+        var host = new Host(url);
+        trace("Hostname: " + host.host); // Output: "github.com"
     }
 }
