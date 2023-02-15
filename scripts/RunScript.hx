@@ -246,27 +246,29 @@ class RunScript {
         }
 
         for(i in 0...have_API.length) {
-            cleanG_API.push(have_API[i].split("_")[1].toLowerCase());
+            cleanG_API.push("-" + have_API[i].split("_")[1].toLowerCase());
+        }
+
+        if(FileSystem.exists("ndll")) {
+            cleanG_API.push("");
         }
 
         for(api in cleanG_API) {
-            if(!FileSystem.exists("ndll-" + api)) {
+            if(!FileSystem.exists("ndll" + api)) {
                 cleanG_API.remove(api);
             }
         }
 
-        if(cleanG_API.length > 0) { // Since this is a for each, the loop is still called when having zero elements.
-            for(api in cleanG_API) {
-                var find:String = "";
+        for(api in cleanG_API) {
+            var find:String = "";
 
-                do {
-                    find = PathUtils.recursivelyFindFile("ndll-" + api, "lime.ndll.hash");
+            do {
+                find = PathUtils.recursivelyFindFile("ndll" + api, "lime.ndll.hash");
 
-                    if(find != "") {
-                        FileSystem.deleteFile(find);
-                    }
-                }while(find != "");
-            }
+                if(find != "") {
+                    FileSystem.deleteFile(find);
+                }
+            }while(find != "");
         }
 
         Sys.setCwd("project");
