@@ -20,6 +20,8 @@ class GitFileManager {
         };
 
         ws.onmessageBytes = function(message) {
+            trace("recieved message " + message);
+
             var reader = new Reader(new BytesInput(message));
             var entryList:List<Entry> = reader.read();
 
