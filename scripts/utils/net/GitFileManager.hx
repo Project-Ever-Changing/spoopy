@@ -1,40 +1,16 @@
 package utils.net;
 
-import haxe.net.WebSocket;
-import haxe.io.BytesInput;
-import haxe.io.BytesBuffer;
-import haxe.io.Output;
-import haxe.zip.Reader;
-import haxe.zip.Entry;
-
+import sys.net.Socket;
+import sys.net.Host;
 import sys.FileSystem;
 
 import lime.utils.Bytes as LimeBytes;
 
 class GitFileManager {
     public static inline function download(url:String, downloadPath:String):Void {
-        var ws:WebSocket = WebSocket.create(url);
+        var host:Host = new Host(url);
+        var gitSocket:Socket = new Socket();
 
-        ws.onopen = function() {
-            ws.sendString("download_git_project");
-        };
-
-        ws.onmessageBytes = function(message) {
-            trace("recieved message " + message);
-
-            var reader = new Reader(new BytesInput(message));
-            var entryList:List<Entry> = reader.read();
-
-            for(entry in entryList) {
-                trace(entry.fileName);
-            }
-        }
-
-        #if sys
-        while (true) {
-            ws.process();
-            Sys.sleep(0.1);
-        }
-        #end
+        gitSocket.bind(host, 9418);
     }
 }
