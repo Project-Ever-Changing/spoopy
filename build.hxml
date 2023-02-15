@@ -1,5 +1,5 @@
 -main RunScript
--python run.py
+-neko run.n
 
 -cp scripts
 
