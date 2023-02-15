@@ -23,12 +23,12 @@ class RunScript {
             description: "Build a dynamic link library for Spoopy Engine."
         },
         {
-            name: "import_ndll",
-            description: "Import a dynamic link library from git for Spoopy Engine as a module."
-        },
-        {
             name: "destroy_ndll",
             description: "Destroy a dynamic link library from Spoopy Engine."
+        },
+        {
+            name: "import_ndll git",
+            description: "Import a dynamic link library from git for Spoopy Engine as a module."
         },
         {
             name: "update",
@@ -207,38 +207,18 @@ class RunScript {
     }
 
     static inline function destroyCMD(args:Array<String>):Void {
-        @:final var fileLocation:String = "scripts/";
+        var ndllPath:String = "ndll";
 
-        var scripts:Array<String> = [];
-
-        if(!FileSystem.exists(Sys.getCwd() + "ndll")) {
-            return;
+        if(!(args.indexOf("-no_vulkan") > 0) && !FileSys.isMac) {
+            ndllPath = "ndll-vulkan";
         }
 
-        if(FileSys.isWindows) {
-            scripts = [
-                "batch/destroy.bat"
-            ];
+        if(!(args.indexOf("-no_metal") > 0) && FileSys.isMac) {
+            ndllPath = "ndll-metal";
+        }
 
-            for(i in 0...scripts.length) {
-                if(FileSystem.exists(Sys.getCwd() + fileLocation + scripts[i])) {
-                    Sys.command(Sys.getCwd() + fileLocation + scripts[i]);
-                }else {
-                    Log.error("Could not find script: " + Sys.getCwd() + fileLocation + scripts[i]);
-                }
-            }
-        }else {
-            scripts = [
-                "shell/destroy.sh"
-            ];
-
-            for(i in 0...scripts.length) {
-                if(FileSystem.exists(Sys.getCwd() + fileLocation + scripts[i])) {
-                    Sys.command("bash", [Sys.getCwd() + fileLocation + scripts[i]]);
-                }else {
-                    Log.error("Could not find script: " + Sys.getCwd() + fileLocation + scripts[i]);
-                }
-            }
+        if(FileSystem.exists(ndllPath)) {
+            FileSystem.deleteDirectory(ndllPath);
         }
     }
 
