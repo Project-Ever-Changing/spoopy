@@ -1,10 +1,6 @@
 package;
 
 import utils.net.GitFileManager;
-import lime.tools.HXProject;
-import lime.tools.PlatformTarget;
-import lime.tools.CommandHelper;
-import lime.tools.CLICommand;
 import sys.io.File;
 import sys.FileSystem;
 import massive.sys.io.FileSys;
@@ -72,18 +68,6 @@ class RunScript {
             return;
         }
 
-        if(projectCMDS.indexOf(args[0]) != -1) {
-            if (args.length < 1) {
-                Log.error("Incorrect number of arguments for command '" + args[0] + "'");
-                return;
-            }
-
-            debug = (args.indexOf("-debug") > 1);
-            processCWD();
-        }
-
-        HXProject._debug = debug;
-
         switch(args[0]) {
             case "setup":
                 setupCMD(args);
@@ -96,9 +80,9 @@ class RunScript {
             case "update":
                 updateCMD(args);
             case "create":
-                createCMD(args);
+                nekoCompatible(args);
             case "test":
-                testCMD(args);
+                nekoCompatible(args);
             case "import_ndll":
                 importCMD(args);
             default:
@@ -156,6 +140,14 @@ class RunScript {
                 Log.error("Could not find the spoopy alias script. You can try 'spoopy selfupdate' and run setup again.");
             }
         }
+    }
+
+    static inline function nekoCompatible(args:Array<String>):Void {
+        if(!FileSystem.exists("tools.n")) {
+            Sys.command("haxe", ["tools.hxml"]);
+        }
+
+        Sys.command("neko", ["tools.n"].concat(args));
     }
 
     static inline function importCMD(args:Array<String>):Void {
@@ -263,53 +255,6 @@ class RunScript {
         }
     }
 
-    static inline function createCMD(args:Array<String>):Void {
-        if(args.length <= 1) {
-            Log.error("Incorrect number of arguments for command 'create'");
-            return;
-        }
-
-        Sys.stdout().writeString("Project Directory: ");
-
-        var projectPath:String = readLine();
-
-        projectPath = projectPath
-            .replace("'", "")
-            .replace('"', "")
-            .replace("\\", "")
-            .trim();
-
-        var project:SpoopyProject = new SpoopyProject();
-        project.project.templatePaths.push("templates");
-        project.copyAndCreateTemplate(args[1], projectPath);
-
-        if(args[2] == "-debug") {
-            Log.info("Project is located at: " + projectPath + "/" + args[1]);
-        }
-    }
-
-    static inline function testCMD(args:Array<String>):Void {
-        args.shift();
-        args = ["build"].concat(args);
-
-        Sys.command("lime", args);
-
-        var ndll_path:String = "/ndll/";
-
-        var project:SpoopyProject = new SpoopyProject();
-        project.xmlProject(Sys.getCwd());
-        project.targetPlatform("test");
-
-        if(project.project.defines.exists("spoopy-vulkan")) {
-            ndll_path = "/ndll-vulkan/";
-        }else if(project.project.defines.exists("spoopy-metal")) {
-            ndll_path = "/ndll-metal/";
-        }
-
-        project.replaceProjectNDLL(haxeLibPath + ndll_path + getHost(args), "lime.ndll");
-        runApplication(project);
-    }
-
     /*
     * Tools pretty much.
     */
@@ -359,29 +304,6 @@ class RunScript {
         return "-DSPOOPY_EMPTY";
     }
 
-    static inline function processCWD():Void {
-        var arguments = Sys.args();
-
-        if(arguments.length > 0) {
-            var lastArgument:String = "";
-
-            for(i in 0...arguments.length) {
-                lastArgument = arguments.pop();
-
-                if(lastArgument.length > 0) {
-                    break;
-                }
-            }
-
-            if(FileSystem.exists(lastArgument) && FileSystem.isDirectory(lastArgument)) {
-                haxeLibPath = Sys.getCwd();
-
-                lastArgument = new Path(lastArgument).toString();
-                Sys.setCwd(lastArgument);
-            }
-        }
-    }
-
     static inline function readLine() {
         return Sys.stdin().readLine();
     }
@@ -394,52 +316,6 @@ class RunScript {
             @:final var script:String = path + "/shell/" + file + ".sh";
             Sys.command("bash", [Sys.getCwd() + script]);
         }
-    }
-
-    static inline function getHost(args:Array<String>):String {
-        var hostArchitecture:String = "";
-        var hostPlatform:String = "";
-
-        if(args.indexOf("-32") > 1) {
-            hostArchitecture = "32";
-        }else if(args.indexOf("-64") > 1) {
-            hostArchitecture = "64";
-        }
-
-        switch(args[1]) {
-            case "windows":
-                hostPlatform = "Windows";
-            case "linux":
-                hostPlatform = "Linux";
-            case "mac":
-                hostPlatform = "Mac";
-            default:
-                hostPlatform = "";
-        }
-
-        if(hostArchitecture == "") {
-            if(System.hostArchitecture == X64) {
-                hostArchitecture = "64";
-            }else {
-                hostArchitecture = "32";
-            }
-        }
-
-        if(hostPlatform == "") {
-            if(FileSys.isWindows) {
-                hostPlatform = "Windows";
-            }else if(FileSys.isMac) {
-                hostPlatform = "Mac";
-            }else {
-                hostPlatform = "Linux";
-            }
-        }
-
-        return hostPlatform + hostArchitecture;
-    }
-
-    static inline function runApplication(project:SpoopyProject):Void {
-        project.platform.run();
     }
 
     static function askYN(question:String):Bool {

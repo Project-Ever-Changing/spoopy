@@ -1,10 +1,7 @@
 -main RunScript
--neko run.n
+-python run.py
 
 -cp scripts
--cp lime-tools
--cp platforms
 
 -lib hxp
 -lib mlib
--lib lime

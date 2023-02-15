@@ -5,8 +5,6 @@ import sys.net.Host;
 import sys.FileSystem;
 import hxp.Log;
 
-import lime.utils.Bytes as LimeBytes;
-
 using StringTools;
 
 class GitFileManager {

@@ -1,10 +1,12 @@
 package;
 
+#if lime
 
 import lime.tools.PlatformTarget;
 import lime.tools.ProjectHelper;
 import lime.tools.ProjectXMLParser;
 import lime.tools.HXProject;
+
 import massive.sys.io.FileSys;
 import sys.FileSystem;
 import hxp.System;
@@ -172,3 +174,4 @@ class SpoopyProject {
         }
     }
 }
+#end
