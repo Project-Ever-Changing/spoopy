@@ -10,7 +10,7 @@ using StringTools;
 
 class GitFileManager {
     public static inline function download(url:String, downloadPath:String):Void {
-        var url = "https://github.com";
+        var url = "google.com";
         var host = new Host(url);
         trace("Hostname: " + host.host); // Output: "github.com"
     }
