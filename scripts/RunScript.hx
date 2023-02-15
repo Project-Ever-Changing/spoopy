@@ -255,18 +255,18 @@ class RunScript {
             }
         }
 
-        trace(cleanG_API);
+        if(cleanG_API.length > 0) { // Since this is a for each, the loop is still called when having zero elements.
+            for(api in cleanG_API) {
+                var find:String = "";
 
-        for(api in cleanG_API) {
-            var find:String = "";
+                do {
+                    find = PathUtils.recursivelyFindFile("ndll-" + api, "lime.ndll.hash");
 
-            do {
-                find = PathUtils.recursivelyFindFile("ndll-" + api, "lime.ndll.hash");
-
-                if(find != "") {
-                    FileSystem.deleteFile(find);
-                }
-            }while(find != "");
+                    if(find != "") {
+                        FileSystem.deleteFile(find);
+                    }
+                }while(find != "");
+            }
         }
 
         Sys.setCwd("project");
