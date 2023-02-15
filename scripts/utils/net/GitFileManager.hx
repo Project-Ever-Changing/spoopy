@@ -15,7 +15,7 @@ class GitFileManager {
         
         var gitSocket:Socket = new Socket();
         gitSocket.connect(host, 443);
-        gitSocket.bind(host, 443);
+        //gitSocket.bind(host, 443);
 
         Log.info(gitSocket.read());
     }
