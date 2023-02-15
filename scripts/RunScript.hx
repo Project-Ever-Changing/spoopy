@@ -245,6 +245,10 @@ class RunScript {
             FileSystem.deleteDirectory("project/obj");
         }
 
+        if(have_API.indexOf("-DSPOOPY_EMPTY") > -1) {
+            have_API.remove("-DSPOOPY_EMPTY");
+        }
+
         for(i in 0...have_API.length) {
             cleanG_API.push("-" + have_API[i].split("_")[1].toLowerCase());
         }
@@ -261,8 +265,6 @@ class RunScript {
 
         for(api in cleanG_API) {
             var find:String = "";
-
-            trace("Called: " + api);
 
             do {
                 find = PathUtils.recursivelyFindFile("ndll" + api, "lime.ndll.hash");
