@@ -255,6 +255,8 @@ class RunScript {
             }
         }
 
+        trace(cleanG_API);
+
         for(api in cleanG_API) {
             var find:String = "";
 
