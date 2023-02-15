@@ -262,6 +262,8 @@ class RunScript {
         for(api in cleanG_API) {
             var find:String = "";
 
+            trace("Called");
+
             do {
                 find = PathUtils.recursivelyFindFile("ndll" + api, "lime.ndll.hash");
 
