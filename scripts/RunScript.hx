@@ -183,7 +183,10 @@ class RunScript {
         }
 
         Sys.command("git", ["clone", "--recurse-submodules", gitUrl, "modules/" + libName]);
-        Sys.command("haxelib", ["run", "hxcpp", "modules/" + libName + "/Build.xml"].concat(buildScript(build_args)));
+        Sys.setCwd("modules/" + libName);
+        Sys.command("haxelib", ["run", "hxcpp", "Build.xml"].concat(buildScript(build_args)));
+
+        PathUtils.deleteDirRecursively("obj");
     }
 
     static inline function buildCMD(args:Array<String>):Void {
@@ -196,6 +199,7 @@ class RunScript {
 
         Sys.setCwd("project");
         Sys.command("haxelib", ["run", "hxcpp", "Build.xml.tpl"].concat(buildScript(build_args)));
+        PathUtils.deleteDirRecursively("obj");
     }
 
     static inline function lsCMD(args:Array<String>):Void {
@@ -240,10 +244,6 @@ class RunScript {
     */
     static inline function buildScript(have_API:Array<String>):Array<String> {
         var cleanG_API:Array<String> = [];
-
-        if(FileSystem.exists("project/obj")) {
-            FileSystem.deleteDirectory("project/obj");
-        }
 
         if(have_API.indexOf("-DSPOOPY_EMPTY") > -1) {
             have_API.remove("-DSPOOPY_EMPTY");
