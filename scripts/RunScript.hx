@@ -135,8 +135,7 @@ class RunScript {
             if (FileSystem.exists(shellScript)) {
                 Sys.command("sudo", ["cp", shellScript, binPath + "/spoopy"]);
                 Sys.command("sudo", ["chmod", "+x", binPath + "/spoopy"]);
-            }
-            else {
+            }else {
                 Log.error("Could not find the spoopy alias script. You can try 'spoopy selfupdate' and run setup again.");
             }
         }
@@ -151,8 +150,18 @@ class RunScript {
     }
 
     static inline function importCMD(args:Array<String>):Void {
-        var arg1:Bool = args.length >= 2;
-        var arg2:Bool = args.length >= 3;
+        switch(args[1]) {
+            case "git":
+                args.shift();
+                args.shift();
+
+                subGitImport(args);
+        }
+    }
+
+    static inline function subGitImport(args:Array<String>):Void {
+        var arg1:Bool = args.length >= 0;
+        var arg2:Bool = args.length >= 1;
 
         var libName:String = "";
         var gitUrl:String = "";
@@ -171,7 +180,7 @@ class RunScript {
             gitUrl = readLine();
         }
 
-        GitFileManager.download(gitUrl, Sys.getCwd() + "/" + libName);
+        Sys.command("git", ["clone", "--recurse-submodules", gitUrl, "modules/" + libName]);
     }
 
     static inline function buildCMD(args:Array<String>):Void {
