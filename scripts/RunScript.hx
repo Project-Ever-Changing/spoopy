@@ -160,6 +160,8 @@ class RunScript {
     }
 
     static inline function subGitImport(args:Array<String>):Void {
+        var build_args:Array<String> = buildArgs(args);
+
         var arg1:Bool = args.length >= 0;
         var arg2:Bool = args.length >= 1;
 
@@ -181,30 +183,19 @@ class RunScript {
         }
 
         Sys.command("git", ["clone", "--recurse-submodules", gitUrl, "modules/" + libName]);
+        Sys.command("haxelib", ["run", "hxcpp", "modules/" + libName + "/Build.xml"].concat(buildScript(build_args)));
     }
 
     static inline function buildCMD(args:Array<String>):Void {
         var fileLocation:String = "scripts/";
-        var have_API:String = "";
-        var build_args:Array<String> = [];
+        var build_args:Array<String> = buildArgs(args);
 
         if(!FileSystem.exists(Sys.getCwd() + "ndll")) {
             FileSystem.createDirectory(Sys.getCwd() + "ndll");
         }
 
-        if(!(args.indexOf("-no_vulkan") > 0) && !FileSys.isMac) {
-            have_API = "-DSPOOPY_VULKAN";
-            build_args.push(have_API);
-        }
-
-        if(!(args.indexOf("-no_metal") > 0) && FileSys.isMac) {
-            have_API = "-DSPOOPY_METAL";
-            build_args.push(have_API);
-        }
-
-        build_args.push(getXMLArgs(args, "-include_example"));
-
-        buildScript(build_args);
+        Sys.setCwd("project");
+        Sys.command("haxelib", ["run", "hxcpp", "Build.xml.tpl"].concat(buildScript(build_args)));
     }
 
     static inline function lsCMD(args:Array<String>):Void {
@@ -247,7 +238,7 @@ class RunScript {
     /*
     * Tools pretty much.
     */
-    static inline function buildScript(have_API:Array<String>):Void {
+    static inline function buildScript(have_API:Array<String>):Array<String> {
         var cleanG_API:Array<String> = [];
 
         if(FileSystem.exists("project/obj")) {
@@ -284,8 +275,25 @@ class RunScript {
             }while(find != "");
         }
 
-        Sys.setCwd("project");
-        Sys.command("haxelib", ["run", "hxcpp", "Build.xml.tpl"].concat(have_API));
+        return have_API;
+    }
+
+    static inline function buildArgs(args:Array<String>):Array<String> {
+        var build_args:Array<String> = [];
+        var have_API:String = "";
+
+        if(!(args.indexOf("-no_vulkan") > 0) && !FileSys.isMac) {
+            have_API = "-DSPOOPY_VULKAN";
+            build_args.push(have_API);
+        }
+
+        if(!(args.indexOf("-no_metal") > 0) && FileSys.isMac) {
+            have_API = "-DSPOOPY_METAL";
+            build_args.push(have_API);
+        }
+
+        build_args.push(getXMLArgs(args, "-include_example"));
+        return build_args;
     }
 
     static inline function getXMLArgs(args:Array<String>, lookingFor:String):String {

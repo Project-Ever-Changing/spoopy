@@ -93,6 +93,10 @@ class ProjectScript {
             ndll_path = "/ndll-metal/";
         }
 
+        if(project.project.define.exists("spoopy-custom")) {
+            ndll_path = "/" + project.project.define.get("spoopy-custom") + "/";
+        }
+
         project.replaceProjectNDLL(haxeLibPath + ndll_path + getHost(args), "lime.ndll");
         project.platform.run();
     }
