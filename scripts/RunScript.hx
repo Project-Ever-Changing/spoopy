@@ -218,7 +218,7 @@ class RunScript {
         }
 
         if(FileSystem.exists(ndllPath)) {
-            FileSystem.deleteFile(ndllPath);
+            PathUtils.deleteDirRecursively(ndllPath);
         }
     }
 
