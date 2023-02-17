@@ -1,9 +1,17 @@
 package spoopy.obj.display;
 
+import haxe.rtti.CType.Abstractdef;
 import spoopy.obj.display.SpoopyDisplayObject;
-import spoopy.util.sort.alg.SortingAlgorithm;
+import spoopy.util.sort.alg.*;
 
 import lime.utils.Log;
+
+#if (haxe_ver >= 4.2)
+import Std.isOfType;
+#else
+import Std.is as isOfType;
+#end
+
 
 class SpoopyDisplayGroup<T:SpoopyDisplayObject> implements SpoopyDisplayObject<T> {
     /*
@@ -26,14 +34,18 @@ class SpoopyDisplayGroup<T:SpoopyDisplayObject> implements SpoopyDisplayObject<T
     */
     public var size(default, set):UInt;
 
+    public var active(default, set):Bool;
+    public var visible(default, set):Bool;
+
     public function new(size:UInt = 0) {
         this.size = size;
 
         objects = [];
+        sortingAlgorithm = new SpoopyQuickSort();
     }
 
     public function clear():Void {
-        if(members != null) {
+        if(objects != null) {
             var index:UInt = 0;
             var obj:T = null;
 
@@ -50,7 +62,7 @@ class SpoopyDisplayGroup<T:SpoopyDisplayObject> implements SpoopyDisplayObject<T
     }
 
     public function update(elapsed:Float):Void {
-        if(members != null) {
+        if(objects != null) {
             var index:UInt = 0;
             var obj:T = null;
 
@@ -67,7 +79,7 @@ class SpoopyDisplayGroup<T:SpoopyDisplayObject> implements SpoopyDisplayObject<T
     }
 
     public function render() {
-        if(members != null) {
+        if(objects != null) {
             var index:UInt = 0;
             var obj:T = null;
 
@@ -96,7 +108,7 @@ class SpoopyDisplayGroup<T:SpoopyDisplayObject> implements SpoopyDisplayObject<T
     }
 
     public function add(obj:T):Void {
-        if(Object == null) {
+        if(obj == null) {
             Log.warn("Cannot add `null` object.");
             return;
         }
@@ -108,7 +120,7 @@ class SpoopyDisplayGroup<T:SpoopyDisplayObject> implements SpoopyDisplayObject<T
         var index:UInt = getFirstEmpty();
 
         if (index != -1) {
-            members[index] = Object;
+            objects[index] = obj;
 
             if (index >= length) {
                 length = index + 1;
@@ -189,5 +201,49 @@ class SpoopyDisplayGroup<T:SpoopyDisplayObject> implements SpoopyDisplayObject<T
 
         objects.splice(index, 1);
 		length--;
+    }
+
+    public function sort(f:T->T->Int):Void {
+        sortingAlgorithm.sort(objects, f);
+    }
+
+    public function implementSortingAlgorithm<A:SortingAlgorithm>(algorithm:Class<A>):Void {
+        if(!isOfType(sortingAlgorithm, A)) {
+            sortingAlgorithm = cast(Type.createInstance(algorithm, []), A);
+        }
+    }
+
+    function set_active(value:Bool):Bool {
+        if(objects != null) {
+            var index:UInt = 0;
+            var obj:T = null;
+
+            while (index < length) {
+                obj = objects[index++];
+                
+                if(obj != null) {
+                    obj.active = value;
+                }
+            }
+        }
+
+        return active = value;
+    }
+
+    function set_visible(value:Bool):Bool {
+        if(objects != null) {
+            var index:UInt = 0;
+            var obj:T = null;
+
+            while (index < length) {
+                obj = objects[index++];
+                
+                if(obj != null) {
+                    obj.visible = value;
+                }
+            }
+        }
+
+        return visible = value;
     }
 }

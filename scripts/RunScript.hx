@@ -26,10 +26,12 @@ class RunScript {
             name: "destroy_ndll",
             description: "Destroy a dynamic link library from Spoopy Engine."
         },
+        /*
         {
             name: "import_ndll git",
             description: "Import a dynamic link library from git for Spoopy Engine as a module."
         },
+        */
         {
             name: "update",
             description: "Refresh and upgrade the components within Spoopy Engine."
@@ -83,8 +85,8 @@ class RunScript {
                 nekoCompatible(args);
             case "test":
                 nekoCompatible(args);
-            case "import_ndll":
-                importCMD(args);
+            //case "import_ndll":
+            //    importCMD(args);
             default:
                 Log.error("Invalid command: '" + args[0] + "'");
         }
