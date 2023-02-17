@@ -148,6 +148,11 @@ class RunScript {
         if(arguments.length > 0) {
             var lastArgument:String = new Path(arguments[arguments.length - 1]).toString();
 
+            if (((StringTools.endsWith(lastArgument, "/") && lastArgument != "/") || StringTools.endsWith(lastArgument, "\\"))
+				&& !StringTools.endsWith(lastArgument, ":\\")) {
+				lastArgument = lastArgument.substr(0, lastArgument.length - 1);
+			}
+
             if(FileSystem.exists(lastArgument) && FileSystem.isDirectory(lastArgument)) {
                 haxeLibPath = Sys.getCwd();
 
