@@ -170,14 +170,12 @@ class RunScript {
             Sys.command("haxe", ["tools.hxml"]);
         }
 
-        args.concat(["tools.n", "-nocffi"]);
+        args = args.concat(["tools.n", "-nocffi"]);
 
         var spoopyDirectory:String = Sys.getCwd();
         processCWD();
 
         var platforms:Array<String> = ["Windows", "Mac", "Mac64", "Linux", "Linux64"];
-
-        trace(args);
 
         for(platform in platforms) {
             switch(platform) {
