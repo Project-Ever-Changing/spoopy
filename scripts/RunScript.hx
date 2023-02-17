@@ -177,6 +177,8 @@ class RunScript {
 
         var platforms:Array<String> = ["Windows", "Mac", "Mac64", "Linux", "Linux64"];
 
+        Haxelib.workingDirectory = Sys.getCwd();
+
         for(platform in platforms) {
             switch(platform) {
                 case "Windows":
