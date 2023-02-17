@@ -143,12 +143,61 @@ class RunScript {
         }
     }
 
+    static inline function processCWD():Void {
+        var arguments = Sys.args();
+
+        if(arguments.length > 0) {
+            var lastArgument:String = "";
+
+            for(i in 0...arguments.length) {
+                lastArgument = arguments.pop();
+
+                if(lastArgument.length > 0) {
+                    break;
+                }
+            }
+
+            if(FileSystem.exists(lastArgument) && FileSystem.isDirectory(lastArgument)) {
+                haxeLibPath = Sys.getCwd();
+
+                lastArgument = new Path(lastArgument).toString();
+                Sys.setCwd(lastArgument);
+            }
+        }
+    }
+
     static inline function nekoCompatible(args:Array<String>):Void {
         if(!FileSystem.exists("tools.n")) {
             Sys.command("haxe", ["tools.hxml"]);
         }
 
-        Sys.command("neko", ["tools.n"].concat(args));
+        args.concat(["tools.n", "-nocffi"]);
+
+        var spoopyDirectory:String = Sys.getCwd();
+        processCWD();
+
+        var platforms:Array<String> = ["Windows", "Mac", "Mac64", "Linux", "Linux64"];
+
+        for(platform in platforms) {
+            switch(platform) {
+                case "Windows":
+                    if(System.hostPlatform == WINDOWS) {
+                        System.runCommand(spoopyDirectory, "neko", args.concat(["windows"]));
+                    }
+                case "Mac", "Mac64":
+                    if(System.hostPlatform == MAC) {
+                        System.runCommand(spoopyDirectory, "neko", args.concat(["mac"]));
+                    }
+                case "Linux":
+                    if(System.hostPlatform == LINUX && System.hostArchitecture != X64) {
+                        System.runCommand(spoopyDirectory, "neko", args.concat(["linux", "-32"]));
+                    }
+                case "Linux64":
+                    if(System.hostPlatform == LINUX && System.hostArchitecture == X64) {
+                        System.runCommand(spoopyDirectory, "neko", args.concat(["linux", "-64"]));
+                    }
+            }
+        }
     }
 
     static inline function importCMD(args:Array<String>):Void {
