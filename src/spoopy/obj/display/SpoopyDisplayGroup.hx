@@ -146,7 +146,7 @@ class SpoopyDisplayGroup<T:SpoopyDisplayObject> implements SpoopyDisplayObject {
             return;
         }
 
-        if(position < length && objects[index] == null) {
+        if(index < length && objects[index] == null) {
             objects[index] = obj;
             return;
         }
@@ -155,7 +155,7 @@ class SpoopyDisplayGroup<T:SpoopyDisplayObject> implements SpoopyDisplayObject {
             return;
         }
 
-        objects.insert(obj);
+        objects.insert(index, obj);
         length++;
     }
 
@@ -208,7 +208,7 @@ class SpoopyDisplayGroup<T:SpoopyDisplayObject> implements SpoopyDisplayObject {
 
     public function implementSortingAlgorithm<A:SortingAlgorithm>(algorithm:Class<A>):Void {
         if(!isOfType(sortingAlgorithm, A)) {
-            sortingAlgorithm = cast(Type.createInstance(algorithm, []), A);
+            sortingAlgorithm = Type.createInstance(algorithm, []);
         }
     }
 
