@@ -137,7 +137,7 @@ class SpoopyDisplayGroup<T:SpoopyDisplayObject> implements SpoopyDisplayObject {
     }
 
     public function insert(index:UInt = 0, obj:T):Void {
-        if(Object == null) {
+        if(obj == null) {
             Log.warn("Cannot add `null` object.");
             return;
         }
