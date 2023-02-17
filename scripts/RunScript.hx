@@ -262,7 +262,9 @@ class RunScript {
         args.shift();
         args = ["build"].concat(args);
 
-        Sys.command("lime", args);
+        if(Sys.command("lime", args) != 0) {
+            return;
+        }
 
         var ndll_path:String = "/ndll/";
 
