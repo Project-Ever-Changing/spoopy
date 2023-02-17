@@ -40,7 +40,7 @@ class SpoopyDisplayGroup<T:SpoopyDisplayObject> implements SpoopyDisplayObject {
         this.size = size;
 
         objects = [];
-        sortingAlgorithm = new SpoopyQuickSort();
+        sortingAlgorithm = Type.createInstance(SpoopyQuickSort, [])
     }
 
     public function clear():Void {
