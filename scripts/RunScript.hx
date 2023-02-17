@@ -13,7 +13,6 @@ using StringTools;
 
 class RunScript {
     private static var haxeLibPath:String = "";
-    private static var projectCMDS:Array<String> = ["test"];
     private static var runFromHaxelib:Bool = false;
     private static var debug:Bool = false;
 
@@ -177,6 +176,8 @@ class RunScript {
         processCWD();
 
         var platforms:Array<String> = ["Windows", "Mac", "Mac64", "Linux", "Linux64"];
+
+        trace(args);
 
         for(platform in platforms) {
             switch(platform) {
