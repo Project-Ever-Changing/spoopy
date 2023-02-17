@@ -170,7 +170,7 @@ class RunScript {
             Sys.command("haxe", ["tools.hxml"]);
         }
 
-        args = args.concat(["tools.n", "-nocffi"]);
+        args = args.concat(["-nocffi"]);
 
         var spoopyDirectory:String = Sys.getCwd();
         processCWD();
@@ -181,19 +181,19 @@ class RunScript {
             switch(platform) {
                 case "Windows":
                     if(System.hostPlatform == WINDOWS) {
-                        System.runCommand(spoopyDirectory, "neko", args.concat(["windows"]));
+                        System.runCommand(spoopyDirectory, "neko", ["tools.n"].concat(args.concat(["windows"])));
                     }
                 case "Mac", "Mac64":
                     if(System.hostPlatform == MAC) {
-                        System.runCommand(spoopyDirectory, "neko", args.concat(["mac"]));
+                        System.runCommand(spoopyDirectory, "neko", ["tools.n"].concat(args.concat(["mac"])));
                     }
                 case "Linux":
                     if(System.hostPlatform == LINUX && System.hostArchitecture != X64) {
-                        System.runCommand(spoopyDirectory, "neko", args.concat(["linux", "-32"]));
+                        System.runCommand(spoopyDirectory, "neko", ["tools.n"].concat(args.concat(["linux", "-32"])));
                     }
                 case "Linux64":
                     if(System.hostPlatform == LINUX && System.hostArchitecture == X64) {
-                        System.runCommand(spoopyDirectory, "neko", args.concat(["linux", "-64"]));
+                        System.runCommand(spoopyDirectory, "neko", ["tools.n"].concat(args.concat(["linux", "-64"])));
                     }
             }
         }
