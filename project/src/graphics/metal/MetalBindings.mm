@@ -12,15 +12,22 @@
 namespace lime {
     static MTLResourceStorageMode storageMode;
 
+    enum METAL_RESOURCE_STORAGE_MODE {
+        METAL_STORAGE_SHARED = 0x00000000;
+        METAL_STORAGE_GPU_ONLY = 0x00000002,
+        METAL_STORAGE_MANAGED = 0x00000004,
+        METAL_STORAGE_MEMORY_LESS = 0x00000008,
+    };
+
     void lime_set_resource_storage_mode(int mode) {
         switch(mode) {
-            case 0x00000002: // METAL_STORAGE_GPU_ONLY
+            case METAL_STORAGE_GPU_ONLY:
                 storageMode = MTLResourceStorageModePrivate;
                 break;
-            case 0x00000004: // METAL_STORAGE_MANAGED
+            case METAL_STORAGE_MANAGED:
                 storageMode = MTLResourceStorageModeManaged;
                 break;
-            case 0x00000008: // METAL_STORAGE_MEMORY_LESS
+            case METAL_STORAGE_MANAGED:
                 storageMode = MTLResourceStorageModeMemoryless;
                 break;
             default: // METAL_STORAGE_SHARED
