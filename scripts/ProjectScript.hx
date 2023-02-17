@@ -36,14 +36,16 @@ class ProjectScript {
         }
 
         debug = (args.indexOf("-debug") > 1);
-        processCWD();
 
         HXProject._debug = debug;
+
+        Sys.command("ls");
 
         switch(args[0]) {
             case "create":
                 createCMD(args);
             case "test":
+                processCWD();
                 testCMD(args);
             default:
                 Log.error("Invalid command: '" + args[0] + "'");
@@ -93,8 +95,8 @@ class ProjectScript {
             ndll_path = "/ndll-metal/";
         }
 
-        if(project.project.define.exists("spoopy-custom")) {
-            ndll_path = "/" + project.project.define.get("spoopy-custom") + "/";
+        if(project.project.defines.exists("spoopy-custom")) {
+            ndll_path = "/" + project.project.defines.get("spoopy-custom") + "/";
         }
 
         project.replaceProjectNDLL(haxeLibPath + ndll_path + getHost(args), "lime.ndll");
