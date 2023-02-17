@@ -6,7 +6,7 @@ import spoopy.obj.SpoopyObject;
 import lime.math.Matrix4;
 import lime.math.Matrix3;
 
-class SpoopyPoint implements SpoopyObject<SpoopyPoint> {
+class SpoopyPoint implements SpoopyObject {
     public var x:Float;
 	public var y:Float;
 	public var z:Float;

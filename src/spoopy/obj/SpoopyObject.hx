@@ -3,12 +3,7 @@ package spoopy.obj;
 /*
 * The central interface that serves as the foundation for the implementation of other objects within the project. 
 */
-interface SpoopyObject<T> {
-
-    /*
-    * Returns a copy of the object.
-    */
-    function copy():T;
+interface SpoopyObject {
 
     /*
     * Delete information that could potentially cause memory leaks.

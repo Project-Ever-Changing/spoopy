@@ -2,7 +2,7 @@ package spoopy.obj.display;
 
 import spoopy.obj.SpoopyObject;
 
-interface SpoopyDisplayObject<T> extends SpoopyObject<T> {
+interface SpoopyDisplayObject extends SpoopyObject {
 
     /*
     * If `update()` is automatically called;

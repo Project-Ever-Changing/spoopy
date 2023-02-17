@@ -2,7 +2,7 @@ package spoopy.obj.display;
 
 import spoopy.obj.geom.SpoopyPoint;
 
-interface SpoopyDisplay3D<T> implements SpoopyDisplayObject<T> {
+interface SpoopyDisplay3D implements SpoopyDisplayObject {
 
     /*
     * The `rotationMode` variable stores an enumeration value that determines the type of rotation representation used.

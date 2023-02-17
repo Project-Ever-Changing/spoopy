@@ -1,7 +1,5 @@
 package spoopy.obj.display;
 
-import haxe.rtti.CType.Abstractdef;
-import spoopy.obj.display.SpoopyDisplayObject;
 import spoopy.util.sort.alg.*;
 
 import lime.utils.Log;
@@ -13,7 +11,7 @@ import Std.is as isOfType;
 #end
 
 
-class SpoopyDisplayGroup<T:SpoopyDisplayObject> implements SpoopyDisplayObject<T> {
+class SpoopyDisplayGroup<T:SpoopyDisplayObject> implements SpoopyDisplayObject {
     /*
     * An array of all objects stored.
     */
@@ -36,6 +34,7 @@ class SpoopyDisplayGroup<T:SpoopyDisplayObject> implements SpoopyDisplayObject<T
 
     public var active(default, set):Bool;
     public var visible(default, set):Bool;
+    public var inScene(default, set):Bool;
 
     public function new(size:UInt = 0) {
         this.size = size;
@@ -213,7 +212,7 @@ class SpoopyDisplayGroup<T:SpoopyDisplayObject> implements SpoopyDisplayObject<T
         }
     }
 
-    function set_active(value:Bool):Bool {
+    @:noCompletion function set_active(value:Bool):Bool {
         if(objects != null) {
             var index:UInt = 0;
             var obj:T = null;
@@ -230,7 +229,7 @@ class SpoopyDisplayGroup<T:SpoopyDisplayObject> implements SpoopyDisplayObject<T
         return active = value;
     }
 
-    function set_visible(value:Bool):Bool {
+    @:noCompletion function set_visible(value:Bool):Bool {
         if(objects != null) {
             var index:UInt = 0;
             var obj:T = null;
@@ -245,5 +244,49 @@ class SpoopyDisplayGroup<T:SpoopyDisplayObject> implements SpoopyDisplayObject<T
         }
 
         return visible = value;
+    }
+
+    @:noCompletion function set_inScene(value:Bool):Bool {
+        if(objects != null) {
+            var index:UInt = 0;
+            var obj:T = null;
+
+            while (index < length) {
+                obj = objects[index++];
+                
+                if(obj != null) {
+                    obj.inScene = value;
+                }
+            }
+        }
+
+        return inScene = value;
+    }
+
+    @:noCompletion function set_size(value:UInt):UInt {
+        if (size == 0 || objects == null || size >= length) {
+			return size = value;
+        }
+
+        var i:Int = size;
+		var l:Int = length;
+
+        var obj:T = null;
+
+        while (i < l) {
+            obj = objects[i++];
+
+            if (obj != null) {
+                obj.clear();
+                objects.remove(obj);
+            }
+        }
+
+        length = objects.length;
+        return size = value;
+    }
+
+    public function toString():String {
+        return objects.toString();
     }
 }
