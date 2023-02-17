@@ -207,7 +207,7 @@ class SpoopyDisplayGroup<T:SpoopyDisplayObject> implements SpoopyDisplayObject {
     }
 
     public function implementSortingAlgorithm<A:SortingAlgorithm>(algorithm:Class<A>):Void {
-        if(!isOfType(sortingAlgorithm, A)) {
+        if(!isOfType(sortingAlgorithm, algorithm)) {
             sortingAlgorithm = Type.createInstance(algorithm, []);
         }
     }
