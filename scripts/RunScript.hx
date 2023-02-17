@@ -146,15 +146,7 @@ class RunScript {
         var arguments = Sys.args();
 
         if(arguments.length > 0) {
-            var lastArgument:String = "";
-
-            for(i in 0...arguments.length) {
-                lastArgument = arguments.pop();
-
-                if(lastArgument.length > 0) {
-                    break;
-                }
-            }
+            var lastArgument:String = new Path(arguments[arguments.length - 1]).toString();
 
             if(FileSystem.exists(lastArgument) && FileSystem.isDirectory(lastArgument)) {
                 haxeLibPath = Sys.getCwd();
@@ -179,7 +171,7 @@ class RunScript {
 
         Haxelib.workingDirectory = Sys.getCwd();
 
-        Sys.command("ls");
+        Sys.command(Haxelib.workingDirectory);
 
         for(platform in platforms) {
             switch(platform) {
