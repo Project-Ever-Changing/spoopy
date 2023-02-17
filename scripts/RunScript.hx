@@ -179,6 +179,8 @@ class RunScript {
 
         Haxelib.workingDirectory = Sys.getCwd();
 
+        Sys.command("ls");
+
         for(platform in platforms) {
             switch(platform) {
                 case "Windows":
