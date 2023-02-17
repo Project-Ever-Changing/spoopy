@@ -24,7 +24,7 @@ namespace lime {
         METAL_STORAGE_MEMORY_LESS = 0x00000008,
     };
 
-    void lime_set_resource_storage_mode(int mode) {
+    void spoopy_set_resource_storage_mode(int mode) {
         switch(mode) {
             case METAL_STORAGE_GPU_ONLY:
                 storageMode = MTLResourceStorageModePrivate;
@@ -45,5 +45,5 @@ namespace lime {
                 break;
         }
     }
-    DEFINE_PRIME1v(lime_set_resource_storage_mode);
+    DEFINE_PRIME1v(spoopy_set_resource_storage_mode);
 }
