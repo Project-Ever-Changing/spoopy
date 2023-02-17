@@ -1,6 +1,10 @@
 package;
 
 import utils.net.GitFileManager;
+import lime.tools.HXProject;
+import lime.tools.PlatformTarget;
+import lime.tools.CommandHelper;
+import lime.tools.CLICommand;
 import sys.io.File;
 import sys.FileSystem;
 import massive.sys.io.FileSys;
@@ -13,6 +17,7 @@ using StringTools;
 
 class RunScript {
     private static var haxeLibPath:String = "";
+    private static var projectCMDS:Array<String> = ["test"];
     private static var runFromHaxelib:Bool = false;
     private static var debug:Bool = false;
 
@@ -25,12 +30,6 @@ class RunScript {
             name: "destroy_ndll",
             description: "Destroy a dynamic link library from Spoopy Engine."
         },
-        /*
-        {
-            name: "import_ndll git",
-            description: "Import a dynamic link library from git for Spoopy Engine as a module."
-        },
-        */
         {
             name: "update",
             description: "Refresh and upgrade the components within Spoopy Engine."
@@ -69,6 +68,18 @@ class RunScript {
             return;
         }
 
+        if(projectCMDS.indexOf(args[0]) != -1) {
+            if (args.length < 1) {
+                Log.error("Incorrect number of arguments for command '" + args[0] + "'");
+                return;
+            }
+
+            debug = (args.indexOf("-debug") > 1);
+            processCWD();
+        }
+
+        HXProject._debug = debug;
+
         switch(args[0]) {
             case "setup":
                 setupCMD(args);
@@ -81,11 +92,9 @@ class RunScript {
             case "update":
                 updateCMD(args);
             case "create":
-                nekoCompatible(args);
+                createCMD(args);
             case "test":
-                nekoCompatible(args);
-            //case "import_ndll":
-            //    importCMD(args);
+                testCMD(args);
             default:
                 Log.error("Invalid command: '" + args[0] + "'");
         }
@@ -136,121 +145,35 @@ class RunScript {
             if (FileSystem.exists(shellScript)) {
                 Sys.command("sudo", ["cp", shellScript, binPath + "/spoopy"]);
                 Sys.command("sudo", ["chmod", "+x", binPath + "/spoopy"]);
-            }else {
+            }
+            else {
                 Log.error("Could not find the spoopy alias script. You can try 'spoopy selfupdate' and run setup again.");
             }
         }
     }
 
-    static inline function processCWD():Void {
-        var arguments = Sys.args();
-
-        if(arguments.length > 0) {
-            var lastArgument:String = new Path(arguments[arguments.length - 1]).toString();
-
-            if (((StringTools.endsWith(lastArgument, "/") && lastArgument != "/") || StringTools.endsWith(lastArgument, "\\"))
-				&& !StringTools.endsWith(lastArgument, ":\\")) {
-				lastArgument = lastArgument.substr(0, lastArgument.length - 1);
-			}
-
-            if(FileSystem.exists(lastArgument) && FileSystem.isDirectory(lastArgument)) {
-                haxeLibPath = Sys.getCwd();
-
-                lastArgument = new Path(lastArgument).toString();
-                Sys.setCwd(lastArgument);
-            }
-        }
-    }
-
-    static inline function nekoCompatible(args:Array<String>):Void {
-        if(!FileSystem.exists("tools.n")) {
-            Sys.command("haxe", ["tools.hxml"]);
-        }
-
-        args = args.concat(["-nocffi"]);
-
-        var spoopyDirectory:String = Sys.getCwd();
-        processCWD();
-
-        var platforms:Array<String> = ["Windows", "Mac", "Mac64", "Linux", "Linux64"];
-
-        Haxelib.workingDirectory = Sys.getCwd();
-
-        Sys.command(Haxelib.workingDirectory);
-
-        for(platform in platforms) {
-            switch(platform) {
-                case "Windows":
-                    if(System.hostPlatform == WINDOWS) {
-                        System.runCommand(spoopyDirectory, "neko", ["tools.n"].concat(args.concat(["windows"])));
-                    }
-                case "Mac", "Mac64":
-                    if(System.hostPlatform == MAC) {
-                        System.runCommand(spoopyDirectory, "neko", ["tools.n"].concat(args.concat(["mac"])));
-                    }
-                case "Linux":
-                    if(System.hostPlatform == LINUX && System.hostArchitecture != X64) {
-                        System.runCommand(spoopyDirectory, "neko", ["tools.n"].concat(args.concat(["linux", "-32"])));
-                    }
-                case "Linux64":
-                    if(System.hostPlatform == LINUX && System.hostArchitecture == X64) {
-                        System.runCommand(spoopyDirectory, "neko", ["tools.n"].concat(args.concat(["linux", "-64"])));
-                    }
-            }
-        }
-    }
-
-    static inline function importCMD(args:Array<String>):Void {
-        switch(args[1]) {
-            case "git":
-                args.shift();
-                args.shift();
-
-                subGitImport(args);
-        }
-    }
-
-    static inline function subGitImport(args:Array<String>):Void {
-        var build_args:Array<String> = buildArgs(args);
-
-        var arg1:Bool = args.length >= 0;
-        var arg2:Bool = args.length >= 1;
-
-        var libName:String = "";
-        var gitUrl:String = "";
-
-        if(arg1) {
-            libName = args[1];
-        }else {
-            Sys.stdout().writeString("Module Name: ");
-            libName = readLine();
-        }
-
-        if(arg2) {
-            gitUrl = args[2];
-        }else {
-            Sys.stdout().writeString("Git Path: ");
-            gitUrl = readLine();
-        }
-
-        Sys.command("git", ["clone", "--recurse-submodules", gitUrl, "modules/" + libName]);
-        Sys.setCwd("modules/" + libName);
-        Sys.command("haxelib", ["run", "hxcpp", "Build.xml"].concat(buildScript(build_args)));
-
-        PathUtils.deleteDirRecursively("obj");
-    }
-
     static inline function buildCMD(args:Array<String>):Void {
         var fileLocation:String = "scripts/";
-        var build_args:Array<String> = buildArgs(args);
+        var have_API:String = "";
+        var build_args:Array<String> = [];
 
         if(!FileSystem.exists(Sys.getCwd() + "ndll")) {
             FileSystem.createDirectory(Sys.getCwd() + "ndll");
         }
 
-        Sys.setCwd("project");
-        Sys.command("haxelib", ["run", "hxcpp", "Build.xml.tpl"].concat(buildScript(build_args)));
-        PathUtils.deleteDirRecursively("obj");
+        if(!(args.indexOf("-no_vulkan") > 0) && !FileSys.isMac) {
+            have_API = "-DSPOOPY_VULKAN";
+            build_args.push(have_API);
+        }
+
+        if(!(args.indexOf("-no_metal") > 0) && FileSys.isMac) {
+            have_API = "-DSPOOPY_METAL";
+            build_args.push(have_API);
+        }
+
+        build_args.push(getXMLArgs(args, "-include_example"));
+
+        buildScript(build_args);
     }
 
     static inline function lsCMD(args:Array<String>):Void {
@@ -262,18 +185,38 @@ class RunScript {
     }
 
     static inline function destroyCMD(args:Array<String>):Void {
-        var ndllPath:String = "ndll";
+        @:final var fileLocation:String = "scripts/";
 
-        if(!(args.indexOf("-no_vulkan") > 0) && !FileSys.isMac) {
-            ndllPath = "ndll-vulkan";
+        var scripts:Array<String> = [];
+
+        if(!FileSystem.exists(Sys.getCwd() + "ndll")) {
+            return;
         }
 
-        if(!(args.indexOf("-no_metal") > 0) && FileSys.isMac) {
-            ndllPath = "ndll-metal";
-        }
+        if(FileSys.isWindows) {
+            scripts = [
+                "batch/destroy.bat"
+            ];
 
-        if(FileSystem.exists(ndllPath)) {
-            PathUtils.deleteDirRecursively(ndllPath);
+            for(i in 0...scripts.length) {
+                if(FileSystem.exists(Sys.getCwd() + fileLocation + scripts[i])) {
+                    Sys.command(Sys.getCwd() + fileLocation + scripts[i]);
+                }else {
+                    Log.error("Could not find script: " + Sys.getCwd() + fileLocation + scripts[i]);
+                }
+            }
+        }else {
+            scripts = [
+                "shell/destroy.sh"
+            ];
+
+            for(i in 0...scripts.length) {
+                if(FileSystem.exists(Sys.getCwd() + fileLocation + scripts[i])) {
+                    Sys.command("bash", [Sys.getCwd() + fileLocation + scripts[i]]);
+                }else {
+                    Log.error("Could not find script: " + Sys.getCwd() + fileLocation + scripts[i]);
+                }
+            }
         }
     }
 
@@ -290,26 +233,69 @@ class RunScript {
         }
     }
 
+    static inline function createCMD(args:Array<String>):Void {
+        if(args.length <= 1) {
+            Log.error("Incorrect number of arguments for command 'create'");
+            return;
+        }
+
+        Sys.stdout().writeString("Project Directory: ");
+
+        var projectPath:String = readLine();
+
+        projectPath = projectPath
+            .replace("'", "")
+            .replace('"', "")
+            .replace("\\", "")
+            .trim();
+
+        var project:SpoopyProject = new SpoopyProject();
+        project.project.templatePaths.push("templates");
+        project.copyAndCreateTemplate(args[1], projectPath);
+
+        if(args[2] == "-debug") {
+            Log.info("Project is located at: " + projectPath + "/" + args[1]);
+        }
+    }
+
+    static inline function testCMD(args:Array<String>):Void {
+        args.shift();
+        args = ["build"].concat(args);
+
+        Sys.command("lime", args);
+
+        var ndll_path:String = "/ndll/";
+
+        var project:SpoopyProject = new SpoopyProject();
+        project.xmlProject(Sys.getCwd());
+        project.targetPlatform("test");
+
+        if(project.project.defines.exists("spoopy-vulkan")) {
+            ndll_path = "/ndll-vulkan/";
+        }else if(project.project.defines.exists("spoopy-metal")) {
+            ndll_path = "/ndll-metal/";
+        }
+
+        project.replaceProjectNDLL(haxeLibPath + ndll_path + getHost(args), "lime.ndll");
+        runApplication(project);
+    }
+
     /*
     * Tools pretty much.
     */
-    static inline function buildScript(have_API:Array<String>):Array<String> {
+    static inline function buildScript(have_API:Array<String>):Void {
         var cleanG_API:Array<String> = [];
 
-        if(have_API.indexOf("-DSPOOPY_EMPTY") > -1) {
-            have_API.remove("-DSPOOPY_EMPTY");
+        if(FileSystem.exists("project/obj")) {
+            FileSystem.deleteDirectory("project/obj");
         }
 
         for(i in 0...have_API.length) {
-            cleanG_API.push("-" + have_API[i].split("_")[1].toLowerCase());
-        }
-
-        if(FileSystem.exists("ndll")) {
-            cleanG_API.push("");
+            cleanG_API.push(have_API[i].split("_")[1].toLowerCase());
         }
 
         for(api in cleanG_API) {
-            if(!FileSystem.exists("ndll" + api)) {
+            if(!FileSystem.exists("ndll-" + api)) {
                 cleanG_API.remove(api);
             }
         }
@@ -318,7 +304,7 @@ class RunScript {
             var find:String = "";
 
             do {
-                find = PathUtils.recursivelyFindFile("ndll" + api, "lime.ndll.hash");
+                find = PathUtils.recursivelyFindFile("ndll-" + api, "lime.ndll.hash");
 
                 if(find != "") {
                     FileSystem.deleteFile(find);
@@ -326,25 +312,8 @@ class RunScript {
             }while(find != "");
         }
 
-        return have_API;
-    }
-
-    static inline function buildArgs(args:Array<String>):Array<String> {
-        var build_args:Array<String> = [];
-        var have_API:String = "";
-
-        if(!(args.indexOf("-no_vulkan") > 0) && !FileSys.isMac) {
-            have_API = "-DSPOOPY_VULKAN";
-            build_args.push(have_API);
-        }
-
-        if(!(args.indexOf("-no_metal") > 0) && FileSys.isMac) {
-            have_API = "-DSPOOPY_METAL";
-            build_args.push(have_API);
-        }
-
-        build_args.push(getXMLArgs(args, "-include_example"));
-        return build_args;
+        Sys.setCwd("project");
+        Sys.command("haxelib", ["run", "hxcpp", "Build.xml.tpl"].concat(have_API));
     }
 
     static inline function getXMLArgs(args:Array<String>, lookingFor:String):String {
@@ -360,6 +329,29 @@ class RunScript {
         return "-DSPOOPY_EMPTY";
     }
 
+    static inline function processCWD():Void {
+        var arguments = Sys.args();
+
+        if(arguments.length > 0) {
+            var lastArgument:String = "";
+
+            for(i in 0...arguments.length) {
+                lastArgument = arguments.pop();
+
+                if(lastArgument.length > 0) {
+                    break;
+                }
+            }
+
+            if(FileSystem.exists(lastArgument) && FileSystem.isDirectory(lastArgument)) {
+                haxeLibPath = Sys.getCwd();
+
+                lastArgument = new Path(lastArgument).toString();
+                Sys.setCwd(lastArgument);
+            }
+        }
+    }
+
     static inline function readLine() {
         return Sys.stdin().readLine();
     }
@@ -372,6 +364,52 @@ class RunScript {
             @:final var script:String = path + "/shell/" + file + ".sh";
             Sys.command("bash", [Sys.getCwd() + script]);
         }
+    }
+
+    static inline function getHost(args:Array<String>):String {
+        var hostArchitecture:String = "";
+        var hostPlatform:String = "";
+
+        if(args.indexOf("-32") > 1) {
+            hostArchitecture = "32";
+        }else if(args.indexOf("-64") > 1) {
+            hostArchitecture = "64";
+        }
+
+        switch(args[1]) {
+            case "windows":
+                hostPlatform = "Windows";
+            case "linux":
+                hostPlatform = "Linux";
+            case "mac":
+                hostPlatform = "Mac";
+            default:
+                hostPlatform = "";
+        }
+
+        if(hostArchitecture == "") {
+            if(System.hostArchitecture == X64) {
+                hostArchitecture = "64";
+            }else {
+                hostArchitecture = "32";
+            }
+        }
+
+        if(hostPlatform == "") {
+            if(FileSys.isWindows) {
+                hostPlatform = "Windows";
+            }else if(FileSys.isMac) {
+                hostPlatform = "Mac";
+            }else {
+                hostPlatform = "Linux";
+            }
+        }
+
+        return hostPlatform + hostArchitecture;
+    }
+
+    static inline function runApplication(project:SpoopyProject):Void {
+        project.platform.run();
     }
 
     static function askYN(question:String):Bool {

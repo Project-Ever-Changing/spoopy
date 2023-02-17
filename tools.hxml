@@ -1,9 +1,0 @@
--main ProjectScript
--neko tools.n
-
--cp scripts
--cp platforms
-
--lib hxp
--lib lime
--lib mlib
