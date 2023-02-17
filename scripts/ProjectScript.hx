@@ -39,13 +39,12 @@ class ProjectScript {
 
         HXProject._debug = debug;
 
-        Sys.command("ls");
-
         switch(args[0]) {
             case "create":
                 createCMD(args);
             case "test":
                 processCWD();
+                Sys.command("ls");
                 testCMD(args);
             default:
                 Log.error("Invalid command: '" + args[0] + "'");
