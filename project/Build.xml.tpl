@@ -94,6 +94,7 @@
 		</section>
 
 		<section if="SPOOPY_METAL">
+			<file name="src/graphics/metal/MetalBindings.mm" />
 			<file name="src/ui/metal/SpoopyWindowMetal.mm" />
 			<compilerflag value="-DSPOOPY_METAL" />
 		</section>
