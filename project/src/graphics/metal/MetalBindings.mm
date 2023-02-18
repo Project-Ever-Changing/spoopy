@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 
-#include <system/CFFIPointer.h>
+#import <ui/SpoopyWindowSurface.h>
 
 #ifdef HX_MACOS
 #import <Cocoa/Cocoa.h>
@@ -79,4 +79,10 @@ namespace lime {
         return CFFIPointer(buffer, spoopy_gc_buffer);
     }
     DEFINE_PRIME3(spoopy_create_metal_buffer);
+
+    void spoopy_assign_metal_surface(value window_surface, value metal_device) {
+        SpoopyWindowSurface* windowSurface = (SpoopyWindowSurface*)val_data(window_surface);
+        windowSurface -> assignMetalDevice(metal_device);
+    }
+    DEFINE_PRIME2v(spoopy_assign_metal_surface);
 }

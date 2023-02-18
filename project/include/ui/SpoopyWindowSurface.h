@@ -1,5 +1,7 @@
 #pragma once
 
+#include <system/CFFIPointer.h>
+
 #include <vector>
 
 #ifdef SPOOPY_VULKAN
@@ -24,6 +26,10 @@ namespace lime {
 
             #ifdef SPOOPY_VULKAN
             virtual void createWindowSurfaceVulkan(VkInstance instance, VkSurfaceKHR* surface) const = 0;
+            #endif
+
+            #ifdef SPOOPY_METAL
+            virtual void assignMetalDevice(value __layerDevice) = 0;
             #endif
     };
 

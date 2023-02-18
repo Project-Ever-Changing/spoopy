@@ -10,6 +10,7 @@
 #import <Foundation/Foundation.h>
 
 #include <ui/SpoopyWindowSurface.h>
+
 #include <SDL_metal.h>
 
 namespace lime {
@@ -20,6 +21,8 @@ namespace lime {
             #endif
 
             ~SpoopyWindowMetal();
+
+            virtual void assignMetalDevice(value __layerDevice);
 
             virtual void render();
             virtual void clear();
@@ -46,8 +49,15 @@ namespace lime {
     #ifdef SPOOPY_SDL
     SpoopyWindowMetal::SpoopyWindowMetal(const SDLWindow &m_window): m_window(m_window) {
         SDL_SetHint(SDL_HINT_RENDER_DRIVER, "Metal");
+    }
 
-        layerDevice = MTLCreateSystemDefaultDevice();
+    const SDLWindow& SpoopyWindowMetal::getWindow() const {
+        return m_window;
+    }
+    #endif
+
+    void SpoopyWindowMetal::assignMetalDevice(value __layerDevice) {
+        layerDevice = (id<MTLDevice>)val_data(__layerDevice);
 
         if (!layerDevice) {
             printf("Failed to create Metal device!");
@@ -59,11 +69,6 @@ namespace lime {
 
         commandQueue = [layerDevice newCommandQueue];
     }
-
-    const SDLWindow& SpoopyWindowMetal::getWindow() const {
-        return m_window;
-    }
-    #endif
 
     void SpoopyWindowMetal::render() {
         #ifndef OBJC_ARC
