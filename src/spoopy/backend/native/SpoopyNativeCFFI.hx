@@ -21,7 +21,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_window_surface = new cpp.Callable<cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_window_surface", "oo", false));
     public static var spoopy_update_window_surface = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_update_window_surface", "ov", false));
     public static var spoopy_release_window_surface = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_release_window_surface", "ov", false));
-
+    public static var spoopy_assign_metal_surface = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_assign_metal_surface", "oov", false));
     public static var spoopy_create_metal_default_device = new cpp.Callable<Void->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_metal_default_device", "o", false));
     public static var spoopy_create_metal_buffer = new cpp.Callable<cpp.Object->Float->Int->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_metal_buffer", "ofio", false));
     #end
@@ -48,7 +48,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_window_surface = CFFI.load("lime", "spoopy_create_window_surface", 1);
     public static var spoopy_update_window_surface = CFFI.load("lime", "spoopy_update_window_surface", 1);
     public static var spoopy_release_window_surface = CFFI.load("lime", "spoopy_release_window_surface", 1);
-
+    public static var spoopy_assign_metal_surface = CFFI.load("lime", "spoopy_assign_metal_surface", 2);
     public static var spoopy_create_metal_default_device = CFFI.load("lime", "spoopy_create_metal_default_device", 0);
     public static var spoopy_create_metal_buffer = CFFI.load("lime", "spoopy_create_metal_buffer", 3);
     #end
@@ -103,7 +103,10 @@ class SpoopyNativeCFFI {
     public static function spoopy_release_window_update(value:Dynamic):Void {
         return;
     }
-    
+
+    public static function spoopy_assign_metal_surface(value1:Dynamic, value2:Dynamic):Void {
+        return;
+    }
 
     public static function spoopy_create_metal_default_device():Dynamic {
         return null;
