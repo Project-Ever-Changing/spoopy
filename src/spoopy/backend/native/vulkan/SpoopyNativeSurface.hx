@@ -28,6 +28,13 @@ class SpoopyNativeSurface {
         handle = SpoopyNativeCFFI.spoopy_create_surface(handle_instance, handle_physical, handle_logical, handle_window_surface);
     }
 
+    /*
+    * Use for later.
+    */
+
+    public function updateWindow():Void {}
+    public function release():Void {}
+
     private function recursivelyGetVersionFromString(version:String):Array<Int> {
         var vS:Array<String> = version.split(".");
         var v:Array<Int> = [];

@@ -25,16 +25,20 @@ class SpoopySwapChain extends WindowEventManager {
 
     override public function onWindowUpdate():Void {
         super.onWindowUpdate();
-
-        #if spoopy_metal
         __surface.updateWindow();
-        #end
     }
 
     @:noCompletion override private function __registerWindowModule(window:Window):Void {
         super.__registerWindowModule(window);
 
         __surface = new SpoopyNativeSurface(window.__backend, application);
+    }
+
+    @:noCompletion override private function __unregisterWindowModule(window:Window):Void {
+        super.__unregisterWindowModule(window);
+
+        __surface.release();
+        __surface = null;
     }
 }
 
