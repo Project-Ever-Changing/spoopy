@@ -140,7 +140,6 @@ namespace lime {
     //Testing Purposes
 
     bool has_spoopy_wrapper() {
-        SPOOPY_LOG_SUCCESS("[lime.ndll] has the spoopy wrapper!");
         return true;
     }
     DEFINE_PRIME0(has_spoopy_wrapper);

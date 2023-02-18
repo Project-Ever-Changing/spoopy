@@ -28,6 +28,7 @@
     <files id="spoopy-toolkit-spirv" tags="">
         <depend files="spoopy-toolkit-spirv-depends" />
 
+        <file name="lib/spirv-cross/spirv_reflect.cpp" />
         <file name="lib/spirv-cross/spirv_cfg.cpp" />
         <file name="lib/spirv-cross/spirv_cpp.cpp" />
         <file name="lib/spirv-cross/spirv_cross_c.cpp" />
@@ -38,6 +39,5 @@
         <file name="lib/spirv-cross/spirv_hlsl.cpp" />
         <file name="lib/spirv-cross/spirv_msl.cpp" />
         <file name="lib/spirv-cross/spirv_parser.cpp" />
-        <file name="lib/spirv-cross/spirv_reflect.cpp" />
     </files>
 </xml>

@@ -46,4 +46,37 @@ namespace lime {
         }
     }
     DEFINE_PRIME1v(spoopy_set_resource_storage_mode);
+
+
+    /*
+    * Objects
+    */
+
+    void spoopy_gc_buffer(value handle) {
+        id<MTLBuffer> buffer = (id<MTLBuffer>)val_data(handle);
+
+        [buffer release];
+        buffer = nil;
+    }
+
+    void spoopy_gc_device(value handle) {
+        id<MTLDevice> device = (id<MTLDevice>)val_data(handle);
+
+        [device release];
+        device = nil;
+    }
+
+    value spoopy_create_metal_default_device() {
+        id<MTLDevice> device = MTLCreateSystemDefaultDevice();
+        return CFFIPointer(device, spoopy_gc_device);
+    }
+    DEFINE_PRIME0(spoopy_create_metal_default_device);
+
+    value spoopy_create_metal_buffer(value metal_device, double data, int size) {
+        id<MTLDevice> device = (id<MTLDevice>)val_data(metal_device);
+
+        id<MTLBuffer> buffer = [device newBufferWithBytes:(void*)(uintptr_t)data length:size options:storageMode];
+        return CFFIPointer(buffer, spoopy_gc_buffer);
+    }
+    DEFINE_PRIME3(spoopy_create_metal_buffer);
 }
