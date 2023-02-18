@@ -89,6 +89,16 @@ namespace lime {
 
     #endif
 
+    #ifdef SPOOPY_METAL
+
+    void spoopy_assign_metal_surface(value window_surface, value metal_device) {
+        SpoopyWindowSurface* windowSurface = (SpoopyWindowSurface*)val_data(window_surface);
+        windowSurface -> assignMetalDevice(metal_device);
+    }
+    DEFINE_PRIME2v(spoopy_assign_metal_surface);
+
+    #endif
+
     #if defined(SPOOPY_VULKAN) || defined(SPOOPY_METAL)
 
     void apply_gc_window_surface(value handle) {
