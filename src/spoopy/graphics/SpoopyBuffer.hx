@@ -4,7 +4,6 @@ import spoopy.graphics.SpoopySwapChain;
 
 import lime.utils.BytePointer;
 import lime.utils.ArrayBufferView;
-import lime.utils.Float32Array;
 
 @:access(spoopy.graphics.SpoopySwapChain)
 class SpoopyBuffer {
