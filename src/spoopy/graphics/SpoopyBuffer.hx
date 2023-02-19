@@ -10,6 +10,8 @@ class SpoopyBuffer {
     public var data(default, null):Dynamic;
     public var length(default, null):Int;
 
+    @:noCompletion var __cachedBackend:Array<SpoopyBufferBackend>;
+
     @:noCompletion var __backend:SpoopyBufferBackend;
     @:noCompletion var __bufferPointer:BytePointer;
 
@@ -17,9 +19,11 @@ class SpoopyBuffer {
     @:noCompletion var __device:SpoopySwapChain;
     #end
 
-    public function new(data:Dynamic, length:Int) {
+    public function new(data:Dynamic, length:Int, pool:UInt = 256) {
         this.data = data;
         this.length = length;
+
+        __cachedBackend = [];
     }
 
     public function update():Void {

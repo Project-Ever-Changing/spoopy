@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 #include <cstdlib>
 
 #import <ui/SpoopyWindowSurface.h>
@@ -79,4 +80,18 @@ namespace lime {
         return CFFIPointer(buffer, spoopy_gc_buffer);
     }
     DEFINE_PRIME3(spoopy_create_metal_buffer);
+
+    void spoopy_copy_buffer_to_buffer(value source_buffer, value destination_buffer) {
+        id<MTLBuffer> sourceBuffer = (id<MTLBuffer>)val_data(source_buffer);
+        id<MTLBuffer> destinationBuffer = (id<MTLBuffer>)val_data(destination_buffer);
+
+        void* sourceContents = [sourceBuffer contents];
+        void* destinationContents = [destinationBuffer contents];
+
+        memcpy(destinationContents, sourceContents, sourceBuffer.length);
+
+        free(sourceContents);
+        free(destinationBuffer);
+    }
+    DEFINE_PRIME2v(spoopy_copy_buffer_to_buffer);
 }
