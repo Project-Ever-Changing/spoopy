@@ -51,7 +51,7 @@ class SpoopyBuffer {
         }
 
         __cachedBackend.insert(createBackendBuffer(data, length));
-        __backend = __cachedBackend[0];
+        __backend.copyMemory(__cachedBackend[0]);
 
         if(__cachedBackend.length > pool) {
             __cachedBackend.pop();
