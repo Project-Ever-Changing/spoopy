@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension>
-    <!--Spoopy Config-->
-    <set name="SPOOPY_MAC" value="1" if="mac || macos" />
-
     <templatePath name="templates" />
+
+    <haxelib name="lime" unless="create" />
 
     <section unless="spoopy-vulkan">
         <class remove="spoopy.backend.vulkan.SpoopyNativeSurface" />
