@@ -24,6 +24,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_assign_metal_surface = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_assign_metal_surface", "oov", false));
     public static var spoopy_create_metal_default_device = new cpp.Callable<Void->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_metal_default_device", "o", false));
     public static var spoopy_create_metal_buffer = new cpp.Callable<cpp.Object->lime.utils.DataPointer->Int->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_metal_buffer", "odio", false));
+    public static var spoopy_copy_buffer_to_buffer = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_copy_buffer_to_buffer", "oov", false));
     #end
 
     #if spoopy_example
@@ -51,6 +52,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_assign_metal_surface = CFFI.load("lime", "spoopy_assign_metal_surface", 2);
     public static var spoopy_create_metal_default_device = CFFI.load("lime", "spoopy_create_metal_default_device", 0);
     public static var spoopy_create_metal_buffer = CFFI.load("lime", "spoopy_create_metal_buffer", 3);
+    public static var spoopy_copy_buffer_to_buffer = CFFI.load("lime", "spoopy_copy_buffer_to_buffer", 2);
     #end
 
     #if spoopy_example
@@ -114,6 +116,10 @@ class SpoopyNativeCFFI {
 
     public static function spoopy_create_metal_buffer(buffer:Dynamic, data:Float, size:Int):Dynamic {
         return null;
+    }
+
+    public static function spoopy_copy_buffer_to_buffer(buffer1:Dynamic, buffer2:Dynamic):Void {
+        return;
     }
     #end
 

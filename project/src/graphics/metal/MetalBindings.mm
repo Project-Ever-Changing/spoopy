@@ -16,7 +16,7 @@
 #import <Foundation/Foundation.h>
 
 namespace lime {
-    static MTLStorageMode storageMode;
+    static MTLStorageMode storageMode = MTLResourceStorageModeShared;
 
     enum METAL_RESOURCE_STORAGE_MODE {
         METAL_STORAGE_SHARED = 0x00000000,
