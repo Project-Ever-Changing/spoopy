@@ -85,13 +85,7 @@ namespace lime {
         id<MTLBuffer> sourceBuffer = (id<MTLBuffer>)val_data(source_buffer);
         id<MTLBuffer> destinationBuffer = (id<MTLBuffer>)val_data(destination_buffer);
 
-        void* sourceContents = [sourceBuffer contents];
-        void* destinationContents = [destinationBuffer contents];
-
-        memcpy(destinationContents, sourceContents, sourceBuffer.length);
-
-        free(sourceContents);
-        free(destinationBuffer);
+        memcpy([destinationBuffer contents], [sourceBuffer contents], sourceBuffer.length);
     }
     DEFINE_PRIME2v(spoopy_copy_buffer_to_buffer);
 }
