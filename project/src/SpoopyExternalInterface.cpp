@@ -97,6 +97,12 @@ namespace lime {
     }
     DEFINE_PRIME2v(spoopy_assign_metal_surface);
 
+    void spoopy_surface_set_vertex_buffer(value surface, value buffer, int offset, int atIndex) {
+        SpoopyWindowSurface* windowSurface = (SpoopyWindowSurface*)val_data(window_surface);
+        windowSurface -> setVertexBuffer(buffer, offset, atIndex);
+    }
+    DEFINE_PRIME4(spoopy_surface_set_vertex_buffer);
+
     #endif
 
     #if defined(SPOOPY_VULKAN) || defined(SPOOPY_METAL)

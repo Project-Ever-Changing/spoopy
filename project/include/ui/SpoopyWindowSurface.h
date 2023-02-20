@@ -30,6 +30,7 @@ namespace lime {
 
             #ifdef SPOOPY_METAL
             virtual void assignMetalDevice(value __layerDevice) = 0;
+            virtual void setVertexBuffer(value __buffer, int offset, int atIndex) = 0;
             #endif
     };
 

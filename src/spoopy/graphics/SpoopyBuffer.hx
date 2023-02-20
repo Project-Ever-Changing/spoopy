@@ -44,13 +44,13 @@ class SpoopyBuffer {
             bb = __cachedBackend[index++];
 
             if(bb.data == data && bb.length == length) {
-                __backend.copyMemory(bb);
+                __backend = bb;
                 return;
             }
         }
 
         __cachedBackend.insert(createBackendBuffer(data, length));
-        __backend.copyMemory(__cachedBackend[0]);
+        __backend = __cachedBackend[0];
 
         if(__cachedBackend.length > pool) {
             __cachedBackend.pop();
@@ -59,12 +59,13 @@ class SpoopyBuffer {
 
     #if (spoopy_vulkan || spoopy_metal)
     public function bindToDevice(device:SpoopySwapChain):Void {
-        if(__device != null) {
+        if(__device != null || __backend != null) {
             return;
         }
 
         __device = device;
-        __backend = createBackendBuffer(data, length);
+        __cachedBackend.insert(createBackendBuffer(data, length));
+        __backend = __cachedBackend[0];
     }
     #end
 

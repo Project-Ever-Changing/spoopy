@@ -23,6 +23,7 @@ namespace lime {
             ~SpoopyWindowMetal();
 
             virtual void assignMetalDevice(value __layerDevice);
+            virtual void setVertexBuffer(value __buffer, int offset, int atIndex);
 
             virtual void render();
             virtual void clear();
@@ -39,6 +40,8 @@ namespace lime {
             id <MTLRenderCommandEncoder> renderEncoder;
             id <MTLCommandBuffer> buffer;
             id <CAMetalDrawable> surface;
+
+            float rbga[4] = {0.0f, 0.0f, 0.0f, 0.0f};
 
             #ifndef OBJC_ARC
             NSAutoreleasePool* pool;
@@ -70,6 +73,14 @@ namespace lime {
         commandQueue = [layerDevice newCommandQueue];
     }
 
+    void SpoopyWindowMetal::setVertexBuffer(value __buffer, int offset, int atIndex) {
+        if(renderEncoder == nil) {
+            return;
+        }
+
+        //[renderEncoder ];
+    }
+
     void SpoopyWindowMetal::render() {
         #ifndef OBJC_ARC
         pool = [[NSAutoreleasePool alloc] init];
@@ -83,7 +94,7 @@ namespace lime {
         surface = [layer nextDrawable];
 
         MTLRenderPassDescriptor* renderPassDescriptor = [MTLRenderPassDescriptor new];
-        renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(0.0f, 0.0f, 0.0f, 0.0f);
+        renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(rbga[0], rbga[1], rbga[2], rbga[3]);
         renderPassDescriptor.colorAttachments[0].texture = surface.texture;
         renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
         renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
