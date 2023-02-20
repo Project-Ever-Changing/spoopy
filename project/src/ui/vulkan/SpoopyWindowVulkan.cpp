@@ -31,6 +31,12 @@ namespace lime {
         */
     }
 
+    void SpoopyWindowVulkan::cullFace(int cullMode) {
+        /*
+        * Empty
+        */
+    }
+
     const SDLWindow& SpoopyWindowVulkan::getWindow() const {
         return m_window;
     }

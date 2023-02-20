@@ -20,6 +20,8 @@ namespace lime {
             virtual void render() = 0;
             virtual void clear() = 0;
 
+            virtual void cullFace(int cullMode) = 0;
+
             #ifdef SPOOPY_SDL
             virtual const SDLWindow& getWindow() const = 0;
             #endif

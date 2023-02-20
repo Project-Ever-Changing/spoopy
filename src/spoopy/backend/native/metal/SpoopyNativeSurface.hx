@@ -1,6 +1,7 @@
 package spoopy.backend.native.metal;
 
 import spoopy.backend.native.SpoopyNativeCFFI;
+import spoopy.rendering.SpoopyCullMode;
 
 import lime._internal.backend.native.NativeWindow;
 import lime.app.Application;
@@ -14,6 +15,10 @@ class SpoopyNativeSurface {
         device = SpoopyNativeCFFI.spoopy_create_metal_default_device();
 
         SpoopyNativeCFFI.spoopy_assign_metal_surface(handle, device);
+    }
+
+    public function cullFace(cullMode:SpoopyNativeCFFI):Void {
+
     }
 
     public function updateWindow():Void {

@@ -14,6 +14,13 @@
 #include <SDL_metal.h>
 
 namespace lime {
+    enum SPOOPY_CULL_MODE {
+        CULL_MODE_NONE = 0,
+        CULL_MODE_FRONT = 0x00000001,
+        CULL_MODE_BACK = 0x00000002
+    };
+
+
     class SpoopyWindowMetal: public SpoopyWindowSurface {
         public:
             #ifdef SPOOPY_SDL
@@ -27,6 +34,8 @@ namespace lime {
 
             virtual void render();
             virtual void clear();
+
+            virtual void cullFace(int cullMode);
 
             virtual const SDLWindow& getWindow() const;
         private:
@@ -111,6 +120,24 @@ namespace lime {
         #ifndef OBJC_ARC
         [pool drain];
         #endif
+    }
+
+    void SpoopyWindowMetal::cullFace(int cullMode) {
+        if(renderEncoder == nil) {
+            return;
+        }
+
+        switch(cullMode) {
+            case CULL_MODE_FRONT:
+                [renderEncoder setCullMode:MTLCullModeFront];
+                break;
+            case CULL_MODE_BACK:
+                [renderEncoder setCullMode:MTLCullModeBack];
+                break;
+            default: // CULL_MODE_NONE
+                [renderEncoder setCullMode:MTLCullModeNone];
+                break;
+        }
     }
 
     SpoopyWindowMetal::~SpoopyWindowMetal() {

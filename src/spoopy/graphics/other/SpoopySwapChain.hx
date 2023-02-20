@@ -1,12 +1,11 @@
-
-
-package spoopy.graphics;
+package spoopy.graphics.other;
 
 import lime.ui.Window;
 import lime.graphics.RenderContext;
 
 import spoopy.app.SpoopyApplication;
 import spoopy.window.WindowEventManager;
+import spoopy.rendering.SpoopyCullMode;
 
 @:access(lime.ui.Window)
 class SpoopySwapChain extends WindowEventManager {
@@ -15,6 +14,8 @@ class SpoopySwapChain extends WindowEventManager {
     #else
     @:final public var application:SpoopyApplication;
     #end
+
+    public var cullMode(default, set):SpoopyCullMode = CULL_MODE_NONE;
 
     @:noCompletion private var __surface:SpoopyNativeSurface;
 
@@ -25,6 +26,8 @@ class SpoopySwapChain extends WindowEventManager {
 
     override public function onWindowUpdate():Void {
         super.onWindowUpdate();
+
+        __surface.cullFace(cullMode);
         __surface.updateWindow();
     }
 

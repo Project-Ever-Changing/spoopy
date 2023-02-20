@@ -15,6 +15,8 @@ namespace lime {
             virtual void render();
             virtual void clear();
 
+            virtual void cullFace(int cullMode);
+
             virtual const SDLWindow& getWindow() const;
         private:
             const SDLWindow &m_window;

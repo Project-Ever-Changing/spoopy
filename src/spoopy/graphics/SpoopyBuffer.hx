@@ -1,11 +1,15 @@
 package spoopy.graphics;
 
-import spoopy.graphics.SpoopySwapChain;
+#if (spoopy_vulkan || spoopy_metal)
+import spoopy.graphics.other.SpoopySwapChain;
+#end
 
 import lime.utils.BytePointer;
 import lime.utils.ArrayBufferView;
 
-@:access(spoopy.graphics.SpoopySwapChain)
+#if (spoopy_vulkan || spoopy_metal)
+@:access(spoopy.graphics.other.SpoopySwapChain)
+#end
 class SpoopyBuffer {
     public var data(default, null):ArrayBufferView;
     public var length(default, null):Int;
