@@ -26,6 +26,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_metal_buffer = new cpp.Callable<cpp.Object->lime.utils.DataPointer->Int->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_metal_buffer", "odio", false));
     public static var spoopy_copy_buffer_to_buffer = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_copy_buffer_to_buffer", "oov", false));
     public static var spoopy_surface_set_vertex_buffer = new cpp.Callable<cpp.Object->cpp.Object->Int->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_surface_set_vertex_buffer", "ooiiv", false));
+    public static var spoopy_set_surface_cull_face = new cpp.Callable<cpp.Object->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_surface_cull_face", "oiv", false));
     #end
 
     #if spoopy_example
@@ -55,6 +56,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_metal_buffer = CFFI.load("lime", "spoopy_create_metal_buffer", 3);
     public static var spoopy_copy_buffer_to_buffer = CFFI.load("lime", "spoopy_copy_buffer_to_buffer", 2);
     public static var spoopy_surface_set_vertex_buffer = CFFI.load("lime", "spoopy_surface_set_vertex_buffer", 4);
+    public static var spoopy_set_surface_cull_face = CFFI.load("lime", "spoopy_set_surface_cull_face", 2);
     #end
 
     #if spoopy_example
@@ -125,6 +127,10 @@ class SpoopyNativeCFFI {
     }
 
     public static function spoopy_surface_set_vertex_buffer(surface:Dynamic, buffer:Dynamic, offset:Int, atIndex:Int):Void {
+        return;
+    }
+
+    public static function spoopy_set_surface_cull_face(surface:Dynamic, cullMode:Int):Void {
         return;
     }
     #end
