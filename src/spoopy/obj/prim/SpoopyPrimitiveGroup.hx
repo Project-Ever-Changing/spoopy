@@ -1,5 +1,6 @@
 package spoopy.obj.display;
 
+import spoopy.obj.display.SpoopyDisplayObject;
 import spoopy.util.sort.alg.*;
 
 import lime.utils.Log;
@@ -11,7 +12,7 @@ import Std.is as isOfType;
 #end
 
 
-class SpoopyDisplayGroup<T:SpoopyDisplayObject> implements SpoopyDisplayObject {
+class SpoopyPrimitiveGroup<T:SpoopyPrimitive> implements SpoopyDisplayObject {
     /*
     * An array of all objects stored.
     */

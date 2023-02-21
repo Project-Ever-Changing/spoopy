@@ -1,13 +1,14 @@
-package spoopy.obj.display;
+package spoopy.obj.s3d;
 
+import spoopy.obj.data.SpoopyRotationMode;
 import spoopy.obj.geom.SpoopyPoint;
 
-interface SpoopyDisplay3D implements SpoopyDisplayObject {
+interface SpoopyNode3D {
 
     /*
     * The `rotationMode` variable stores an enumeration value that determines the type of rotation representation used.
     */
-    var rotationMode(get, set):SpoopyRotationMode;
+    var rotationMode(default, set):SpoopyRotationMode;
 
     /*
     * The 'scale' method determines the scaling factor for an object, which affects its size and proportion.
@@ -22,15 +23,15 @@ interface SpoopyDisplay3D implements SpoopyDisplayObject {
     /*
     * The `lookAt` method orients the object to face a given target by rotating it.
     */
-    function lookAt(targetPos:SpoopyPoint, up:SpoopyPoint = new SpoopyPoint(0, 1, 0));
+    function lookAt(targetPos:SpoopyPoint, up:SpoopyPoint = new SpoopyPoint(0, 1, 0)):Void;
 
     /*
     * The rotating methods rotate the object by the specified angle.
     */
 
-    function rotateX(angle:Float);
-    function rotateY(angle:Float);
-    function rotateZ(angle:Float);
+    function rotateX(angle:Float):Void;
+    function rotateY(angle:Float):Void;
+    function rotateZ(angle:Float):Void;
 
-    function rotate(point:SpoopyPoint, angle:Float);
+    function rotate(point:SpoopyPoint, angle:Float):Void;
 }

@@ -7,11 +7,11 @@ import lime.math.Matrix4;
 import lime.math.Matrix3;
 
 class SpoopyPoint implements SpoopyObject {
-    public var x:Float;
-	public var y:Float;
-	public var z:Float;
+    public var x(default, set):Float;
+	public var y(default, set):Float;
+	public var z(default, set):Float;
 
-    public inline function new(x:Float = 0, y:Float = 0, z:Float = 0) {
+    public function new(x:Float = 0, y:Float = 0, z:Float = 0) {
         set(x, y, z);
 	}
 
@@ -100,5 +100,17 @@ class SpoopyPoint implements SpoopyObject {
 
     public function toString():String {
         return '{x: ${this.x} | y: ${this.y} | z: ${this.z}}';
+    }
+
+    @:noCompletion function set_x(value:Float):Float {
+        return this.x = value;
+    }
+
+    @:noCompletion function set_y(value:Float):Float {
+        return this.y = value;
+    }
+
+    @:noCompletion function set_z(value:Float):Float {
+        return this.z = value;
     }
 }
