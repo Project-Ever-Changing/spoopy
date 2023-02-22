@@ -47,7 +47,7 @@ class SpoopyBuffer {
         while(index < __cachedBackend.length) {
             bb = __cachedBackend[index++];
 
-            if(bb.data == data && bb.length == length) {
+            if(Reflect.compare(bb.data, data) == 0 && bb.length == length) {
                 __backend = bb;
                 return;
             }

@@ -1,7 +1,9 @@
 package spoopy.obj.prim;
 
+import spoopy.obj.geom.SpoopyPoint;
 import spoopy.obj.display.SpoopyDisplayObject;
 import spoopy.util.SpoopyFloatBuffer;
+import spoopy.SpoopyCamera;
 
 class SpoopyPrimitive implements SpoopyDisplayObject {
 
@@ -30,16 +32,24 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
     */
     private var indices(default, set):SpoopyFloatBuffer;
 
+    @:noCompletion var __cameras:Array<SpoopyCamera>;
+
+    @:noCompletion var __vertices:Array<SpoopyPoint>;
+    @:noCompletion var __indices:Array<SpoopyPoint>;
+
     public function new() {
-        /*
-        * Empty.
-        */
+        __cameras = [];
+        __vertices = [];
+        __indices = [];
     }
 
     public function render():Void {
         /*
         * Empty.
         */
+        if(visible && inScene && !(__vertices == vertices) && ) {
+
+        }
     }
 
     public function update(elapsed:Float):Void {
@@ -50,6 +60,7 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
     
     public function clear():Void {
         inScene = false;
+        __cameras = null;
     }
 
     public function toString() {
