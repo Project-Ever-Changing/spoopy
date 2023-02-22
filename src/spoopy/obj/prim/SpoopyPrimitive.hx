@@ -25,12 +25,12 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
     /*
     * The `vertices` holds an array of points that define the shape of the primitive.
     */
-    private var vertices(default, set):SpoopyFloatBuffer;
+    private var vertices(default, set):Array<SpoopyPoint>;
 
     /*
     * The `indices` of the vertices that form the primitive.
     */
-    private var indices(default, set):SpoopyFloatBuffer;
+    private var indices(default, set):Array<SpoopyPoint>;
 
     @:noCompletion var __cameras:Array<SpoopyCamera>;
 
@@ -67,6 +67,18 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
 		return Type.getClassName(Type.getClass(this)).split(".").pop();
 	}
 
+    @:noCompletion function allocPoints():Void {
+        for(camera in __cameras) {
+
+        }
+    }
+
+    @:noCompletion function deallocPoints():Void {
+        for(camera in __cameras) {
+
+        }
+    }
+
     @:noCompletion function set_active(value:Bool):Bool {
         return active = value;
     }
@@ -79,11 +91,11 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
         return inScene = value;
     }
 
-    @:noCompletion function set_vertices(value:SpoopyFloatBuffer):SpoopyFloatBuffer {
+    @:noCompletion function set_vertices(value:Array<SpoopyPoint>):Array<SpoopyPoint> {
         return vertices = value;
     }
 
-    @:noCompletion function set_indices(value:SpoopyFloatBuffer):SpoopyFloatBuffer {
+    @:noCompletion function set_indices(value:Array<SpoopyPoint>):Array<SpoopyPoint> {
         return indices = value;
     }
 }

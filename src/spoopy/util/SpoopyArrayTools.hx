@@ -12,6 +12,20 @@ class SpoopyArrayTools {
         return (cast Type.createInstance(algorithm, [])).sort(array, f);
     }
 
+    public static function equals<T>(a1:Array<T>, a2:Array<T>):Bool {
+        if (a1.length != a2.length) {
+            return false;
+        }
+
+        for (i in 0...a1.length) {
+            if (a1[i] != a2[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public static inline function byValues(sort:Int, a:Float, b:Float):Int {
         var result:Int = 0;
 
