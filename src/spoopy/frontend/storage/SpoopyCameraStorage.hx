@@ -1,4 +1,4 @@
-package spoopy.backend.storage;
+package spoopy.frontend.storage;
 
 import spoopy.obj.SpoopyCamera;
 

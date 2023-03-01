@@ -50,7 +50,7 @@ class SpoopyBuffer {
         while(index < __cachedBackend.length) {
             bb = __cachedBackend[index++];
 
-            if(SpoopyArrayTools.equals(bb.data.data, data.data) == 0 && bb.length == length) {
+            if(SpoopyFloatBuffer.equals(bb.data, data) && bb.length == length) {
                 __backend = bb;
                 return;
             }
@@ -81,7 +81,7 @@ class SpoopyBuffer {
         var __bufferPointer:BytePointer = new BytePointer();
         __bufferPointer.set(data);
 
-        return new SpoopyBufferBackend(__device.__surface, length, data.data, data.buffer);
+        return new SpoopyBufferBackend(__device.__surface, length, data);
     }
 }
 

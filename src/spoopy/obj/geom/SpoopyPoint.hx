@@ -92,7 +92,7 @@ class SpoopyPoint implements SpoopyObject {
         return new SpoopyPoint(x, y, z);
     }
 
-    public inline function clear():Void {
+    public inline function destroy():Void {
         this.x = 0;
         this.y = 0;
         this.z = 0;

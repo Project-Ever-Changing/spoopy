@@ -1,17 +1,16 @@
 package spoopy.backend.native.metal;
 
 import spoopy.backend.native.SpoopyNativeCFFI;
-
-import lime.utils.DataPointer;
+import spoopy.util.SpoopyFloatBuffer;
 
 class SpoopyBufferMetal {
     public var handle:Dynamic;
 
     public var length(default, null):Int;
     public var list(default, null):Array<Int>;
-    public var data(default, null):DataPointer;
+    public var data(default, null):SpoopyFloatBuffer;
 
-    public function new(surface:SpoopyNativeSurface, length:Int, list:Array<Int>, data:DataPointer) {
+    public function new(surface:SpoopyNativeSurface, length:Int, data:SpoopyFloatBuffer) {
         this.length = length;
         this.list = list;
         this.data = data;
@@ -19,7 +18,11 @@ class SpoopyBufferMetal {
         //handle = SpoopyNativeCFFI.spoopy_create_metal_buffer(surface.device);
     }
 
-    public function copyMemory(buffer:SpoopyBufferMetal):Void {
-        SpoopyNativeCFFI.spoopy_copy_buffer_to_buffer(handle, buffer.handle);
+    public function lengthBytes():Int {
+        SpoopyNativeCFFI.spoopy_get_buffer_length_bytes(handle);
+    }
+
+    public function copyMemory(buffer:SpoopyBufferMetal, size:Int):Void {
+        SpoopyNativeCFFI.spoopy_copy_buffer_to_buffer(handle, buffer.handle, size);
     }
 }

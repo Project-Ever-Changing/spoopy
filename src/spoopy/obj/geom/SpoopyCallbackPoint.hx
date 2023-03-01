@@ -7,6 +7,12 @@ class SpoopyCallbackPoint extends SpoopyPoint {
         super(x, y, z);
     }
 
+    override public function destroy():Void {
+        super.destroy();
+
+        this.callback = null;
+    }
+
     @:noCompletion override function set_x(value:Float):Float {
         callback(value, y, z);
         return this.x = value;

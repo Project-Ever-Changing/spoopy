@@ -1,5 +1,9 @@
 package spoopy.util;
 
+import lime.utils.Float32Array;
+import lime.utils.Float64Array;
+
+import spoopy.util.SpoopyFloatBuffer;
 import spoopy.util.sort.alg.*;
 
 @:enum abstract SortBy(Int) {
@@ -19,6 +23,25 @@ class SpoopyArrayTools {
 
         for (i in 0...a1.length) {
             if (a1[i] != a2[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static function equalsLarge<T>(a1:Array<T>, a2:Array<T>):Bool {
+        if (a1.length != a2.length) {
+            return false;
+        }
+
+        var length = a1.length;
+        var half = Std.int(length * 0.5);
+
+        for(i in 0...half) {
+            var j = a1.length - i;
+
+            if (a1[i] != a2[i] || a1[j] != a2[j]) {
                 return false;
             }
         }

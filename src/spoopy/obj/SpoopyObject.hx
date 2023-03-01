@@ -9,7 +9,7 @@ interface SpoopyObject {
     * Delete information that could potentially cause memory leaks.
     * AFTER THIS METHOD IS CALLED THE OBJECT BECOMES UNUSEABLE!!
     */
-    function clear():Void;
+    function destroy():Void;
 
     /*
     * Return a string name of the object.

@@ -1,9 +1,10 @@
 package spoopy.obj.prim;
 
+import spoopy.obj.SpoopyCamera;
 import spoopy.obj.geom.SpoopyPoint;
 import spoopy.obj.display.SpoopyDisplayObject;
+import spoopy.graphics.SpoopyBuffer;
 import spoopy.util.SpoopyFloatBuffer;
-import spoopy.SpoopyCamera;
 
 class SpoopyPrimitive implements SpoopyDisplayObject {
 
@@ -25,12 +26,15 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
     /*
     * The `vertices` holds an array of points that define the shape of the primitive.
     */
-    private var vertices(default, set):Array<SpoopyPoint>;
+    public var vertices(default, set):Array<SpoopyPoint>;
 
     /*
     * The `indices` of the vertices that form the primitive.
     */
-    private var indices(default, set):Array<SpoopyPoint>;
+    public var indices(default, set):Array<SpoopyPoint>;
+
+    @:noCompletion var __verticesBuffer:SpoopyBuffer;
+    @:noCompletion var __indicesBuffer:SpoopyBuffer;
 
     @:noCompletion var __cameras:Array<SpoopyCamera>;
 
@@ -41,14 +45,13 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
         __cameras = [];
         __vertices = [];
         __indices = [];
+
+        __verticesBuffer = new SpoopyBuffer();
     }
 
     public function render():Void {
-        /*
-        * Empty.
-        */
-        if(visible && inScene && !(__vertices == vertices) && ) {
-
+        if(visible && inScene && !(__vertices == vertices)) {
+            __vertices = vertices;
         }
     }
 
@@ -58,7 +61,7 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
         */
     }
     
-    public function clear():Void {
+    public function destroy():Void {
         inScene = false;
         __cameras = null;
     }

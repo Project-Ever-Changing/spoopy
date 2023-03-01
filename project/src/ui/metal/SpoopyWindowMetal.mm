@@ -50,7 +50,7 @@ namespace lime {
             id <MTLCommandBuffer> buffer;
             id <CAMetalDrawable> surface;
 
-            float rbga[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+            float rgba[4];
 
             #ifndef OBJC_ARC
             NSAutoreleasePool* pool;
@@ -61,6 +61,11 @@ namespace lime {
     #ifdef SPOOPY_SDL
     SpoopyWindowMetal::SpoopyWindowMetal(const SDLWindow &m_window): m_window(m_window) {
         SDL_SetHint(SDL_HINT_RENDER_DRIVER, "Metal");
+
+        rgba[0] = 0.0f;
+        rgba[1] = 0.0f;
+        rgba[2] = 0.0f;
+        rgba[3] = 1.0f;
     }
 
     const SDLWindow& SpoopyWindowMetal::getWindow() const {
@@ -103,7 +108,7 @@ namespace lime {
         surface = [layer nextDrawable];
 
         MTLRenderPassDescriptor* renderPassDescriptor = [MTLRenderPassDescriptor new];
-        renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(rbga[0], rbga[1], rbga[2], rbga[3]);
+        renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(rgba[0], rgba[1], rgba[2], rgba[3]);
         renderPassDescriptor.colorAttachments[0].texture = surface.texture;
         renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
         renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
@@ -147,7 +152,7 @@ namespace lime {
 
 
         /*
-        * Just to be safe than sorry.
+        * Just to be safer than sorry.
         * What if `OBJC_ARC` is defined.
         */
 

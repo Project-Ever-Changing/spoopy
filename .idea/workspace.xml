@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="40214da3-cc9a-4138-8e2c-d490205a743c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/haxelib.json" beforeDir="false" afterPath="$PROJECT_DIR$/haxelib.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include.xml" beforeDir="false" afterPath="$PROJECT_DIR$/include.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/spoopy/backend/native/metal/SpoopyBufferMetal.hx" beforeDir="false" afterPath="$PROJECT_DIR$/src/spoopy/backend/native/metal/SpoopyBufferMetal.hx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/spoopy/graphics/SpoopyBuffer.hx" beforeDir="false" afterPath="$PROJECT_DIR$/src/spoopy/graphics/SpoopyBuffer.hx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/spoopy/obj/SpoopyCamera.hx" beforeDir="false" afterPath="$PROJECT_DIR$/src/spoopy/obj/SpoopyCamera.hx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/spoopy/obj/SpoopyObject.hx" beforeDir="false" afterPath="$PROJECT_DIR$/src/spoopy/obj/SpoopyObject.hx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/spoopy/obj/display/SpoopyPolygon.hx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/spoopy/obj/geom/SpoopyCallbackPoint.hx" beforeDir="false" afterPath="$PROJECT_DIR$/src/spoopy/obj/geom/SpoopyCallbackPoint.hx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/spoopy/obj/geom/SpoopyPoint.hx" beforeDir="false" afterPath="$PROJECT_DIR$/src/spoopy/obj/geom/SpoopyPoint.hx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/spoopy/obj/prim/SpoopyPrimitive.hx" beforeDir="false" afterPath="$PROJECT_DIR$/src/spoopy/obj/prim/SpoopyPrimitive.hx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/spoopy/obj/prim/SpoopyPrimitiveGroup.hx" beforeDir="false" afterPath="$PROJECT_DIR$/src/spoopy/obj/prim/SpoopyPrimitiveGroup.hx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/spoopy/obj/s3d/SpoopyMesh.hx" beforeDir="false" afterPath="$PROJECT_DIR$/src/spoopy/obj/s3d/SpoopyMesh.hx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/spoopy/obj/s3d/SpoopyNode3D.hx" beforeDir="false" afterPath="$PROJECT_DIR$/src/spoopy/obj/s3d/SpoopyNode3D.hx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/spoopy/util/SpoopyArrayTools.hx" beforeDir="false" afterPath="$PROJECT_DIR$/src/spoopy/util/SpoopyArrayTools.hx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/spoopy/util/SpoopyFloatBuffer.hx" beforeDir="false" afterPath="$PROJECT_DIR$/src/spoopy/util/SpoopyFloatBuffer.hx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2MAdGt1Ih3f047wMgkZmkEhm9is" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="40214da3-cc9a-4138-8e2c-d490205a743c" name="Default Changelist" comment="" />
+      <created>1677214231508</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1677214231508</updated>
+      <workItem from="1677214238725" duration="93000" />
+      <workItem from="1677214450866" duration="90000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

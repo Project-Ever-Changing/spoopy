@@ -4,7 +4,7 @@ import lime.ui.Window;
 
 import spoopy.app.SpoopyApplication;
 import spoopy.window.WindowEventManager;
-import spoopy.backend.storage.SpoopyCameraStorage;
+import spoopy.frontend.storage.SpoopyCameraStorage;
 
 #if (spoopy_vulkan || spoopy_metal)
 import spoopy.graphics.other.SpoopySwapChain;

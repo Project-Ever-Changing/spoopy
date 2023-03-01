@@ -44,7 +44,7 @@ class SpoopyPrimitiveGroup<T:SpoopyPrimitive> implements SpoopyDisplayObject {
         sortingAlgorithm = Type.createInstance(SpoopyQuickSort, []);
     }
 
-    public function clear():Void {
+    public function destroy():Void {
         if(objects != null) {
             var index:UInt = 0;
             var obj:T = null;
@@ -53,7 +53,7 @@ class SpoopyPrimitiveGroup<T:SpoopyPrimitive> implements SpoopyDisplayObject {
                 obj = objects[index++];
 
                 if(obj != null) {
-                    obj.clear();
+                    obj.destroy();
                 }
             }
 
@@ -175,7 +175,7 @@ class SpoopyPrimitiveGroup<T:SpoopyPrimitive> implements SpoopyDisplayObject {
         }
 
         if(releaseObj) {
-            obj.clear();
+            obj.destroy();
         }
 
         objects[index] = null;
@@ -196,7 +196,7 @@ class SpoopyPrimitiveGroup<T:SpoopyPrimitive> implements SpoopyDisplayObject {
         }
 
         if(releaseObj) {
-            obj.clear();
+            obj.destroy();
         }
 
         objects.splice(index, 1);
@@ -278,7 +278,7 @@ class SpoopyPrimitiveGroup<T:SpoopyPrimitive> implements SpoopyDisplayObject {
             obj = objects[i++];
 
             if (obj != null) {
-                obj.clear();
+                obj.destroy();
                 objects.remove(obj);
             }
         }

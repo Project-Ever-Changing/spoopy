@@ -13,7 +13,7 @@ interface SpoopyNode3D {
     /*
     * The `lookAt` method orients the object to face a given target by rotating it.
     */
-    function lookAt(targetPos:SpoopyPoint, up:SpoopyPoint = new SpoopyPoint(0, 1, 0)):Void;
+    function lookAt(targetPos:SpoopyPoint, up:SpoopyPoint):Void;
 
     /*
     * The rotating methods rotate the object by the specified angle.

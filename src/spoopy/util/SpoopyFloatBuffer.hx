@@ -11,13 +11,9 @@ typedef FloatArray = lime.utils.Float64Array;
 typedef FloatArray = lime.utils.Float32Array;
 #end
 
-class SpoopyFloatBuffer {
-    public var data:Array<Int>;
-    public var buffer:FloatArray;
-
+abstract SpoopyFloatBuffer(FloatArray) {
     private function new(b:Array<Int>) {
-        this.data = b;
-        this.buffer = new FloatArray(data);
+        this = new FloatArray(b);
     }
 
     public static inline function fromArray(points:Array<SpoopyPoint>):SpoopyFloatBuffer {
@@ -49,5 +45,24 @@ class SpoopyFloatBuffer {
         buffer = values.toArray();
 
         return new SpoopyFloatBuffer(buffer);
+    }
+
+    public static function equals(a1:FloatArray, a2:FloatArray):Bool {
+        if (a1.length != a2.length) {
+            return false;
+        }
+
+        var length = a1.length;
+        var half = Std.int(length * 0.5);
+
+        for(i in 0...half) {
+            var j = a1.length - i;
+
+            if (a1[i] != a2[i] || a1[j] != a2[j]) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

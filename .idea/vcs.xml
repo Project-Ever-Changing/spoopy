@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lime-project" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lime-project/lib/cairo" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lime-project/lib/curl" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lime-project/lib/efsw" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lime-project/lib/freetype" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lime-project/lib/harfbuzz" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lime-project/lib/hashlink" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lime-project/lib/jpeg" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lime-project/lib/lzma" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lime-project/lib/mbedtls" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lime-project/lib/mojoal" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lime-project/lib/neko" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lime-project/lib/ogg" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lime-project/lib/openal" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lime-project/lib/pixman" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lime-project/lib/png" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lime-project/lib/sdl" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lime-project/lib/tinyfiledialogs" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lime-project/lib/vorbis" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lime-project/lib/vpx" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lime-project/lib/webm" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lime-project/lib/zlib" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/platforms" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/project/lib/spirv-cross" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/project/lib/volk" vcs="Git" />
+  </component>
+</project>

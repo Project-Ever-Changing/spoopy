@@ -1,4 +1,4 @@
-package src.spoopy.obj.data;
+package spoopy.obj.data;
 
 #if (haxe >= "4.0.0")
 enum SpoopyRotationMode {

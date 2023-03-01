@@ -2,6 +2,8 @@
 #include <cstring>
 #include <cstdlib>
 
+#include <core/Size.h>
+
 #import <ui/SpoopyWindowSurface.h>
 
 #ifdef HX_MACOS
@@ -21,8 +23,7 @@ namespace lime {
     enum METAL_RESOURCE_STORAGE_MODE {
         METAL_STORAGE_SHARED = 0x00000000,
         METAL_STORAGE_GPU_ONLY = 0x00000002,
-        METAL_STORAGE_MANAGED = 0x00000004,
-        METAL_STORAGE_MEMORY_LESS = 0x00000008,
+        METAL_STORAGE_MANAGED = 0x00000004
     };
 
     void spoopy_set_resource_storage_mode(int mode) {
@@ -32,14 +33,6 @@ namespace lime {
                 break;
             case METAL_STORAGE_MANAGED:
                 storageMode = MTLResourceStorageModeManaged;
-                break;
-            case METAL_STORAGE_MEMORY_LESS:
-                if(@available(iOS 12.0, *)) {
-                    storageMode = MTLResourceStorageModeMemoryless;
-                }else {
-                    printf("[WARN] METAL_STORAGE_MEMORY_LESS is not avaible for platform.\n");
-                }
-
                 break;
             default: // METAL_STORAGE_SHARED
                 storageMode = MTLResourceStorageModeShared;
@@ -81,11 +74,17 @@ namespace lime {
     }
     DEFINE_PRIME3(spoopy_create_metal_buffer);
 
-    void spoopy_copy_buffer_to_buffer(value source_buffer, value destination_buffer) {
+    SP_Int spoopy_get_buffer_length_bytes(value metal_buffer) { // I have yet to find out if Haxe can true-ly support int64 or long.
+        id<MTLBuffer> buffer = (id<MTLBuffer>)val_data(metal_buffer);
+        return buffer.length;
+    }
+    DEFINE_PRIME1(spoopy_get_buffer_length_bytes);
+
+    void spoopy_copy_buffer_to_buffer(value source_buffer, value destination_buffer, SP_Int size) {
         id<MTLBuffer> sourceBuffer = (id<MTLBuffer>)val_data(source_buffer);
         id<MTLBuffer> destinationBuffer = (id<MTLBuffer>)val_data(destination_buffer);
 
-        memcpy([destinationBuffer contents], [sourceBuffer contents], sourceBuffer.length);
+        memcpy([destinationBuffer contents], [sourceBuffer contents], (SP_UInt)size);
     }
-    DEFINE_PRIME2v(spoopy_copy_buffer_to_buffer);
+    DEFINE_PRIME3v(spoopy_copy_buffer_to_buffer);
 }
