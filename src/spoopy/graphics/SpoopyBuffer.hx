@@ -20,6 +20,7 @@ class SpoopyBuffer {
 
     @:noCompletion var __cachedBackend:Array<SpoopyBufferBackend>;
     @:noCompletion var __backend:SpoopyBufferBackend;
+    @:noCompletion var __initialize:Bool;
 
     #if (spoopy_vulkan || spoopy_metal)
     @:noCompletion var __device:SpoopySwapChain;
@@ -67,6 +68,21 @@ class SpoopyBuffer {
         this.length = length;
     }
 
+    public function init():Void {
+        #if (spoopy_vulkan || spoopy_metal)
+        if(__device == null) {
+            return;
+        }
+        #end
+
+        if(__initialize) {
+            return;
+        }
+
+        createBackendBuffer(data, length);
+        __initialize = true;
+    }
+
     #if (spoopy_vulkan || spoopy_metal)
     public function bindToDevice(device:SpoopySwapChain):Void {
         if(__device != null) {
@@ -78,9 +94,6 @@ class SpoopyBuffer {
     #end
 
     @:noCompletion private function createBackendBuffer(data:SpoopyFloatBuffer, length:Int):SpoopyBufferBackend {
-        var __bufferPointer:BytePointer = new BytePointer();
-        __bufferPointer.set(data);
-
         return new SpoopyBufferBackend(__device.__surface, length, data);
     }
 }

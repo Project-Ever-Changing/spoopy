@@ -3,6 +3,7 @@ package spoopy.obj;
 import lime.math.Matrix4;
 
 import spoopy.graphics.SpoopyBuffer;
+import spoopy.graphics.vertices.VertexBufferObject;
 import spoopy.obj.s3d.SpoopyNode3D;
 import spoopy.obj.display.SpoopyDisplayObject;
 import spoopy.obj.prim.SpoopyPrimitive;
@@ -34,19 +35,15 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
     */
     public var inScene(default, set):Bool = true;
 
-    @:noCompletion var __verticesBuffer:SpoopyBuffer;
-    @:noCompletion var __indicesBuffer:SpoopyBuffer;
-
+    @:noCompletion var __vertexDirty:Bool;
+    @:noCompletion var __vertices:VertexBufferObject;
     @:noCompletion var __position:SpoopyPoint;
 
     #if (spoopy_vulkan || spoopy_metal)
-    @:allow(spoopy.frontend.storage.SpoopyCameraStorage) var __device:SpoopySwapChain;
+    @:allow(spoopy.frontend.storage.SpoopyCameraStorage) var device(default, set):SpoopySwapChain;
     #end
 
     public function new() {
-        __verticesBuffer = new SpoopyBuffer(null, 0);
-        __indicesBuffer = new SpoopyBuffer(null, 0);
-
         __position = new SpoopyPoint(x, y, z);
     }
 
@@ -77,9 +74,10 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
     }
 
     public function render():Void {
-        /*
-        * Empty.
-        */
+        if(__vertexDirty) {
+            __vertices.create();
+            __vertexDirty = false;
+        }
     }
 
     public function update(elapsed:Float):Void {
@@ -88,12 +86,41 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
         */
     }
 
-    @:allow(spoopy.obj.prim.SpoopyPrimitive) function setVertices(obj:SpoopyPrimitive, buffers:Array<SpoopyPoint>):Void {
-        
+    @:allow(spoopy.obj.prim.SpoopyPrimitive) function storeBuffer(__vertices:SpoopyFloatBuffer, __lengthCache:Int) {
+        for(camera in __cameras) {
+            __vertexDirty = true;
+
+            if(__vertices.length != __lengthCache) {
+                __vertices.length -= __lengthCache;
+                __vertices.length += __vertices.length;
+            }
+
+            #if (haxe >= "4.0.0")
+            if(__vertices.buffers.contains(__vertices)) continue;
+            #else
+            if(__vertices.buffers.indexOf(__vertices) != -1) continue;
+            #end
+
+            __vertices.buffers.push(__vertices);
+        }
+
+        __vertices.update();
     }
 
-    @:allow(spoopy.obj.prim.SpoopyPrimitive) function setIndices(obj:SpoopyPrimitive, buffers:Array<SpoopyPoint>):Void {
-        
+    public function destroy():Void {
+        this.__position.destroy();
+
+        this.__verticesMap = null;
+        this.__incidesMap = null;
+
+        this.__position = null;
+        this.__buffers = null;
+    }
+
+    public function rotate(point:SpoopyPoint, angle:Float):Void {
+    }
+
+    public function toString():String {
     }
 
     @:noCompletion function set_x(value:Float):Float {
@@ -123,27 +150,10 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
         return inScene = value;
     }
 
-    public function destroy():Void {
-        this.__verticesMap.clear();
-        this.__incidesMap.clear();
-
-        this.__verticesBuffer.destroy();
-        this.__indicesBuffer.destroy();
-
-        this.__position.destroy();
-
-        this.__verticesBuffer = null;
-        this.__indicesBuffer = null;
-
-        this.__verticesMap = null;
-        this.__incidesMap = null;
-
-        this.__position = null;
+    #if (spoopy_vulkan || spoopy_metal)
+    @:noCompletion function set_device(value:SpoopySwapChain):SpoopySwapChain {
+        __vertices.bindToDevice(value);
+        return device = value;
     }
-
-    public function rotate(point:SpoopyPoint, angle:Float):Void {
-    }
-
-    public function toString():String {
-    }
+    #end
 }
