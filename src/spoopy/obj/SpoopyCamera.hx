@@ -20,6 +20,10 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
     public var y(default, set):Float = 0;
     public var z(default, set):Float = 0;
 
+    public var angleX(default, set):Float = 0;
+    public var angleY(default, set):Float = 0;
+    public var angleZ(default, set):Float = 0;
+
     /*
     * If `update()` is automatically called;
     */
@@ -34,17 +38,28 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
     * Whether `update()` and `render()` are automatically called.
     */
     public var inScene(default, set):Bool = true;
+    
+    /*
+    * `transform` handles translation, rotation, scaling, and perspective.
+    */
+    public var transform(default, null):Matrix4;
 
-    @:noCompletion var __vertexDirty:Bool;
     @:noCompletion var __vertices:VertexBufferObject;
     @:noCompletion var __position:SpoopyPoint;
+    @:noCompletion var __rotation:SpoopyPoint;
+    @:noCompletion var __vertexDirty:Bool;
 
     #if (spoopy_vulkan || spoopy_metal)
     @:allow(spoopy.frontend.storage.SpoopyCameraStorage) var device(default, set):SpoopySwapChain;
     #end
 
     public function new() {
+        __vertices = new VertexBufferObject();
         __position = new SpoopyPoint(x, y, z);
+        __rotation = new SpoopyPoint(angleX, angleY, angleZ);
+        __transform = new Matrix4();
+
+        transform.identity();
     }
 
     public function lookAt(targetPos:SpoopyPoint, up:SpoopyPoint):Void {
@@ -56,9 +71,9 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
         }
 
         var right:SpoopyPoint = new SpoopyPoint(
-            up.y * forwardPoint.z - up.z * forwardPoint.y,
-            up.z * forwardPoint.x - up.x * forwardPoint.z,
-            up.x * forwardPoint.y - up.y * forwardPoint.x
+            up.y * forward.z - up.z * forward.y,
+            up.z * forward.x - up.x * forward.z,
+            up.x * forward.y - up.y * forward.x
         );
         right.normalize();
 
@@ -70,7 +85,33 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
 
         var rawMatrix:Matrix4 = new Matrix4();
 
-        //rawMatrix[0] = 
+        rawMatrix[0] = right.x;
+        rawMatrix[1] = right.y;
+        rawMatrix[2] = right.z;
+        rawMatrix[3] = 0;
+
+        rawMatrix[4] = upn.x;
+        rawMatrix[5] = upn.y;
+        rawMatrix[6] = upn.z;
+        rawMatrix[7] = 0;
+
+        rawMatrix[8] = forward.x;
+        rawMatrix[9] = forward.y;
+        rawMatrix[10] = forward.z;
+        rawMatrix[11] = 0;
+
+        rawMatrix[12] = __position.x;
+        rawMatrix[13] = __position.y;
+        rawMatrix[14] = __position.z;
+        rawMatrix[15] = 1;
+
+        transform.copy(rawMatrix);
+
+        if(forward < 0) {
+            angleX -= 180;
+            angleY = 180 - angleY;
+            angleZ -= 180;
+        }
     }
 
     public function render():Void {
@@ -131,6 +172,21 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
     @:noCompletion function set_z(value:Float):Float {
         __position.z = value;
         return this.z = value;
+    }
+
+    @:noCompletion function set_angleX(value:Float):Float {
+        __rotation.x = value;
+        return this.angleX = value;
+    }
+
+    @:noCompletion function set_angleY(value:Float):Float {
+        __rotation.y = value;
+        return this.angleY = value;
+    }
+
+    @:noCompletion function set_angleZ(value:Float):Float {
+        __rotation.z = value;
+        return this.angleZ = value;
     }
 
     @:noCompletion function set_active(value:Bool):Bool {
