@@ -55,8 +55,10 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
             __vertices.push(b.z);
         }
 
-        for(cam in cameras)
-            cam.removeBuffer(__bufferCache.get(0));
+        if(__bufferCache.exists(0)) {
+            for(cam in cameras)
+                cam.removeBuffer(__bufferCache.get(0));
+        }
 
         __bufferCache.set(0, __vertices);
 
