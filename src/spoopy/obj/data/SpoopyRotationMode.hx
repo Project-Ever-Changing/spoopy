@@ -2,14 +2,14 @@ package spoopy.obj.data;
 
 #if (haxe >= "4.0.0")
 enum SpoopyRotationMode {
-    EULAR;
+    EULER;
     QUATERNION;
-    BASIS;
+    AXIS;
 }
 #else
 @:enum abstract SpoopyRotationMode(UInt) {
-    var EULAR = 0;
+    var EULER = 0;
     var QUATERNION = 1;
-    var BASIS = 2;
+    var AXIS = 2;
 }
 #end

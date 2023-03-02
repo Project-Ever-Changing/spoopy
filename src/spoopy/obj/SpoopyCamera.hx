@@ -2,13 +2,14 @@ package spoopy.obj;
 
 import lime.math.Matrix4;
 
-import spoopy.graphics.SpoopyBuffer;
 import spoopy.graphics.vertices.VertexBufferObject;
 import spoopy.obj.s3d.SpoopyNode3D;
 import spoopy.obj.display.SpoopyDisplayObject;
+import spoopy.obj.data.SpoopyRotationMode;
 import spoopy.obj.prim.SpoopyPrimitive;
 import spoopy.obj.geom.SpoopyPoint;
 import spoopy.util.SpoopyFloatBuffer;
+import spoopy.math.SpoopyMath;
 import spoopy.math.SpoopyPointMath;
 
 #if (spoopy_vulkan || spoopy_metal)
@@ -43,6 +44,11 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
     * `transform` handles translation, rotation, scaling, and perspective.
     */
     public var transform(default, null):Matrix4;
+
+    /*
+    * The `axis` is used for 3D transformations to represent the axis of rotation for an object.
+    */
+    public var axis(default, set):SpoopyRotationMode = EULAR;
 
     @:noCompletion var __vertices:VertexBufferObject;
     @:noCompletion var __position:SpoopyPoint;
@@ -107,6 +113,10 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
 
         transform.copy(rawMatrix);
 
+        rotate(new SpoopyPoint(1, 0, 0), Math.atan2(right.z, right.x) * SpoopyMath.RADIANS_TO_DEGREES);
+        rotate(new SpoopyPoint(0, 1, 0), Math.asin(right.y) * SpoopyMath.RADIANS_TO_DEGREES);
+        rotate(new SpoopyPoint(0, 0, 1), Math.atan2(-forward.x, forward.z) * SpoopyMath.RADIANS_TO_DEGREES);
+
         if(forward < 0) {
             angleX -= 180;
             angleY = 180 - angleY;
@@ -154,9 +164,22 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
     }
 
     public function rotate(point:SpoopyPoint, angle:Float):Void {
+        if(__rotation == null) {
+            return;
+        }
+
+        var mr:Matrix4 = new Matrix4();
+        mr.prependRotation(angle, point.toVec4());
+
+        var p:SpoopyPoint = SpoopyPoint.decomposeRotation3D(mr, axis);
+
+        angleX = p.x * SpoopyMath.RADIANS_TO_DEGREES;
+        angleY = p.y * SpoopyMath.RADIANS_TO_DEGREES;
+        angleZ = p.z * SpoopyMath.RADIANS_TO_DEGREES;
     }
 
     public function toString():String {
+        return Type.getClassName(Type.getClass(this)).split(".").pop();
     }
 
     @:noCompletion function set_x(value:Float):Float {
@@ -199,6 +222,16 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
 
     @:noCompletion function set_inScene(value:Bool):Bool {
         return inScene = value;
+    }
+
+    @:noCompletion function set_axis(value:SpoopyRotationMode):SpoopyRotationMode {
+        axis = value;
+
+        rotate(new SpoopyPoint(1, 0, 0), angleX);
+        rotate(new SpoopyPoint(0, 1, 0), angleY);
+        rotate(new SpoopyPoint(0, 0, 1), angleZ);
+
+        return axis;
     }
 
     #if (spoopy_vulkan || spoopy_metal)

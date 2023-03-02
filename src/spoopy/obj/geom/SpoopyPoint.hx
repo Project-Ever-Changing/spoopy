@@ -1,8 +1,11 @@
 package spoopy.obj.geom;
 
+import haxe.ds.Vector;
 import spoopy.math.SpoopyMath;
 import spoopy.obj.SpoopyObject;
+import spoopy.obj.data.SpoopyRotationMode;
 
+import lime.math.Vector4;
 import lime.math.Matrix4;
 import lime.math.Matrix3;
 
@@ -88,8 +91,71 @@ class SpoopyPoint implements SpoopyObject {
         z = p_z;
     }
 
+    public inline static function decomposeRotation3D(m:Matrix4, mode:SpoopyRotationMode = EULER):Vector4 {
+        var rot:Vector4 = new Vector4();
+
+        switch(mode) {
+            case SpoopyRotationMode.AXIS:
+                rot.w = Math.acos((m[0] + m[5] + m[10] - 1) * 0.5);
+
+                var length = Math.sqrt((m[6] - m[9]) * (m[6] - m[9]) + (m[8] - m[2]) * (m[8] - m[2]) + (m[1] - m[4]) * (m[1] - m[4]));
+
+                if(length != 0) {
+                    rot.x = (m[6] - m[9]) / length;
+                    rot.y = (m[8] - m[2]) / length;
+                    rot.z = (m[1] - m[4]) / length;
+                }else {
+                    rot.x = rot.y = rot.z = 0;
+                }
+            case SpoopyRotationMode.QUATERNION:
+                var tr = m[0] + m[5] + m[10];
+
+                if(tr > 0) {
+                    rot.w = Math.sqrt(1 + tr) * 0.5;
+
+                    rot.x = (m[6] - m[9]) / (4 * rot.w);
+					rot.y = (m[8] - m[2]) / (4 * rot.w);
+					rot.z = (m[1] - m[4]) / (4 * rot.w);
+                }else if((m[0] > m[5]) && (m[0] > m[10])) {
+                    rot.x = Math.sqrt(1 + m[0] - m[5] - m[10]) / 2;
+
+					rot.w = (m[6] - m[9]) / (4 * rot.x);
+					rot.y = (m[1] + m[4]) / (4 * rot.x);
+					rot.z = (m[8] + m[2]) / (4 * rot.x);
+                }else if(m[5] > m[10]) {
+                    rot.y = Math.sqrt(1 + m[5] - m[0] - m[10]) * 0.5;
+
+					rot.x = (m[1] + m[4]) / (4 * rot.y);
+					rot.w = (m[8] - m[2]) / (4 * rot.y);
+					rot.z = (m[6] + m[9]) / (4 * rot.y);
+                }else {
+                    rot.z = Math.sqrt(1 + m[10] - m[0] - m[5]) * 0.5;
+
+					rot.x = (m[8] + m[2]) / (4 * rot.z);
+					rot.y = (m[6] + m[9]) / (4 * rot.z);
+					rot.w = (m[1] - m[4]) / (4 * rot.z);
+                }
+            case SpoopyRotationMode.EULER:
+                rot.y = Math.asin(-m[2]);
+
+                if(m[2] != 1 && m[2] != -1) {
+                    rot.x = Math.atan2(m[6], m[10]);
+					rot.z = Math.atan2(m[1], m[0]);
+                }else {
+                    rot.z = 0;
+					rot.x = Math.atan2(m[4], m[5]);
+                }
+        }
+
+        return new SpoopyPoint(rot.x, rot.y, rot.z);
+    }
+
     public inline function copy():SpoopyPoint {
         return new SpoopyPoint(x, y, z);
+    }
+
+    public inline function toVec4():Vector4 {
+        return new Vector4(x, y, z);
     }
 
     public inline function destroy():Void {

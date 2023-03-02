@@ -8,7 +8,7 @@ interface SpoopyNode3D {
     /*
     * The `rotationMode` variable stores an enumeration value that determines the type of rotation representation used.
     */
-    var rotationMode(default, set):SpoopyRotationMode;
+    var axis(default, set):SpoopyRotationMode;
 
     /*
     * The `lookAt` method orients the object to face a given target by rotating it.

@@ -5,6 +5,15 @@ package spoopy.math;
 */
 
 class SpoopyMath {
+    /*
+    * Used to convert radians to degrees.
+    */
+    public static var RADIANS_TO_DEGREES:Float = 180 / Math.PI;
+
+    /*
+    * Used to convert degrees to radians.
+    */
+    public static var DEGREES_TO_RADIANS:Float = Math.PI / 180;
 
     /*
     * Used for precision and tolerance level in comparisons involving floating point numbers.
