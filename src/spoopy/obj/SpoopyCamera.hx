@@ -75,7 +75,9 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
 
     public function render():Void {
         if(__vertexDirty) {
+            __vertices.update();
             __vertices.create();
+            
             __vertexDirty = false;
         }
     }
@@ -86,25 +88,18 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
         */
     }
 
-    @:allow(spoopy.obj.prim.SpoopyPrimitive) function storeBuffer(__vertices:SpoopyFloatBuffer, __lengthCache:Int) {
-        for(camera in __cameras) {
-            __vertexDirty = true;
+    @:allow(spoopy.obj.prim.SpoopyPrimitive) function removeBuffer(__vertices:SpoopyFloatBuffer) {
+        __vertexDirty = true;
 
-            if(__vertices.length != __lengthCache) {
-                __vertices.length -= __lengthCache;
-                __vertices.length += __vertices.length;
-            }
+        __vertices.buffers.remove(__vertices);
+        __vertices.length -= __vertices.length;
+    }
 
-            #if (haxe >= "4.0.0")
-            if(__vertices.buffers.contains(__vertices)) continue;
-            #else
-            if(__vertices.buffers.indexOf(__vertices) != -1) continue;
-            #end
+    @:allow(spoopy.obj.prim.SpoopyPrimitive) function storeBuffer(__vertices:SpoopyFloatBuffer) {
+        __vertexDirty = true;
 
-            __vertices.buffers.push(__vertices);
-        }
-
-        __vertices.update();
+        __vertices.buffers.push(__vertices);
+        __vertices.length += __vertices.length;
     }
 
     public function destroy():Void {

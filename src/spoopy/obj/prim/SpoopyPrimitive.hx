@@ -24,24 +24,23 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
 
     /*
     * The `vertices` holds an array of points that define the shape of the primitive.
-    * NOTE: changing any value from this array won't update anything. Use `alloc` for modifying purposes.
+    * NOTE: changing any value from this array won't update anything. Use `draw` to update buffer.
     */
     public var vertices:Array<SpoopyPoint>;
 
     @:noCompletion var __cameras:Array<SpoopyCamera>;
-    //@:noCompletion var __bufferCache:Map<Int, SpoopyFloatBuffer>;
-    @:noCompletion var __lengthCache:Int = 0;
+    @:noCompletion var __bufferCache:Map<Int, SpoopyFloatBuffer>;
 
     public function new() {
         __cameras = [];
         __verticesCache = [];
 
-        //__bufferCache = new Map<Int, SpoopyFloatBuffer>();
+        __bufferCache = new Map<Int, SpoopyFloatBuffer>();
 
-        alloc();
+        draw();
     }
 
-    public function alloc():Void {
+    public function draw():Void {
         if(vertices == null) {
             return;
         }
@@ -56,12 +55,13 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
             __vertices.push(b.z);
         }
 
-        //__bufferCache.set(0, __vertices);
+        for(cam in cameras)
+            cam.removeBuffer(__bufferCache.get(0));
+
+        __bufferCache.set(0, __vertices);
 
         for(cam in cameras)
-            cam.storeBuffer(__vertices, __lengthCache);
-
-        __lengthCache = __vertices.length;
+            cam.storeBuffer(__bufferCache.get(0));
     }
 
     public function render():Void {
