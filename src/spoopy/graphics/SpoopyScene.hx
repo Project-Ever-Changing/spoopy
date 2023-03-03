@@ -13,7 +13,7 @@ import spoopy.graphics.opengl.SpoopySwapChain;
 #end
 
 class SpoopyScene extends SpoopySwapChain {
-    public static var cameras:SpoopyCameraStorage;
+    public var cameras(default, null):SpoopyCameraStorage;
 
     public function new(application:SpoopyApplication) {
         #if (spoopy_vulkan || spoopy_metal)
@@ -22,6 +22,6 @@ class SpoopyScene extends SpoopySwapChain {
         super();
         #end
 
-        cameras = new SpoopyCameraStorage();
+        cameras = new SpoopyCameraStorage(this);
     }
 }

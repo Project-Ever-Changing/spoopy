@@ -92,12 +92,6 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
 		return Type.getClassName(Type.getClass(this)).split(".").pop();
 	}
 
-    @:noCompletion @:access(spoopy.obj.SpoopyCamera) function dealloc():Void {
-        for(camera in __cameras) {
-
-        }
-    }
-
     @:noCompletion function set_active(value:Bool):Bool {
         return active = value;
     }
@@ -107,6 +101,17 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
     }
 
     @:noCompletion function set_inScene(value:Bool):Bool {
+        if(inScene != value) {
+            return inScene = value; 
+        }
+
+        if(__bufferCache.exists(0) && !value) {
+            for(cam in cameras)
+                cam.removeBuffer(__bufferCache.get(0));
+        }else if(!__bufferCache.exists(0) && value) {
+            draw();
+        }
+
         return inScene = value;
     }
 }
