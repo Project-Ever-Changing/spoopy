@@ -47,6 +47,11 @@ class WindowEventManager implements IWindowModule {
     * Should resize the render display everytime the window is resized.
     */
     public var updateDisplaySize:Bool = false;
+
+    /*
+    * `framerate` for the application window, in frames per second.
+    */
+    public var frameRate(get, set):Float;
     
 
     @:noCompletion private var __rendering:Bool;
@@ -398,5 +403,24 @@ class WindowEventManager implements IWindowModule {
 
     @:noCompletion private function get_mouseDown():Bool {
         return __mouseDown;
+    }
+
+    @:noCompletion private function get_frameRate():Float {
+        if(window != null) {
+            return window.frameRate;
+        }
+
+        return 0;
+    }
+
+    /*
+    * Setter Functions.
+    */
+    @:noCompletion private function set_frameRate(value:Float):Float {
+        if(window != null) {
+            return window.frameRate = value;
+        }
+
+        return value;
     }
 }

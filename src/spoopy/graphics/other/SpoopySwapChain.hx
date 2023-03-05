@@ -24,6 +24,12 @@ class SpoopySwapChain extends WindowEventManager {
         super();
     }
 
+    public function create():Void {
+        /*
+        * Empty
+        */
+    }
+
     override public function onWindowUpdate():Void {
         super.onWindowUpdate();
 
@@ -33,8 +39,9 @@ class SpoopySwapChain extends WindowEventManager {
 
     @:noCompletion override private function __registerWindowModule(window:Window):Void {
         super.__registerWindowModule(window);
-
         __surface = new SpoopyNativeSurface(window.__backend, application);
+
+        create();
     }
 
     @:noCompletion override private function __unregisterWindowModule(window:Window):Void {

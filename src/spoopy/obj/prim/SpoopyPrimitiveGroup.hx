@@ -1,4 +1,4 @@
-package spoopy.obj.display;
+package spoopy.obj.prim;
 
 import spoopy.obj.display.SpoopyDisplayObject;
 import spoopy.util.sort.alg.*;
