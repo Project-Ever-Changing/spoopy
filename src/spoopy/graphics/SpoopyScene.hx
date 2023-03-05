@@ -29,7 +29,7 @@ class SpoopyScene extends SpoopySwapChain {
     @:noCompletion var __nextState:SpoopyState;
 
     @:noCompletion var __initialize:Bool;
-    @:noCompletion var __fullscreen:Bool;
+    @:noCompletion var __fullscreenDirty:Bool;
     @:noCompletion var __focusDirty:Bool;
     @:noCompletion var __focusLost:Bool;
 
@@ -49,7 +49,7 @@ class SpoopyScene extends SpoopySwapChain {
         updateFramerate = window.framerate;
         renderFramerate = window.framerate;
 
-        __fullscreen = fullscreen;
+        __fullscreenDirty = fullscreen;
         __acumulator = __stepMS;
 
         state = (initState == null) ? new SpoopyState() : initState;
@@ -110,6 +110,8 @@ class SpoopyScene extends SpoopySwapChain {
     }
 
     override function create():Void {
+        super.create();
+
         if(__initialize) {
             return;
         }
@@ -119,7 +121,7 @@ class SpoopyScene extends SpoopySwapChain {
         __totalTime = getTicks();
 
         #if desktop
-        fullscreen = __fullscreen;
+        fullscreen = __fullscreenDirty;
         #end
 
         frameRate = renderFramerate;
@@ -170,12 +172,12 @@ class SpoopyScene extends SpoopySwapChain {
     }
 
     @:noCompletion function get_fullscreen():Bool {
-        return __fullscreen;
+        return __fullscreenDirty;
     }
 
     @:noCompletion function set_fullscreen(value:Bool):Bool {
         if(window == null) {
-            return __fullscreen;
+            return __fullscreenDirty;
         }
 
         if(value && !window.fullscreen) {
@@ -184,7 +186,7 @@ class SpoopyScene extends SpoopySwapChain {
             window.fullscreen = false;
         }
 
-        return __fullscreen = value;
+        return __fullscreenDirty = value;
     }
 
     @:noCompletion function set_updateFramerate(value:UInt):UInt {
