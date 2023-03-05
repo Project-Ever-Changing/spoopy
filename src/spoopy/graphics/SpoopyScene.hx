@@ -2,7 +2,6 @@ package spoopy.graphics;
 
 import spoopy.state.SpoopyState;
 import spoopy.app.SpoopyApplication;
-import spoopy.window.WindowEventManager;
 import spoopy.frontend.storage.SpoopyCameraStorage;
 import spoopy.graphics.other.SpoopySwapChain;
 
@@ -43,11 +42,7 @@ class SpoopyScene extends SpoopySwapChain {
     @:noCompletion var __elapsedMS:Float;
 
     public function new(application:SpoopyApplication, fullscreen:Bool = false, ?initState:SpoopyState = null) {
-        #if (spoopy_vulkan || spoopy_metal)
         super(application);
-        #else
-        super();
-        #end
 
         cameras = new SpoopyCameraStorage(this);
 
