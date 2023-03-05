@@ -12,7 +12,6 @@
 	
     <!-- _____________________________ Path Settings _____________________________ -->
 
-	<source path="libs" />
 	<source path="source" />
 
     <assets path="assets" />
