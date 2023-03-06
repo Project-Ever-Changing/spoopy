@@ -38,6 +38,7 @@ class EnhancedXMLProject extends ProjectXMLParser {
         trace("targetPath: " + targetPath);
     }
 
+    
     /*
     * This is so scuffed, too bad, it works.
     */

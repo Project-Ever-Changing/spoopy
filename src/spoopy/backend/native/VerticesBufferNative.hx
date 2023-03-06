@@ -1,6 +1,8 @@
 package spoopy.backend.native;
 
 #if (spoopy_vulkan || spoopy_metal)
+import spoopy.graphics.other.SpoopySwapChain;
+
 @:access(spoopy.graphics.other.SpoopySwapChain)
 #end
 @:access(spoopy.graphics.SpoopyBuffer)

@@ -1,9 +1,7 @@
 package spoopy.util;
 
 import spoopy.obj.geom.SpoopyPoint;
-
 import haxe.ds.ObjectMap;
-import ds.HashSet;
 
 #if HXCPP_M64
 typedef FloatArray = lime.utils.Float64Array;
