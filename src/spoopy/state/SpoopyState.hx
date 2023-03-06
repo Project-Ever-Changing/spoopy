@@ -2,6 +2,7 @@ package spoopy.state;
 
 import spoopy.graphics.SpoopyScene;
 import spoopy.obj.prim.SpoopyPrimitiveGroup;
+import spoopy.obj.prim.SpoopyPrimitive;
 
 class SpoopyState extends SpoopyPrimitiveGroup<SpoopyPrimitive> {
     #if (haxe >= "4.0.0")
