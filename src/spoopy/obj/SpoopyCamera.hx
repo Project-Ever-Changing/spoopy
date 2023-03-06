@@ -69,7 +69,7 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
     }
 
     public function lookAt(targetPos:SpoopyPoint, up:SpoopyPoint):Void {
-        var forward:SpoopyPoint = SpoopyPointMath.substract(targetPos, __position);
+        var forward:SpoopyPoint = SpoopyPointMath.subtract(targetPos, __position);
         forward.normalize();
 
         if(up == null) {
@@ -111,7 +111,7 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
         rawMatrix[14] = __position.z;
         rawMatrix[15] = 1;
 
-        transform.copy(rawMatrix);
+        transform = rawMatrix;
 
         rotate(new SpoopyPoint(1, 0, 0), Math.atan2(right.z, right.x) * SpoopyMath.RADIANS_TO_DEGREES);
         rotate(new SpoopyPoint(0, 1, 0), Math.asin(right.y) * SpoopyMath.RADIANS_TO_DEGREES);

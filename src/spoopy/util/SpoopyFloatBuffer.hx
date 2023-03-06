@@ -9,7 +9,7 @@ typedef FloatArray = lime.utils.Float64Array;
 typedef FloatArray = lime.utils.Float32Array;
 #end
 
-abstract SpoopyFloatBuffer(FloatArray) to FloatArray {
+abstract SpoopyFloatBuffer(FloatArray) from FloatArray to FloatArray {
     public function new<T>(?elements:Int, ?array:Array<T>) {
         this = new FloatArray(elements, array);
     }
