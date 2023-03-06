@@ -26,7 +26,13 @@ class SpoopySwapChain extends WindowEventManager {
 
     public function create():Void {
         /*
-        * Empty
+        * Empty.
+        */
+    }
+
+    public function onUpdate():Void {
+        /*
+        * Empty.
         */
     }
 
@@ -35,6 +41,10 @@ class SpoopySwapChain extends WindowEventManager {
 
         __surface.cullFace(cullMode);
         __surface.updateWindow();
+
+        onUpdate();
+
+        __surface.release();
     }
 
     @:noCompletion override private function __registerWindowModule(window:Window):Void {

@@ -57,7 +57,7 @@ class SpoopyScene extends SpoopySwapChain {
     }
 
     public function switchState<T:SpoopyState>(nextState:SpoopyState):Void {
-        if(nextState.switchTo(nextState)) {
+        if(state.switchTo(nextState)) {
             return;
         }
 
@@ -145,7 +145,7 @@ class SpoopyScene extends SpoopySwapChain {
     }
     #end
 
-    override function onWindowUpdate():Void {
+    override function onUpdate():Void {
         super.onWindowUpdate();
 
         ticks = getTicks();
