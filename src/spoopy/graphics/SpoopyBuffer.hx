@@ -1,7 +1,7 @@
 package spoopy.graphics;
 
 #if spoopy_metal
-import spoopy.backed.native.metal.SpoopyBufferMetal
+import spoopy.backed.native.metal.SpoopyBufferMetal;
 #end
 
 #if (spoopy_vulkan || spoopy_metal)
