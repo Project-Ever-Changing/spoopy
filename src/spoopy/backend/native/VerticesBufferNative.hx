@@ -13,7 +13,7 @@ class VerticesBufferNative {
 
     #if (spoopy_vulkan || spoopy_metal)
     public function setVertexBuffer(device:SpoopySwapChain, buffer:SpoopyBuffer, offset:Int, atIndex:Int):Void {
-
+        SpoopyNativeCFFI.spoopy_set_vertex_buffer(device.__surface.handle, buffer.__backend.handle, offset, atIndex);
     }
     #end
 }

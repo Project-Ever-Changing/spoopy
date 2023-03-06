@@ -248,7 +248,7 @@ class RunScript {
 
         var ndll_path:String = "/ndll/";
 
-        var project:SpoopyProject = new SpoopyProject();
+        var project:SpoopyProject = new SpoopyProject(false);
         project.xmlProject(Sys.getCwd());
         project.targetPlatform("test");
 

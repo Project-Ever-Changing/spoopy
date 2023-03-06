@@ -4,7 +4,6 @@ package;
 
 import lime.tools.PlatformTarget;
 import lime.tools.ProjectHelper;
-import lime.tools.ProjectXMLParser;
 import lime.tools.HXProject;
 
 import massive.sys.io.FileSys;
@@ -13,6 +12,7 @@ import hxp.System;
 import hxp.Path;
 import hxp.Log;
 
+import utils.EnhancedXMLProject;
 import utils.PathUtils;
 
 using StringTools;
@@ -21,10 +21,13 @@ using StringTools;
 class SpoopyProject {
     public var project(default, null):HXProject;
     public var platform(default, null):PlatformTarget;
+    public var shaders(default, null):Array<String>;
 
-    public function new() {
-        project = new HXProject();
-        project.architectures = [];
+    public function new(createProject:Bool = true) {
+        if(createProject) {
+            project = new HXProject();
+            project.architectures = [];
+        }
     }
 
     public function addTemplate(arg:String):Void {
@@ -113,7 +116,10 @@ class SpoopyProject {
         }
 
         if(Path.extension(projectFile) == "lime" || Path.extension(projectFile) == "nmml" || Path.extension(projectFile) == "xml") {
-            project = new ProjectXMLParser(Path.withoutDirectory(projectFile), userDefines, includePaths);
+            var xmlProject:EnhancedXMLProject = new EnhancedXMLProject(Path.withoutDirectory(projectFile), userDefines, includePaths);
+            project = xmlProject;
+
+            shaders = xmlProject.shaders.copy();
         }else {
             Log.error("Could not process \"" + projectFile + "\"");
         }

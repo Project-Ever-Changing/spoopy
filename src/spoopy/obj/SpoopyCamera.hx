@@ -131,6 +131,8 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
 
             __vertexDirty = false;
         }
+
+        __vertices.setVertexBuffer();
     }
 
     public function update(elapsed:Float):Void {

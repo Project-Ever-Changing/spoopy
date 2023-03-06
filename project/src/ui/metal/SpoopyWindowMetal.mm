@@ -47,6 +47,7 @@ namespace lime {
             id<MTLDevice> layerDevice;
 
             id <MTLRenderCommandEncoder> renderEncoder;
+            id <MTLRenderPipelineState> pipelineState;
             id <MTLCommandBuffer> buffer;
             id <CAMetalDrawable> surface;
 
@@ -114,8 +115,12 @@ namespace lime {
         renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
         renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
 
+        MTLRenderPipelineDescriptor pipelineDescriptor = [MTLRenderPipelineDescriptor new];
+
         buffer = [commandQueue commandBuffer];
         renderEncoder = [buffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
+
+        [renderEncoder setRenderPipelineState:pipelineState];
     }
 
     void SpoopyWindowMetal::clear() {

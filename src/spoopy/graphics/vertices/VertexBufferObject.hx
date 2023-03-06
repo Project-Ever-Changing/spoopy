@@ -1,5 +1,6 @@
 package spoopy.graphics.vertices;
 
+import spoopy.backend.native.VerticesBufferNative;
 import spoopy.graphics.SpoopyBuffer;
 import spoopy.util.SpoopyFloatBuffer;
 
@@ -17,6 +18,7 @@ class VertexBufferObject {
     public var length:Int;
 
     @:noCompletion var __vertices:SpoopyBuffer;
+    @:noCompletion var __backend:VerticesBufferNative;
 
     #if (spoopy_vulkan || spoopy_metal)
     @:noCompletion var __device:SpoopySwapChain;
@@ -27,6 +29,8 @@ class VertexBufferObject {
 
         offset = 0;
         length = 0;
+
+        __backend = new VerticesBufferNative();
     }
 
     #if (spoopy_vulkan || spoopy_metal)
@@ -56,5 +60,13 @@ class VertexBufferObject {
             outputBuffers.set(b, __length);
             __length += b.length;
         }
+    }
+
+    public function setVertexBuffer():Void {
+        if(__device == null || __vertices == null) {
+            return;
+        }
+
+        __backend.setVertexBuffer(__device, __vertices, offset, 0);
     }
 }
