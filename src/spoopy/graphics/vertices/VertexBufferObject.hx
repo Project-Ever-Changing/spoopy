@@ -39,7 +39,7 @@ class VertexBufferObject {
 
     public function update():Void {
         var outputBuffers:SpoopyFloatBuffer = new SpoopyFloatBuffer(length);
-        var __length = 0;
+        var __length:Int = 0;
 
         for(i in 0...buffers.length) {
             var b = buffers[i];

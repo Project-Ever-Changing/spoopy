@@ -48,7 +48,7 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
     /*
     * The `axis` is used for 3D transformations to represent the axis of rotation for an object.
     */
-    public var axis(default, set):SpoopyRotationMode = EULAR;
+    public var axis(default, set):SpoopyRotationMode = EULER;
 
     @:noCompletion var __vertices:VertexBufferObject;
     @:noCompletion var __position:SpoopyPoint;
@@ -63,13 +63,13 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
         __vertices = new VertexBufferObject();
         __position = new SpoopyPoint(x, y, z);
         __rotation = new SpoopyPoint(angleX, angleY, angleZ);
-        __transform = new Matrix4();
 
+        transform = new Matrix4();
         transform.identity();
     }
 
     public function lookAt(targetPos:SpoopyPoint, up:SpoopyPoint):Void {
-        var forward:SpoopyPoint = SpoopyPointMath.substract(targetPos - __position);
+        var forward:SpoopyPoint = SpoopyPointMath.substract(targetPos, __position);
         forward.normalize();
 
         if(up == null) {

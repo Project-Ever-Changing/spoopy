@@ -10,8 +10,8 @@ typedef FloatArray = lime.utils.Float32Array;
 #end
 
 abstract SpoopyFloatBuffer(FloatArray) to FloatArray {
-    private function new(?b:Array<Int> = null) {
-        this = new FloatArray(b);
+    public function new<T>(?elements:Int, ?array:Array<T>) {
+        this = new FloatArray(elements, array);
     }
 
     public static function equals(a1:FloatArray, a2:FloatArray):Bool {
