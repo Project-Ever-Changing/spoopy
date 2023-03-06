@@ -1,5 +1,7 @@
 package spoopy.backend.native;
 
+import spoopy.graphics.SpoopyBuffer;
+
 #if (spoopy_vulkan || spoopy_metal)
 import spoopy.graphics.other.SpoopySwapChain;
 
