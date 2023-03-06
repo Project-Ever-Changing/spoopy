@@ -21,6 +21,7 @@ namespace lime {
             virtual void clear() = 0;
 
             virtual void cullFace(int cullMode) = 0;
+            virtual void setVertexBuffer(value __buffer, int __offset, int __atIndex) = 0;
 
             #ifdef SPOOPY_SDL
             virtual const SDLWindow& getWindow() const = 0;
@@ -32,7 +33,6 @@ namespace lime {
 
             #ifdef SPOOPY_METAL
             virtual void assignMetalDevice(value __layerDevice) = 0;
-            virtual void setVertexBuffer(value __buffer, int offset, int atIndex) = 0;
             #endif
     };
 

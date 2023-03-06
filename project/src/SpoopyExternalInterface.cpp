@@ -138,6 +138,12 @@ namespace lime {
     }
     DEFINE_PRIME2v(spoopy_set_surface_cull_face);
 
+    void spoopy_set_vertex_buffer(value window_surface, value buffer, int offset, int atIndex) {
+        SpoopyWindowSurface* windowSurface = (SpoopyWindowSurface*)val_data(window_surface);
+        windowSurface -> setVertexBuffer(buffer, offset, atIndex);
+    }
+    DEFINE_PRIME4v(spoopy_set_vertex_buffer);
+
     #endif
 
     #ifdef SPOOPY_INCLUDE_EXAMPLE

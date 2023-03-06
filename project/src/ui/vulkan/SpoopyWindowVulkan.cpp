@@ -21,20 +21,26 @@ namespace lime {
 
     void SpoopyWindowVulkan::render() {
         /*
-        * Empty
-        */
+         * Empty
+         */
     }
 
     void SpoopyWindowVulkan::clear() {
         /*
-        * Empty
-        */
+         * Empty
+         */
+    }
+
+    void SpoopyWindowVulkan::setVertexBuffer(value __buffer, int __offset, int __atIndex) {
+        /*
+         * Empty
+         */
     }
 
     void SpoopyWindowVulkan::cullFace(int cullMode) {
         /*
-        * Empty
-        */
+         * Empty
+         */
     }
 
     const SDLWindow& SpoopyWindowVulkan::getWindow() const {

@@ -30,7 +30,7 @@ namespace lime {
             ~SpoopyWindowMetal();
 
             virtual void assignMetalDevice(value __layerDevice);
-            virtual void setVertexBuffer(value __buffer, int offset, int atIndex);
+            virtual void setVertexBuffer(value __buffer, int __offset, int __atIndex);
 
             virtual void render();
             virtual void clear();
@@ -87,12 +87,13 @@ namespace lime {
         commandQueue = [layerDevice newCommandQueue];
     }
 
-    void SpoopyWindowMetal::setVertexBuffer(value __buffer, int offset, int atIndex) {
+    void SpoopyWindowMetal::setVertexBuffer(value __buffer, int __offset, int __atIndex) {
         if(renderEncoder == nil) {
             return;
         }
 
-        //[renderEncoder ];
+        id<MTLBuffer> bufferOBJ = (id<MTLBuffer>)val_data(__buffer);
+        [renderEncoder setVertexBuffer:bufferOBJ offset:__offset atIndex:__atIndex];
     }
 
     void SpoopyWindowMetal::render() {
