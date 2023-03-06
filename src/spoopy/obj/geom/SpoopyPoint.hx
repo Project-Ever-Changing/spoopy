@@ -91,7 +91,7 @@ class SpoopyPoint implements SpoopyObject {
         z = p_z;
     }
 
-    public inline static function decomposeRotation3D(m:Matrix4, mode:SpoopyRotationMode = EULER):Vector4 {
+    public inline static function decomposeRotation3D(m:Matrix4, mode:SpoopyRotationMode = EULER):SpoopyPoint {
         var rot:Vector4 = new Vector4();
 
         switch(mode) {

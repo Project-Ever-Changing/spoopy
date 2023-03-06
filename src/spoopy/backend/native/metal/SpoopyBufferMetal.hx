@@ -8,14 +8,12 @@ import lime.utils.DataPointer;
 class SpoopyBufferMetal {
     public var handle:Dynamic;
 
-    public var list(default, null):Array<Int>;
     public var data(default, null):SpoopyFloatBuffer;
 
     private var bytesLength(default, null):Int;
 
     public function new(surface:SpoopyNativeSurface, bytesLength:Int, data:SpoopyFloatBuffer) {
         this.bytesLength = bytesLength;
-        this.list = list;
         this.data = data;
 
         createBuffer(surface, data, bytesLength);

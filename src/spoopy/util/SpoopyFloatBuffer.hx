@@ -3,13 +3,13 @@ package spoopy.util;
 import spoopy.obj.geom.SpoopyPoint;
 import haxe.ds.ObjectMap;
 
-#if HXCPP_M64
+#if (HXCPP_M64 || HXCPP_M32)
 typedef FloatArray = lime.utils.Float64Array;
 #else
 typedef FloatArray = lime.utils.Float32Array;
 #end
 
-abstract SpoopyFloatBuffer(FloatArray) {
+abstract SpoopyFloatBuffer(FloatArray) to FloatArray {
     private function new(?b:Array<Int> = null) {
         this = new FloatArray(b);
     }
