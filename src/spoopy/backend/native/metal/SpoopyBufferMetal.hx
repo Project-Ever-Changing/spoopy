@@ -20,7 +20,7 @@ class SpoopyBufferMetal {
     }
 
     public function lengthBytes():Int {
-        SpoopyNativeCFFI.spoopy_get_buffer_length_bytes(handle);
+        return SpoopyNativeCFFI.spoopy_get_buffer_length_bytes(handle);
     }
 
     public function copyMemory(buffer:SpoopyBufferMetal, size:Int):Void {

@@ -41,7 +41,7 @@ class SpoopyBuffer {
         }
         #end
 
-        if(__backend.data == data && __backend.byteLength == length && __backend == null) {
+        if(__backend.data == data && __backend.bytesLength == length && __backend == null) {
             return;
         }
 
@@ -51,13 +51,13 @@ class SpoopyBuffer {
         while(index < __cachedBackend.length) {
             bb = __cachedBackend[index++];
 
-            if(SpoopyFloatBuffer.equals(bb.data, data) && bb.byteLength == length) {
+            if(SpoopyFloatBuffer.equals(bb.data, data) && bb.bytesLength == length) {
                 __backend = bb;
                 return;
             }
         }
 
-        __cachedBackend.insert(createBackendBuffer(data, length));
+        __cachedBackend.insert(0, createBackendBuffer(data, length));
         __backend = __cachedBackend[0];
 
         if(__cachedBackend.length > pool) {
