@@ -10,7 +10,7 @@ class SpoopyBufferMetal {
 
     public var data(default, null):SpoopyFloatBuffer;
 
-    private var bytesLength(default, null):Int;
+    public var bytesLength(default, null):Int;
 
     public function new(surface:SpoopyNativeSurface, bytesLength:Int, data:SpoopyFloatBuffer) {
         this.bytesLength = bytesLength;

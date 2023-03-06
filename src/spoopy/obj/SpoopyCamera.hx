@@ -127,8 +127,6 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
     public function render():Void {
         if(__vertexDirty) {
             __vertices.update();
-            __vertices.create();
-
             __vertexDirty = false;
         }
 

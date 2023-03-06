@@ -25,8 +25,6 @@ class VertexBufferObject {
     #end
 
     public function new() {
-        __buffers = [];
-
         offset = 0;
         length = 0;
 
@@ -39,17 +37,6 @@ class VertexBufferObject {
     }
     #end
 
-    public function create():Void {
-        if(__vertices == null) {
-            __vertices = new SpoopyBuffer(outputBuffers, outputBuffers.byteLength);
-            __vertices.init();
-
-            return;
-        }
-
-        __vertices.updateBuffers(outputBuffers, outputBuffers.byteLength);
-    }
-
     public function update():Void {
         var outputBuffers:SpoopyFloatBuffer = new SpoopyFloatBuffer(length);
         var __length = 0;
@@ -60,6 +47,15 @@ class VertexBufferObject {
             outputBuffers.set(b, __length);
             __length += b.length;
         }
+
+        if(__vertices == null) {
+            __vertices = new SpoopyBuffer(outputBuffers, outputBuffers.byteLength);
+            __vertices.init();
+
+            return;
+        }
+
+        __vertices.updateBuffers(outputBuffers, outputBuffers.byteLength);
     }
 
     public function setVertexBuffer():Void {
