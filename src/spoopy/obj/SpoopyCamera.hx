@@ -155,8 +155,8 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
         __vertices.length += __vertices.length;
     }
 
-    public function release():Void {
-        this.__position.release();
+    public function destroy():Void {
+        this.__position.destroy();
 
         this.__verticesMap = null;
         this.__incidesMap = null;

@@ -18,6 +18,7 @@ class SpoopySwapChain extends WindowEventManager {
     public var cullMode(default, set):SpoopyCullMode = CULL_MODE_NONE;
 
     @:noCompletion private var __surface:SpoopyNativeSurface;
+    @:noCompletion private var __cullDirty:Bool;
 
     public function new(application:SpoopyApplication) {
         this.application = application;
@@ -39,7 +40,11 @@ class SpoopySwapChain extends WindowEventManager {
     override public function onWindowUpdate():Void {
         super.onWindowUpdate();
 
-        __surface.cullFace(cullMode);
+        if(__cullDirty) {
+            __surface.cullFace(cullMode);
+            __cullDirty = false;
+        }
+
         __surface.updateWindow();
 
         onUpdate();
@@ -59,6 +64,15 @@ class SpoopySwapChain extends WindowEventManager {
 
         __surface.release();
         __surface = null;
+    }
+
+    @:noCompletion override private function set_cullMode(value:SpoopyCullMode):SpoopyCullMode {
+        if(cullMode == value) {
+            return value;
+        }
+
+        __cullDirty = true;
+        return cullMode = value;
     }
 }
 
