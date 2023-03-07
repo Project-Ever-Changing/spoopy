@@ -196,7 +196,8 @@ class SpoopyProject {
         for(shader in shaders) {
             if (shader.embed != true) {
                 System.mkdir(Path.directory(Path.combine(contentDirectory, shader.targetPath)));
-                trace(shader);
+                
+
             }
         }
     }
