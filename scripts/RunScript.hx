@@ -247,6 +247,13 @@ class RunScript {
             return;
         }
 
+        var host = getHost(args);
+
+        if((host == "Linux64" || host == "Linux32") && args[1].toLowerCase() != "linux") {
+            Log.error("Sorry, but Spoopy Engine is only available on desktop platforms at the current moment.");
+            return;
+        }
+
         var ndll_path:String = "/ndll/";
 
         var project:SpoopyProject = new SpoopyProject(false);
@@ -261,8 +268,6 @@ class RunScript {
 
         project.replaceProjectNDLL(haxeLibPath + ndll_path + getHost(args), "lime.ndll");
         runApplication(project);
-
-        trace(Reflect.getProperty(project, "contentDirectory"));
     }
 
     /*

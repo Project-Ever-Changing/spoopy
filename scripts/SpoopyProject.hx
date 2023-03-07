@@ -5,6 +5,9 @@ package;
 import lime.tools.PlatformTarget;
 import lime.tools.ProjectHelper;
 import lime.tools.HXProject;
+import lime.tools.Asset;
+import lime.tools.AssetType;
+import lime.tools.AssetHelper;
 
 import massive.sys.io.FileSys;
 import sys.FileSystem;
@@ -21,7 +24,8 @@ using StringTools;
 class SpoopyProject {
     public var project(default, null):HXProject;
     public var platform(default, null):PlatformTarget;
-    public var shaders(default, null):Array<String>;
+    public var shaders(default, null):Array<Asset>;
+    public var contentDirectory(default, null):String;
 
     public function new(createProject:Bool = true) {
         if(createProject) {
@@ -119,7 +123,7 @@ class SpoopyProject {
             var xmlProject:EnhancedXMLProject = new EnhancedXMLProject(Path.withoutDirectory(projectFile), userDefines, includePaths);
             project = xmlProject;
 
-            shaders = xmlProject.shaders.copy();
+            shaders = xmlProject.shaders;
         }else {
             Log.error("Could not process \"" + projectFile + "\"");
         }
@@ -177,6 +181,18 @@ class SpoopyProject {
                 platform = new AIRPlatform(command, project, targetFlags);
 
             default:
+        }
+    }
+
+    public function setupContentDirectory():Void {
+
+    }
+
+    public function setupShaders():Void {
+        for(shader in shaders) {
+            if (shader.embed != true) {
+                System.mkdir(Path.directory(Path.combine(contentDirectory, shader.targetPath)));
+            }
         }
     }
 }
