@@ -74,13 +74,13 @@ namespace lime {
     }
     DEFINE_PRIME3(spoopy_create_metal_buffer);
 
-    SP_Int spoopy_get_buffer_length_bytes(value metal_buffer) { // I have yet to find out if Haxe can true-ly support int64 or long.
+    int spoopy_get_buffer_length_bytes(value metal_buffer) {
         id<MTLBuffer> buffer = (id<MTLBuffer>)val_data(metal_buffer);
-        return buffer.length;
+        return (int)buffer.length;
     }
     DEFINE_PRIME1(spoopy_get_buffer_length_bytes);
 
-    void spoopy_copy_buffer_to_buffer(value source_buffer, value destination_buffer, SP_Int size) {
+    void spoopy_copy_buffer_to_buffer(value source_buffer, value destination_buffer, int size) {
         id<MTLBuffer> sourceBuffer = (id<MTLBuffer>)val_data(source_buffer);
         id<MTLBuffer> destinationBuffer = (id<MTLBuffer>)val_data(destination_buffer);
 
