@@ -25,6 +25,8 @@ class VertexBufferObject {
     #end
 
     public function new() {
+        buffers = [];
+
         offset = 0;
         length = 0;
 
@@ -64,5 +66,11 @@ class VertexBufferObject {
         }
 
         __backend.setVertexBuffer(__device, __vertices, offset, 0);
+    }
+
+    public function destroy():Void {
+        __device = null;
+        __vertices = null;
+        __backend = null;
     }
 }

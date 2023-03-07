@@ -117,7 +117,7 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
         rotate(new SpoopyPoint(0, 1, 0), Math.asin(right.y) * SpoopyMath.RADIANS_TO_DEGREES);
         rotate(new SpoopyPoint(0, 0, 1), Math.atan2(-forward.x, forward.z) * SpoopyMath.RADIANS_TO_DEGREES);
 
-        if(forward < 0) {
+        if(forward.z < 0) {
             angleX -= 180;
             angleY = 180 - angleY;
             angleZ -= 180;
@@ -139,14 +139,14 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
         */
     }
 
-    @:allow(spoopy.obj.prim.SpoopyPrimitive) function removeBuffer(__vertices:SpoopyFloatBuffer) {
+    @:allow(spoopy.obj.prim.SpoopyPrimitive) function removeBuffer(__vertices:SpoopyFloatBuffer):Void {
         __vertexDirty = true;
 
         __vertices.buffers.remove(__vertices);
         __vertices.length -= __vertices.length;
     }
 
-    @:allow(spoopy.obj.prim.SpoopyPrimitive) function storeBuffer(__vertices:SpoopyFloatBuffer) {
+    @:allow(spoopy.obj.prim.SpoopyPrimitive) function storeBuffer(__vertices:SpoopyFloatBuffer):Void {
         __vertexDirty = true;
 
         __vertices.buffers.push(__vertices);
@@ -155,12 +155,12 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
 
     public function destroy():Void {
         this.__position.destroy();
-
-        this.__verticesMap = null;
-        this.__incidesMap = null;
+        this.__rotation.destroy();
+        this.__vertices.destroy();
 
         this.__position = null;
-        this.__buffers = null;
+        this.__rotation = null;
+        this.__vertices = null;
     }
 
     public function rotate(point:SpoopyPoint, angle:Float):Void {
