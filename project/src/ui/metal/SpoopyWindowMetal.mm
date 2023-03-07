@@ -115,7 +115,7 @@ namespace lime {
         renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
         renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
 
-        MTLRenderPipelineDescriptor pipelineDescriptor = [MTLRenderPipelineDescriptor new];
+        MTLRenderPipelineDescriptor* pipelineDescriptor = [MTLRenderPipelineDescriptor new];
 
         buffer = [commandQueue commandBuffer];
         renderEncoder = [buffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
