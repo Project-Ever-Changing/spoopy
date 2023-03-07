@@ -1,5 +1,6 @@
 package;
 
+import massive.sys.util.PathUtil;
 import utils.net.GitFileManager;
 import lime.tools.HXProject;
 import lime.tools.PlatformTarget;
@@ -269,6 +270,7 @@ class RunScript {
         var cleanG_API:Array<String> = [];
 
         if(FileSystem.exists("project/obj")) {
+            PathUtils.deleteDirRecursively("project/obj");
             FileSystem.deleteDirectory("project/obj");
         }
 
