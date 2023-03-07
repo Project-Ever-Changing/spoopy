@@ -266,6 +266,7 @@ class RunScript {
             ndll_path = "/ndll-metal/";
         }
 
+        project.setupShaders();
         project.replaceProjectNDLL(haxeLibPath + ndll_path + getHost(args), "lime.ndll");
         runApplication(project);
     }
