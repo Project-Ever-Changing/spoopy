@@ -104,7 +104,7 @@ class PathUtils {
 			for(entry in entries) {
 				if(FileSystem.isDirectory(path + '/' + entry)) {
 					deleteDirRecursively(path + '/' + entry);
-					//FileSystem.deleteDirectory(path + '/' + entry);
+					FileSystem.deleteDirectory(path + '/' + entry);
 				}else {
 					FileSystem.deleteFile(path + '/' + entry);
 				}
