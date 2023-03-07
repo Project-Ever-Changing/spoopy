@@ -29,13 +29,11 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
     public var vertices:Array<SpoopyPoint>;
 
     @:noCompletion var __cameras:Array<SpoopyCamera>;
-    @:noCompletion var __bufferCache:Map<Int, SpoopyFloatBuffer>;
+    @:noCompletion var __bufferCache:Map<Int, SpoopyFloatData>;
 
     public function new() {
-        __cameras = [];
-        __verticesCache = [];
-
         __bufferCache = new Map<Int, SpoopyFloatBuffer>();
+        __cameras = [];
 
         draw();
     }
@@ -45,7 +43,7 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
             return;
         }
 
-        var __vertices:SpoopyFloatBuffer = new SpoopyFloatBuffer();
+        var __vertices:SpoopyFloatData = [];
 
         for(i in 0...vertices.length) {
             var b = vertices[i];
@@ -80,11 +78,10 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
     
     public function destroy():Void {
         __bufferCache.clear();
-
         inScene = false;
+
         __cameras = null;
         __bufferCache = null;
-
         vertices = null;
     }
 

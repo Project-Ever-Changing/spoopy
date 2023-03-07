@@ -12,7 +12,7 @@ import spoopy.graphics.other.SpoopySwapChain;
 * Base helper class for managing buffers.
 */
 class VertexBufferObject {
-    public var buffers(default, null):Array<SpoopyFloatBuffer>;
+    public var buffers(default, null):Array<SpoopyFloatData>;
 
     public var offset(default, null):Int;
     public var length:Int;

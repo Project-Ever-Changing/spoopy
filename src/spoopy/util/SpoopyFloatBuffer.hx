@@ -3,10 +3,18 @@ package spoopy.util;
 import spoopy.obj.geom.SpoopyPoint;
 import haxe.ds.ObjectMap;
 
-#if (HXCPP_M64 || HXCPP_M32)
+#if (HXCPP_M64 || HXCPP_ARM64)
 typedef FloatArray = lime.utils.Float64Array;
 #else
 typedef FloatArray = lime.utils.Float32Array;
+#end
+
+#if (HXCPP_M64 || HXCPP_ARM64)
+private typedef FloatData = Array<cpp.Float64>;
+#elseif (HXCPP_M64 || HXCPP_ARM64)
+private typedef FloatData = Array<cpp.Float32>;
+#else
+private typedef FloatData = Array<Float>;
 #end
 
 @:transitive
@@ -34,4 +42,12 @@ abstract SpoopyFloatBuffer(FloatArray) from FloatArray to FloatArray {
 
         return true;
     }
+}
+
+@:transitive
+@:forward
+abstract SpoopyFloatData(FloatData) from FloatData to FloatData {
+    /*
+    * Empty.
+    */
 }
