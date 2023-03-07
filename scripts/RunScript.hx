@@ -262,7 +262,7 @@ class RunScript {
         project.replaceProjectNDLL(haxeLibPath + ndll_path + getHost(args), "lime.ndll");
         runApplication(project);
 
-        trace(Reflect.field(project, "contentDirectory"));
+        trace(Reflect.getProperty(project, "contentDirectory"));
     }
 
     /*
