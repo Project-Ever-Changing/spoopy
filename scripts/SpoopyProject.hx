@@ -184,8 +184,12 @@ class SpoopyProject {
         }
     }
 
-    public function setupContentDirectory():Void {
+    public function setupContentDirectory(host:String):Void {
+        if(host.toLowerCase().startsWith("mac")) {
+            contentDirectory = platform.targetDirectory + "/bin/" + platform.project.app.file + ".app/" + "/Contents/Resources";
+        }
 
+        trace(contentDirectory);
     }
 
     public function setupShaders():Void {
