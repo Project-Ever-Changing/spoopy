@@ -5,7 +5,6 @@ import spoopy.app.SpoopyApplication;
 import spoopy.frontend.storage.SpoopyCameraStorage;
 import spoopy.graphics.other.SpoopySwapChain;
 
-import lime.system.System;
 import lime.utils.Log;
 
 class SpoopyScene extends SpoopySwapChain {
@@ -37,9 +36,9 @@ class SpoopyScene extends SpoopySwapChain {
     @:noCompletion var __maxAccumulation:Float;
     @:noCompletion var __stepSeconds:Float;
     @:noCompletion var __stepMS:Float;
-    @:noCompletion var __startTime:Float;
     @:noCompletion var __totalTime:Float;
     @:noCompletion var __elapsedMS:Float;
+    @:noCompletion var __startTime:Int;
 
     public function new(application:SpoopyApplication, fullscreen:Bool = false, ?initState:SpoopyState = null) {
         super(application);
@@ -117,7 +116,7 @@ class SpoopyScene extends SpoopySwapChain {
         }
 
         __initialize = true;
-        __startTime = System.getTimer();
+        __startTime = SpoopyApplication.getTimer();
         __totalTime = getTicks();
 
         #if desktop
@@ -228,6 +227,6 @@ class SpoopyScene extends SpoopySwapChain {
     }
 
     inline function getTicks():Int {
-        return System.getTimer() - __startTime;
+        return SpoopyApplication.getTimer() - __startTime;
     }
 }

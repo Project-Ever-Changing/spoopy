@@ -19,6 +19,10 @@ class SpoopyApplication extends Application {
 	*/
 	public var windowModules(default, null):ObjectMap<Window, IWindowModule>;
 
+    public static function getTimer():Int {
+        return System.getTimer();
+    }
+
     public function new() {
         super();
 
