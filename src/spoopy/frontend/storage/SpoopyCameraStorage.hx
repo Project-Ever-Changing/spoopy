@@ -38,9 +38,9 @@ class SpoopyCameraStorage {
     */
     public function add<T:SpoopyCamera>(cam:T, viewport:Bool = true):T {
         #if (haxe >= "4.0.0")
-        if(list.contains(cam)) return;
+        if(list.contains(cam)) return cam;
         #else
-        if(list.indexOf(cam) != -1) return;
+        if(list.indexOf(cam) != -1) return cam;
         #end
 
         #if (spoopy_vulkan || spoopy_metal)
@@ -58,7 +58,7 @@ class SpoopyCameraStorage {
     * @param cam The `SpoopyCamera` object to remove.
     * @param destroy Whether to release the camera's resources after removing it.
     */
-    public function remove(cam:SpoopyCamera, destory:Bool = true):Void {
+    public function remove(cam:SpoopyCamera, destroy:Bool = true):Void {
         var index:Int = list.indexOf(cam);
 
         if(cam != null && index != -1) {

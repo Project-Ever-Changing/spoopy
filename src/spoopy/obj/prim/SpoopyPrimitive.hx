@@ -32,7 +32,7 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
     @:noCompletion var __bufferCache:Map<Int, SpoopyFloatData>;
 
     public function new() {
-        __bufferCache = new Map<Int, SpoopyFloatBuffer>();
+        __bufferCache = new Map<Int, SpoopyFloatData>();
         __cameras = [];
 
         draw();
@@ -54,13 +54,13 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
         }
 
         if(__bufferCache.exists(0)) {
-            for(cam in cameras)
+            for(cam in __cameras)
                 cam.removeBuffer(__bufferCache.get(0));
         }
 
         __bufferCache.set(0, __vertices);
 
-        for(cam in cameras)
+        for(cam in __cameras)
             cam.storeBuffer(__bufferCache.get(0));
     }
 
@@ -103,7 +103,7 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
         }
 
         if(__bufferCache.exists(0) && !value) {
-            for(cam in cameras)
+            for(cam in __cameras)
                 cam.removeBuffer(__bufferCache.get(0));
         }else if(!__bufferCache.exists(0) && value) {
             draw();
