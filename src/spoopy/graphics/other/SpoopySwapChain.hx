@@ -65,7 +65,7 @@ class SpoopySwapChain extends WindowEventManager {
         __surface = null;
     }
 
-    @:noCompletion override private function set_cullMode(value:SpoopyCullMode):SpoopyCullMode {
+    @:noCompletion private function set_cullMode(value:SpoopyCullMode):SpoopyCullMode {
         if(cullMode == value) {
             return value;
         }

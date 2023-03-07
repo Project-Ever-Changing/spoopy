@@ -23,8 +23,8 @@ class SpoopyScene extends SpoopySwapChain {
     public var fixedTimestep:Bool = true;
     public var autoPause:Bool = false;
 
-    public var updateFramerate(default, set):UInt;
-    public var renderFramerate(default, set):UInt;
+    public var updateFramerate(default, set):Int;
+    public var renderFramerate(default, set):Int;
 
     @:noCompletion var __nextState:SpoopyState;
 
@@ -46,8 +46,8 @@ class SpoopyScene extends SpoopySwapChain {
 
         cameras = new SpoopyCameraStorage(this);
 
-        updateFramerate = window.frameRate;
-        renderFramerate = window.frameRate;
+        updateFramerate = Std.int(window.frameRate);
+        renderFramerate = Std.int(window.frameRate);
 
         __fullscreenDirty = fullscreen;
         __acumulator = __stepMS;
@@ -189,7 +189,9 @@ class SpoopyScene extends SpoopySwapChain {
         return __fullscreenDirty = value;
     }
 
-    @:noCompletion function set_updateFramerate(value:UInt):UInt {
+    @:noCompletion function set_updateFramerate(value:Int):Int {
+        value = Std.int(Math.abs(value));
+
         if(value < renderFramerate) {
             Log.warn("Be careful when prioritizing the update framerate over the render framerate, as this can result in a choppy or laggy user experience.");
         }
@@ -206,7 +208,9 @@ class SpoopyScene extends SpoopySwapChain {
         return value;
     }
 
-    @:noCompletion function set_renderFramerate(value:UInt):UInt {
+    @:noCompletion function set_renderFramerate(value:Int):Int {
+        value = Std.int(Math.abs(value));
+
         if(value > updateFramerate) {
             Log.warn("Be careful when prioritizing the update framerate over the render framerate, as this can result in a choppy or laggy user experience.");
         }
@@ -223,7 +227,7 @@ class SpoopyScene extends SpoopySwapChain {
         return value;
     }
 
-    inline function getTicks():Float {
+    inline function getTicks():Int {
         return System.getTimer() - __startTime;
     }
 }
