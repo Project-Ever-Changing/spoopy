@@ -17,8 +17,8 @@ class SpoopyNativeSurface {
         SpoopyNativeCFFI.spoopy_assign_metal_surface(handle, device);
     }
 
-    public function cullFace(cullMode:SpoopyNativeCFFI):Void {
-
+    public function cullFace(cullMode:SpoopyCullMode):Void {
+        SpoopyNativeCFFI.spoopy_set_surface_cull_face(handle, cullMode);
     }
 
     public function updateWindow():Void {

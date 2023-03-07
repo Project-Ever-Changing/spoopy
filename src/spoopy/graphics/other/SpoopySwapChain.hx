@@ -1,7 +1,6 @@
 package spoopy.graphics.other;
 
 import lime.ui.Window;
-import lime.graphics.RenderContext;
 
 import spoopy.app.SpoopyApplication;
 import spoopy.window.WindowEventManager;

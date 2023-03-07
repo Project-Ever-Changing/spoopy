@@ -46,13 +46,13 @@ class SpoopyScene extends SpoopySwapChain {
 
         cameras = new SpoopyCameraStorage(this);
 
-        updateFramerate = window.framerate;
-        renderFramerate = window.framerate;
+        updateFramerate = window.frameRate;
+        renderFramerate = window.frameRate;
 
         __fullscreenDirty = fullscreen;
         __acumulator = __stepMS;
 
-        state = (initState == null) ? new SpoopyState() : initState;
+        state = (initState == null) ? new SpoopyState(this) : initState;
         __nextState = state;
     }
 
