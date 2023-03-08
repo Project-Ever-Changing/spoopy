@@ -19,6 +19,8 @@ import hxp.Log;
 import utils.EnhancedXMLProject;
 import utils.PathUtils;
 
+import haxe.io.Bytes;
+
 using StringTools;
 
 @:access(lime.tools.HXProject)
@@ -221,10 +223,11 @@ class SpoopyProject {
             return false;
         }
 
-        var content1 = File.getContent("file1.txt");
-        var content2 = File.getContent("file2.txt");
+        var content1 = File.getBytes(path1 + file1);
+        var content2 = File.getBytes(path2 + file2);
 
-        if (file1 != file2) {
+        if (content1.compare(content2) != 0) {
+            trace("Not equal by Bytes!!");
             return false;
         }
 
