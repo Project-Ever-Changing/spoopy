@@ -189,15 +189,20 @@ class SpoopyProject {
             contentDirectory = platform.targetDirectory + "/bin/" + platform.project.app.file + ".app/" + "/Contents/Resources";
         }
 
-        trace(contentDirectory);
+        if(host.toLowerCase().startsWith("windows") || host.toLowerCase().startsWith("linux")) {
+            contentDirectory = platform.targetDirectory + "/bin/";
+        }
     }
 
     public function setupShaders():Void {
         for(shader in shaders) {
             if (shader.embed != true) {
-                System.mkdir(Path.directory(Path.combine(contentDirectory, shader.targetPath)));
-                
+                var cachedPath = Path.combine(platform.targetDirectory + "/obj/cached/", shader.targetPath);
 
+                System.mkdir(Path.directory(Path.combine(contentDirectory, shader.targetPath)));
+                System.mkdir(Path.directory(cachedPath));
+
+                AssetHelper.copyAsset(shader, cachedPath);
             }
         }
     }
