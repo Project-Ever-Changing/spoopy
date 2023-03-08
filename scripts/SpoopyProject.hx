@@ -11,6 +11,7 @@ import lime.tools.AssetHelper;
 
 import massive.sys.io.FileSys;
 import sys.FileSystem;
+import sys.io.File;
 import hxp.System;
 import hxp.Path;
 import hxp.Log;
@@ -205,7 +206,7 @@ class SpoopyProject {
                 System.mkdir(Path.directory(cachedPath));
 
                 if(FileSystem.exists(objCached + shader.targetPath)) {
-                    if(!FileSystem.isDirectory(objCached + shader.targetPath)) {
+                    if(compareFiles(objCached, "", shader.targetPath, shader.sourcePath)) {
                         trace(objCached + shader.targetPath);
                     }
                 }
@@ -213,6 +214,21 @@ class SpoopyProject {
                 AssetHelper.copyAsset(shader, cachedPath);
             }
         }
+    }
+
+    private function compareFiles(path1:String, path2:String, file1:String, file2:String):Bool {
+        if(FileSystem.isDirectory(path1 + file1) || FileSystem.isDirectory(path2 + file2)) {
+            return false;
+        }
+
+        var content1 = File.getContent("file1.txt");
+        var content2 = File.getContent("file2.txt");
+
+        if (file1 != file2) {
+            return false;
+        }
+
+        return true;
     }
 }
 
