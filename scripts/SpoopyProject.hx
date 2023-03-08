@@ -213,7 +213,9 @@ class SpoopyProject {
                     }
                 }
 
-                if(!FileSystem.isDirectory(shader.sourcePath)) {
+                if(!FileSystem.isDirectory(shader.sourcePath) && !FileSystem.exists(objCached + shader.targetPath)) {
+                    trace("Found shader: " + shader.targetPath);
+
                     if(FileSys.isWindows) {
                         //Sys.command('"' + haxeLibPath +  "./dependencies/glslang/" + getSlangHost(host) + "/glslangValidator.exe" + '"', ["-V", '"' + ]);
                     }else {
