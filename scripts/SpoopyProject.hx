@@ -222,6 +222,8 @@ class SpoopyProject {
                         var shaderSPV = shader.targetPath.split(".")[0] + ".spv";
                         Sys.command("/" + haxeLibPath + "/dependencies/glslang/" + getSlangHost(host) + "/glslangValidator", ["-V", shader.sourcePath, "-o", shaderSPV]);
                     }
+                }else {
+                    trace("shaders: " + shader.sourcePath);
                 }
 
                 AssetHelper.copyAsset(shader, cachedPath);
