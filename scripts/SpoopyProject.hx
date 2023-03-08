@@ -197,7 +197,7 @@ class SpoopyProject {
         }
     }
 
-    public function setupShaders():Void {
+    public function setupShaders(host:String, haxeLibPath:String):Void {
         var objCached = platform.targetDirectory + "/obj/cached/";
 
         for(shader in shaders) {
@@ -209,12 +209,34 @@ class SpoopyProject {
 
                 if(FileSystem.exists(objCached + shader.targetPath)) {
                     if(compareFiles(objCached, "", shader.targetPath, shader.sourcePath)) {
-                        trace(objCached + shader.targetPath);
+                        continue;
+                    }
+                }
+
+                if(!FileSystem.isDirectory(shader.sourcePath)) {
+                    if(FileSys.isWindows) {
+                        //Sys.command('"' + haxeLibPath +  "./dependencies/glslang/" + getSlangHost(host) + "/glslangValidator.exe" + '"', ["-V", '"' + ]);
+                    }else {
+                        var shaderSPV = shader.targetPath.split(".")[0] + ".spv";
+                        Sys.command("/" + haxeLibPath + "/dependencies/glslang/" + getSlangHost(host) + "/glslangValidator", ["-V", shader.sourcePath, "-o", shaderSPV]);
                     }
                 }
 
                 AssetHelper.copyAsset(shader, cachedPath);
             }
+        }
+    }
+
+    private function getSlangHost(host:String):String {
+        switch(host) {
+            case "windows" | "windows64" | "windows32":
+                return "windows";
+            case "mac" | "mac32" :
+                return "mac";
+            case "mac64":
+                return "mac64";
+            default:
+                return "linux";
         }
     }
 
@@ -227,7 +249,6 @@ class SpoopyProject {
         var content2 = File.getBytes(path2 + file2);
 
         if (content1.compare(content2) != 0) {
-            trace("Not equal by Bytes!!");
             return false;
         }
 

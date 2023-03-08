@@ -267,7 +267,7 @@ class RunScript {
         }
 
         project.setupContentDirectory(host);
-        project.setupShaders();
+        project.setupShaders(host.toLowerCase(), haxeLibPath);
         project.replaceProjectNDLL(haxeLibPath + ndll_path + host, "lime.ndll");
         runApplication(project);
     }
