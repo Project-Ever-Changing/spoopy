@@ -195,12 +195,20 @@ class SpoopyProject {
     }
 
     public function setupShaders():Void {
+        var objCached = platform.targetDirectory + "/obj/cached/";
+
         for(shader in shaders) {
             if (shader.embed != true) {
-                var cachedPath = Path.combine(platform.targetDirectory + "/obj/cached/", shader.targetPath);
+                var cachedPath = Path.combine(objCached, shader.targetPath);
 
                 System.mkdir(Path.directory(Path.combine(contentDirectory, shader.targetPath)));
                 System.mkdir(Path.directory(cachedPath));
+
+                if(FileSystem.exists(objCached + shader.targetPath)) {
+                    if(!FileSystem.isDirectory(objCached + shader.targetPath)) {
+                        trace(objCached + shader.targetPath);
+                    }
+                }
 
                 AssetHelper.copyAsset(shader, cachedPath);
             }
