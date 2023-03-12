@@ -72,7 +72,7 @@ class EnhancedXMLProject extends ProjectXMLParser {
                 shaders.push(asset);
             }else {
                 var exclude = ".*|cvs|thumbs.db|desktop.ini|*.fla|*.hash";
-				var include = "*.glsl";
+				var include = "*";
 
                 if (element.has.exclude) {
                     exclude += "|" + substitute(element.att.exclude);

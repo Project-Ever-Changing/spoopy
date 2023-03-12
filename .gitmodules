@@ -10,6 +10,3 @@
 [submodule "project/lib/spirv-cross"]
 	path = project/lib/spirv-cross
 	url = https://github.com/KhronosGroup/SPIRV-Cross.git
-[submodule "project/lib/glslang"]
-	path = project/lib/glslang
-	url = https://github.com/Project-Ever-Changing/libglslang
