@@ -213,15 +213,24 @@ class SpoopyProject {
                     }
                 }
 
-                if(!FileSystem.isDirectory(shader.sourcePath) && !FileSystem.exists(objCached + shader.targetPath)) {
-                    if(FileSys.isWindows) {
-                        //Sys.command('"' + haxeLibPath +  "./dependencies/glslang/" + getSlangHost(host) + "/glslangValidator.exe" + '"', ["-V", '"' + ]);
-                    }else {
-                        var shaderSPV = contentDirectory + "/" + shader.targetPath.split(".")[0] + ".spv";
-                        Sys.command(haxeLibPath + "dependencies/glslang/" + getSlangHost(host) + "/glslangValidator", ["-V", shader.sourcePath, "-o", shaderSPV]);
-                    }
+                if(FileSystem.isDirectory(shader.sourcePath)) {
+                    continue;   
+                }
+
+                if(FileSystem.exists(objCached + shader.targetPath)) {
+                    FileSystem.deleteFile(objCached + shader.targetPath);
+                }
+
+                var shaderSPV = contentDirectory + "/" + shader.targetPath.split(".")[0] + ".spv";
+
+                if(FileSystem.exists(shaderSPV)) {
+                    FileSystem.deleteFile(shaderSPV);
+                }
+
+                if(FileSys.isWindows) {
+                    //Sys.command('"' + haxeLibPath +  "./dependencies/glslang/" + getSlangHost(host) + "/glslangValidator.exe" + '"', ["-V", '"' + ]);
                 }else {
-                    trace("shaders: " + shader.sourcePath);
+                    Sys.command(haxeLibPath + "dependencies/glslang/" + getSlangHost(host) + "/glslangValidator", ["-V", shader.sourcePath, "-o", shaderSPV]);
                 }
 
                 AssetHelper.copyAsset(shader, cachedPath);
