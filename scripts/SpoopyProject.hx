@@ -214,14 +214,12 @@ class SpoopyProject {
                 }
 
                 if(!FileSystem.isDirectory(shader.sourcePath) && !FileSystem.exists(objCached + shader.targetPath)) {
-                    trace("Found shader: " + shader.targetPath);
-
                     if(FileSys.isWindows) {
                         //Sys.command('"' + haxeLibPath +  "./dependencies/glslang/" + getSlangHost(host) + "/glslangValidator.exe" + '"', ["-V", '"' + ]);
                     }else {
                         var shaderSPV = shader.targetPath.split(".")[0] + ".spv";
-                        trace("/" + haxeLibPath + "/dependencies/glslang/" + getSlangHost(host) + "/glslangValidator" + " -V " + shader.sourcePath + " -o " + shaderSPV);
-                        Sys.command("/" + haxeLibPath + "/dependencies/glslang/" + getSlangHost(host) + "/glslangValidator", ["-V", shader.sourcePath, "-o", shaderSPV]);
+                        trace(haxeLibPath + "/dependencies/glslang/" + getSlangHost(host) + "/glslangValidator" + " -V " + shader.sourcePath + " -o " + shaderSPV);
+                        Sys.command(haxeLibPath + "/dependencies/glslang/" + getSlangHost(host) + "/glslangValidator", ["-V", shader.sourcePath, "-o", shaderSPV]);
                     }
                 }else {
                     trace("shaders: " + shader.sourcePath);
