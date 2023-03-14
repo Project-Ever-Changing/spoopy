@@ -218,8 +218,9 @@ class SpoopyProject {
                         //Sys.command('"' + haxeLibPath +  "./dependencies/glslang/" + getSlangHost(host) + "/glslangValidator.exe" + '"', ["-V", '"' + ]);
                     }else {
                         var shaderSPV = shader.targetPath.split(".")[0] + ".spv";
-                        trace(haxeLibPath + "/dependencies/glslang/" + getSlangHost(host) + "/glslangValidator" + " -V " + shader.sourcePath + " -o " + shaderSPV);
-                        Sys.command(haxeLibPath + "/dependencies/glslang/" + getSlangHost(host) + "/glslangValidator", ["-V", shader.sourcePath, "-o", shaderSPV]);
+                        trace("export path: " + contentDirectory);
+                        trace(haxeLibPath + "dependencies/glslang/" + getSlangHost(host) + "/glslangValidator" + " -V " + shader.sourcePath + " -o " + shaderSPV);
+                        Sys.command(haxeLibPath + "dependencies/glslang/" + getSlangHost(host) + "/glslangValidator", ["-V", shader.sourcePath, "-o", shaderSPV]);
                     }
                 }else {
                     trace("shaders: " + shader.sourcePath);
