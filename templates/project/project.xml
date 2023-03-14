@@ -16,6 +16,8 @@
 
     <assets path="assets" />
 
+	<shaders path="shaders" />
+
     <!-- _____________________________ Libraries _____________________________ -->
 	
 	<haxelib name="lime" />
