@@ -105,7 +105,9 @@ class EnhancedXMLProject extends ProjectXMLParser {
                     }
                 }
             }else {
-                if(filter(file, include.split("|"), exclude.split("|")) && file.split(".")[1] == "glsl") {
+                var shaderFile = file.split(".");
+
+                if(filter(file, include.split("|"), exclude.split("|")) && shaderFile[shaderFile.length - 1] == "glsl") {
                     var asset = new Asset(path + "/" + file, targetPath + file, type, embed);
 					asset.library = library;
 
