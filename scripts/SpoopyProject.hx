@@ -203,12 +203,13 @@ class SpoopyProject {
         for(shader in shaders) {
             if (shader.embed != true) {
                 var cachedPath = Path.combine(objCached, shader.targetPath);
+                var shaderSPV = contentDirectory + "/" + shader.targetPath.split(".")[0] + ".spv";
 
                 System.mkdir(Path.directory(Path.combine(contentDirectory, shader.targetPath)));
                 System.mkdir(Path.directory(cachedPath));
 
                 if(FileSystem.exists(objCached + shader.targetPath)) {
-                    if(compareFiles(objCached, "", shader.targetPath, shader.sourcePath)) {
+                    if(compareFiles(objCached, "", shader.targetPath, shader.sourcePath) && FileSystem.exists(shaderSPV)) {
                         continue;
                     }
                 }
@@ -220,8 +221,6 @@ class SpoopyProject {
                 if(FileSystem.exists(objCached + shader.targetPath)) {
                     FileSystem.deleteFile(objCached + shader.targetPath);
                 }
-
-                var shaderSPV = contentDirectory + "/" + shader.targetPath.split(".")[0] + ".spv";
 
                 if(FileSystem.exists(shaderSPV)) {
                     FileSystem.deleteFile(shaderSPV);
