@@ -202,8 +202,9 @@ class SpoopyProject {
 
         for(shader in shaders) {
             if (shader.embed != true) {
+                var shaderSpilts = shader.targetPath.split(".");
                 var cachedPath = Path.combine(objCached, shader.targetPath);
-                var shaderSPV = contentDirectory + "/" + shader.targetPath.split(".")[0] + ".spv";
+                var shaderSPV = contentDirectory + "/" + shaderSpilts[shaderSpilts.length - 1] + ".spv";
 
                 System.mkdir(Path.directory(Path.combine(contentDirectory, shader.targetPath)));
                 System.mkdir(Path.directory(cachedPath));
