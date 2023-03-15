@@ -8,12 +8,14 @@
 #pragma once
 
 #ifndef NO_GLSLANG_INCLUDED
+
 #include <SPIRV/GlslangToSpv.h>
 #include <SPIRV/disassemble.h>
 #include <glslang/Include/ResourceLimits.h>
 #include <glslang/Public/ShaderLang.h>
 #include <SPIRV/SPVRemapper.h>
 #include <SPIRV/doc.h>
+
 #endif
 
 #include <spirv.hpp>
@@ -48,12 +50,5 @@ namespace lime {
         ShaderStageMax
     };
 
-    struct OutputOptions {
-        ShaderFormat format;
-
-        unsigned glslVersion;
-        bool ES;
-    };
-
-    std::string compile(const char* source, OutputOptions ooptions);
+    std::string compile(const char* source, ShaderFormat outputFormat);
 }

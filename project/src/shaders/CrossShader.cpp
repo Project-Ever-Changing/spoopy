@@ -11,7 +11,7 @@
 #include <shaders/CrossShader.h>
 
 namespace lime {
-    std::string compile(const char* source, OutputOptions ooptions) {
+    std::string compile(const char* source, ShaderFormat outputFormat) {
 
         // ⬇️ Input Compilation
         std::vector<uint32_t> spirvSource;
@@ -23,16 +23,7 @@ namespace lime {
 
         // ⬆️ Output Transpliation
 
-        ShaderFormat& outputFormat = ooptions.format;
-
-        if(outputFormat == ShaderFormat::GLSL) {
-            spirv_cross::CompilerGLSL glsl(spirvSource);
-            spirv_cross::CompilerGLSL::Options scoptions;
-            scoptions.version = ooptions.glslVersion;
-            scoptions.es = ooptions.ES;
-            glsl.set_common_options(scoptions);
-            return glsl.compile();
-        }else if(outputFormat == ShaderFormat::HLSL) {
+        if(outputFormat == ShaderFormat::HLSL) {
             spirv_cross::CompilerHLSL hlsl(spirvSource);
             spirv_cross::CompilerHLSL::Options hlslOptions;
             hlslOptions.shader_model = 500;

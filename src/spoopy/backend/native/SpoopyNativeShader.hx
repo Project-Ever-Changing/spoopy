@@ -8,4 +8,10 @@ class SpoopyNativeShader implements ShaderReference {
     public function new() {
 
     }
+
+    public function decompileSPV(shader:String):Void {
+        #if spoopy_metal
+
+        #end
+    }
 }

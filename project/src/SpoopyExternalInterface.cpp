@@ -103,6 +103,19 @@ namespace lime {
     }
     DEFINE_PRIME4v(spoopy_surface_set_vertex_buffer);
 
+    value spoopy_spv_to_metal_shader(HxString shader) {
+        const char* mtlshader = lime::compile(shader.c_str(), ShaderFormat::MSL).c_str();
+        value _mtlshader = alloc_string(mtlshader);
+
+        if(mtlshader) {
+            free((char*)mtlshader);
+            return _mtlshader;
+        }else {
+            return alloc_null();
+        }
+    }
+    DEFINE_PRIME1(spoopy_spv_to_metal_shader);
+
     #endif
 
     #if defined(SPOOPY_VULKAN) || defined(SPOOPY_METAL)
@@ -163,7 +176,7 @@ namespace lime {
 
 
     //Other
-    
+
 
     //Testing Purposes
 
