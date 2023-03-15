@@ -9,7 +9,7 @@ class SpoopyShader {
         shaders = new Map<String, ShaderReference>();
     }
 
-    //public static function createShaders(name:String, vertex):Void {
+    public static function createShaders(name:String, vertex:String, fragment:String):Void {
 
-    //}
+    }
 }
