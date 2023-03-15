@@ -229,6 +229,7 @@ class SpoopyProject {
                 if(FileSys.isWindows) {
                     //Sys.command('"' + haxeLibPath +  "./dependencies/glslang/" + getSlangHost(host) + "/glslangValidator.exe" + '"', ["-V", '"' + ]);
                 }else {
+                    trace("shaders: " + shaderSPV);
                     Sys.command(haxeLibPath + "dependencies/glslang/" + getSlangHost(host) + "/glslangValidator", ["-V", shader.sourcePath, "-o", shaderSPV, "> /dev/null 2>&1 &"]);
                 }
 
