@@ -1,4 +1,4 @@
-#import "../../helpers/SpoopyMetalHelpers.mm"
+#import "../../helpers/SpoopyMetalHelpers.h"
 
 #include <shaders/Shader.h>
 
@@ -6,6 +6,7 @@ namespace lime {
     class MetalShader: public Shader {
         public:
             MetalShader(value window_surface, value device);
+            ~MetalShader();
 
             virtual void applyShaders(const char* name, const char* vertex, const char* fragment);
 
@@ -14,11 +15,11 @@ namespace lime {
         private:
             id<MTLDevice> shader_device;
 
-            RenderPipelineDescriptor pd;
-            RenderPipelineState ps;
+            SpoopyPipelineDescriptor pd;
+            SpoopyPipelineState ps;
 
-            ProgramMtl vertexProgram;
-            ProgramMtl fragmentProgram;
+            id<MTLFunction> vertexFunction;
+            id<MTLFunction> fragmentFunction;
     };
 
     MetalShader::MetalShader(value window_surface, value device) {
@@ -29,32 +30,29 @@ namespace lime {
     }
 
     void MetalShader::applyShaders(const char* name, const char* vertex, const char* fragment) {
-        Library library = createLibrary(vertex);
+        id<MTLLibrary> library = createLibrary(vertex);
 
         if(library != NULL) {
-            vertexProgram.m_function = [library newFunctionWithName:@(name)];
-            [release library];
+            vertexFunction = [library newFunctionWithName:@(name)];
+            release(library);
         }
 
         library = createLibrary(fragment);
 
         if(library != NULL) {
-            fragmentProgram.m_function = [library newFunctionWithName:@(name)];
-            [release library];
+            fragmentFunction = [library newFunctionWithName:@(name)];
+            release(library);
         }
 
-        UInt32 pixelFormat = SDL_GetWindowPixelFormat(windowSurface -> getWindow() -> sdlWindow);
-        SpoopyPixelFormat mtlPixelFormat = SpoopyMetalHelper::convertSDLtoMetal(pixelFormat);
+        UInt32 pixelFormat = SDL_GetWindowPixelFormat(windowSurface -> getWindow().sdlWindow);
+        SpoopyPixelFormat mtlPixelFormat = SpoopyMetalHelpers::convertSDLtoMetal(pixelFormat);
 
-        [pd reset];
+        reset(pd);
         pd.colorAttachments[0].pixelFormat = mtlPixelFormat;
         pd.vertexFunction = vertexFunction;
         pd.fragmentFunction = fragmentFunction;
 
-        if(ps != nil) {
-            [release ps];
-        }
-
+        release(ps);
         ps = createRenderPipelineStateWithDescriptor(pd);
     }
 
@@ -81,31 +79,17 @@ namespace lime {
     }
 
     MetalShader::~MetalShader() {
-        if(shader_device != nil) {
-            [release shader_device];
-        }
-
-        if(vertexFunction != nil) {
-            [release vertexFunction];
-        }
-
-        if(fragmentFunction != nil) {
-            [release fragmentFunction];
-        }
-
-        if(ps != nil) {
-            [release ps];
-        }
-
-        if(pd != nil) {
-            [release pd];
-        }
+        release(shader_device);
+        release(vertexFunction);
+        release(fragmentFunction);
+        release(ps);
+        release(pd);
 
         MetalShader::~Shader();
     }
 
 
-    Shader* createShader(value device) {
-        return new MetalShader(device);
+    Shader* createShader(value window_surface, value device) {
+        return new MetalShader(window_surface, device);
     }
 }

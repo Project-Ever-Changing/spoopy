@@ -1,4 +1,4 @@
-#import "../../helpers/SpoopyMetalHelpers.mm"
+#import "../../helpers/SpoopyMetalHelpers.h"
 
 #include <ui/SpoopyWindowSurface.h>
 
@@ -74,7 +74,7 @@ namespace lime {
         }
 
         layer = (__bridge CAMetalLayer*)SDL_RenderGetMetalLayer(m_window.sdlRenderer);
-        layer.pixelFormat = SpoopyMetalHelper::convertSDLtoMetal(SDL_GetWindowPixelFormat(m_window.sdlWindow));
+        layer.pixelFormat = SpoopyMetalHelpers::convertSDLtoMetal(SDL_GetWindowPixelFormat(m_window.sdlWindow));
 
         commandQueue = [layerDevice newCommandQueue];
     }
@@ -149,35 +149,12 @@ namespace lime {
         * What if `OBJC_ARC` is defined.
         */
 
-        if(renderEncoder != nil) {
-            [renderEncoder release];
-            renderEncoder = nil;
-        }
-
-        if(buffer != nil) {
-            [buffer release];
-            buffer = nil;
-        }
-
-        if(surface != nil) {
-            [surface release];
-            surface = nil;
-        }
-
-        if(commandQueue != nil) {
-            [commandQueue release];
-            commandQueue = nil;
-        }
-
-        if(layerDevice != nil) {
-            [layerDevice release];
-            layerDevice = nil;
-        }
-
-        if(layer != nil) {
-            [layer release];
-            layer = nil;
-        }
+        release(renderEncoder);
+        release(buffer);
+        release(surface);
+        release(commandQueue);
+        release(layerDevice);
+        release(layer);
     }
 
     #ifdef SPOOPY_SDL    

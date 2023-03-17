@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <cstdlib>
 
 #include <system/CFFIPointer.h>
@@ -106,12 +107,12 @@ namespace lime {
     value spoopy_spv_to_metal_shader(HxString shader) {
         std::string mtlshader = lime::compile(shader.c_str(), ShaderFormat::MSL);
 
-        const char* result = new char[mtlshader.size() + 1];
+        char* result = new char[mtlshader.size() + 1];
         strcpy(result, mtlshader.c_str());
 
         if(result) {
             value _mtlshader = alloc_string(result);
-            free((char*)result);
+            free(result);
             return _mtlshader;
         }else {
             return alloc_null();

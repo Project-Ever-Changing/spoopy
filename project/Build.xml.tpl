@@ -95,10 +95,9 @@
 
 		<section if="SPOOPY_METAL">
 			<file name="src/graphics/metal/MetalBindings.mm" />
-			<file name="src/helpers/SpoopyMetalHelper.mm" />
+			<file name="src/helpers/SpoopyMetalHelpers.mm" />
 			<file name="src/ui/metal/SpoopyWindowMetal.mm" />
 			<file name="src/shaders/metal/MetalShader.mm" />
-			<file name="src/bgfx/bgfx_mtl.mm" />
 			<compilerflag value="-DSPOOPY_METAL" />
 		</section>
 

@@ -17,5 +17,5 @@ namespace lime {
             SpoopyWindowSurface* windowSurface;
     };
 
-    Shader* createShader(value device);
+    Shader* createShader(value window_surface, value device);
 }
