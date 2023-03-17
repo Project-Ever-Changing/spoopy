@@ -17,8 +17,8 @@ namespace lime {
             RenderPipelineDescriptor pd;
             RenderPipelineState ps;
 
-            id<MTLFunction> vertexFunction;
-            id<MTLFunction> fragmentFunction;
+            id<MTLFunction> vertexProgram;
+            id<MTLFunction> fragmentProgram;
     };
 
     MetalShader::MetalShader(value window_surface, value device) {
