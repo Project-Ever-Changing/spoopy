@@ -14,6 +14,7 @@
 
 #if defined(SPOOPY_VULKAN) || defined(SPOOPY_METAL)
 #include <ui/SpoopyWindowSurface.h>
+#include <shaders/Shader.h>
 #endif
 
 #ifdef SPOOPY_INCLUDE_EXAMPLE
@@ -129,6 +130,11 @@ namespace lime {
         delete windowSurface;
     }
 
+    void apply_gc_shader(value handle) {
+        Shader* shader = (Shader*)val_data(handle);
+        delete shader;
+    }
+
     value spoopy_create_window_surface(value window_handle) {
         SDLWindow* window = (SDLWindow*)val_data(window_handle);
 
@@ -160,6 +166,12 @@ namespace lime {
         windowSurface -> setVertexBuffer(buffer, offset, atIndex);
     }
     DEFINE_PRIME4v(spoopy_set_vertex_buffer);
+
+    value spoopy_create_shader(value window_surface, value device) {
+        Shader* shader = createShader(window_surface, device);
+        return CFFIPointer(shader, apply_gc_shader);
+    }
+    DEFINE_PRIME2(spoopy_create_shader);
 
 #endif
 
