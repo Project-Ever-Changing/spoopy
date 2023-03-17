@@ -17,8 +17,8 @@ namespace lime {
             RenderPipelineDescriptor pd;
             RenderPipelineState ps;
 
-            id<MTLFunction> vertexProgram;
-            id<MTLFunction> fragmentProgram;
+            ProgramMtl vertexProgram;
+            ProgramMtl fragmentProgram;
     };
 
     MetalShader::MetalShader(value window_surface, value device) {
@@ -29,17 +29,17 @@ namespace lime {
     }
 
     void MetalShader::applyShaders(const char* name, const char* vertex, const char* fragment) {
-        id<MTLLibrary> library = createLibrary(vertex);
+        Library library = createLibrary(vertex);
 
         if(library != NULL) {
-            vertexFunction = [library newFunctionWithName:@(name)];
+            vertexProgram.m_function = [library newFunctionWithName:@(name)];
             [release library];
         }
 
         library = createLibrary(fragment);
 
         if(library != NULL) {
-            fragmentFunction = [library newFunctionWithName:@(name)];
+            fragmentProgram.m_function = [library newFunctionWithName:@(name)];
             [release library];
         }
 

@@ -26,7 +26,7 @@ void ShaderMtl::create(const Memory* _mem)
     uint16_t count;
     bx::read(&reader, count, &err);
 
-    BX_TRACE("%s Shader consts %d"
+    NSLog("%s Shader consts %d"
             , getShaderTypeName(magic)
             , count
     );
@@ -121,7 +121,7 @@ void ProgramMtl::create(const ShaderMtl* _vsh, const ShaderMtl* _fsh)
             {
                 const char* name = utf8String(attrib.name);
                 uint32_t loc = (uint32_t)attrib.attributeIndex;
-                BX_TRACE("attr %s: %d", name, loc);
+                NSLog("attr %s: %d", name, loc);
 
                 for (uint8_t ii = 0; ii < Attrib::Count; ++ii)
                 {

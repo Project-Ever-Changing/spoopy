@@ -1,5 +1,6 @@
-#import "../bgfx_metal.mm"
 #import <Foundation/Foundation.h>
+
+#include "../bgfx_metal.h"
 
 #ifdef SPOOPY_SDL
 #include <SDL.h>
