@@ -10,3 +10,6 @@
 [submodule "project/lib/spirv-cross"]
 	path = project/lib/spirv-cross
 	url = https://github.com/KhronosGroup/SPIRV-Cross.git
+[submodule "project/lib/bgfx"]
+	path = project/lib/bgfx
+	url = https://github.com/bkaradzic/bgfx

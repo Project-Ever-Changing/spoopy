@@ -11,7 +11,6 @@
 
 	<set name="SPOOPY_HASHLINK" value="1" if="hashlink" />
 	<set name="SPOOPY_SDL" value="1" />
-	<set name="SPOOPY_SPIRV_CROSS" value="1" />
 	<set name="SPOOPY_SDL_SUPPORT_RENDERER" value="1" />
 	<set name="SPOOPY_SDL_ANGLE" value="1" if="windows SPOOPY_SDL_ANGLE" unless="static_link" />
 	<set name="SPOOPY_SDL_ANGLE" value="1" if="windows angle" unless="static_link" />
@@ -61,55 +60,18 @@
 			<compilerflag value="-Ilib/volk/" />
 		</section>
 
-		<section if="SPOOPY_SPIRV_CROSS">
-			<compilerflag value="-DSPIRV_ONLY" />
-			<compilerflag value="-DSPOOPY_SPIRV_CROSS" />
-			<compilerflag value="-Ilib/spirv-cross/include/spirv_cross/" />
-			<compilerflag value="-Ilib/spirv-cross/" />
-		</section>
-
 		<file name="src/SpoopyExternalInterface.cpp" />
 
 		<compilerflag value="-I${LIME_INCLUDE_PATH}" />
 		<compilerflag value="-I${LIME_SOURCE_PATH}/backend/sdl" />
 
 		<compilerflag value="-DSPOOPY_SDL" if="SPOOPY_SDL" />
-		<compilerflag value="-DSPOOPY_VULKAN" if="SPOOPY_VULKAN" />
-		<compilerflag value="-DLIME_VULKAN" if="SPOOPY_VULKAN" />
-		<compilerflag value="-DSPOOPY_INCLUDE_EXAMPLE" if="SPOOPY_INCLUDE_EXAMPLE" />
-		<compilerflag value="-DNO_GLSLANG_INCLUDED" />
-
-		<section if="SPOOPY_INCLUDE_EXAMPLE">
-			<file name="src/examples/ExampleWindow.cpp" />
-		</section>
-
-		<section if="SPOOPY_VULKAN">
-			<file name="src/device/Devices.cpp" />
-			<file name="src/ui/vulkan/SpoopyWindowVulkan.cpp" />
-			<file name="src/device/InstanceDevice.cpp" />
-			<file name="src/device/PhysicalDevice.cpp" />
-			<file name="src/device/LogicalDevice.cpp" />
-			<file name="src/device/SurfaceDevice.cpp" />
-			<file name="src/families/QueueFamilyIndices.cpp" />
-		</section>
-
-		<section if="SPOOPY_METAL">
-			<file name="src/graphics/metal/MetalBindings.mm" />
-			<file name="src/ui/metal/SpoopyWindowMetal.mm" />
-			<compilerflag value="-DSPOOPY_METAL" />
-		</section>
-
-		<file name="src/shaders/CrossShader.cpp" />
-		<file name="src/helpers/SpoopyHelpers.cpp" />
-		<file name="src/math/SpoopyPoint.cpp" />
 	</files>
 
 	<include name="volk.xml.tpl" if="SPOOPY_VOLK" />
-	<include name="spirv-cross.xml.tpl" if="SPOOPY_SPIRV_CROSS" />
 
 	<target id="lime" output="${LIBPREFIX}lime${DEBUGEXTRA}${LIBSUFFIX}" tool="linker" toolid="${STD_MODULE_LINK}">
 		<files id="spoopy-toolkit-volk" if="SPOOPY_VOLK" />
-		<files id="spoopy-toolkit-spirv" if="SPOOPY_SPIRV_CROSS" />
 
 		<section unless="static_link">
 			<section if="mac">

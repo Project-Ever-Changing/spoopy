@@ -9,6 +9,7 @@ import lime.utils.Log;
 
 class SpoopyScene extends SpoopySwapChain {
     public var cameras(default, null):SpoopyCameraStorage;
+    //public var shaders(default, null):SpoopyShaderStorage; (WIP: It's almost there EEEEEEEEEE!)
 
     public var ticks(default, null):Int = 0;
     public var elapsed(default, null):Float = 0;
