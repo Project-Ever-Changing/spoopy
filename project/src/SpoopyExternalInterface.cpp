@@ -173,10 +173,17 @@ namespace lime {
     }
     DEFINE_PRIME2(spoopy_create_shader);
 
+    value spoopy_create_shader_pipeline(value _shader) {
+        Shader* shader = (Shader*)val_data(_shader);
+        return shader -> createShaderPipeline();
+    }
+    DEFINE_PRIME1(spoopy_create_shader_pipeline);
+
     void spoopy_specialize_shader(value _shader, HxString _name, HxString _vertex, HxString _fragment) {
         Shader* shader = (Shader*)val_data(_shader);
         shader -> specializeShader(_name.c_str(), _vertex.c_str(), _fragment.c_str());
     }
+    DEFINE_PRIME4v(spoopy_specialize_shader);
 
 #endif
 
