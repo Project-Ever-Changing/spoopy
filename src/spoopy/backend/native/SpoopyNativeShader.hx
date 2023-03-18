@@ -1,5 +1,8 @@
 package spoopy.backend.native;
 
+import lime.utils.Log;
+
+import spoopy.app.SpoopyApplication;
 import spoopy.rendering.interfaces.ShaderReference;
 import spoopy.rendering.interfaces.ShaderType;
 
@@ -32,6 +35,14 @@ class SpoopyNativeShader implements ShaderReference {
     public function fragment_and_vertex(vertex:String, fragment:String):Void {
         shaders.set(VERTEX_SHADER, vertex);
         shaders.set(FRAGMENT_SHADER, fragment);
+
+        var timer = SpoopyApplication.getTimer();
+
+        createProgram();
+
+        #if spoopy_debug
+        Log.warn("Shader creation took " + (SpoopyApplication.getTimer() - timer) + "ms");
+        #end
     }
 
     private function createProgram():Void {
@@ -40,6 +51,8 @@ class SpoopyNativeShader implements ShaderReference {
 
         var program = SpoopyNativeCFFI.spoopy_create_shader_pipeline(handle);
         SpoopyNativeCFFI.spoopy_shader_cleanup(handle);
+
+        pipeline = program;
         #end
     }
 
