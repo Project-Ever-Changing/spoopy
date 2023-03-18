@@ -18,6 +18,8 @@ class SpoopyNativeCFFI {
     public static var spoopy_set_surface_cull_face = new cpp.Callable<cpp.Object->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_surface_cull_face", "oiv", false));
     public static var spoopy_get_buffer_length_bytes = new cpp.Callable<cpp.Object->Int>(cpp.Prime._loadPrime("lime", "spoopy_get_buffer_length_bytes", "oi", false));
     public static var spoopy_set_vertex_buffer = new cpp.Callable<cpp.Object->cpp.Object->Int->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_vertex_buffer", "ooiiv", false));
+    public static var spoopy_create_shader = new cpp.Callable<cpp.Object->cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_shader", "ooo", false));
+    public static var spoopy_apply_shaders = new cpp.Callable<cpp.Object->String->String->String->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_apply_shaders", "osssv", false));
     #end
 
     #if spoopy_metal
@@ -33,6 +35,8 @@ class SpoopyNativeCFFI {
     public static var spoopy_get_buffer_length_bytes = new cpp.Callable<cpp.Object->Int>(cpp.Prime._loadPrime("lime", "spoopy_get_buffer_length_bytes", "oi", false));
     public static var spoopy_set_vertex_buffer = new cpp.Callable<cpp.Object->cpp.Object->Int->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_vertex_buffer", "ooiiv", false));
     public static var spoopy_spv_to_metal_shader = new cpp.Callable<String->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_spv_to_metal_shader", "so", false));
+    public static var spoopy_create_shader = new cpp.Callable<cpp.Object->cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_shader", "ooo", false));
+    public static var spoopy_apply_shaders = new cpp.Callable<cpp.Object->String->String->String->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_apply_shaders", "osssv", false));
     #end
 
     #if spoopy_example
@@ -53,6 +57,8 @@ class SpoopyNativeCFFI {
     public static var spoopy_set_surface_cull_face = CFFI.load("lime", "spoopy_set_surface_cull_face", 2);
     public static var spoopy_release_window_surface = CFFI.load("lime", "spoopy_release_window_surface", 1);
     public static var spoopy_set_vertex_buffer = CFFI.load("lime", "spoopy_set_vertex_buffer", 4);
+    public static var spoopy_create_shader = CFFI.load("lime", "spoopy_create_shader", 2);
+    public static var spoopy_apply_shaders = CFFI.load("lime", "spoopy_apply_shaders", 4);
     #end
 
     #if spoopy_metal
@@ -68,6 +74,8 @@ class SpoopyNativeCFFI {
     public static var spoopy_get_buffer_length_bytes = CFFI.load("lime", "spoopy_get_buffer_length_bytes", 1);
     public static var spoopy_set_vertex_buffer = CFFI.load("lime", "spoopy_set_vertex_buffer", 4);
     public static var spoopy_spv_to_metal_shader = CFFI.load("lime", "spoopy_spv_to_metal_shader", 1);
+    public static var spoopy_create_shader = CFFI.load("lime", "spoopy_create_shader", 2);
+    public static var spoopy_apply_shaders = CFFI.load("lime", "spoopy_apply_shaders", 4);
     #end
 
     #if spoopy_example
@@ -108,6 +116,14 @@ class SpoopyNativeCFFI {
     }
 
     public static function spoopy_set_vertex_buffer(surface:Dynamic, buffer:Dynamic, offset:Int, atIndex:Int):Void {
+        return;
+    }
+
+    public static function spoopy_create_shader(window_surface:Dynamic, device:Dynamic):Dynamic {
+        return null;
+    }
+
+    public static function spoopy_apply_shaders(shader:Dynamic, name:String, fragment:String, vertex:String):Void {
         return;
     }
     #end
@@ -159,6 +175,14 @@ class SpoopyNativeCFFI {
 
     public static function spoopy_spv_to_metal_shader(shader:String):Dynamic {
         return null;
+    }
+
+    public static function spoopy_create_shader(window_surface:Dynamic, device:Dynamic):Dynamic {
+        return null;
+    }
+
+        public static function spoopy_apply_shaders(shader:Dynamic, name:String, fragment:String, vertex:String):Void {
+        return;
     }
     #end
 
