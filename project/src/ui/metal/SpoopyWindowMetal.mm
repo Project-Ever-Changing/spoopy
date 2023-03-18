@@ -23,6 +23,7 @@ namespace lime {
 
             virtual void assignMetalDevice(value __layerDevice);
             virtual void setVertexBuffer(value __buffer, int __offset, int __atIndex);
+            virtual void useProgram(value __pipeline);
 
             virtual void render();
             virtual void clear();
@@ -88,6 +89,11 @@ namespace lime {
         [renderEncoder setVertexBuffer:bufferOBJ offset:__offset atIndex:__atIndex];
     }
 
+    void SpoopyWindowMetal::useProgram(value __pipeline) {
+        SpoopyPipelineState pipelineState = (SpoopyPipelineState)val_data(__pipeline);
+        [renderEncoder setRenderPipelineState:pipelineState];
+    }
+
     void SpoopyWindowMetal::render() {
         #ifndef OBJC_ARC
         pool = [[NSAutoreleasePool alloc] init];
@@ -145,7 +151,7 @@ namespace lime {
 
 
         /*
-        * Just to be safer than sorry.
+        * Just to be safe than sorry.
         * What if `OBJC_ARC` is defined.
         */
 

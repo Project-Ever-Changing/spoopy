@@ -191,6 +191,12 @@ namespace lime {
     }
     DEFINE_PRIME1v(spoopy_cleanup_shader);
 
+    void spoopy_bind_shader(value window_surface, value pipeline) {
+        SpoopyWindowSurface* windowSurface = (SpoopyWindowSurface*)val_data(window_surface);
+        windowSurface -> useProgram(pipeline);
+    }
+    DEFINE_PRIME2v(spoopy_bind_shader);
+
 #endif
 
 #ifdef SPOOPY_INCLUDE_EXAMPLE

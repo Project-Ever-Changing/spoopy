@@ -43,6 +43,12 @@ namespace lime {
          */
     }
 
+    void SpoopyWindowVulkan::useProgram(value __pipeline) {
+        /*
+         * Empty
+         */
+    }
+
     const SDLWindow& SpoopyWindowVulkan::getWindow() const {
         return m_window;
     }

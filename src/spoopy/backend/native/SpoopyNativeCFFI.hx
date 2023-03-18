@@ -22,6 +22,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_shader_pipeline = new cpp.Callable<cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_shader_pipeline", "oo", false));
     public static var spoopy_specialize_shader = new cpp.Callable<cpp.Object->String->String->String->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_specialize_shader", "osssv", false));
     public static var spoopy_cleanup_shader = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_cleanup_shader", "ov", false));
+    public static var spoopy_bind_shader = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_bind_shader", "oov", false));
     #end
 
     #if spoopy_metal
@@ -41,6 +42,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_shader_pipeline = new cpp.Callable<cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_shader_pipeline", "oo", false));
     public static var spoopy_specialize_shader = new cpp.Callable<cpp.Object->String->String->String->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_specialize_shader", "osssv", false));
     public static var spoopy_cleanup_shader = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_cleanup_shader", "ov", false));
+    public static var spoopy_bind_shader = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_bind_shader", "oov", false));
     #end
 
     #if spoopy_example
@@ -65,6 +67,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_shader_pipeline = CFFI.load("lime", "spoopy_create_shader_pipeline", 1);
     public static var spoopy_specialize_shader = CFFI.load("lime", "spoopy_specialize_shader", 4);
     public static var spoopy_cleanup_shader = CFFI.load("lime", "spoopy_cleanup_shader", 1);
+    public static var spoopy_bind_shader = CFFI.load("lime", "spoopy_bind_shader", 2);
     #end
 
     #if spoopy_metal
@@ -84,6 +87,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_shader_pipeline = CFFI.load("lime", "spoopy_create_shader_pipeline", 1);
     public static var spoopy_specialize_shader = CFFI.load("lime", "spoopy_specialize_shader", 4);
     public static var spoopy_cleanup_shader = CFFI.load("lime", "spoopy_cleanup_shader", 1);
+    public static var spoopy_bind_shader = CFFI.load("lime", "spoopy_bind_shader", 2);
     #end
 
     #if spoopy_example
@@ -140,6 +144,10 @@ class SpoopyNativeCFFI {
     }
 
     public static function spoopy_cleanup_shader(shader:Dynamic):Void {
+        return;
+    }
+
+    public static function spoopy_bind_shader(surface:Dynamic, shader:Dynamic):Void {
         return;
     }
     #end
@@ -206,6 +214,10 @@ class SpoopyNativeCFFI {
     }
 
     public static function spoopy_cleanup_shader(shader:Dynamic):Void {
+        return;
+    }
+
+    public static function spoopy_bind_shader(surface:Dynamic, shader:Dynamic):Void {
         return;
     }
     #end

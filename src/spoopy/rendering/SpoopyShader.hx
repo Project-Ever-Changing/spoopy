@@ -1,7 +1,9 @@
 package spoopy.rendering;
 
+import spoopy.graphics.other.SpoopySwapChain;
 import spoopy.backend.native.SpoopyNativeShader;
 import spoopy.rendering.interfaces.ShaderReference;
+import spoopy.frontend.storage.SpoopyShaderStorage;
 
 import lime.utils.Assets;
 import lime.utils.Log;
@@ -9,10 +11,20 @@ import lime.utils.Log;
 class SpoopyShader {
     private static var cachedShader:Map<String, String> = new Map<String, String>();
 
-    private var shaders:Map<String, ShaderReference>;
+    public var name(default, null):String;
+
+    @:noCompletion private var shader:ShaderReference;
+    @:noCompletion private var device:SpoopySwapChain;
 
     public function new() {
-        shaders = new Map<String, ShaderReference>();
+        /*
+        * Empty.
+        */
+    }
+
+    @:allow(spoopy.frontend.storage.SpoopyShaderStorage)
+    private function bindDevice(device:SpoopySwapChain):Void {
+        this.device = device;
     }
 
     public static function cacheShader(shader:String):Void {
@@ -33,7 +45,8 @@ class SpoopyShader {
         cachedShader.remove(shader);
     }
 
-    private static function createShaders(name:String, vertex:String, fragment:String, cache:Bool = false):Void {
+    @:allow(spoopy.frontend.storage.SpoopyShaderStorage)
+    private static function createShader(name:String, vertex:String, fragment:String, cache:Bool = false):Void {
         if(vertex.substring(vertex.length - 4, vertex.length) != ".spv") {
             vertex = vertex + ".spv";
         }
@@ -49,6 +62,10 @@ class SpoopyShader {
             rawVertex = cachedShader.get(vertex);
         }else {
             rawVertex = getShaderSource(vertex);
+
+            if(cache) {
+                cachedShader.set(vertex, rawVertex);
+            }
         }
 
         if(cachedShader.exists(fragment)) {
@@ -61,7 +78,10 @@ class SpoopyShader {
             }
         }
 
-        
+        this.name = name;
+
+        shader = new SpoopyNativeShader(name, device);
+        shader.fragment_and_vertex(rawVertex, rawFragment);
     }
 
     private static function getShaderSource(shader:String):String {

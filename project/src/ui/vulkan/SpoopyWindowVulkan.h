@@ -15,6 +15,7 @@ namespace lime {
             virtual void render();
             virtual void clear();
 
+            virtual void useProgram(value __pipeline);
             virtual void setVertexBuffer(value __buffer, int __offset, int __atIndex) = 0;
             virtual void cullFace(int cullMode);
 

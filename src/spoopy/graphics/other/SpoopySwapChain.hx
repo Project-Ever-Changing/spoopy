@@ -4,6 +4,7 @@ import lime.ui.Window;
 
 import spoopy.app.SpoopyApplication;
 import spoopy.window.WindowEventManager;
+import spoopy.backend.native.SpoopyNativeShader;
 import spoopy.rendering.SpoopyCullMode;
 
 @:access(lime.ui.Window)
@@ -34,6 +35,11 @@ class SpoopySwapChain extends WindowEventManager {
         /*
         * Empty.
         */
+    }
+
+    @:allow(spoopy.frontend.storage.SpoopyShaderStorage)
+    @:noCompletion private function useShaderProgram(shader:SpoopyNativeShader):Void {
+        __surface.useProgram(shader);
     }
 
     override public function onWindowUpdate():Void {

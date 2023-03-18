@@ -28,12 +28,21 @@ class SpoopyNativeSurface {
         handle = SpoopyNativeCFFI.spoopy_create_surface(handle_instance, handle_physical, handle_logical, handle_window_surface);
     }
 
-    /*
-    * Use for later.
-    */
+    public function useProgram(shader:SpoopyNativeShader) {
+        SpoopyNativeCFFI.spoopy_bind_shader(handle, shader.pipeline);
+    }
 
-    public function updateWindow():Void {}
-    public function release():Void {}
+    public function cullFace(cullMode:SpoopyCullMode):Void {
+        SpoopyNativeCFFI.spoopy_set_surface_cull_face(handle, cullMode);
+    }
+
+    public function updateWindow():Void {
+        SpoopyNativeCFFI.spoopy_update_window_surface(handle);
+    }
+
+    public function release():Void {
+        SpoopyNativeCFFI.spoopy_release_window_surface(handle);
+    }
 
     private function recursivelyGetVersionFromString(version:String):Array<Int> {
         var vS:Array<String> = version.split(".");
