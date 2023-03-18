@@ -8,7 +8,8 @@ namespace lime {
             MetalShader(value window_surface, value device);
             ~MetalShader();
 
-            virtual void applyShaders(const char* name, const char* vertex, const char* fragment);
+            virtual void specializeShader(const char* name, const char* vertex, const char* fragment);
+            virtual value createShaderPipeline();
 
             virtual id<MTLLibrary> createLibrary(const char* _source) const;
             virtual id<MTLRenderPipelineState> createRenderPipelineStateWithDescriptor(MTLRenderPipelineDescriptor* _descriptor) const;
@@ -16,7 +17,6 @@ namespace lime {
             id<MTLDevice> shader_device;
 
             SpoopyPipelineDescriptor pd;
-            SpoopyPipelineState ps;
 
             id<MTLFunction> vertexFunction;
             id<MTLFunction> fragmentFunction;
@@ -29,7 +29,7 @@ namespace lime {
         pd = [MTLRenderPipelineDescriptor new];
     }
 
-    void MetalShader::applyShaders(const char* name, const char* vertex, const char* fragment) {
+    void MetalShader::specializeShader(const char* name, const char* vertex, const char* fragment) {
         id<MTLLibrary> library = createLibrary(vertex);
 
         if(library != NULL) {
@@ -43,7 +43,9 @@ namespace lime {
             fragmentFunction = [library newFunctionWithName:@(name)];
             release(library);
         }
+    }
 
+    value MetalShader::createShaderPipeline() {
         UInt32 pixelFormat = SDL_GetWindowPixelFormat(windowSurface -> getWindow().sdlWindow);
         SpoopyPixelFormat mtlPixelFormat = SpoopyMetalHelpers::convertSDLtoMetal(pixelFormat);
 
@@ -52,8 +54,8 @@ namespace lime {
         pd.vertexFunction = vertexFunction;
         pd.fragmentFunction = fragmentFunction;
 
-        release(ps);
-        ps = createRenderPipelineStateWithDescriptor(pd);
+        SpoopyPipelineState ps = createRenderPipelineStateWithDescriptor(pd);
+        return CFFIPointer(ps, apply_gc_render_pipeline);
     }
 
     id<MTLLibrary> MetalShader::createLibrary(const char* _source) const {
@@ -82,7 +84,6 @@ namespace lime {
         release(shader_device);
         release(vertexFunction);
         release(fragmentFunction);
-        release(ps);
         release(pd);
 
         MetalShader::~Shader();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <system/CFFIPointer.h>
+#include <helpers/SpoopyRenderTypes.h>
 #include <ui/SpoopyWindowSurface.h>
 
 namespace lime {
@@ -12,7 +13,8 @@ namespace lime {
                 }
             };
 
-            virtual void applyShaders(const char* name, const char* vertex, const char* fragment) = 0;
+            virtual void specializeShader(const char* name, const char* vertex, const char* fragment) = 0;
+            virtual value createShaderPipeline() = 0;
         public:
             SpoopyWindowSurface* windowSurface;
     };

@@ -6,14 +6,16 @@
 #import <UIKit/UIKit.h>
 #endif
 
-#import <QuartzCore/CAMetalLayer.h>
-#import <Metal/Metal.h>
-#import <MetalKit/MetalKit.h>
-
 #ifdef SPOOPY_SDL
 #include <SDL.h>
 #include <SDL_metal.h>
 #endif
+
+#include <system/CFFIPointer.h>
+
+#import <QuartzCore/CAMetalLayer.h>
+#import <Metal/Metal.h>
+#import <MetalKit/MetalKit.h>
 
 namespace lime {
     typedef MTLRenderPipelineDescriptor *SpoopyPipelineDescriptor;
@@ -30,5 +32,10 @@ namespace lime {
 
     inline void reset(SpoopyPipelineDescriptor _obj)  {
         [_obj reset];
+    }
+
+    inline void apply_gc_render_pipeline(value handle) {
+        SpoopyPipelineState ps = (SpoopyPipelineState)val_data(handle);
+        release(ps);
     }
 }

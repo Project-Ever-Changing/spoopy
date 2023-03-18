@@ -173,9 +173,9 @@ namespace lime {
     }
     DEFINE_PRIME2(spoopy_create_shader);
 
-    void spoopy_apply_shaders(value _shader, HxString _name, HxString _vertex, HxString _fragment) {
+    void spoopy_specialize_shader(value _shader, HxString _name, HxString _vertex, HxString _fragment) {
         Shader* shader = (Shader*)val_data(_shader);
-        shader -> applyShaders(_name.c_str(), _vertex.c_str(), _fragment.c_str());
+        shader -> specializeShader(_name.c_str(), _vertex.c_str(), _fragment.c_str());
     }
 
 #endif
