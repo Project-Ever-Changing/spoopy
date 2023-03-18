@@ -185,6 +185,12 @@ namespace lime {
     }
     DEFINE_PRIME4v(spoopy_specialize_shader);
 
+    void spoopy_cleanup_shader(value _shader) {
+        Shader* shader = (Shader*)val_data(_shader);
+        shader -> cleanUp();
+    }
+    DEFINE_PRIME1v(spoopy_cleanup_shader);
+
 #endif
 
 #ifdef SPOOPY_INCLUDE_EXAMPLE

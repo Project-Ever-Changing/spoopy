@@ -19,7 +19,9 @@ class SpoopyNativeCFFI {
     public static var spoopy_get_buffer_length_bytes = new cpp.Callable<cpp.Object->Int>(cpp.Prime._loadPrime("lime", "spoopy_get_buffer_length_bytes", "oi", false));
     public static var spoopy_set_vertex_buffer = new cpp.Callable<cpp.Object->cpp.Object->Int->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_vertex_buffer", "ooiiv", false));
     public static var spoopy_create_shader = new cpp.Callable<cpp.Object->cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_shader", "ooo", false));
+    public static var spoopy_create_shader_pipeline = new cpp.Callable<cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_shader_pipeline", "oo", false));
     public static var spoopy_specialize_shader = new cpp.Callable<cpp.Object->String->String->String->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_specialize_shader", "osssv", false));
+    public static var spoopy_cleanup_shader = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_cleanup_shader", "ov", false));
     #end
 
     #if spoopy_metal
@@ -36,7 +38,9 @@ class SpoopyNativeCFFI {
     public static var spoopy_set_vertex_buffer = new cpp.Callable<cpp.Object->cpp.Object->Int->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_vertex_buffer", "ooiiv", false));
     public static var spoopy_spv_to_metal_shader = new cpp.Callable<String->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_spv_to_metal_shader", "so", false));
     public static var spoopy_create_shader = new cpp.Callable<cpp.Object->cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_shader", "ooo", false));
+    public static var spoopy_create_shader_pipeline = new cpp.Callable<cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_shader_pipeline", "oo", false));
     public static var spoopy_specialize_shader = new cpp.Callable<cpp.Object->String->String->String->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_specialize_shader", "osssv", false));
+    public static var spoopy_cleanup_shader = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_cleanup_shader", "ov", false));
     #end
 
     #if spoopy_example
@@ -58,7 +62,9 @@ class SpoopyNativeCFFI {
     public static var spoopy_release_window_surface = CFFI.load("lime", "spoopy_release_window_surface", 1);
     public static var spoopy_set_vertex_buffer = CFFI.load("lime", "spoopy_set_vertex_buffer", 4);
     public static var spoopy_create_shader = CFFI.load("lime", "spoopy_create_shader", 2);
+    public static var spoopy_create_shader_pipeline = CFFI.load("lime", "spoopy_create_shader_pipeline", 1);
     public static var spoopy_specialize_shader = CFFI.load("lime", "spoopy_specialize_shader", 4);
+    public static var spoopy_cleanup_shader = CFFI.load("lime", "spoopy_cleanup_shader", 1);
     #end
 
     #if spoopy_metal
@@ -75,7 +81,9 @@ class SpoopyNativeCFFI {
     public static var spoopy_set_vertex_buffer = CFFI.load("lime", "spoopy_set_vertex_buffer", 4);
     public static var spoopy_spv_to_metal_shader = CFFI.load("lime", "spoopy_spv_to_metal_shader", 1);
     public static var spoopy_create_shader = CFFI.load("lime", "spoopy_create_shader", 2);
+    public static var spoopy_create_shader_pipeline = CFFI.load("lime", "spoopy_create_shader_pipeline", 1);
     public static var spoopy_specialize_shader = CFFI.load("lime", "spoopy_specialize_shader", 4);
+    public static var spoopy_cleanup_shader = CFFI.load("lime", "spoopy_cleanup_shader", 1);
     #end
 
     #if spoopy_example
@@ -123,7 +131,15 @@ class SpoopyNativeCFFI {
         return null;
     }
 
+    public static function spoopy_create_shader_pipeline(shader:Dynamic):Dynamic {
+        return null;
+    }
+
     public static function spoopy_specialize_shader(shader:Dynamic, name:String, fragment:String, vertex:String):Void {
+        return;
+    }
+
+    public static function spoopy_cleanup_shader(shader:Dynamic):Void {
         return;
     }
     #end
@@ -181,7 +197,15 @@ class SpoopyNativeCFFI {
         return null;
     }
 
-        public static function spoopy_specialize_shader(shader:Dynamic, name:String, fragment:String, vertex:String):Void {
+    public static function spoopy_create_shader_pipeline(shader:Dynamic):Dynamic {
+        return null;
+    }
+
+    public static function spoopy_specialize_shader(shader:Dynamic, name:String, fragment:String, vertex:String):Void {
+        return;
+    }
+
+    public static function spoopy_cleanup_shader(shader:Dynamic):Void {
         return;
     }
     #end

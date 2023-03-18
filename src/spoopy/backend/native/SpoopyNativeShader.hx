@@ -17,8 +17,11 @@ class SpoopyNativeShader implements ShaderReference {
     #end
 
     public var handle:Dynamic;
+    public var name(default, null):String;
 
-    public function new(device:SpoopySwapChain) {
+    public function new(name:String, device:SpoopySwapChain) {
+        this.name = name;
+
         shaders = new Map<ShaderType, String>();
 
         #if (spoopy_vulkan || spoopy_metal)
@@ -32,10 +35,11 @@ class SpoopyNativeShader implements ShaderReference {
     }
 
     private function createProgram():Void {
-
-        
         #if (spoopy_vulkan || spoopy_metal)
-        SpoopyNativeCFFI.spoopy_apply_shaders();
+        SpoopyNativeCFFI.spoopy_specialize_shader(handle, name, shaders[VERTEX_SHADER], shaders[FRAGMENT_SHADER]);
+
+        var program = SpoopyNativeCFFI.spoopy_create_shader_pipeline(handle);
+        SpoopyNativeCFFI.spoopy_shader_cleanup(handle);
         #end
     }
 

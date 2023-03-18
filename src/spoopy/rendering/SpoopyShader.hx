@@ -55,6 +55,10 @@ class SpoopyShader {
             rawFragment = cachedShader.get(fragment);
         }else {
             rawFragment = getShaderSource(fragment);
+
+            if(cache) {
+                cachedShader.set(fragment, rawFragment);
+            }
         }
 
         

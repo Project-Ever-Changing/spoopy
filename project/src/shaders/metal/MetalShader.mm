@@ -9,6 +9,8 @@ namespace lime {
             ~MetalShader();
 
             virtual void specializeShader(const char* name, const char* vertex, const char* fragment);
+            virtual void cleanUp();
+
             virtual value createShaderPipeline();
 
             virtual id<MTLLibrary> createLibrary(const char* _source) const;
@@ -70,14 +72,24 @@ namespace lime {
     }
 
     id<MTLRenderPipelineState> MetalShader::createRenderPipelineStateWithDescriptor(MTLRenderPipelineDescriptor* _descriptor) const {
-        NSError* error;
+        NSError* error = nil;
+        std::vector<char> infoLog(1024);
+
         id<MTLRenderPipelineState> state = [shader_device newRenderPipelineStateWithDescriptor:_descriptor error:&error];
 
-        if(!state) {
-            NSLog(@"Failed to create pipeline state: %@", error);
+        if (error) {
+            NSUInteger maxLength = 1024;
+            NSString* errorString = [error localizedDescription];
+            [errorString getBytes:&infoLog maxLength:fmin([errorString lengthOfBytesUsingEncoding:NSUTF8StringEncoding], maxLength) usedLength:nil encoding:NSUTF8StringEncoding options:NSStringEncodingConversionAllowLossy range:NSMakeRange(0, [errorString length]) remainingRange:nil];
+            NSLog(@"Shader linking failed: %@", [NSString stringWithCString:infoLog.data() encoding:NSUTF8StringEncoding]);
         }
 
         return state;
+    }
+
+    void MetalShader::cleanUp() {
+        release(vertexFunction);
+        release(fragmentFunction);
     }
 
     MetalShader::~MetalShader() {

@@ -14,6 +14,8 @@ namespace lime {
             };
 
             virtual void specializeShader(const char* name, const char* vertex, const char* fragment) = 0;
+            virtual void cleanUp() = 0;
+
             virtual value createShaderPipeline() = 0;
         public:
             SpoopyWindowSurface* windowSurface;
