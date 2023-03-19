@@ -13,13 +13,21 @@ class SpoopyShader {
 
     public var name(default, null):String;
 
-    @:noCompletion private var shader:ShaderReference;
+    @:noCompletion private var shader:SpoopyNativeShader;
     @:noCompletion private var device:SpoopySwapChain;
 
     public function new() {
         /*
         * Empty.
         */
+    }
+
+    public function bind():Void {
+        device.useShaderProgram(shader);
+    }
+
+    public function unbind():Void {
+        device.useShaderProgram(null);
     }
 
     @:allow(spoopy.frontend.storage.SpoopyShaderStorage)

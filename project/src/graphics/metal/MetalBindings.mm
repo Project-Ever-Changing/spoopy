@@ -6,16 +6,7 @@
 
 #import <ui/SpoopyWindowSurface.h>
 
-#ifdef HX_MACOS
-#import <Cocoa/Cocoa.h>
-#else
-#import <UIKit/UIKit.h>
-#endif
-
-#import <Metal/Metal.h>
-#import <QuartzCore/CAMetalLayer.h>
-#import <QuartzCore/QuartzCore.h>
-#import <Foundation/Foundation.h>
+#import "../../helpers/SpoopyMetalHelpers.h"
 
 namespace lime {
     static MTLStorageMode storageMode = MTLResourceStorageModePrivate;
@@ -49,15 +40,13 @@ namespace lime {
     void spoopy_gc_buffer(value handle) {
         id<MTLBuffer> buffer = (id<MTLBuffer>)val_data(handle);
 
-        [buffer release];
-        buffer = nil;
+        release(buffer);
     }
 
     void spoopy_gc_device(value handle) {
         id<MTLDevice> device = (id<MTLDevice>)val_data(handle);
 
-        [device release];
-        device = nil;
+        release(device);
     }
 
     value spoopy_create_metal_default_device() {
@@ -74,6 +63,14 @@ namespace lime {
     }
     DEFINE_PRIME3(spoopy_create_metal_buffer);
 
+    value spoopy_create_metal_buffer_length(value metal_device, int _length, int _options) {
+        id<MTLDevice> device = (id<MTLDevice>)val_data(metal_device);
+
+        id<MTLBuffer> buffer = [device newBufferWithLength:_length options:(MTLResourceOptions)_options];
+        return CFFIPointer(buffer, spoopy_gc_buffer);
+    }
+    DEFINE_PRIME3(spoopy_create_metal_buffer_length);
+
     int spoopy_get_buffer_length_bytes(value metal_buffer) {
         id<MTLBuffer> buffer = (id<MTLBuffer>)val_data(metal_buffer);
         return (int)buffer.length;
@@ -87,8 +84,4 @@ namespace lime {
         memcpy([destinationBuffer contents], [sourceBuffer contents], (SP_UInt)size);
     }
     DEFINE_PRIME3v(spoopy_copy_buffer_to_buffer);
-
-    void spoopy_set_color_format(value window_surface, int format) {
-
-    }
 }

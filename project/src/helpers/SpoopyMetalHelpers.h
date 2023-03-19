@@ -19,7 +19,7 @@
 
 namespace lime {
     typedef MTLRenderPipelineDescriptor *SpoopyPipelineDescriptor;
-    typedef id <MTLRenderPipelineState> SpoopyPipelineState;
+    typedef id<MTLRenderPipelineState> SpoopyPipelineState;
     typedef MTLPixelFormat SpoopyPixelFormat;
 
     struct SpoopyMetalHelpers {

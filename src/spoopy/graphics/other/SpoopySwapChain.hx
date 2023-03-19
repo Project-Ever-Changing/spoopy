@@ -37,8 +37,7 @@ class SpoopySwapChain extends WindowEventManager {
         */
     }
 
-    @:allow(spoopy.frontend.storage.SpoopyShaderStorage)
-    @:noCompletion private function useShaderProgram(shader:SpoopyNativeShader):Void {
+    public function useShaderProgram(shader:SpoopyNativeShader):Void {
         __surface.useProgram(shader);
     }
 
