@@ -12,6 +12,7 @@
 	<set name="SPOOPY_HASHLINK" value="1" if="hashlink" />
 	<set name="SPOOPY_SDL" value="1" />
 	<set name="SPOOPY_SPIRV_CROSS" value="1" />
+	<set name="SPOOPY_BX" value="1" />
 	<set name="SPOOPY_SDL_SUPPORT_RENDERER" value="1" />
 	<set name="SPOOPY_SDL_ANGLE" value="1" if="windows SPOOPY_SDL_ANGLE" unless="static_link" />
 	<set name="SPOOPY_SDL_ANGLE" value="1" if="windows angle" unless="static_link" />
@@ -53,6 +54,13 @@
 
 	<files id="lime">
 		<compilerflag value="-DLIME_DEBUG" if="SPOOPY_DEBUG" />
+
+		<section if="SPOOPY_BX">
+		    <compilerflag value="-DSPOOPY_BX" />
+		    <compilerflag value="-Ilib/bx/include" />
+		    <compilerflag value="-Ilib/bx/3rdparty/catch" />
+		    <compilerflag value="-Ilib/bx/3rdparty/ini" />
+		</section>
 
 		<section if="SPOOPY_VOLK">
 			<compilerflag value="-DSPOOPY_VOLK" />
@@ -108,10 +116,12 @@
 
 	<include name="volk.xml.tpl" if="SPOOPY_VOLK" />
 	<include name="spirv-cross.xml.tpl" if="SPOOPY_SPIRV_CROSS" />
+	<include name="bx.xml.tpl" if="SPOOPY_BX" />
 
 	<target id="lime" output="${LIBPREFIX}lime${DEBUGEXTRA}${LIBSUFFIX}" tool="linker" toolid="${STD_MODULE_LINK}">
 		<files id="spoopy-toolkit-volk" if="SPOOPY_VOLK" />
 		<files id="spoopy-toolkit-spirv" if="SPOOPY_SPIRV_CROSS" />
+		<files id="spoopy-toolkit-bx" if="SPOOPY_BX" />
 
 		<section unless="static_link">
 			<section if="mac">

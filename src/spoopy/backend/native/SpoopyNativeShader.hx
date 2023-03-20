@@ -20,6 +20,7 @@ class SpoopyNativeShader implements ShaderReference {
     #end
 
     public var handle:Dynamic;
+
     public var name(default, null):String;
 
     public function new(name:String, device:SpoopySwapChain) {

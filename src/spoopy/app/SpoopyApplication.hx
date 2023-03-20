@@ -13,6 +13,12 @@ import haxe.ds.ObjectMap;
 
 @:access(spoopy.window.IWindowModule)
 class SpoopyApplication extends Application {
+
+    /*
+    * Defines the maximum number of frames that can be in flight at once.
+    * Increasing this can reduce.
+    */
+    public static var SPOOPY_CONFIG_MAX_FRAME_LATENCY:UInt = 3;
     
     /*
 	* A list of active Window module instances associated with this Application.

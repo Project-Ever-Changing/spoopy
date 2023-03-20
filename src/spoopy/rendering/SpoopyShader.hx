@@ -8,12 +8,14 @@ import spoopy.frontend.storage.SpoopyShaderStorage;
 import lime.utils.Assets;
 import lime.utils.Log;
 
+@:access(spoopy.graphics.other.SpoopySwapChain)
 class SpoopyShader {
     private static var cachedShader:Map<String, String> = new Map<String, String>();
 
     public var name(default, null):String;
 
     @:noCompletion private var shader:SpoopyNativeShader;
+    @:noCompletion private var uniform:SpoopyUniformBuffer;
     @:noCompletion private var device:SpoopySwapChain;
 
     public function new() {
@@ -23,6 +25,7 @@ class SpoopyShader {
     }
 
     public function bind():Void {
+        uniform.apply();
         device.useShaderProgram(shader);
     }
 
@@ -33,6 +36,7 @@ class SpoopyShader {
     @:allow(spoopy.frontend.storage.SpoopyShaderStorage)
     private function bindDevice(device:SpoopySwapChain):Void {
         this.device = device;
+        uniform = new SpoopyUniformBuffer(this.device.__surface);
     }
 
     public static function cacheShader(shader:String):Void {
@@ -104,3 +108,7 @@ class SpoopyShader {
         }
     }
 }
+
+#if spoopy_metal
+typedef SpoopyUniformBuffer = spoopy.backend.native.metal.SpoopyUniformMetal;
+#end

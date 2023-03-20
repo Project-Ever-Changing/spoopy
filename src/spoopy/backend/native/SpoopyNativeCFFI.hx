@@ -43,6 +43,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_specialize_shader = new cpp.Callable<cpp.Object->String->String->String->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_specialize_shader", "osssv", false));
     public static var spoopy_cleanup_shader = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_cleanup_shader", "ov", false));
     public static var spoopy_bind_shader = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_bind_shader", "oov", false));
+    public static var spoopy_create_metal_buffer_length = new cpp.Callable<cpp.Object->Int->Int->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_metal_buffer_length", "oiio", false));
     #end
 
     #if spoopy_example
@@ -88,6 +89,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_specialize_shader = CFFI.load("lime", "spoopy_specialize_shader", 4);
     public static var spoopy_cleanup_shader = CFFI.load("lime", "spoopy_cleanup_shader", 1);
     public static var spoopy_bind_shader = CFFI.load("lime", "spoopy_bind_shader", 2);
+    public static var spoopy_create_metal_buffer_length = CFFI.load("lime", "spoopy_create_metal_buffer_length", 3);
     #end
 
     #if spoopy_example
@@ -219,6 +221,10 @@ class SpoopyNativeCFFI {
 
     public static function spoopy_bind_shader(surface:Dynamic, shader:Dynamic):Void {
         return;
+    }
+
+    public static function spoopy_create_metal_buffer_length(device:Dynamic, length:Int, options:Int):Dynamic {
+        return null;
     }
     #end
 

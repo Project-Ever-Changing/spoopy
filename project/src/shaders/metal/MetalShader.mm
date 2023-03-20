@@ -15,6 +15,8 @@ namespace lime {
 
             virtual id<MTLLibrary> createLibrary(const char* _source) const;
             virtual id<MTLRenderPipelineState> createRenderPipelineStateWithDescriptor(MTLRenderPipelineDescriptor* _descriptor) const;
+
+            virtual void setShaderUniform(int offset, uint32_t loc, const void* val, uint32_t numRegs);
         private:
             id<MTLDevice> shader_device;
 
@@ -45,6 +47,10 @@ namespace lime {
             fragmentFunction = [library newFunctionWithName:@(name)];
             release(library);
         }
+    }
+
+    void MetalShader::setShaderUniform(int offset, uint32_t loc, const void* val, uint32_t numRegs) {
+
     }
 
     value MetalShader::createShaderPipeline() {
