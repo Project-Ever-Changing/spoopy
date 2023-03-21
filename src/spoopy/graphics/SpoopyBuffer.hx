@@ -60,6 +60,7 @@ class SpoopyBuffer {
             return; 
         }
 
+        __cachedBackend[__bufferIndex] = createBackendBuffer(data, length);
         bb = __cachedBackend[__bufferIndex];
         __indexPointers.set(length, __bufferIndex);
         __bufferIndex = (__bufferIndex + 1) % bucketSize;
@@ -84,7 +85,7 @@ class SpoopyBuffer {
             return;
         }
 
-        createBackendBuffer(data, length);
+        __cachedBackend[__bufferIndex] = createBackendBuffer(data, length);
         __indexPointers.set(length, 0);
         __indexPointerSize++;
         __bufferIndex = (__bufferIndex + 1) % bucketSize;
