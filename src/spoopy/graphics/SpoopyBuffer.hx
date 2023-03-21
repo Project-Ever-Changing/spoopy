@@ -16,11 +16,13 @@ class SpoopyBuffer {
     public var data(default, null):SpoopyFloatBuffer;
 
     public var length(default, null):Int;
-    public var pool(default, null):UInt;
+    public var bucketSize(default, null):UInt;
+
+    @:noCompletion var __bufferIndex:Int = 0;
+    @:noCompletion var __indexPointerSize:Int = 0;
 
     @:noCompletion var __indexPointers:Map<Int, Int>;
     @:noCompletion var __cachedBackend:Array<SpoopyBufferBackend>;
-    @:noCompletion var __bufferIndex:Int;
     @:noCompletion var __backend:SpoopyBufferBackend;
     @:noCompletion var __initialize:Bool;
 
@@ -28,15 +30,13 @@ class SpoopyBuffer {
     @:noCompletion var __device:SpoopySwapChain;
     #end
 
-    public function new(data:SpoopyFloatBuffer, length:Int, pool:UInt = 0) {
+    public function new(data:SpoopyFloatBuffer, length:Int, bucketSize:UInt = 0) {
         this.data = data;
         this.length = length;
-        this.pool = pool;
+        this.bucketSize = bucketSize;
 
         __indexPointers = new Map<Int, Int>();
         __cachedBackend = [];
-
-        __bufferIndex = 0;
     }
 
     public function updateBuffers(data:SpoopyFloatBuffer, length:Int):Void {
@@ -52,7 +52,7 @@ class SpoopyBuffer {
         this.data = data;
         this.length = length;
 
-        if(__cachedBackend.exists(length)) {
+        if(__indexPointers.exists(length)) {
             bb = __cachedBackend[__indexPointers[length]];
             bb.copyMemory(data, length);
             backend = bb;
@@ -61,8 +61,15 @@ class SpoopyBuffer {
         }
 
         bb = __cachedBackend[__bufferIndex];
-        __cachedBackend.set(length, __bufferIndex);
-        __bufferIndex = (__bufferIndex + 1) % pool;
+        __indexPointers.set(length, __bufferIndex);
+        __bufferIndex = (__bufferIndex + 1) % bucketSize;
+        __indexPointerSize++;
+
+        if(__indexPointerSize > bucketSize) {
+            __indexPointers.remove(__cachedBackend[0]);
+            __indexPointerSize--;
+        }
+
         backend = bb;
     }
 
@@ -79,7 +86,8 @@ class SpoopyBuffer {
 
         createBackendBuffer(data, length);
         __indexPointers.set(length, 0);
-        __bufferIndex = (__bufferIndex + 1) % pool;
+        __indexPointerSize++;
+        __bufferIndex = (__bufferIndex + 1) % bucketSize;
 
         __initialize = true;
     }
