@@ -2,6 +2,7 @@
 #include <string>
 #include <cstdlib>
 
+#include <helpers/SpoopyBufferHelper.h>
 #include <system/CFFIPointer.h>
 #include <core/Log.h>
 
@@ -120,6 +121,10 @@ namespace lime {
         }
     }
     DEFINE_PRIME1(spoopy_spv_to_metal_shader);
+
+    bool spoopy_compare_two_buffers(value buffer1, value buffer2) {
+        return SpoopyBufferHelper::compareTwoBuffers(buffer1, buffer2);
+    }
 
 #endif
 

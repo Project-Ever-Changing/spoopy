@@ -12,4 +12,4 @@
 	url = https://github.com/KhronosGroup/SPIRV-Cross.git
 [submodule "project/lib/bx"]
 	path = project/lib/bx
-	url = https://github.com/bkaradzic/bx
+	url = https://github.com/Just-Feeshy/bx

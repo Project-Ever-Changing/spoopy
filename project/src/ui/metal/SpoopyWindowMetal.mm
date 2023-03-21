@@ -1,4 +1,4 @@
-#import "../../helpers/SpoopyMetalHelpers.h"
+#import "../../helpers/metal/SpoopyMetalHelpers.h"
 
 #include <ui/SpoopyWindowSurface.h>
 

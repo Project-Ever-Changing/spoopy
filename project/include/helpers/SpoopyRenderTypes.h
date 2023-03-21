@@ -1,5 +1,9 @@
 #pragma once
 
+#ifdef HXCPP_CPP14
+#define __cplusplus 201402L
+#endif
+
 const uint8_t SPOOPY_UNIFORM_FRAGMENT_BIT = 0x10;
 const uint8_t SPOOPY_UNIFORM_VERTEX_BIT = 0x20;
 

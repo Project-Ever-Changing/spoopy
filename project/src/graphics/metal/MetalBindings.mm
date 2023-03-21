@@ -6,7 +6,7 @@
 
 #import <ui/SpoopyWindowSurface.h>
 
-#import "../../helpers/SpoopyMetalHelpers.h"
+#import "../../helpers/metal/SpoopyMetalHelpers.h"
 
 namespace lime {
     static MTLStorageMode storageMode = MTLResourceStorageModePrivate;
@@ -77,11 +77,10 @@ namespace lime {
     }
     DEFINE_PRIME1(spoopy_get_buffer_length_bytes);
 
-    void spoopy_copy_buffer_to_buffer(value source_buffer, value destination_buffer, int size) {
+    void spoopy_copy_buffer_to_buffer(value source_buffer, double data, int size) {
         id<MTLBuffer> sourceBuffer = (id<MTLBuffer>)val_data(source_buffer);
-        id<MTLBuffer> destinationBuffer = (id<MTLBuffer>)val_data(destination_buffer);
 
-        memcpy([destinationBuffer contents], [sourceBuffer contents], (SP_UInt)size);
+        memcpy([sourceBuffer contents], (void*)(uintptr_t)data, (SP_UInt)size);
     }
     DEFINE_PRIME3v(spoopy_copy_buffer_to_buffer);
 }
