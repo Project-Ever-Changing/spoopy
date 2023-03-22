@@ -4,7 +4,9 @@ import spoopy.graphics.other.SpoopySwapChain;
 import spoopy.graphics.uniforms.SpoopyUniformBuffer;
 import spoopy.backend.native.SpoopyNativeShader;
 import spoopy.rendering.interfaces.ShaderReference;
+import spoopy.rendering.interfaces.ShaderType;
 import spoopy.frontend.storage.SpoopyShaderStorage;
+import spoopy.obj.SpoopyObject;
 import spoopy.obj.geom.SpoopyPoint;
 
 import lime.math.Matrix4;
@@ -17,13 +19,14 @@ import lime.utils.Assets;
 import lime.utils.Log;
 
 @:access(spoopy.graphics.other.SpoopySwapChain)
-class SpoopyShader {
+class SpoopyShader implements SpoopyObject {
     private static var cachedShader:Map<String, String> = new Map<String, String>();
 
     public var name(default, null):String;
 
     @:noCompletion private var __shader:SpoopyNativeShader;
-    @:noCompletion private var __uniform:SpoopyUniformBuffer;
+    @:noCompletion private var __uniformVertex:SpoopyUniformBuffer;
+    @:noCompletion private var __uniformFragment:SpoopyUniformBuffer;
     @:noCompletion private var __device:SpoopySwapChain;
 
     public function new() {
@@ -33,7 +36,8 @@ class SpoopyShader {
     }
 
     public function bind():Void {
-        __uniform.apply();
+        __uniformVertex.apply();
+        __uniformFragment.apply();
         __device.useShaderProgram(__shader);
     }
 
@@ -41,42 +45,64 @@ class SpoopyShader {
         __device.useShaderProgram(null);
     }
 
-    public function setInt(name:String, value:Int):Void {
-        __uniform.setShaderUniform(this, name, DataPointer.fromInt(value), 2);
+    public function setInt(flag:ShaderType, name:String, value:Int):Void {
+        getUniformShader(flag).setShaderUniform(this, name, DataPointer.fromInt(value), 2);
     }
 
-    public function setIntArray(name:String, value:Array<Int>):Void {
+    public function setIntArray(flag:ShaderType, name:String, value:Array<Int>):Void {
         var data32:Float32Array = new Float32Array(value);
-        __uniform.setShaderUniform(this, name, data32, Math.ceil(data32.byteLength * 0.0625));
+        getUniformShader(flag).setShaderUniform(this, name, data32, Math.ceil(data32.byteLength * 0.0625));
     }
 
-    public function setFloat(name:String, value:Float):Void {
-        __uniform.setShaderUniform(this, name, DataPointer.fromFloat(value), 1);
+    public function setFloat(flag:ShaderType, name:String, value:Float):Void {
+        getUniformShader(flag).setShaderUniform(this, name, DataPointer.fromFloat(value), 1);
     }
 
-    public function setVector2(name:String, value:Vector2):Void {
+    public function setVector2(flag:ShaderType, name:String, value:Vector2):Void {
         var data32:Float32Array = new Float32Array([value.x, value.y]);
-        __uniform.setShaderUniform(this, name, data32, Math.ceil(data32.byteLength * 0.0625));
+        getUniformShader(flag).setShaderUniform(this, name, data32, Math.ceil(data32.byteLength * 0.0625));
     }
 
-    public function setVector3(name:String, value:SpoopyPoint):Void {
+    public function setVector3(flag:ShaderType, name:String, value:SpoopyPoint):Void {
         var data32:Float32Array = new Float32Array([value.x, value.y, value.z]);
-        __uniform.setShaderUniform(this, name, data32, Math.ceil(data32.byteLength * 0.0625));
+        getUniformShader(flag).setShaderUniform(this, name, data32, Math.ceil(data32.byteLength * 0.0625));
     }
 
-    public function setVector4(name:String, value:Vector4):Void {
+    public function setVector4(flag:ShaderType, name:String, value:Vector4):Void {
         var data32:Float32Array = new Float32Array([value.x, value.y, value.z, value.w]);
-        __uniform.setShaderUniform(this, name, data32, Math.ceil(data32.byteLength * 0.0625));
+        getUniformShader(flag).setShaderUniform(this, name, data32, Math.ceil(data32.byteLength * 0.0625));
     }
 
-    public function setMatrix4x4(name:String, value:Matrix4):Void {
-        __uniform.setShaderUniform(this, name, value, 4);
+    public function setMatrix4x4(flag:ShaderType, name:String, value:Matrix4):Void {
+        getUniformShader(flag).setShaderUniform(this, name, value, 4);
+    }
+
+    public function destroy():Void {
+        __uniformVertex = null;
+        __uniformFragment = null;
+
+        __device = null;
+        __shader = null;
+    }
+
+    public function toString():String {
+        return name;
     }
 
     @:allow(spoopy.frontend.storage.SpoopyShaderStorage)
     private function bindDevice(device:SpoopySwapChain):Void {
         this.__device = device;
-        __uniform = new SpoopyUniformBuffer(this.device);
+        __uniformVertex = new SpoopyUniformBuffer(this.device);
+        __uniformFragment = new SpoopyUniformBuffer(this.device);
+    }
+
+    private function getUniformShader(flag:ShaderType):Void {
+        switch(flag) {
+            case FRAGMENT_SHADER:
+                return __uniformFragment;
+            default:
+                return __uniformVertex;
+        }
     }
 
     public static function cacheShader(__shader:String):Void {
