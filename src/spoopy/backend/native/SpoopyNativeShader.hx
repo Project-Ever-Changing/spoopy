@@ -14,10 +14,8 @@ import spoopy.graphics.other.SpoopySwapChain;
 class SpoopyNativeShader implements ShaderReference {
     private var shaders:Map<ShaderType, String>;
 
-    #if spoopy_metal
     private var pipeline:Dynamic;
     private var descriptor:Dynamic;
-    #end
 
     public var handle:Dynamic;
 
@@ -47,14 +45,12 @@ class SpoopyNativeShader implements ShaderReference {
     }
 
     private function createProgram():Void {
-        #if (spoopy_vulkan || spoopy_metal)
         SpoopyNativeCFFI.spoopy_specialize_shader(handle, name, shaders[VERTEX_SHADER], shaders[FRAGMENT_SHADER]);
 
         var program = SpoopyNativeCFFI.spoopy_create_shader_pipeline(handle);
         SpoopyNativeCFFI.spoopy_shader_cleanup(handle);
 
         pipeline = program;
-        #end
     }
 
     public static function decompileSPV(shader:String):String {
