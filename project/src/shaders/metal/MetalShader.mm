@@ -24,8 +24,11 @@ namespace lime {
         }
     }
 
-    void MetalShader::setShaderUniform(int offset, uint32_t loc, const void* val, uint32_t numRegs) {
+    void MetalShader::setShaderUniform(value uniform_handle, uint32_t offset, uint32_t loc, const void* val, uint32_t numRegs) {
+        id<MTLBuffer> uniform_buffer = (id<MTLBuffer>)val_data(uniform_handle);
+        uint8_t* dst = (uint8_t*)uniform_buffer.contents;
 
+        memcpy(&dst[offset + loc], val, numRegs*16);
     }
 
     value MetalShader::createShaderPipeline() {

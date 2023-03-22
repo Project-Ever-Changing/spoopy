@@ -5,7 +5,14 @@ import spoopy.graphics.uniforms.SpoopyUniformBuffer;
 import spoopy.backend.native.SpoopyNativeShader;
 import spoopy.rendering.interfaces.ShaderReference;
 import spoopy.frontend.storage.SpoopyShaderStorage;
+import spoopy.obj.geom.SpoopyPoint;
 
+import lime.math.Matrix4;
+import lime.math.Vector4;
+import lime.math.Vector2;
+
+import lime.utils.Float32Array;
+import lime.utils.DataPointer;
 import lime.utils.Assets;
 import lime.utils.Log;
 
@@ -15,9 +22,9 @@ class SpoopyShader {
 
     public var name(default, null):String;
 
-    @:noCompletion private var shader:SpoopyNativeShader;
-    @:noCompletion private var uniform:SpoopyUniformBuffer;
-    @:noCompletion private var device:SpoopySwapChain;
+    @:noCompletion private var __shader:SpoopyNativeShader;
+    @:noCompletion private var __uniform:SpoopyUniformBuffer;
+    @:noCompletion private var __device:SpoopySwapChain;
 
     public function new() {
         /*
@@ -26,36 +33,68 @@ class SpoopyShader {
     }
 
     public function bind():Void {
-        uniform.apply();
-        device.useShaderProgram(shader);
+        __uniform.apply();
+        __device.useShaderProgram(__shader);
     }
 
     public function unbind():Void {
-        device.useShaderProgram(null);
+        __device.useShaderProgram(null);
+    }
+
+    public function setInt(name:String, value:Int):Void {
+        __uniform.setShaderUniform(this, name, DataPointer.fromInt(value), 2);
+    }
+
+    public function setIntArray(name:String, value:Array<Int>):Void {
+        var data32:Float32Array = new Float32Array(value);
+        __uniform.setShaderUniform(this, name, data32, Math.ceil(data32.byteLength * 0.0625));
+    }
+
+    public function setFloat(name:String, value:Float):Void {
+        __uniform.setShaderUniform(this, name, DataPointer.fromFloat(value), 1);
+    }
+
+    public function setVector2(name:String, value:Vector2):Void {
+        var data32:Float32Array = new Float32Array([value.x, value.y]);
+        __uniform.setShaderUniform(this, name, data32, Math.ceil(data32.byteLength * 0.0625));
+    }
+
+    public function setVector3(name:String, value:SpoopyPoint):Void {
+        var data32:Float32Array = new Float32Array([value.x, value.y, value.z]);
+        __uniform.setShaderUniform(this, name, data32, Math.ceil(data32.byteLength * 0.0625));
+    }
+
+    public function setVector4(name:String, value:Vector4):Void {
+        var data32:Float32Array = new Float32Array([value.x, value.y, value.z, value.w]);
+        __uniform.setShaderUniform(this, name, data32, Math.ceil(data32.byteLength * 0.0625));
+    }
+
+    public function setMatrix4x4(name:String, value:Matrix4):Void {
+        __uniform.setShaderUniform(this, name, value, 4);
     }
 
     @:allow(spoopy.frontend.storage.SpoopyShaderStorage)
     private function bindDevice(device:SpoopySwapChain):Void {
-        this.device = device;
-        uniform = new SpoopyUniformBuffer(this.device);
+        this.__device = device;
+        __uniform = new SpoopyUniformBuffer(this.device);
     }
 
-    public static function cacheShader(shader:String):Void {
-        if(shader.substring(shader.length - 4, shader.length) != ".spv") {
-            shader = shader + ".spv";
+    public static function cacheShader(__shader:String):Void {
+        if(__shader.substring(__shader.length - 4, __shader.length) != ".spv") {
+            __shader = __shader + ".spv";
         }
 
-        cachedShader.set(shader, getShaderSource(shader));
+        cachedShader.set(__shader, getShaderSource(__shader));
     }
 
-    public static function releaseShader(shader:String):Void {
-        if(shader.substring(shader.length - 4, shader.length) != ".spv") {
-            shader = shader + ".spv";
+    public static function releaseShader(__shader:String):Void {
+        if(__shader.substring(__shader.length - 4, __shader.length) != ".spv") {
+            __shader = __shader + ".spv";
         }else {
-            Log.warn('The shader file "${shader}" was not found!');
+            Log.warn('The __shader file "${__shader}" was not found!');
         }
 
-        cachedShader.remove(shader);
+        cachedShader.remove(__shader);
     }
 
     @:allow(spoopy.frontend.storage.SpoopyShaderStorage)
@@ -93,18 +132,18 @@ class SpoopyShader {
 
         this.name = name;
 
-        shader = new SpoopyNativeShader(name, device);
-        shader.fragment_and_vertex(rawVertex, rawFragment);
+        __shader = new SpoopyNativeShader(name, device);
+        __shader.fragment_and_vertex(rawVertex, rawFragment);
     }
 
-    private static function getShaderSource(shader:String):String {
+    private static function getShaderSource(__shader:String):String {
         var rawShader:String;
 
-        if(Assets.exists(shader)) {
-            rawShader = Assets.getText(shader);
+        if(Assets.exists(__shader)) {
+            rawShader = Assets.getText(__shader);
             return SpoopyNativeShader.decompileSPV(rawShader);
         }else {
-            Log.warn('The shader file "${shader}" was not found!');
+            Log.warn('The shader file "${__shader}" was not found!');
             return "";
         }
     }

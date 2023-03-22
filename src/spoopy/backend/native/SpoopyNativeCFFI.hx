@@ -24,6 +24,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_cleanup_shader = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_cleanup_shader", "ov", false));
     public static var spoopy_bind_shader = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_bind_shader", "oov", false));
     public static var spoopy_compare_two_buffers = new cpp.Callable<cpp.Object->cpp.Object->Bool>(cpp.Prime._loadPrime("lime", "spoopy_compare_two_buffers", "oob", false));
+    public static var spoopy_set_shader_uniform = new cpp.Callable<cpp.Object->cpp.Object->Int->Int->lime.utils.DataPointer->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_shader_uniform", "ooiidiv"));
     #end
 
     #if spoopy_metal
@@ -46,6 +47,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_bind_shader = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_bind_shader", "oov", false));
     public static var spoopy_create_metal_buffer_length = new cpp.Callable<cpp.Object->Int->Int->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_metal_buffer_length", "oiio", false));
     public static var spoopy_compare_two_buffers = new cpp.Callable<cpp.Object->cpp.Object->Bool>(cpp.Prime._loadPrime("lime", "spoopy_compare_two_buffers", "oob", false));
+    public static var spoopy_set_shader_uniform = new cpp.Callable<cpp.Object->cpp.Object->Int->Int->lime.utils.DataPointer->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_shader_uniform", "ooiidiv"));
     #end
 
     #if spoopy_example
@@ -72,6 +74,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_cleanup_shader = CFFI.load("lime", "spoopy_cleanup_shader", 1);
     public static var spoopy_bind_shader = CFFI.load("lime", "spoopy_bind_shader", 2);
     public static var spoopy_compare_two_buffers = CFFI.load("lime", "spoopy_compare_two_buffers", 2);
+    public static var spoopy_set_shader_uniform = CFFI.load("lime", "spoopy_set_shader_uniform", 6);
     #end
 
     #if spoopy_metal
@@ -94,6 +97,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_bind_shader = CFFI.load("lime", "spoopy_bind_shader", 2);
     public static var spoopy_create_metal_buffer_length = CFFI.load("lime", "spoopy_create_metal_buffer_length", 3);
     public static var spoopy_compare_two_buffers = CFFI.load("lime", "spoopy_compare_two_buffers", 2);
+    public static var spoopy_set_shader_uniform = CFFI.load("lime", "spoopy_set_shader_uniform", 6);
     #end
 
     #if spoopy_example
@@ -159,6 +163,10 @@ class SpoopyNativeCFFI {
 
     public static function spoopy_compare_two_buffers(buffer1:Dynamic, buffer2:Dynamic):Bool {
         return false;
+    }
+
+    public static function spoopy_set_shader_uniform(shader:Dynamic, uniform:Dynamic, offset:Int, loc:Int, val:Float, numRegs:Int):Void {
+        return;
     }
     #end
 
@@ -237,6 +245,10 @@ class SpoopyNativeCFFI {
 
     public static function spoopy_compare_two_buffers(buffer1:Dynamic, buffer2:Dynamic):Bool {
         return false;
+    }
+
+    public static function spoopy_set_shader_uniform(shader:Dynamic, uniform:Dynamic, offset:Int, loc:Int, val:Float, numRegs:Int):Void {
+        return;
     }
     #end
 

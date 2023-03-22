@@ -17,7 +17,7 @@ namespace lime {
             virtual void cleanUp() = 0;
 
             #ifdef SPOOPY_METAL
-            virtual void setShaderUniform(int offset, uint32_t loc, const void* val, uint32_t numRegs) = 0;
+            virtual void setShaderUniform(value uniform_handle, uint32_t offset, uint32_t loc, const void* val, uint32_t numRegs) = 0;
             #endif
 
             virtual value createShaderPipeline() = 0;

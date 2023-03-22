@@ -202,6 +202,15 @@ namespace lime {
     }
     DEFINE_PRIME2v(spoopy_bind_shader);
 
+    void spoopy_set_shader_uniform(value _shader, value uniform_handle, int offset, int loc, double val, int numRegs) {
+        Shader* shader = (Shader*)val_data(_shader);
+
+        #ifdef SPOOPY_METAL
+        shader -> setShaderUniform(uniform_handle, offset, loc, (void*)(uintptr_t)val, numRegs);
+        #endif
+    }
+    DEFINE_PRIME6v(spoopy_set_shader_uniform);
+
 #endif
 
 #ifdef SPOOPY_INCLUDE_EXAMPLE
