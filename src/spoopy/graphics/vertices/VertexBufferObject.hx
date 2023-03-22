@@ -1,6 +1,7 @@
 package spoopy.graphics.vertices;
 
 import spoopy.backend.native.VerticesBufferNative;
+import spoopy.app.SpoopyApplication;
 import spoopy.graphics.SpoopyBuffer;
 import spoopy.util.SpoopyFloatBuffer;
 
@@ -51,7 +52,7 @@ class VertexBufferObject {
         }
 
         if(__vertices == null) {
-            __vertices = new SpoopyBuffer(outputBuffers, outputBuffers.byteLength);
+            __vertices = new SpoopyBuffer(outputBuffers, outputBuffers.byteLength, SpoopyApplication.SPOOPY_CONFIG_MAX_VERTEX_BUFFERS);
             __vertices.init();
 
             return;

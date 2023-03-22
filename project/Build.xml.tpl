@@ -1,5 +1,5 @@
 <xml>
-	<set name="HXCPP_CPP14" value="1" />
+	<set name="HXCPP_CPP11" value="1" />
 	<set name="PLATFORM" value="android-21" if="android" />
 
 	<include name="${HXCPP}/build-tool/BuildCommon.xml" />
@@ -126,8 +126,8 @@
 				<vflag name="-framework" value="QuartzCore" />
 			</section>
 
-			<cppflag value="-std=c++14"/>
-    		<cppflag value="-Wc++14-extensions"/>
+			<cppflag value="-std=c++14" if="HXCPP_CPP14"/>
+    		<cppflag value="-Wc++14-extensions" if="HXCPP_CPP14"/>
 		</section>
 
 	</target>

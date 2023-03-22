@@ -13,10 +13,13 @@ import haxe.ds.ObjectMap;
 
 @:access(spoopy.window.IWindowModule)
 class SpoopyApplication extends Application {
+    /*
+    *This configuration parameter sets the maximum number of vertex buffers that can be used in the graphics rendering pipeline.
+    */
+    public static var SPOOPY_CONFIG_MAX_VERTEX_BUFFERS:UInt = (4<<10);
 
     /*
     * Defines the maximum number of frames that can be in flight at once.
-    * Increasing this can reduce.
     */
     public static var SPOOPY_CONFIG_MAX_FRAME_LATENCY:UInt = 3;
     

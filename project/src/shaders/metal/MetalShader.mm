@@ -1,31 +1,6 @@
-#import "../../helpers/metal/SpoopyMetalHelpers.h"
-
-#include <shaders/Shader.h>
+#include "MetalShader.h"
 
 namespace lime {
-    class MetalShader: public Shader {
-        public:
-            MetalShader(value window_surface, value device);
-            ~MetalShader();
-
-            virtual void specializeShader(const char* name, const char* vertex, const char* fragment);
-            virtual void cleanUp();
-
-            virtual value createShaderPipeline();
-
-            virtual id<MTLLibrary> createLibrary(const char* _source) const;
-            virtual id<MTLRenderPipelineState> createRenderPipelineStateWithDescriptor(MTLRenderPipelineDescriptor* _descriptor) const;
-
-            virtual void setShaderUniform(int offset, uint32_t loc, const void* val, uint32_t numRegs);
-        private:
-            id<MTLDevice> shader_device;
-
-            SpoopyPipelineDescriptor pd;
-
-            id<MTLFunction> vertexFunction;
-            id<MTLFunction> fragmentFunction;
-    };
-
     MetalShader::MetalShader(value window_surface, value device) {
         shader_device = (id<MTLDevice>)val_data(device);
         windowSurface = (SpoopyWindowSurface*)val_data(window_surface);

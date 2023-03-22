@@ -1,6 +1,7 @@
 package spoopy.rendering;
 
 import spoopy.graphics.other.SpoopySwapChain;
+import spoopy.graphics.uniforms.SpoopyUniformBuffer;
 import spoopy.backend.native.SpoopyNativeShader;
 import spoopy.rendering.interfaces.ShaderReference;
 import spoopy.frontend.storage.SpoopyShaderStorage;
@@ -36,7 +37,7 @@ class SpoopyShader {
     @:allow(spoopy.frontend.storage.SpoopyShaderStorage)
     private function bindDevice(device:SpoopySwapChain):Void {
         this.device = device;
-        uniform = new SpoopyUniformBuffer(this.device.__surface);
+        uniform = new SpoopyUniformBuffer(this.device);
     }
 
     public static function cacheShader(shader:String):Void {
@@ -108,7 +109,3 @@ class SpoopyShader {
         }
     }
 }
-
-#if spoopy_metal
-typedef SpoopyUniformBuffer = spoopy.backend.native.metal.SpoopyUniformMetal;
-#end
