@@ -1,10 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension>
+    <log warn="Spoopy Engine expects Haxe 4.0.0 or greater, but version ${haxe} is being used!" if="${${haxe} < 4.0.0}" unless="display" />
+
+	<set name="expect-lime-version" value="7.7.0+" />
+
+	<set name="expect-lime-version" value="${lime-version}" if="lime-version" />
+
+	<haxedef name="native" if="cpp || neko" />
+	<set name="native" if="cpp || neko" />
+
+
+    <log warn="OpenFL expects Haxe 3.4.3 or greater, but version ${haxe} is being used" if="${${haxe} < 3.4.3}" unless="display" />
+
     <set name="spoopy" />
 
-    <icon path="assets/images/logo/Logo.svg" priority="-10" />
+	<set name="expect-lime-version" value="7.7.0+" />
+
+	<set name="expect-lime-version" value="${lime-version}" if="lime-version" />
+	<!-- <set name="lime-version" value="${expect-lime-version}" if="setup" unless="lime-version" /> -->
+
+	<haxedef name="native" if="cpp || neko" />
+	<set name="native" if="cpp || neko" />
 
     <templatePath name="templates" />
+</extension>
+
+<project>
+    <icon path="assets/images/logo/Logo.svg" priority="-10" />
 
     <haxelib name="lime" unless="create" />
 
@@ -13,4 +35,4 @@
 
         <haxedef name="generic" if="cpp" />
     </section>
-</extension>
+</project>
