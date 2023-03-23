@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project name="spoopy" url="https://github.com/Project-Ever-Changing/spoopy" license="ZLIB">
-	<icon path="assets/images/logo/SpoopyLogo.svg" priority="-10" />
+	<icon path="assets/images/logo/SpoopyLogo.svg" />
 
     <log warn="Spoopy Engine expects Haxe 4.0.0 or greater, but version ${haxe} is being used!" if="${${haxe} < 4.0.0}" unless="display" />
 
