@@ -10,9 +10,4 @@ interface SpoopyObject {
     * AFTER THIS METHOD IS CALLED THE OBJECT BECOMES UNUSEABLE!!
     */
     function destroy():Void;
-
-    /*
-    * Return a string name of the object.
-    */
-    function toString():String;
 }

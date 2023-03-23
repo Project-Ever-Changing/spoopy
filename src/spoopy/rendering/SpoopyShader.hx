@@ -78,6 +78,9 @@ class SpoopyShader implements SpoopyObject {
     }
 
     public function destroy():Void {
+        __uniformVertex.destroy();
+        __uniformFragment.destroy();
+
         __uniformVertex = null;
         __uniformFragment = null;
 
@@ -92,8 +95,8 @@ class SpoopyShader implements SpoopyObject {
     @:allow(spoopy.frontend.storage.SpoopyShaderStorage)
     private function bindDevice(device:SpoopySwapChain):Void {
         this.__device = device;
-        __uniformVertex = new SpoopyUniformBuffer(this.device);
-        __uniformFragment = new SpoopyUniformBuffer(this.device);
+        __uniformVertex = new SpoopyUniformBuffer(this.__device);
+        __uniformFragment = new SpoopyUniformBuffer(this.__device);
     }
 
     private function getUniformShader(flag:ShaderType):Void {
@@ -158,7 +161,7 @@ class SpoopyShader implements SpoopyObject {
 
         this.name = name;
 
-        __shader = new SpoopyNativeShader(name, device);
+        __shader = new SpoopyNativeShader(name, __device);
         __shader.fragment_and_vertex(rawVertex, rawFragment);
     }
 

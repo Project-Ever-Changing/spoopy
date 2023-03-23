@@ -2,6 +2,7 @@ package spoopy.graphics.uniforms;
 
 import spoopy.rendering.SpoopyShader;
 import spoopy.graphics.other.SpoopySwapChain;
+import spoopy.obj.SpoopyObject;
 
 import lime.utils.DataPointer;
 import lime.utils.Log;
@@ -13,13 +14,14 @@ typedef UniformData = {
 
 @:access(spoopy.rendering.SpoopyShader)
 @:access(spoopy.graphics.other.SpoopySwapChain)
-class SpoopyUniformBuffer {
+class SpoopyUniformBuffer implements SpoopyObject {
     private static var UNIFORM_BUFFER_SIZE:Int = 1024 * 1024;
 
     @:noCompletion var __offset(default, null):Int = 0;
     @:noCompletion var __bufferIndex(default, null):Int = 0;
     @:noCompletion var __bucketSize(default, null):Int = 0;
 
+    @:noCompletion var __device:SpoopySwapChain;
     @:noCompletion var __backend:SpoopyUniformBackend;
     @:noCompletion var __cachedBuffer:Array<SpoopyUniformBackend>;
     @:noCompletion var __cachedUniformData:Array<Map<String, UniformData>>; // Need to make sure that there would be no chance of a memory leak.
@@ -31,7 +33,7 @@ class SpoopyUniformBuffer {
         __cachedBuffer = [];
 
         for(i in 0...bucketSize) {
-            __cachedBuffer[i] = new SpoopyUniformBackend(device.__surface);
+            __cachedBuffer[i] = new SpoopyUniformBackend(device.__surface, UNIFORM_BUFFER_SIZE);
         }
 
         for(i in 0...bucketSize) {
@@ -68,12 +70,23 @@ class SpoopyUniformBuffer {
         __backend.setShaderUniform(shader.__shader, 0, uniformData.offset, val, numRegs);
     }
 
+    public function destroy():Void {
+        __offset = 0;
+        __bufferIndex = 0;
+        __bucketSize = 0;
+
+        __device = null;
+        __backend = null;
+        __cachedBuffer = null;
+        __cachedUniformData = null;
+    }
+
     private function refresh():Void {
         __offset = 0;
         __cachedUniformData = [];
 
         for(i in 0...__bucketSize) {
-            __cachedBuffer[i] = new SpoopyUniformBackend(device.__surface);
+            __cachedBuffer[i] = new SpoopyUniformBackend(__device.__surface, UNIFORM_BUFFER_SIZE);
         }
 
         for(i in 0...__bucketSize) {
