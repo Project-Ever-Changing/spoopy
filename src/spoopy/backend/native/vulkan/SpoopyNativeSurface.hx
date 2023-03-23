@@ -1,6 +1,7 @@
 package spoopy.backend.native.vulkan;
 
 import spoopy.backend.native.SpoopyNativeCFFI;
+import spoopy.graphics.SpoopyBuffer;
 
 import lime._internal.backend.native.NativeWindow;
 import lime.app.Application;

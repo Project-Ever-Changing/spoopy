@@ -2,6 +2,7 @@ package spoopy.backend.native.metal;
 
 import spoopy.backend.native.SpoopyNativeCFFI;
 import spoopy.backend.native.SpoopyNativeShader;
+import spoopy.graphics.SpoopyBuffer;
 import spoopy.rendering.SpoopyCullMode;
 
 import lime._internal.backend.native.NativeWindow;
