@@ -3,6 +3,7 @@ package spoopy.graphics.uniforms;
 import spoopy.rendering.SpoopyShader;
 import spoopy.graphics.other.SpoopySwapChain;
 
+import lime.utils.DataPointer;
 import lime.utils.Log;
 
 typedef UniformData = {
@@ -17,12 +18,15 @@ class SpoopyUniformBuffer {
 
     @:noCompletion var __offset(default, null):Int = 0;
     @:noCompletion var __bufferIndex(default, null):Int = 0;
+    @:noCompletion var __bucketSize(default, null):Int = 0;
 
     @:noCompletion var __backend:SpoopyUniformBackend;
     @:noCompletion var __cachedBuffer:Array<SpoopyUniformBackend>;
-    @:noCompletion var __cachedUniformSize:Array<Map<String, UniformData>>; // Need to make sure that there would be no chance of a memory leak.
+    @:noCompletion var __cachedUniformData:Array<Map<String, UniformData>>; // Need to make sure that there would be no chance of a memory leak.
 
     public function new(device:SpoopySwapChain, bucketSize:Int = 3) {
+        this.__bucketSize = bucketSize;
+
         __cachedUniformData = [];
         __cachedBuffer = [];
 
@@ -31,17 +35,17 @@ class SpoopyUniformBuffer {
         }
 
         for(i in 0...bucketSize) {
-            __cachedUniformSize[i] = new Map<String, UniformData>();
+            __cachedUniformData[i] = new Map<String, UniformData>();
         }
     }
 
     public function apply():Void {
-        if(bufferIndex == bucketSize - 1) {
+        if(__bufferIndex == __bucketSize - 1) {
             refresh();
         }
 
-        __backend = __cachedBuffer[bufferIndex];
-        bufferIndex = (bufferIndex + 1) % bucketSize;
+        __backend = __cachedBuffer[__bufferIndex];
+        __bufferIndex = (__bufferIndex + 1) % __bucketSize;
     }
 
     public function setShaderUniform(shader:SpoopyShader, name:String, val:DataPointer, numRegs:Int):Void {
@@ -68,12 +72,12 @@ class SpoopyUniformBuffer {
         __offset = 0;
         __cachedUniformData = [];
 
-        for(i in 0...bucketSize) {
+        for(i in 0...__bucketSize) {
             __cachedBuffer[i] = new SpoopyUniformBackend(device.__surface);
         }
 
-        for(i in 0...bucketSize) {
-            __cachedUniformSize[i] = new Map<String, UniformData>();
+        for(i in 0...__bucketSize) {
+            __cachedUniformData[i] = new Map<String, UniformData>();
         }
     }
 }
