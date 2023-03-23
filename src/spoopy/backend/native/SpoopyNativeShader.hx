@@ -48,7 +48,7 @@ class SpoopyNativeShader implements ShaderReference {
         SpoopyNativeCFFI.spoopy_specialize_shader(handle, name, shaders[VERTEX_SHADER], shaders[FRAGMENT_SHADER]);
 
         var program = SpoopyNativeCFFI.spoopy_create_shader_pipeline(handle);
-        SpoopyNativeCFFI.spoopy_shader_cleanup(handle);
+        SpoopyNativeCFFI.spoopy_cleanup_shader(handle);
 
         pipeline = program;
     }

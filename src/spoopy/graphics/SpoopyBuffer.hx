@@ -55,7 +55,7 @@ class SpoopyBuffer {
         if(__indexPointers.exists(length)) {
             bb = __cachedBackend[__indexPointers[length]];
             bb.copyMemory(data, length);
-            backend = bb;
+            __backend = bb;
 
             return; 
         }
@@ -67,11 +67,11 @@ class SpoopyBuffer {
         __indexPointerSize++;
 
         if(__indexPointerSize > bucketSize) {
-            __indexPointers.remove(__cachedBackend[0]);
+            __indexPointers.remove(__cachedBackend[0].bytesLength);
             __indexPointerSize--;
         }
 
-        backend = bb;
+        __backend = bb;
     }
 
     public function init():Void {
