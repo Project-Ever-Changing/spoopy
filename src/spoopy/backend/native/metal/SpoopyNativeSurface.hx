@@ -4,13 +4,12 @@ import spoopy.backend.native.SpoopyNativeCFFI;
 import spoopy.backend.native.SpoopyNativeShader;
 import spoopy.graphics.SpoopyBuffer;
 import spoopy.rendering.SpoopyCullMode;
-import spoopy.rendering.SpoopyShader;
 
 import lime._internal.backend.native.NativeWindow;
 import lime.app.Application;
 
 @:access(spoopy.graphics.SpoopyBuffer)
-@:access(spoopy.rendering.SpoopyShader)
+@:access(spoopy.backend.native.SpoopyNativeShader)
 class SpoopyNativeSurface {
     public var handle:Dynamic;
     public var device:Dynamic;

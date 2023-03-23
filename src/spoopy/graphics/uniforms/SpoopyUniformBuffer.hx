@@ -14,7 +14,7 @@ typedef UniformData = {
 
 @:access(spoopy.rendering.SpoopyShader)
 @:access(spoopy.graphics.other.SpoopySwapChain)
-class SpoopyUniformBuffer implements SpoopyObject {
+class SpoopyUniformBuffer {
     private static var UNIFORM_BUFFER_SIZE:Int = 1024 * 1024;
 
     @:noCompletion var __offset(default, null):Int = 0;
@@ -68,17 +68,6 @@ class SpoopyUniformBuffer implements SpoopyObject {
 
         var uniformData:UniformData = __cachedUniformData[__bufferIndex].get(name);
         __backend.setShaderUniform(shader.__shader, 0, uniformData.offset, val, numRegs);
-    }
-
-    public function destroy():Void {
-        __offset = 0;
-        __bufferIndex = 0;
-        __bucketSize = 0;
-
-        __device = null;
-        __backend = null;
-        __cachedBuffer = null;
-        __cachedUniformData = null;
     }
 
     private function refresh():Void {

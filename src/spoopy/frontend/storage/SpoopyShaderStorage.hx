@@ -37,8 +37,8 @@ class SpoopyShaderStorage {
     public function add(name:String, shader:SpoopyShader):SpoopyShader {
         shader.bindDevice(parent);
 
-        if(list.indexOf(s) == -1)list.push(s);
-        if(!shaders.exists(s))shaders.set(name, s);
-        return s;
+        if(list.indexOf(shader) == -1)list.push(s);
+        if(!shaders.exists(shader))shaders.set(name, s);
+        return shader;
     }
 }

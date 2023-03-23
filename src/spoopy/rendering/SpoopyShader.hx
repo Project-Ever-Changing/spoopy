@@ -78,9 +78,6 @@ class SpoopyShader implements SpoopyObject {
     }
 
     public function destroy():Void {
-        __uniformVertex.destroy();
-        __uniformFragment.destroy();
-
         __uniformVertex = null;
         __uniformFragment = null;
 
@@ -99,7 +96,7 @@ class SpoopyShader implements SpoopyObject {
         __uniformFragment = new SpoopyUniformBuffer(this.__device);
     }
 
-    private function getUniformShader(flag:ShaderType):Void {
+    private function getUniformShader(flag:ShaderType):SpoopyUniformBuffer {
         switch(flag) {
             case FRAGMENT_SHADER:
                 return __uniformFragment;
