@@ -1,5 +1,6 @@
 package spoopy.frontend.storage;
 
+import spoopy.graphics.SpoopyScene;
 import spoopy.rendering.SpoopyShader;
 
 class SpoopyShaderStorage {
