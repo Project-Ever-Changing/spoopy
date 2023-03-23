@@ -7,6 +7,7 @@ import spoopy.rendering.SpoopyCullMode;
 import lime._internal.backend.native.NativeWindow;
 import lime.app.Application;
 
+@:access(spoopy.graphics.SpoopyBuffer)
 class SpoopyNativeSurface {
     public var handle:Dynamic;
     public var device:Dynamic;
@@ -16,6 +17,10 @@ class SpoopyNativeSurface {
         device = SpoopyNativeCFFI.spoopy_create_metal_default_device();
 
         SpoopyNativeCFFI.spoopy_assign_metal_surface(handle, device);
+    }
+
+    public function setVertexBuffer(buffer:SpoopyBuffer, offset:Int, atIndex:Int):Void {
+        SpoopyNativeCFFI.spoopy_set_vertex_buffer(handle, buffer.__backend.handle, offset, device.atIndex);
     }
 
     public function useProgram(shader:SpoopyNativeShader) {

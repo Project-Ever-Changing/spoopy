@@ -5,6 +5,7 @@ import spoopy.backend.native.SpoopyNativeCFFI;
 import lime._internal.backend.native.NativeWindow;
 import lime.app.Application;
 
+@:access(spoopy.graphics.SpoopyBuffer)
 class SpoopyNativeSurface {
     public var handle:Dynamic;
 
@@ -26,6 +27,10 @@ class SpoopyNativeSurface {
         handle_logical = SpoopyNativeCFFI.spoopy_create_logical_device(handle_instance, handle_physical);
 
         handle = SpoopyNativeCFFI.spoopy_create_surface(handle_instance, handle_physical, handle_logical, handle_window_surface);
+    }
+
+    public function setVertexBuffer(buffer:SpoopyBuffer, offset:Int, atIndex:Int):Void {
+        //SpoopyNativeCFFI.spoopy_set_vertex_buffer(handle, buffer.__backend.handle, offset, atIndex);
     }
 
     public function useProgram(shader:SpoopyNativeShader) {

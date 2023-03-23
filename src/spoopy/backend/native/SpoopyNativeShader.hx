@@ -40,7 +40,7 @@ class SpoopyNativeShader implements ShaderReference {
         createProgram();
 
         #if spoopy_debug
-        Log.warn("Shader creation took " + (SpoopyApplication.getTimer() - timer) + "ms");
+        Log.info("Shader creation took " + (SpoopyApplication.getTimer() - timer) + "ms");
         #end
     }
 
