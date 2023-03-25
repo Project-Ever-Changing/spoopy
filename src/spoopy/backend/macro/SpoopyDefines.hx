@@ -23,8 +23,11 @@ class SpoopyDefines {
 
         for(api in Type.allEnums(SpoopyAPISupport)) {
             if(defined(api)) {
+                if(defined("spoopy-find-api-debug")) {
+                    Context.info(Std.string(api), (macro null).pos);
+                }
+
                 if(checkForGrahicsAPI) {
-                    trace("Found api");
                     throwError = true;
                     break;
                 }
