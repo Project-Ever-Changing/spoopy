@@ -15,5 +15,5 @@
 	<haxelib name="lime" unless="create" />
 	<haxelib name="hscript" unless="create || coverage2" optional="true" />
 
-	<haxeflag name="--macro" value="flixel.system.macros.FlxDefines.run()" />
+	<haxeflag name="--macro" value="flixel.system.macros.SpoopyDefines.run()" />
 </project>
