@@ -76,7 +76,7 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
             return;
         }
 
-        cam.removeBuffer(__vertices));
+        cam.removeBuffer(__vertices);
     }
 
     public function draw(cam:SpoopyCamera):Void {
