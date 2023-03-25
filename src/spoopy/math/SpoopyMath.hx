@@ -58,7 +58,7 @@ class SpoopyMath {
     /*
     * Return a rounded value of 4 significant digits.
     */
-    public inline static function fmt(v:Float) {
+    public static function fmt(v:Float) {
         var neg;
 
 		if( v < 0 ) {

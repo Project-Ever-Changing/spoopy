@@ -36,11 +36,12 @@ class VertexLayout implements SpoopyObject {
     }
 
     public function update():Void {
+        var __size = 0;
+
         buffer = new SpoopyFloatBuffer(size);
-        __size = 0;
 
         for(i in 0...length) {
-            var a = __attributes[i];
+            var a:SpoopyFloatBuffer = __attributes[i];
             buffer.set(buffer, a, __size);
             __size += a.length;
         }
