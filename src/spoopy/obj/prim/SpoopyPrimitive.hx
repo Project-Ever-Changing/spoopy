@@ -92,26 +92,26 @@ class SpoopyPrimitive implements SpoopyVertexObject {
 
         for(i in 0...vertices.length) {
             var b = vertices[i];
-            __vertices.set(__vertices, [b.x, b.y, b.z], i * 3);
+            __vertices.set([b.x, b.y, b.z], i * 3);
 
             if(normal != null) {
                 var n = normal[i];
-                __vertices.set(__vertices, [n.x, n.y, n.z], i * 3);
+                __vertices.set([n.x, n.y, n.z], i * 3);
             }
 
             if(tangents != null) {
                 var t = tangents[i];
-                __vertices.set(__vertices, [t.x, t.y, t.z], i * 3);
+                __vertices.set([t.x, t.y, t.z], i * 3);
             }
 
             if(uvs != null) {
                 var u = uvs[i];
-                __vertices.set(__vertices, [u.u, u.v], i * 2);
+                __vertices.set([u.u, u.v], i * 2);
             }
 
             if(colors != null) {
                 var c = colors[i];
-                __vertices.set(__vertices, [c.x, c.y, c.z, c.w], i * 4);
+                __vertices.set([c.x, c.y, c.z, c.w], i * 4);
             }
         }
 

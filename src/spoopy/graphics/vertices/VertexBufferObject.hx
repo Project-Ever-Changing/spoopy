@@ -67,7 +67,7 @@ class VertexBufferObject implements SpoopyObject {
         for(i in 0...__bucketSize) {
             var b = __vertexLayouts[i].buffer;
 
-            outputBuffers.set(outputBuffers, b, __length);
+            outputBuffers.set(b, __length);
             __length += b.length;
         }
 
