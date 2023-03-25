@@ -3,12 +3,12 @@ package spoopy.obj.prim;
 import spoopy.obj.SpoopyCamera;
 import spoopy.obj.geom.SpoopyUV;
 import spoopy.obj.geom.SpoopyPoint;
-import spoopy.obj.display.SpoopyVertexObject;
+import spoopy.obj.display.SpoopyDisplayObject;
 import spoopy.util.SpoopyFloatBuffer;
 
 import lime.math.Vector4;
 
-class SpoopyPrimitive implements SpoopyVertexObject {
+class SpoopyPrimitive implements SpoopyDisplayObject {
 
     /*
     * If `update()` is automatically called;
@@ -76,7 +76,7 @@ class SpoopyPrimitive implements SpoopyVertexObject {
             return;
         }
 
-        cam.removeBuffer(this);
+        cam.removeBuffer(__vertices));
     }
 
     public function draw(cam:SpoopyCamera):Void {
@@ -119,11 +119,7 @@ class SpoopyPrimitive implements SpoopyVertexObject {
             return;
         }
 
-        cam.storeBuffer(this);
-    }
-
-    public function getSourceVertices():SpoopyFloatBuffer {
-        return __vertices;
+        cam.storeBuffer(__vertices);
     }
 
     public function render():Void {

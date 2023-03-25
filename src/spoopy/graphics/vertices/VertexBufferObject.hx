@@ -41,16 +41,16 @@ class VertexBufferObject implements SpoopyObject {
         }
     }
 
-    public function addObject(obj:SpoopyVertexObject):Void {
-        __vertexLayouts[__vertexLayoutIndex].addBuffer(obj.getSourceVertices());
+    public function addObject(obj:SpoopyFloatBuffer):Void {
+        __vertexLayouts[__vertexLayoutIndex].addBuffer(obj);
         __vertexLayoutIndex = (__vertexLayoutIndex + 1) % __bucketSize;
         __modelLayoutIndexes.set(obj, __vertexLayoutIndex);
 
         length += obj.getSourceVertices().length;
     }
 
-    public function removeObject(obj:SpoopyVertexObject):Void {
-        __vertexLayouts[__modelLayoutIndexes.get(obj)].removeBuffers(obj.getSourceVertices());
+    public function removeObject(obj:SpoopyFloatBuffer):Void {
+        __vertexLayouts[__modelLayoutIndexes.get(obj)].removeBuffer(obj);
         length -= obj.getSourceVertices().length;
     }
 
