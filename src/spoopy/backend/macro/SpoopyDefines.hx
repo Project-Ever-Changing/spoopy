@@ -23,7 +23,7 @@ class SpoopyDefines {
 
         for(api in Type.allEnums(SpoopyAPISupport)) {
             var defineAPI = Std.string(api).toLowerCase();
-            replaceChar(replaceChar, "_", "-");
+            replaceChar(defineAPI, "_", "-");
 
             if(defined(defineAPI)) {
                 if(defined("spoopy-find-api-debug")) {
@@ -43,7 +43,7 @@ class SpoopyDefines {
             throwError = true;
 
             if(defined("spoopy-find-api-debug")) {
-                Context.info("Found no graphic APIs.");
+                Context.info("Found no graphic APIs.", (macro null).pos);
             }
         }
 
