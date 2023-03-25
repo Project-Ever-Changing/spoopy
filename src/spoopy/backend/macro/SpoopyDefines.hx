@@ -43,8 +43,8 @@ class SpoopyDefines {
     }
 
     static function checkVersions():Void {
-        #if (lime > "6.3.0")
-        abort('Lime version may not be compatible with Spoopy Engine (expected version 6.3.0)', (macro null).pos);
+        #if (lime < "7.7.0")
+        Context.warning('Lime version may not be compatible with Spoopy Engine (expected version 6.3.0)', (macro null).pos);
         #end
     }
     
