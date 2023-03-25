@@ -3,7 +3,7 @@
 	<icon path="assets/images/logo/SpoopyLogo.svg" />
 
 	<log warn="Spoopy Engine expects Haxe 4.0.0 or greater, but version ${haxe} is being used!" if="${${haxe} < 4.0.0}" unless="display" />
-	<log warn="Lime version ${lime} may not be compatible with Spoopy Engine (expected version ${expect-lime-version})" />
+	<log warn="Lime version ${lime} may not be compatible with Spoopy Engine (expected version ${lime < expect-lime-version})" />
 
     <set name="spoopy" />
 	<set name="expect-lime-version" value="7.7.0+" />
@@ -16,9 +16,4 @@
 	<haxelib name="hscript" unless="create || coverage2" optional="true" />
 
 	<haxeflag name="--macro" value="src.spoopy.backend.macro.SpoopyDefines.run()" />
-
-	<section if="setup">
-		<haxelib name="lime" version="${lime-version}" if="lime-version" />
-		<haxelib name="lime" unless="lime-version" />
-	</section>
 </project>
