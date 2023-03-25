@@ -36,7 +36,7 @@ class VertexBufferObject implements SpoopyObject {
         __modelLayoutIndexes = new ObjectMap<SpoopyVertexObject, Int>();
         __vertexLayouts = [];
 
-        for(i in __bucketSize) {
+        for(i in 0...__bucketSize) {
             __vertexLayouts[i] = new VertexLayout();
         }
     }
@@ -50,7 +50,7 @@ class VertexBufferObject implements SpoopyObject {
     }
 
     public function removeObject(obj:SpoopyVertexObject):Void {
-        __vertexLayouts[__modelLayoutIndexes[obj]].removeBuffers(obj.getSourceVertices());
+        __vertexLayouts[__modelLayoutIndexes.get(obj)].removeBuffers(obj.getSourceVertices());
         length -= obj.getSourceVertices().length;
     }
 

@@ -76,7 +76,7 @@ class SpoopyPrimitive implements SpoopyVertexObject {
             return;
         }
 
-        cam.removeBuffer(__vertices);
+        cam.removeBuffer(this);
     }
 
     public function draw(cam:SpoopyCamera):Void {
@@ -119,7 +119,7 @@ class SpoopyPrimitive implements SpoopyVertexObject {
             return;
         }
 
-        cam.storeBuffer(__vertices);
+        cam.storeBuffer(this);
     }
 
     public function getSourceVertices():SpoopyFloatBuffer {

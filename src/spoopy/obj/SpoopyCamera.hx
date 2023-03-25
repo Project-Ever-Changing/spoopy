@@ -139,12 +139,12 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
         */
     }
 
-    @:allow(spoopy.obj.prim.SpoopyPrimitive) function removeBuffer(__vertices:SpoopyFloatBuffer):Void {
+    @:allow(spoopy.obj.prim.SpoopyPrimitive) function removeBuffer(__vertices:SpoopyPrimitive):Void {
         __vertexDirty = true;
         __vertices.removeObject(__vertices);
     }
 
-    @:allow(spoopy.obj.prim.SpoopyPrimitive) function storeBuffer(__vertices:SpoopyFloatBuffer):Void {
+    @:allow(spoopy.obj.prim.SpoopyPrimitive) function storeBuffer(__vertices:SpoopyPrimitive):Void {
         __vertexDirty = true;
         __vertices.addObject(__vertices);
     }
