@@ -25,7 +25,7 @@ class SpoopyDefines {
             var defineAPI = Std.string(api).toLowerCase();
             replaceChar(replaceChar, "_", "-");
 
-            if(defined(api)) {
+            if(defined(defineAPI)) {
                 if(defined("spoopy-find-api-debug")) {
                     Context.info("Found: " + Std.string(api), (macro null).pos);
                 }
