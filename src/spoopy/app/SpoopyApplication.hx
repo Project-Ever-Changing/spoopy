@@ -38,10 +38,6 @@ class SpoopyApplication extends Application {
     }
 
     public function new() {
-        #if (!(spoopy_vulkan || spoopy_metal) || (spoopy_vulkan && spoopy_metal))
-        Log.error("Graphics API not specified. Please specify a graphics API to use for rendering. Only one graphics API can be used at a time.");
-        #end
-
         super();
 
         windowModules = new ObjectMap<Window, IWindowModule>();

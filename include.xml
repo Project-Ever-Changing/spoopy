@@ -2,21 +2,18 @@
 <project name="spoopy" url="https://github.com/Project-Ever-Changing/spoopy" license="ZLIB">
 	<icon path="assets/images/logo/SpoopyLogo.svg" />
 
-    <log warn="Spoopy Engine expects Haxe 4.0.0 or greater, but version ${haxe} is being used!" if="${${haxe} < 4.0.0}" unless="display" />
-
-	<set name="expect-lime-version" value="7.7.0+" />
-
-	<set name="expect-lime-version" value="${lime-version}" if="lime-version" />
-
-
-    <log warn="OpenFL expects Haxe 3.4.3 or greater, but version ${haxe} is being used" if="${${haxe} < 3.4.3}" unless="display" />
-
     <set name="spoopy" />
 	<set name="expect-lime-version" value="7.7.0+" />
 	<set name="expect-lime-version" value="${lime-version}" if="lime-version" />
 	<set name="native" if="cpp || neko" />
 
+	<log warn="Spoopy Engine expects Haxe 4.0.0 or greater, but version ${haxe} is being used!" if="${${haxe} < 4.0.0}" unless="display" />
+	<log warn="Lime version ${lime} may not be compatible with Spoopy Engine (expected version ${expect-lime-version})" />
+
 	<haxedef name="native" if="cpp || neko" />
 
-    <haxelib name="lime" unless="create" />
+	<haxelib name="lime" unless="create" />
+	<haxelib name="hscript" unless="create || coverage2" optional="true" />
+
+	<haxeflag name="--macro" value="flixel.system.macros.FlxDefines.run()" />
 </project>

@@ -18,11 +18,25 @@ class SpoopyDefines {
 
     static function checkGraphicsAPI():Void {
         var checkForGrahicsAPI:Bool = false;
+        var throwError = false;
 
-        for(define in Context.getDefines().keys()) {
-            if(define == "") {
+        for(api in Type.allEnums(SpoopyAPISupport)) {
+            if(defined(api)) {
+                if(checkForGrahicsAPI) {
+                    throwError = true;
+                    break;
+                }
 
+                checkForGrahicsAPI = true;
             }
+        }
+
+        if(!checkForGrahicsAPI) {
+            throwError = true;
+        }
+
+        if(throwError) {
+            abort("Graphics API not specified. Please specify a graphics API to use for rendering. Only one graphics API can be used at a time.", (macro null).pos);
         }
     }
     
