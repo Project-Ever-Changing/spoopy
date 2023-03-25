@@ -5,7 +5,6 @@ import spoopy.app.SpoopyApplication;
 import spoopy.graphics.SpoopyBuffer;
 import spoopy.util.SpoopyFloatBuffer;
 import spoopy.obj.prim.SpoopyPrimitive;
-import spoopy.obj.display.SpoopyVertexObject;
 
 #if (spoopy_vulkan || spoopy_metal)
 import spoopy.graphics.other.SpoopySwapChain;
@@ -23,7 +22,7 @@ class VertexBufferObject implements SpoopyObject {
     @:noCompletion var __vertexLayoutIndex:Int = 0;
     @:noCompletion var __bucketSize:Int = 0;
 
-    @:noCompletion var __modelLayoutIndexes:ObjectMap<SpoopyVertexObject, Int>;
+    @:noCompletion var __modelLayoutIndexes:ObjectMap<SpoopyFloatBuffer, Int>;
     @:noCompletion var __vertexLayouts:Array<VertexLayout>;
     @:noCompletion var __vertices:SpoopyBuffer;
 
@@ -33,7 +32,7 @@ class VertexBufferObject implements SpoopyObject {
 
     public function new() {
         __bucketSize = SpoopyApplication.SPOOPY_CONFIG_MAX_VERTEX_LAYOUTS;
-        __modelLayoutIndexes = new ObjectMap<SpoopyVertexObject, Int>();
+        __modelLayoutIndexes = new ObjectMap<SpoopyFloatBuffer, Int>();
         __vertexLayouts = [];
 
         for(i in 0...__bucketSize) {
@@ -46,12 +45,12 @@ class VertexBufferObject implements SpoopyObject {
         __vertexLayoutIndex = (__vertexLayoutIndex + 1) % __bucketSize;
         __modelLayoutIndexes.set(obj, __vertexLayoutIndex);
 
-        length += obj.getSourceVertices().length;
+        length += obj.length;
     }
 
     public function removeObject(obj:SpoopyFloatBuffer):Void {
         __vertexLayouts[__modelLayoutIndexes.get(obj)].removeBuffer(obj);
-        length -= obj.getSourceVertices().length;
+        length -= obj.length;
     }
 
     #if (spoopy_vulkan || spoopy_metal)
