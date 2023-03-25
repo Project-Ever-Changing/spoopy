@@ -90,6 +90,11 @@ class SpoopyShader implements SpoopyObject {
     }
 
     @:allow(spoopy.frontend.storage.SpoopyShaderStorage)
+    private function assignName(name:String):Void {
+        this.name = name;
+    }
+
+    @:allow(spoopy.frontend.storage.SpoopyShaderStorage)
     private function bindDevice(device:SpoopySwapChain):Void {
         this.__device = device;
         __uniformVertex = new SpoopyUniformBuffer(this.__device);
@@ -124,7 +129,7 @@ class SpoopyShader implements SpoopyObject {
     }
 
     @:allow(spoopy.frontend.storage.SpoopyShaderStorage)
-    private static function createShader(name:String, vertex:String, fragment:String, cache:Bool = false):Void {
+    private function createShader(vertex:String, fragment:String, cache:Bool = false):Void {
         if(vertex.substring(vertex.length - 4, vertex.length) != ".spv") {
             vertex = vertex + ".spv";
         }
@@ -155,8 +160,6 @@ class SpoopyShader implements SpoopyObject {
                 cachedShader.set(fragment, rawFragment);
             }
         }
-
-        this.name = name;
 
         __shader = new SpoopyNativeShader(name, __device);
         __shader.fragment_and_vertex(rawVertex, rawFragment);
