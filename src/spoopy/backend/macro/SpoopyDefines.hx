@@ -22,9 +22,12 @@ class SpoopyDefines {
         var throwError = false;
 
         for(api in Type.allEnums(SpoopyAPISupport)) {
+            var defineAPI = Std.string(api).toLowerCase();
+            replaceChar(replaceChar, "_", "-");
+
             if(defined(api)) {
                 if(defined("spoopy-find-api-debug")) {
-                    Context.info(Std.string(api), (macro null).pos);
+                    Context.info("Found: " + Std.string(api), (macro null).pos);
                 }
 
                 if(checkForGrahicsAPI) {
@@ -38,6 +41,10 @@ class SpoopyDefines {
 
         if(!checkForGrahicsAPI) {
             throwError = true;
+
+            if(defined("spoopy-find-api-debug")) { {
+                Context.info("Found no graphic APIs.");
+            }
         }
 
         if(throwError) {
@@ -49,6 +56,10 @@ class SpoopyDefines {
         #if (lime < "7.7.0")
         Context.warning('Lime version may not be compatible with Spoopy Engine (expected version 6.3.0)', (macro null).pos);
         #end
+    }
+
+    static inline function replaceChar(str:String, oldChar:String, newChar:String):String {
+        return str.split(oldChar).join(newChar);
     }
     
     static inline function defined(define:Dynamic) {
