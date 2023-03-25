@@ -54,4 +54,33 @@ class SpoopyMath {
     public inline static function inverseSqrt(value:Float):Float {
         return 1 / Math.sqrt(value);
     }
+
+    /*
+    * Return a rounded value of 4 significant digits.
+    */
+    public inline static function fmt(v:Float) {
+        var neg;
+
+		if( v < 0 ) {
+			neg = -1.0;
+			v = -v;
+		}else {
+			neg = 1.0;
+        }
+
+		if(Math.isNaN(v) || !Math.isFinite(v)) {
+			return v;
+        }
+
+		var digits = Std.int(4 - Math.log(v) / Math.log(10));
+
+		if(digits < 1) {
+			digits = 1;
+        }else if(digits >= 10) {
+			return 0;
+        }
+
+		var exp = Math.pow(10, digits);
+		return Math.ffloor(v * exp + .49999) * neg / exp;
+    }
 }

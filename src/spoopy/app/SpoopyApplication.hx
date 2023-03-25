@@ -14,7 +14,12 @@ import haxe.ds.ObjectMap;
 @:access(spoopy.window.IWindowModule)
 class SpoopyApplication extends Application {
     /*
-    *This configuration parameter sets the maximum number of vertex buffers that can be used in the graphics rendering pipeline.
+    * The maximum number of vertex layouts that can be defined.
+    */
+    public static var SPOOPY_CONFIG_MAX_VERTEX_LAYOUTS:UInt = 64;
+
+    /*
+    * This configuration parameter sets the maximum number of vertex buffers that can be used in the graphics rendering pipeline.
     */
     public static var SPOOPY_CONFIG_MAX_VERTEX_BUFFERS:UInt = (4<<10);
 
