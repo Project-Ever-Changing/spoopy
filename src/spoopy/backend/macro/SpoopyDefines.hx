@@ -1,4 +1,4 @@
-package src.spoopy.backend.macro;
+package spoopy.backend.macro;
 
 import haxe.macro.Compiler;
 import haxe.macro.Context;

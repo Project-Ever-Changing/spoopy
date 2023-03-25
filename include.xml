@@ -3,7 +3,7 @@
 	<icon path="assets/images/logo/SpoopyLogo.svg" />
 
     <set name="spoopy" />
-	<set name="expect-lime-version" value="7.7.0+" />
+	<set name="expect-lime-version" value="7.7.0" />
 	<set name="expect-lime-version" value="${lime-version}" if="lime-version" />
 	<set name="native" if="cpp || neko" />
 
