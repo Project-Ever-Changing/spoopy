@@ -13,7 +13,7 @@
 	<haxelib name="hscript" unless="create || coverage2" optional="true" />
 
 	<log warn="Spoopy Engine expects Haxe 4.0.0 or greater, but version ${haxe} is being used!" if="${${haxe} < 4.0.0}" unless="display" />
-	<log warn="Lime version ${lime} may not be compatible with Spoopy Engine (expected version ${expect-lime-version})" if="${lime < expect-lime-version}" />
+	<log warn="Lime version ${lime} may not be compatible with Spoopy Engine (expected version ${expect-lime-version})" if="${${lime} < expect-lime-version}" />
 
 	<haxeflag name="--macro" value="spoopy.backend.macro.SpoopyDefines.run()" />
 </project>
