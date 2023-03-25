@@ -15,5 +15,5 @@
 	<haxelib name="lime" unless="create" />
 	<haxelib name="hscript" unless="create || coverage2" optional="true" />
 
-	<haxeflag name="--macro" value="src.spoopy.backend.macro.SpoopyDefines.run()" />
+	<haxeflag name="--macro" value="spoopy.backend.macro.SpoopyDefines.run()" />
 </project>
