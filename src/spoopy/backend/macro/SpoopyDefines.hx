@@ -13,6 +13,7 @@ private enum SpoopyAPISupport {
 
 class SpoopyDefines {
     public static function run():Void {
+        checkVersions();
         checkGraphicsAPI();
     }
 
@@ -23,6 +24,7 @@ class SpoopyDefines {
         for(api in Type.allEnums(SpoopyAPISupport)) {
             if(defined(api)) {
                 if(checkForGrahicsAPI) {
+                    trace("Found api");
                     throwError = true;
                     break;
                 }
@@ -38,6 +40,12 @@ class SpoopyDefines {
         if(throwError) {
             abort("Graphics API not specified. Please specify a graphics API to use for rendering. Only one graphics API can be used at a time.", (macro null).pos);
         }
+    }
+
+    static function checkVersions():Void {
+        #if (lime > "6.3.0")
+        abort('Lime version may not be compatible with Spoopy Engine (expected version 6.3.0)', (macro null).pos);
+        #end
     }
     
     static inline function defined(define:Dynamic) {
