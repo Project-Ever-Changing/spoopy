@@ -42,7 +42,7 @@ class SpoopyDefines {
         if(!checkForGrahicsAPI) {
             throwError = true;
 
-            if(defined("spoopy-find-api-debug")) { {
+            if(defined("spoopy-find-api-debug")) {
                 Context.info("Found no graphic APIs.");
             }
         }
