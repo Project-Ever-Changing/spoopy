@@ -3,6 +3,8 @@ package spoopy.backend.native;
 import spoopy.graphics.other.SpoopySwapChain;
 import spoopy.graphics.SpoopyBufferType;
 
+import lime.utils.DataPointer;
+
 @:access(spoopy.graphics.other.SpoopySwapChain)
 class SpoopyNativeBuffer {
     public var handle:Dynamic;
