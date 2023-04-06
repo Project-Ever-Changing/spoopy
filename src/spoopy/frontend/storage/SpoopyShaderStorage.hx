@@ -21,9 +21,9 @@ class SpoopyShaderStorage {
     /*
     * `parent` is the parent scene.
     */
-    public var parent(default, null):SpoopyScene;
+    public var parent(default, null):SpoopySwapChain;
 
-    @:allow(spoopy.graphics.SpoopyScene) private function new(parent:SpoopyScene) {
+    @:allow(spoopy.graphics.SpoopySwapChain) private function new(parent:SpoopySwapChain) {
         shaders = new Map<String, SpoopyShader>();
         list = new Array<SpoopyShader>();
 
@@ -38,8 +38,8 @@ class SpoopyShaderStorage {
     * @return The `SpoopyShader` object that was added.
     */
     public function add(name:String, shader:SpoopyShader):SpoopyShader {
-        if(list.indexOf(shader) == -1){list.push(shader);}else{return;}
-        if(!shaders.exists(name)){shaders.set(name, shader);}else{return;}
+        if(list.indexOf(shader) == -1){list.push(shader);}else{return shader;}
+        if(!shaders.exists(name)){shaders.set(name, shader);}else{return shader;}
 
         shader.assignName(name);
         shader.assignDevice(parent);
