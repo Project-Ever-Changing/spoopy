@@ -3,6 +3,7 @@ package spoopy.backend.native;
 import lime.utils.Log;
 
 import spoopy.app.SpoopyApplication;
+import spoopy.obj.SpoopyObject;
 import spoopy.rendering.interfaces.ShaderReference;
 import spoopy.rendering.interfaces.ShaderType;
 
@@ -11,7 +12,7 @@ import spoopy.graphics.other.SpoopySwapChain;
 
 @:access(spoopy.graphics.other.SpoopySwapChain)
 #end
-class SpoopyNativeShader implements ShaderReference {
+class SpoopyNativeShader implements SpoopyObject {
     private var shaders:Map<ShaderType, String>;
 
     private var pipeline:Dynamic;
@@ -42,6 +43,12 @@ class SpoopyNativeShader implements ShaderReference {
         #if spoopy_debug
         Log.info("Shader creation took " + (SpoopyApplication.getTimer() - timer) + "ms");
         #end
+    }
+
+    public function destroy():Void {
+        pipeline = null;
+        descriptor = null;
+        handle = null;
     }
 
     private function createProgram():Void {

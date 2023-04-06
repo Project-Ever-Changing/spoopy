@@ -9,7 +9,7 @@ import lime.utils.Log;
 
 class SpoopyScene extends SpoopySwapChain {
     public var cameras(default, null):SpoopyCameraStorage;
-    //public var shaders(default, null):SpoopyShaderStorage; (WIP: It's almost there EEEEEEEEEE!)
+    public var shaders(default, null):SpoopyShaderStorage;
 
     public var ticks(default, null):Int = 0;
     public var elapsed(default, null):Float = 0;
@@ -45,6 +45,8 @@ class SpoopyScene extends SpoopySwapChain {
         super(application);
 
         cameras = new SpoopyCameraStorage(this);
+        shaders = new SpoopyShaderStorage(this);
+        graphics = new SpoopyGraphics();
 
         updateFramerate = Std.int(window.frameRate);
         renderFramerate = Std.int(window.frameRate);

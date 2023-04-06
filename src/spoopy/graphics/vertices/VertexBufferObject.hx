@@ -2,7 +2,6 @@ package spoopy.graphics.vertices;
 
 import spoopy.obj.SpoopyObject;
 import spoopy.app.SpoopyApplication;
-import spoopy.graphics.SpoopyBuffer;
 import spoopy.util.SpoopyFloatBuffer;
 import spoopy.obj.prim.SpoopyPrimitive;
 
@@ -16,6 +15,8 @@ import haxe.ds.ObjectMap;
 * Base helper class for managing buffers.
 */
 class VertexBufferObject implements SpoopyObject {
+    public var vertices(default, null):SpoopyFloatBuffer = null;
+
     public var offset(default, null):Int = 0;
     public var length(default, null):Int = 0;
 
@@ -24,7 +25,6 @@ class VertexBufferObject implements SpoopyObject {
 
     @:noCompletion var __modelLayoutIndexes:ObjectMap<SpoopyFloatBuffer, Int>;
     @:noCompletion var __vertexLayouts:Array<VertexLayout>;
-    @:noCompletion var __vertices:SpoopyBuffer;
 
     #if (spoopy_vulkan || spoopy_metal)
     @:noCompletion var __device:SpoopySwapChain;
@@ -38,6 +38,8 @@ class VertexBufferObject implements SpoopyObject {
         for(i in 0...__bucketSize) {
             __vertexLayouts[i] = new VertexLayout();
         }
+
+        vertices = new SpoopyFloatBuffer(length);
     }
 
     public function addObject(obj:SpoopyFloatBuffer):Void {
@@ -60,7 +62,7 @@ class VertexBufferObject implements SpoopyObject {
     #end
 
     public function update():Void {
-        var outputBuffers:SpoopyFloatBuffer = new SpoopyFloatBuffer(length);
+        vertices = new SpoopyFloatBuffer(length);
         var __length:Int = 0;
 
         for(i in 0...__bucketSize) {
@@ -69,23 +71,14 @@ class VertexBufferObject implements SpoopyObject {
             outputBuffers.set(b, __length);
             __length += b.length;
         }
-
-        if(__vertices == null) {
-            __vertices = new SpoopyBuffer(outputBuffers, outputBuffers.byteLength, SpoopyApplication.SPOOPY_CONFIG_MAX_VERTEX_BUFFERS);
-            __vertices.init();
-
-            return;
-        }
-
-        __vertices.updateBuffers(outputBuffers, outputBuffers.byteLength);
     }
 
     public function setVertexBuffer():Void {
-        if(__device == null || __vertices == null) {
+        if(__device == null || vertices == null) {
             return;
         }
 
-        __device.setVertexBuffer(__vertices, offset);
+        //__device.setVertexBuffer(vertices, offset);
     }
 
     public function destroy():Void {
@@ -96,6 +89,6 @@ class VertexBufferObject implements SpoopyObject {
         __modelLayoutIndexes = null;
 
         __device = null;
-        __vertices = null;
+        vertices = null;
     }
 }

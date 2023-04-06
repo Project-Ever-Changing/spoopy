@@ -30,8 +30,20 @@ namespace lime {
         [_obj release];
     }
 
+    inline void retain(NSObject* _obj)  {
+        [_obj retain];
+    }
+
     inline void reset(SpoopyPipelineDescriptor _obj)  {
         [_obj reset];
+    }
+
+    inline void endEncoding(id<MTLRenderCommandEncoder> _obj) {
+        [_obj endEncoding];
+    }
+
+    inline void enqueue(id<MTLCommandBuffer> _obj) {
+        [_obj enqueue];
     }
 
     inline void apply_gc_render_pipeline(value handle) {

@@ -4,19 +4,11 @@
 
 #include <core/Size.h>
 
-#import <ui/SpoopyWindowSurface.h>
-
+#import "../../ui/metal/SpoopyWindowRendererMTL.h"
 #import "../../helpers/metal/SpoopyMetalHelpers.h"
+#import "../../graphics/metal/BufferMTL.h"
 
 namespace lime {
-    static MTLStorageMode storageMode = MTLResourceStorageModePrivate;
-
-    enum METAL_RESOURCE_STORAGE_MODE {
-        METAL_STORAGE_SHARED = 0x00000000,
-        METAL_STORAGE_GPU_ONLY = 0x00000002,
-        METAL_STORAGE_MANAGED = 0x00000004
-    };
-
     void spoopy_set_resource_storage_mode(int mode) {
         switch(mode) {
             case METAL_STORAGE_GPU_ONLY:
@@ -55,6 +47,14 @@ namespace lime {
     }
     DEFINE_PRIME0(spoopy_create_metal_default_device);
 
+    value spoopy_get_metal_device_from_layer(value surface) {
+        SpoopyWindowRenderer* window_surface = (SpoopyWindowRenderer*)val_data(surface);
+        SpoopyWindowRendererMTL* window_renderer = static_cast<SpoopyWindowRendererMTL*>(window_surface);
+
+        return CFFIPointer(window_renderer -> getMetalLayer().device, spoopy_gc_device);
+    }
+    DEFINE_PRIME1(spoopy_get_metal_device_from_layer);
+
     value spoopy_create_metal_buffer(value metal_device, double data, int size) {
         id<MTLDevice> device = (id<MTLDevice>)val_data(metal_device);
 
@@ -62,25 +62,4 @@ namespace lime {
         return CFFIPointer(buffer, spoopy_gc_buffer);
     }
     DEFINE_PRIME3(spoopy_create_metal_buffer);
-
-    value spoopy_create_metal_buffer_length(value metal_device, int _length, int _options) {
-        id<MTLDevice> device = (id<MTLDevice>)val_data(metal_device);
-
-        id<MTLBuffer> buffer = [device newBufferWithLength:_length options:(MTLResourceOptions)_options];
-        return CFFIPointer(buffer, spoopy_gc_buffer);
-    }
-    DEFINE_PRIME3(spoopy_create_metal_buffer_length);
-
-    int spoopy_get_buffer_length_bytes(value metal_buffer) {
-        id<MTLBuffer> buffer = (id<MTLBuffer>)val_data(metal_buffer);
-        return (int)buffer.length;
-    }
-    DEFINE_PRIME1(spoopy_get_buffer_length_bytes);
-
-    void spoopy_copy_buffer_to_buffer(value source_buffer, double data, int size) {
-        id<MTLBuffer> sourceBuffer = (id<MTLBuffer>)val_data(source_buffer);
-
-        memcpy([sourceBuffer contents], (void*)(uintptr_t)data, (SP_UInt)size);
-    }
-    DEFINE_PRIME3v(spoopy_copy_buffer_to_buffer);
 }

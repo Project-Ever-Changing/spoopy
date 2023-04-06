@@ -4,6 +4,7 @@ import lime.ui.Window;
 
 import spoopy.app.SpoopyApplication;
 import spoopy.window.WindowEventManager;
+import spoopy.frontend.storage.SpoopyBufferStorage;
 import spoopy.backend.native.SpoopyNativeShader;
 import spoopy.graphics.SpoopyBuffer;
 import spoopy.rendering.SpoopyCullMode;
@@ -16,6 +17,8 @@ class SpoopySwapChain extends WindowEventManager {
     @:final public var application:SpoopyApplication;
     #end
 
+    public var buffers(default, null):SpoopyBufferStorage;
+
     public var atIndexVertex(default, null):Int = 0;
 
     public var cullMode(default, set):SpoopyCullMode = CULL_MODE_NONE;
@@ -25,6 +28,7 @@ class SpoopySwapChain extends WindowEventManager {
 
     public function new(application:SpoopyApplication) {
         this.application = application;
+        this.buffers = new SpoopyBufferStorage();
         super();
     }
 
@@ -60,6 +64,7 @@ class SpoopySwapChain extends WindowEventManager {
         }
 
         __surface.updateWindow();
+        buffers.beginFrame();
 
         onUpdate();
 
@@ -78,6 +83,9 @@ class SpoopySwapChain extends WindowEventManager {
 
         __surface.release();
         __surface = null;
+
+        buffers.destroy();
+        buffers = null;
     }
 
     @:noCompletion private function set_cullMode(value:SpoopyCullMode):SpoopyCullMode {

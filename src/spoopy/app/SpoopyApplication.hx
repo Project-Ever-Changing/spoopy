@@ -24,6 +24,16 @@ class SpoopyApplication extends Application {
     public static var SPOOPY_CONFIG_MAX_VERTEX_BUFFERS:UInt = (4<<10);
 
     /*
+    * This configuration parameter sets the maximum number of index buffers that can be used in the graphics rendering pipeline.
+    */
+    public static var SPOOPY_CONFIG_MAX_INDEX_BUFFERS:UInt = (4<<10);
+
+    /*
+    * This configuration parameter sets the maximum number of textures that can be used in the graphics rendering pipeline.
+    */
+    public static var SPOOPY_CONFIG_MAX_UNIFORM_BUFFERS:UInt = 0x8;
+
+    /*
     * Defines the maximum number of frames that can be in flight at once.
     */
     public static var SPOOPY_CONFIG_MAX_FRAME_LATENCY:UInt = 3;

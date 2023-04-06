@@ -96,8 +96,10 @@
 			<file name="src/graphics/metal/MetalBindings.mm" />
 			<file name="src/helpers/metal/SpoopyMetalHelpers.mm" />
 			<file name="src/helpers/metal/SpoopyBufferHelpers.mm" />
-			<file name="src/ui/metal/SpoopyWindowMetal.mm" />
+			<file name="src/ui/metal/SpoopyWindowRendererMTL.mm" />
 			<file name="src/shaders/metal/MetalShader.mm" />
+			<file name="src/graphics/metal/BufferMTL.mm" />
+			<file name="src/graphics/metal/CommandBufferMTL.mm" />
 			<compilerflag value="-DSPOOPY_METAL" />
 		</section>
 

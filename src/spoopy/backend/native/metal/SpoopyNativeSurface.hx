@@ -16,7 +16,7 @@ class SpoopyNativeSurface {
 
     public function new(window:NativeWindow, application:Application) {
         handle = SpoopyNativeCFFI.spoopy_create_window_surface(window.handle);
-        device = SpoopyNativeCFFI.spoopy_create_metal_default_device();
+        device = SpoopyNativeCFFI.spoopy_get_metal_device_from_layer(handle);
 
         SpoopyNativeCFFI.spoopy_assign_metal_surface(handle, device);
     }

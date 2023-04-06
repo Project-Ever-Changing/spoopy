@@ -13,9 +13,9 @@
 #endif
 
 namespace lime {
-    class SpoopyWindowSurface {
+    class SpoopyWindowRenderer {
         public:
-            virtual ~SpoopyWindowSurface() {};
+            virtual ~SpoopyWindowRenderer() {};
 
             virtual void render() = 0;
             virtual void clear() = 0;
@@ -34,10 +34,11 @@ namespace lime {
 
             #ifdef SPOOPY_METAL
             virtual void assignMetalDevice(value __layerDevice) = 0;
+            virtual void updateMetalDescriptor() = 0;
             #endif
     };
 
     #ifdef SPOOPY_SDL
-    SpoopyWindowSurface* createWindowSurface(const SDLWindow &m_window);
+    SpoopyWindowRenderer* createWindowRenderer(const SDLWindow &m_window);
     #endif
 }

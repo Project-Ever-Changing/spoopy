@@ -18,7 +18,7 @@ class SpoopyCameraStorage {
     public var viewpoints(default, null):Array<SpoopyCamera>;
 
     /*
-    * `parent` is the memory allocation to the scene of the application.
+    * `parent` is the parent scene.
     */
     public var parent(default, null):SpoopyScene;
 

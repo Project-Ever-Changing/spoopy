@@ -2,6 +2,8 @@ package spoopy.obj;
 
 import lime.math.Matrix4;
 
+import spoopy.graphics.SpoopyBufferType;
+import spoopy.graphics.manager.TriangleBufferManager;
 import spoopy.graphics.vertices.VertexBufferObject;
 import spoopy.obj.s3d.SpoopyNode3D;
 import spoopy.obj.display.SpoopyDisplayObject;
@@ -50,6 +52,7 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
     */
     public var axis(default, set):SpoopyRotationMode = EULER;
 
+    @:noCompletion var __triangleBuffers:TriangleBufferManager;
     @:noCompletion var __vertices:VertexBufferObject;
     @:noCompletion var __position:SpoopyPoint;
     @:noCompletion var __rotation:SpoopyPoint;
@@ -60,6 +63,7 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
     #end
 
     public function new() {
+        __triangleBuffers = new TriangleBufferManager();
         __vertices = new VertexBufferObject();
         __position = new SpoopyPoint(x, y, z);
         __rotation = new SpoopyPoint(angleX, angleY, angleZ);
@@ -126,11 +130,12 @@ class SpoopyCamera implements SpoopyNode3D implements SpoopyDisplayObject {
 
     public function render():Void {
         if(__vertexDirty) {
+            var verticeBuffer = __triangleBuffers.vertices;
+
             __vertices.update();
+            __triangleBuffers.createBuffers(verticeBuffer, verticeBuffer.byteLength, VERTEX);
             __vertexDirty = false;
         }
-
-        __vertices.setVertexBuffer();
     }
 
     public function update(elapsed:Float):Void {

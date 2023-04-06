@@ -1,9 +1,11 @@
 #include "MetalShader.h"
 
+#include <map>
+
 namespace lime {
     MetalShader::MetalShader(value window_surface, value device) {
         shader_device = (id<MTLDevice>)val_data(device);
-        windowSurface = (SpoopyWindowSurface*)val_data(window_surface);
+        windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
 
         pd = [MTLRenderPipelineDescriptor new];
     }
@@ -77,7 +79,6 @@ namespace lime {
     }
 
     MetalShader::~MetalShader() {
-        release(shader_device);
         release(vertexFunction);
         release(fragmentFunction);
         release(pd);

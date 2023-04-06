@@ -14,8 +14,9 @@
 #endif
 
 #if defined(SPOOPY_VULKAN) || defined(SPOOPY_METAL)
-#include <ui/SpoopyWindowSurface.h>
+#include <ui/SpoopyWindowRenderer.h>
 #include <shaders/Shader.h>
+#include <graphics/Buffer.h>
 #endif
 
 #ifdef SPOOPY_INCLUDE_EXAMPLE
@@ -50,7 +51,7 @@ namespace lime {
     value spoopy_create_instance_device(value window, HxString name, int major, int minor, int patch) {
         const int version[3] = {major, minor, patch};
 
-        SpoopyWindowSurface* targetWindowSurface = (SpoopyWindowSurface*)val_data(window);
+        SpoopyWindowRenderer* targetWindowSurface = (SpoopyWindowRenderer*)val_data(window);
 
         InstanceDevice* instanceDevice = new InstanceDevice(*targetWindowSurface);
         instanceDevice -> createInstance(name.c_str(), version);
@@ -83,7 +84,7 @@ namespace lime {
         InstanceDevice* instance = (InstanceDevice*)val_data(instance_handle);
         PhysicalDevice* physical = (PhysicalDevice*)val_data(physical_handle);
         LogicalDevice* logical = (LogicalDevice*)val_data(logical_handle);
-        SpoopyWindowSurface* window = (SpoopyWindowSurface*)val_data(window_handle);
+        SpoopyWindowRenderer* window = (SpoopyWindowRenderer*)val_data(window_handle);
 
         SurfaceDevice* surface = new SurfaceDevice(*instance, *physical, *logical, *window);
         return CFFIPointer(surface, apply_gc_surface);
@@ -95,13 +96,13 @@ namespace lime {
 #ifdef SPOOPY_METAL
 
     void spoopy_assign_metal_surface(value window_surface, value metal_device) {
-        SpoopyWindowSurface* windowSurface = (SpoopyWindowSurface*)val_data(window_surface);
+        SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
         windowSurface -> assignMetalDevice(metal_device);
     }
     DEFINE_PRIME2v(spoopy_assign_metal_surface);
 
     void spoopy_surface_set_vertex_buffer(value window_surface, value buffer, int offset, int atIndex) {
-        SpoopyWindowSurface* windowSurface = (SpoopyWindowSurface*)val_data(window_surface);
+        SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
         windowSurface -> setVertexBuffer(buffer, offset, atIndex);
     }
     DEFINE_PRIME4v(spoopy_surface_set_vertex_buffer);
@@ -127,7 +128,7 @@ namespace lime {
 #if defined(SPOOPY_VULKAN) || defined(SPOOPY_METAL)
 
     void apply_gc_window_surface(value handle) {
-        SpoopyWindowSurface* windowSurface = (SpoopyWindowSurface*)val_data(handle);
+        SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(handle);
         delete windowSurface;
     }
 
@@ -136,34 +137,39 @@ namespace lime {
         delete shader;
     }
 
+    void apply_gc_buffer(value handle) {
+        Buffer* buffer = (Buffer*)val_data(handle);
+        delete buffer;
+    }
+
     value spoopy_create_window_surface(value window_handle) {
         SDLWindow* window = (SDLWindow*)val_data(window_handle);
 
-        SpoopyWindowSurface* windowSurface = createWindowSurface(*window);
+        SpoopyWindowRenderer* windowSurface = createWindowRenderer(*window);
         return CFFIPointer(windowSurface, apply_gc_window_surface);
     }
     DEFINE_PRIME1(spoopy_create_window_surface);
 
     void spoopy_update_window_surface(value window_surface) {
-        SpoopyWindowSurface* windowSurface = (SpoopyWindowSurface*)val_data(window_surface);
+        SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
         windowSurface -> render();
     }
     DEFINE_PRIME1v(spoopy_update_window_surface);
 
     void spoopy_release_window_surface(value window_surface) {
-        SpoopyWindowSurface* windowSurface = (SpoopyWindowSurface*)val_data(window_surface);
+        SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
         windowSurface -> clear();
     }
     DEFINE_PRIME1v(spoopy_release_window_surface);
 
     void spoopy_set_surface_cull_face(value window_surface, int cullMode) {
-        SpoopyWindowSurface* windowSurface = (SpoopyWindowSurface*)val_data(window_surface);
+        SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
         windowSurface -> cullFace(cullMode);
     }
     DEFINE_PRIME2v(spoopy_set_surface_cull_face);
 
     void spoopy_set_vertex_buffer(value window_surface, value buffer, int offset, int atIndex) {
-        SpoopyWindowSurface* windowSurface = (SpoopyWindowSurface*)val_data(window_surface);
+        SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
         windowSurface -> setVertexBuffer(buffer, offset, atIndex);
     }
     DEFINE_PRIME4v(spoopy_set_vertex_buffer);
@@ -193,24 +199,49 @@ namespace lime {
     DEFINE_PRIME1v(spoopy_cleanup_shader);
 
     void spoopy_bind_shader(value window_surface, value pipeline) {
-        SpoopyWindowSurface* windowSurface = (SpoopyWindowSurface*)val_data(window_surface);
+        SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
         windowSurface -> useProgram(pipeline);
     }
     DEFINE_PRIME2v(spoopy_bind_shader);
 
+    value spoopy_create_buffer(value device, int size, int bucketSize, int type, int usage) {
+        Buffer* buffer = createBuffer(device, size, bucketSize, type, usage);
+        return CFFIPointer(buffer, apply_gc_buffer);
+    }
+    DEFINE_PRIME5(spoopy_create_buffer);
+
+    int spoopy_get_buffer_length_bytes(value buffer_handle) {
+        Buffer* buffer = (Buffer*)val_data(buffer_handle);
+        return (int)buffer -> getSize();
+    }
+    DEFINE_PRIME1(spoopy_get_buffer_length_bytes);
+
+    void spoopy_update_buffer_data(value buffer_handle, double data, int size) {
+        Buffer* buffer = (Buffer*)val_data(buffer_handle);
+        buffer -> updateData((void*)(uintptr_t)data, (std::size_t)size);
+    }
+    DEFINE_PRIME3v(spoopy_update_buffer_data);
+
+    void spoopy_update_buffer_sub_data(value buffer_handle, double data, int offset, int size) {
+        Buffer* buffer = (Buffer*)val_data(buffer_handle);
+        buffer -> updateSubData((void*)(uintptr_t)data, (std::size_t)offset, (std::size_t)size);
+    }
+    DEFINE_PRIME4v(spoopy_update_buffer_sub_data);
+
+    void spoopy_buffer_begin_frame(value buffer_handle) {
+        Buffer* buffer = (Buffer*)val_data(buffer_handle);
+        buffer -> beginFrame();
+    }
+    DEFINE_PRIME1v(spoopy_buffer_begin_frame);
+
     void spoopy_set_shader_uniform(value _shader, value uniform_handle, int offset, int loc, double val, int numRegs) {
         Shader* shader = (Shader*)val_data(_shader);
 
-        #ifdef SPOOPY_METAL
+#ifdef SPOOPY_METAL
         shader -> setShaderUniform(uniform_handle, offset, loc, (void*)(uintptr_t)val, numRegs);
-        #endif
+#endif
     }
     DEFINE_PRIME6v(spoopy_set_shader_uniform);
-
-    bool spoopy_compare_two_buffers(value buffer1, value buffer2) {
-        return SpoopyBufferHelper::compareTwoBuffers(buffer1, buffer2);
-    }
-    DEFINE_PRIME2(spoopy_compare_two_buffers);
 
 #endif
 
@@ -228,10 +259,6 @@ namespace lime {
     DEFINE_PRIME4(spoopy_create_example_window);
 
 #endif
-
-
-    //Other
-
 
     //Testing Purposes
 

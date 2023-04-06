@@ -1,114 +1,52 @@
 package spoopy.graphics;
 
-#if (spoopy_vulkan || spoopy_metal)
+import spoopy.obj.SpoopyObject;
 import spoopy.graphics.other.SpoopySwapChain;
-#end
+import spoopy.graphics.SpoopyBufferType;
+import spoopy.backend.native.SpoopyNativeBuffer;
 
-import spoopy.util.SpoopyArrayTools;
-import spoopy.util.SpoopyFloatBuffer;
+import lime.utils.ArrayBufferView;
+import lime.utils.DataPointer;
+import lime.utils.Log;
 
-import lime.utils.BytePointer;
+class SpoopyBuffer implements SpoopyObject {
+    public var size(default, null):Int;
+    public var bucketSize(default, null):Int;
+    public var type(default, null):SpoopyBufferType;
 
-#if (spoopy_vulkan || spoopy_metal)
-@:access(spoopy.graphics.other.SpoopySwapChain)
-#end
-class SpoopyBuffer {
-    public var data(default, null):SpoopyFloatBuffer;
+    @:noCompletion var __device(default, null):SpoopySwapChain;
+    @:noCompletion var __buffer(default, null):SpoopyNativeBuffer;
 
-    public var length(default, null):Int;
-    public var bucketSize(default, null):UInt;
-
-    @:noCompletion var __bufferIndex:Int = 0;
-    @:noCompletion var __indexPointerSize:Int = 0;
-
-    @:noCompletion var __indexPointers:Map<Int, Int>;
-    @:noCompletion var __cachedBackend:Array<SpoopyBufferBackend>;
-    @:noCompletion var __backend:SpoopyBufferBackend;
-    @:noCompletion var __initialize:Bool;
-
-    #if (spoopy_vulkan || spoopy_metal)
-    @:noCompletion var __device:SpoopySwapChain;
-    #end
-
-    public function new(data:SpoopyFloatBuffer, length:Int, bucketSize:UInt = 0) {
-        this.data = data;
-        this.length = length;
+    public function new(device:SpoopySwapChain, size:Int, bucketSize:Int = 1, type:SpoopyBufferType) {
+        this.type = type;
+        this.size = size;
         this.bucketSize = bucketSize;
+        this.__device = device;
 
-        __indexPointers = new Map<Int, Int>();
-        __cachedBackend = [];
+        __buffer = new SpoopyNativeBuffer(type, size, bucketSize);
     }
 
-    public function updateBuffers(data:SpoopyFloatBuffer, length:Int):Void {
-        #if (spoopy_vulkan || spoopy_metal)
-        if(__device == null) {
-            return;
-        }
-        #end
-
-        var index:Int = 0;
-        var bb:SpoopyBufferBackend = null;
-
-        this.data = data;
-        this.length = length;
-
-        if(__indexPointers.exists(length)) {
-            bb = __cachedBackend[__indexPointers[length]];
-            bb.copyMemory(data, length);
-            __backend = bb;
-
-            return; 
-        }
-
-        __cachedBackend[__bufferIndex] = createBackendBuffer(data, length);
-        bb = __cachedBackend[__bufferIndex];
-        __indexPointers.set(length, __bufferIndex);
-        __bufferIndex = (__bufferIndex + 1) % bucketSize;
-        __indexPointerSize++;
-
-        if(__indexPointerSize > bucketSize) {
-            __indexPointers.remove(__cachedBackend[0].bytesLength);
-            __indexPointerSize--;
-        }
-
-        __backend = bb;
-    }
-
-    public function init():Void {
-        #if (spoopy_vulkan || spoopy_metal)
-        if(__device == null) {
-            return;
-        }
-        #end
-
-        if(__initialize) {
+    public function updateData(data:ArrayBufferView):Void {
+        if(data.byteLength != size) {
+            Log.error("Size of data does not match buffer size!");
             return;
         }
 
-        __cachedBackend[__bufferIndex] = createBackendBuffer(data, length);
-        __backend = __cachedBackend[__bufferIndex];
-        __indexPointers.set(length, 0);
-        __indexPointerSize++;
-        __bufferIndex = (__bufferIndex + 1) % bucketSize;
-
-        __initialize = true;
+        __buffer.updateData(data, this.size);
     }
 
-    #if (spoopy_vulkan || spoopy_metal)
-    public function bindToDevice(device:SpoopySwapChain):Void {
-        if(__device != null) {
+    public function updateSubData(index:Int, subData:DataPointer, size:Int):Void {
+        if(index >= size) {
+            Log.error("Index out of bounds!");
             return;
         }
 
-        __device = device;
+        this.size = size;
+        __buffer.updateSubData(index, subData, this.size);
     }
-    #end
 
-    @:noCompletion private function createBackendBuffer(data:SpoopyFloatBuffer, length:Int):SpoopyBufferBackend {
-        return new SpoopyBufferBackend(__device.__surface, length, data);
+    public function destroy():Void {
+        __buffer = null;
+        __device = null;
     }
 }
-
-#if spoopy_metal
-typedef SpoopyBufferBackend = spoopy.backend.native.metal.SpoopyBufferMetal;
-#end

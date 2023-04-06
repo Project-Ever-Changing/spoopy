@@ -16,14 +16,14 @@ class SpoopyNativeCFFI {
     public static var spoopy_update_window_surface = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_update_window_surface", "ov", false));
     public static var spoopy_release_window_surface = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_release_window_surface", "ov", false));
     public static var spoopy_set_surface_cull_face = new cpp.Callable<cpp.Object->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_surface_cull_face", "oiv", false));
+    public static var spoopy_create_buffer = new cpp.Callable<cpp.Object->Int->Int->Int->Int->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_buffer", "oiiiiv", false));
     public static var spoopy_get_buffer_length_bytes = new cpp.Callable<cpp.Object->Int>(cpp.Prime._loadPrime("lime", "spoopy_get_buffer_length_bytes", "oi", false));
-    public static var spoopy_set_vertex_buffer = new cpp.Callable<cpp.Object->cpp.Object->Int->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_vertex_buffer", "ooiiv", false));
+    public static var spoopy_update_buffer_data = new cpp.Callable<cpp.Object->lime.utils.DataPointer->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_update_buffer_data", "odiv", false));
     public static var spoopy_create_shader = new cpp.Callable<cpp.Object->cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_shader", "ooo", false));
     public static var spoopy_create_shader_pipeline = new cpp.Callable<cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_shader_pipeline", "oo", false));
     public static var spoopy_specialize_shader = new cpp.Callable<cpp.Object->String->String->String->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_specialize_shader", "osssv", false));
     public static var spoopy_cleanup_shader = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_cleanup_shader", "ov", false));
     public static var spoopy_bind_shader = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_bind_shader", "oov", false));
-    public static var spoopy_compare_two_buffers = new cpp.Callable<cpp.Object->cpp.Object->Bool>(cpp.Prime._loadPrime("lime", "spoopy_compare_two_buffers", "oob", false));
     public static var spoopy_set_shader_uniform = new cpp.Callable<cpp.Object->cpp.Object->Int->Int->lime.utils.DataPointer->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_shader_uniform", "ooiidiv"));
     #end
 
@@ -33,20 +33,17 @@ class SpoopyNativeCFFI {
     public static var spoopy_release_window_surface = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_release_window_surface", "ov", false));
     public static var spoopy_assign_metal_surface = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_assign_metal_surface", "oov", false));
     public static var spoopy_create_metal_default_device = new cpp.Callable<Void->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_metal_default_device", "o", false));
-    public static var spoopy_create_metal_buffer = new cpp.Callable<cpp.Object->lime.utils.DataPointer->Int->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_metal_buffer", "odio", false));
-    public static var spoopy_copy_buffer_to_buffer = new cpp.Callable<cpp.Object->lime.utils.DataPointer->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_copy_buffer_to_buffer", "odiv", false));
-    public static var spoopy_surface_set_vertex_buffer = new cpp.Callable<cpp.Object->cpp.Object->Int->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_surface_set_vertex_buffer", "ooiiv", false));
+    public static var spoopy_get_metal_device_from_layer = new cpp.Callable<cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_get_metal_device_from_layer", "oo", false));
     public static var spoopy_set_surface_cull_face = new cpp.Callable<cpp.Object->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_surface_cull_face", "oiv", false));
+    public static var spoopy_create_buffer = new cpp.Callable<cpp.Object->Int->Int->Int->Int->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_buffer", "oiiiiv", false));
     public static var spoopy_get_buffer_length_bytes = new cpp.Callable<cpp.Object->Int>(cpp.Prime._loadPrime("lime", "spoopy_get_buffer_length_bytes", "oi", false));
-    public static var spoopy_set_vertex_buffer = new cpp.Callable<cpp.Object->cpp.Object->Int->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_vertex_buffer", "ooiiv", false));
+    public static var spoopy_update_buffer_data = new cpp.Callable<cpp.Object->lime.utils.DataPointer->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_update_buffer_data", "odiv", false));
     public static var spoopy_spv_to_metal_shader = new cpp.Callable<String->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_spv_to_metal_shader", "so", false));
     public static var spoopy_create_shader = new cpp.Callable<cpp.Object->cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_shader", "ooo", false));
     public static var spoopy_create_shader_pipeline = new cpp.Callable<cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_shader_pipeline", "oo", false));
     public static var spoopy_specialize_shader = new cpp.Callable<cpp.Object->String->String->String->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_specialize_shader", "osssv", false));
     public static var spoopy_cleanup_shader = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_cleanup_shader", "ov", false));
     public static var spoopy_bind_shader = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_bind_shader", "oov", false));
-    public static var spoopy_create_metal_buffer_length = new cpp.Callable<cpp.Object->Int->Int->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_metal_buffer_length", "oiio", false));
-    public static var spoopy_compare_two_buffers = new cpp.Callable<cpp.Object->cpp.Object->Bool>(cpp.Prime._loadPrime("lime", "spoopy_compare_two_buffers", "oob", false));
     public static var spoopy_set_shader_uniform = new cpp.Callable<cpp.Object->cpp.Object->Int->Int->lime.utils.DataPointer->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_shader_uniform", "ooiidiv"));
     #end
 
@@ -66,14 +63,15 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_window_surface = CFFI.load("lime", "spoopy_create_window_surface", 1);
     public static var spoopy_update_window_surface = CFFI.load("lime", "spoopy_update_window_surface", 1);
     public static var spoopy_set_surface_cull_face = CFFI.load("lime", "spoopy_set_surface_cull_face", 2);
+    public static var spoopy_create_buffer = CFFI.load("lime", "spoopy_create_buffer", 5);
+    public static var spoopy_get_buffer_length_bytes = CFFI.load("lime", "spoopy_get_buffer_length_bytes", 1);
+    public static var spoopy_update_buffer_data = CFFI.load("lime", "spoopy_update_buffer_data", 3);
     public static var spoopy_release_window_surface = CFFI.load("lime", "spoopy_release_window_surface", 1);
-    public static var spoopy_set_vertex_buffer = CFFI.load("lime", "spoopy_set_vertex_buffer", 4);
     public static var spoopy_create_shader = CFFI.load("lime", "spoopy_create_shader", 2);
     public static var spoopy_create_shader_pipeline = CFFI.load("lime", "spoopy_create_shader_pipeline", 1);
     public static var spoopy_specialize_shader = CFFI.load("lime", "spoopy_specialize_shader", 4);
     public static var spoopy_cleanup_shader = CFFI.load("lime", "spoopy_cleanup_shader", 1);
     public static var spoopy_bind_shader = CFFI.load("lime", "spoopy_bind_shader", 2);
-    public static var spoopy_compare_two_buffers = CFFI.load("lime", "spoopy_compare_two_buffers", 2);
     public static var spoopy_set_shader_uniform = CFFI.load("lime", "spoopy_set_shader_uniform", 6);
     #end
 
@@ -83,20 +81,17 @@ class SpoopyNativeCFFI {
     public static var spoopy_release_window_surface = CFFI.load("lime", "spoopy_release_window_surface", 1);
     public static var spoopy_assign_metal_surface = CFFI.load("lime", "spoopy_assign_metal_surface", 2);
     public static var spoopy_create_metal_default_device = CFFI.load("lime", "spoopy_create_metal_default_device", 0);
-    public static var spoopy_create_metal_buffer = CFFI.load("lime", "spoopy_create_metal_buffer", 3);
-    public static var spoopy_copy_buffer_to_buffer = CFFI.load("lime", "spoopy_copy_buffer_to_buffer", 3);
-    public static var spoopy_surface_set_vertex_buffer = CFFI.load("lime", "spoopy_surface_set_vertex_buffer", 4);
+    public static var spoopy_get_metal_device_from_layer = CFFI.load("lime", "spoopy_get_metal_device_from_layer", 1);
     public static var spoopy_set_surface_cull_face = CFFI.load("lime", "spoopy_set_surface_cull_face", 2);
+    public static var spoopy_create_buffer = CFFI.load("lime", "spoopy_create_buffer", 5);
     public static var spoopy_get_buffer_length_bytes = CFFI.load("lime", "spoopy_get_buffer_length_bytes", 1);
-    public static var spoopy_set_vertex_buffer = CFFI.load("lime", "spoopy_set_vertex_buffer", 4);
+    public static var spoopy_update_buffer_data = CFFI.load("lime", "spoopy_update_buffer_data", 3);
     public static var spoopy_spv_to_metal_shader = CFFI.load("lime", "spoopy_spv_to_metal_shader", 1);
     public static var spoopy_create_shader = CFFI.load("lime", "spoopy_create_shader", 2);
     public static var spoopy_create_shader_pipeline = CFFI.load("lime", "spoopy_create_shader_pipeline", 1);
     public static var spoopy_specialize_shader = CFFI.load("lime", "spoopy_specialize_shader", 4);
     public static var spoopy_cleanup_shader = CFFI.load("lime", "spoopy_cleanup_shader", 1);
     public static var spoopy_bind_shader = CFFI.load("lime", "spoopy_bind_shader", 2);
-    public static var spoopy_create_metal_buffer_length = CFFI.load("lime", "spoopy_create_metal_buffer_length", 3);
-    public static var spoopy_compare_two_buffers = CFFI.load("lime", "spoopy_compare_two_buffers", 2);
     public static var spoopy_set_shader_uniform = CFFI.load("lime", "spoopy_set_shader_uniform", 6);
     #end
 
@@ -137,10 +132,6 @@ class SpoopyNativeCFFI {
         return;
     }
 
-    public static function spoopy_set_vertex_buffer(surface:Dynamic, buffer:Dynamic, offset:Int, atIndex:Int):Void {
-        return;
-    }
-
     public static function spoopy_create_shader(window_surface:Dynamic, device:Dynamic):Dynamic {
         return null;
     }
@@ -161,12 +152,16 @@ class SpoopyNativeCFFI {
         return;
     }
 
-    public static function spoopy_compare_two_buffers(buffer1:Dynamic, buffer2:Dynamic):Bool {
-        return false;
-    }
-
     public static function spoopy_set_shader_uniform(shader:Dynamic, uniform:Dynamic, offset:Int, loc:Int, val:Float, numRegs:Int):Void {
         return;
+    }
+
+    public static function spoopy_create_buffer(buffer_handle:Dynamic, size:Int, bucketSize:Int, type:Int, usage:Int):Dynamic {
+        return null;
+    }
+
+    public static function spoopy_get_buffer_length_bytes(buffer:Dynamic):Int {
+        return 0;
     }
     #end
 
@@ -191,28 +186,20 @@ class SpoopyNativeCFFI {
         return null;
     }
 
-    public static function spoopy_create_metal_buffer(buffer:Dynamic, data:Float, size:Int):Dynamic {
+    public static function spoopy_get_metal_device_from_layer(surface:Dynamic):Dynamic {
         return null;
-    }
-
-    public static function spoopy_copy_buffer_to_buffer(buffer1:Dynamic, data:Float, size:Int):Void {
-        return;
-    }
-
-    public static function spoopy_surface_set_vertex_buffer(surface:Dynamic, buffer:Dynamic, offset:Int, atIndex:Int):Void {
-        return;
     }
 
     public static function spoopy_set_surface_cull_face(surface:Dynamic, cullMode:Int):Void {
         return;
     }
 
-    public static function spoopy_get_buffer_length_bytes(buffer:Dynamic):Int {
-        return 0;
+    public static function spoopy_create_buffer(buffer_handle:Dynamic, size:Int, bucketSize:Int, type:Int, usage:Int):Dynamic {
+        return null;
     }
 
-    public static function spoopy_set_vertex_buffer(surface:Dynamic, buffer:Dynamic, offset:Int, atIndex:Int):Void {
-        return;
+    public static function spoopy_get_buffer_length_bytes(buffer:Dynamic):Int {
+        return 0;
     }
 
     public static function spoopy_spv_to_metal_shader(shader:String):Dynamic {
@@ -237,14 +224,6 @@ class SpoopyNativeCFFI {
 
     public static function spoopy_bind_shader(surface:Dynamic, shader:Dynamic):Void {
         return;
-    }
-
-    public static function spoopy_create_metal_buffer_length(device:Dynamic, length:Int, options:Int):Dynamic {
-        return null;
-    }
-
-    public static function spoopy_compare_two_buffers(buffer1:Dynamic, buffer2:Dynamic):Bool {
-        return false;
     }
 
     public static function spoopy_set_shader_uniform(shader:Dynamic, uniform:Dynamic, offset:Int, loc:Int, val:Float, numRegs:Int):Void {

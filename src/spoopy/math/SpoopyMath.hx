@@ -1,5 +1,8 @@
 package spoopy.math;
 
+import lime.math.Matrix3;
+import lime.math.Matrix4;
+
 /*
 * A class that encompasses a collection of math functions.
 */

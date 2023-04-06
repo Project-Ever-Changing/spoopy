@@ -1,6 +1,7 @@
 package spoopy.frontend.storage;
 
 import spoopy.graphics.SpoopyScene;
+import spoopy.app.SpoopyApplication;
 import spoopy.rendering.SpoopyShader;
 
 import lime.utils.Log;
@@ -18,11 +19,13 @@ class SpoopyShaderStorage {
     private var shaders:Map<String, SpoopyShader>;
 
     /*
-    * `parent` is the memory allocation to the scene of the application.
+    * `parent` is the parent scene.
     */
     public var parent(default, null):SpoopyScene;
 
     @:allow(spoopy.graphics.SpoopyScene) private function new(parent:SpoopyScene) {
+        bucketSize = SpoopyApplication.SPOOPY_CONFIG_MAX_FRAME_LATENCY;
+
         shaders = new Map<String, SpoopyShader>();
         list = new Array<SpoopyShader>();
 
@@ -37,11 +40,13 @@ class SpoopyShaderStorage {
     * @return The `SpoopyShader` object that was added.
     */
     public function add(name:String, shader:SpoopyShader):SpoopyShader {
-        shader.assignName(name);
-        shader.bindDevice(parent);
+        if(list.indexOf(shader) == -1){list.push(s);}else{return;}
+        if(!shaders.exists(shader)){shaders.set(name, s);}else{return;}
 
-        if(list.indexOf(shader) == -1)list.push(s);
-        if(!shaders.exists(shader))shaders.set(name, s);
+        shader.assignName(name);
+        shader.assignDevice(parent);
+        shader.assignParent(this);
+
         return shader;
     }
 

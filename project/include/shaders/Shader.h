@@ -2,7 +2,7 @@
 
 #include <system/CFFIPointer.h>
 #include <helpers/SpoopyRenderTypes.h>
-#include <ui/SpoopyWindowSurface.h>
+#include <ui/SpoopyWindowRenderer.h>
 
 namespace lime {
     class Shader {
@@ -22,7 +22,7 @@ namespace lime {
 
             virtual value createShaderPipeline() = 0;
         public:
-            SpoopyWindowSurface* windowSurface;
+            SpoopyWindowRenderer* windowSurface;
     };
 
     Shader* createShader(value window_surface, value device);
