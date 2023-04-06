@@ -45,6 +45,10 @@ class SpoopyBuffer implements SpoopyObject {
         __buffer.updateBufferSubData(index, subData, this.size);
     }
 
+    public function beginFrame():Void {
+        __buffer.beginFrame();
+    }
+
     public function destroy():Void {
         __buffer = null;
         __device = null;

@@ -77,7 +77,7 @@ class TriangleBufferManager implements SpoopyObject {
                 indexBuffer = buffer;
         }
 
-        buffer.update(data);
+        buffer.updateData(data);
     }
 
     public function destroy():Void {

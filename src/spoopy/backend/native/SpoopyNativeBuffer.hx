@@ -2,6 +2,7 @@ package spoopy.backend.native;
 
 import spoopy.graphics.other.SpoopySwapChain;
 import spoopy.graphics.SpoopyBufferType;
+import spoopy.graphics.SpoopyBufferUsage;
 
 import lime.utils.DataPointer;
 
