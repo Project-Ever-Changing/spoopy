@@ -21,9 +21,9 @@ class SpoopyShaderStorage {
     /*
     * `parent` is the parent scene.
     */
-    public var parent(default, null):SpoopySwapChain;
+    public var parent(default, null):SpoopyScene;
 
-    @:allow(spoopy.graphics.SpoopySwapChain) private function new(parent:SpoopySwapChain) {
+    @:allow(spoopy.graphics.SpoopyScene) private function new(parent:SpoopyScene) {
         shaders = new Map<String, SpoopyShader>();
         list = new Array<SpoopyShader>();
 

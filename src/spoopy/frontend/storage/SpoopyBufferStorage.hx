@@ -17,7 +17,7 @@ class SpoopyBufferStorage {
     */
     public var parent(default, null):SpoopySwapChain;
 
-    @:allow(spoopy.graphics.SpoopySwapChain) private function new(parent:SpoopySwapChain) {
+    @:allow(spoopy.graphics.other.SpoopySwapChain) private function new(parent:SpoopySwapChain) {
         list = new Array<SpoopyBuffer>();
 
         this.parent = parent;
