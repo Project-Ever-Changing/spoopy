@@ -1,6 +1,7 @@
 package spoopy.backend.native;
 
 import spoopy.graphics.other.SpoopySwapChain;
+import spoopy.graphics.SpoopyBufferType;
 
 @:access(spoopy.graphics.other.SpoopySwapChain)
 class SpoopyNativeBuffer {
