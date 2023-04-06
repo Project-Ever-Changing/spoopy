@@ -23,7 +23,7 @@ class SpoopyBuffer implements SpoopyObject {
         this.bucketSize = bucketSize;
         this.__device = device;
 
-        __buffer = new SpoopyNativeBuffer(type, size, bucketSize);
+        __buffer = new SpoopyNativeBuffer(device, type, size, bucketSize);
     }
 
     public function updateData(data:ArrayBufferView):Void {
@@ -32,7 +32,7 @@ class SpoopyBuffer implements SpoopyObject {
             return;
         }
 
-        __buffer.updateData(data, this.size);
+        __buffer.updateBufferData(data, this.size);
     }
 
     public function updateSubData(index:Int, subData:DataPointer, size:Int):Void {
@@ -42,7 +42,7 @@ class SpoopyBuffer implements SpoopyObject {
         }
 
         this.size = size;
-        __buffer.updateSubData(index, subData, this.size);
+        __buffer.updateBufferSubData(index, subData, this.size);
     }
 
     public function destroy():Void {
