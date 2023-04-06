@@ -19,6 +19,8 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_buffer = new cpp.Callable<cpp.Object->Int->Int->Int->Int->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_buffer", "oiiiiv", false));
     public static var spoopy_get_buffer_length_bytes = new cpp.Callable<cpp.Object->Int>(cpp.Prime._loadPrime("lime", "spoopy_get_buffer_length_bytes", "oi", false));
     public static var spoopy_update_buffer_data = new cpp.Callable<cpp.Object->lime.utils.DataPointer->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_update_buffer_data", "odiv", false));
+    public static var spoopy_update_buffer_sub_data = new cpp.Callable<cpp.Object->lime.utils.DataPointer->Int->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_update_buffer_sub_data", "odiiv", false));
+    public static var spoopy_buffer_begin_frame = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_buffer_begin_frame", "ov", false));
     public static var spoopy_create_shader = new cpp.Callable<cpp.Object->cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_shader", "ooo", false));
     public static var spoopy_create_shader_pipeline = new cpp.Callable<cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_shader_pipeline", "oo", false));
     public static var spoopy_specialize_shader = new cpp.Callable<cpp.Object->String->String->String->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_specialize_shader", "osssv", false));
@@ -38,6 +40,8 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_buffer = new cpp.Callable<cpp.Object->Int->Int->Int->Int->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_buffer", "oiiiiv", false));
     public static var spoopy_get_buffer_length_bytes = new cpp.Callable<cpp.Object->Int>(cpp.Prime._loadPrime("lime", "spoopy_get_buffer_length_bytes", "oi", false));
     public static var spoopy_update_buffer_data = new cpp.Callable<cpp.Object->lime.utils.DataPointer->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_update_buffer_data", "odiv", false));
+    public static var spoopy_update_buffer_sub_data = new cpp.Callable<cpp.Object->lime.utils.DataPointer->Int->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_update_buffer_sub_data", "odiiv", false));
+    public static var spoopy_buffer_begin_frame = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_buffer_begin_frame", "ov", false));
     public static var spoopy_spv_to_metal_shader = new cpp.Callable<String->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_spv_to_metal_shader", "so", false));
     public static var spoopy_create_shader = new cpp.Callable<cpp.Object->cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_shader", "ooo", false));
     public static var spoopy_create_shader_pipeline = new cpp.Callable<cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_shader_pipeline", "oo", false));
@@ -66,6 +70,8 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_buffer = CFFI.load("lime", "spoopy_create_buffer", 5);
     public static var spoopy_get_buffer_length_bytes = CFFI.load("lime", "spoopy_get_buffer_length_bytes", 1);
     public static var spoopy_update_buffer_data = CFFI.load("lime", "spoopy_update_buffer_data", 3);
+    public static var spoopy_update_buffer_sub_data = CFFI.load("lime", "spoopy_update_buffer_sub_data", 4);
+    public static var spoopy_buffer_begin_frame = CFFI.load("lime", "spoopy_buffer_begin_frame", 1);
     public static var spoopy_release_window_surface = CFFI.load("lime", "spoopy_release_window_surface", 1);
     public static var spoopy_create_shader = CFFI.load("lime", "spoopy_create_shader", 2);
     public static var spoopy_create_shader_pipeline = CFFI.load("lime", "spoopy_create_shader_pipeline", 1);
@@ -86,6 +92,8 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_buffer = CFFI.load("lime", "spoopy_create_buffer", 5);
     public static var spoopy_get_buffer_length_bytes = CFFI.load("lime", "spoopy_get_buffer_length_bytes", 1);
     public static var spoopy_update_buffer_data = CFFI.load("lime", "spoopy_update_buffer_data", 3);
+    public static var spoopy_update_buffer_sub_data = CFFI.load("lime", "spoopy_update_buffer_sub_data", 4);
+    public static var spoopy_buffer_begin_frame = CFFI.load("lime", "spoopy_buffer_begin_frame", 1);
     public static var spoopy_spv_to_metal_shader = CFFI.load("lime", "spoopy_spv_to_metal_shader", 1);
     public static var spoopy_create_shader = CFFI.load("lime", "spoopy_create_shader", 2);
     public static var spoopy_create_shader_pipeline = CFFI.load("lime", "spoopy_create_shader_pipeline", 1);
@@ -152,7 +160,7 @@ class SpoopyNativeCFFI {
         return;
     }
 
-    public static function spoopy_set_shader_uniform(shader:Dynamic, uniform:Dynamic, offset:Int, loc:Int, val:Float, numRegs:Int):Void {
+    public static function spoopy_set_shader_uniform(shader:Dynamic, uniform:Dynamic, offset:Int, loc:Int, val:lime.utils.DataPointer, numRegs:Int):Void {
         return;
     }
 
@@ -162,6 +170,18 @@ class SpoopyNativeCFFI {
 
     public static function spoopy_get_buffer_length_bytes(buffer:Dynamic):Int {
         return 0;
+    }
+
+    public static function spoopy_update_buffer_data(buffer:Dynamic, data:lime.utils.DataPointer, size:Int):Dynamic {
+        return null;
+    }
+
+    public static function spoopy_update_buffer_sub_data(buffer:Dynamic, data:lime.utils.DataPointer, offset:Int, size:Int):Dynamic {
+        return null;
+    }
+
+    public static function spoopy_buffer_begin_frame(buffer:Dynamic):Dynamic {
+        return null;
     }
     #end
 
@@ -226,8 +246,20 @@ class SpoopyNativeCFFI {
         return;
     }
 
-    public static function spoopy_set_shader_uniform(shader:Dynamic, uniform:Dynamic, offset:Int, loc:Int, val:Float, numRegs:Int):Void {
+    public static function spoopy_set_shader_uniform(shader:Dynamic, uniform:Dynamic, offset:Int, loc:Int, val:lime.utils.DataPointer, numRegs:Int):Void {
         return;
+    }
+
+    public static function spoopy_update_buffer_data(buffer:Dynamic, data:lime.utils.DataPointer, size:Int):Dynamic {
+        return null;
+    }
+
+    public static function spoopy_update_buffer_sub_data(buffer:Dynamic, data:lime.utils.DataPointer, offset:Int, size:Int):Dynamic {
+        return null;
+    }
+
+    public static function spoopy_buffer_begin_frame(buffer:Dynamic):Dynamic {
+        return null;
     }
     #end
 
