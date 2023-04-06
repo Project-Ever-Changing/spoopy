@@ -47,7 +47,6 @@ class SpoopyScene extends SpoopySwapChain {
 
         cameras = new SpoopyCameraStorage(this);
         shaders = new SpoopyShaderStorage(this);
-        graphics = new SpoopyGraphics();
 
         updateFramerate = Std.int(window.frameRate);
         renderFramerate = Std.int(window.frameRate);

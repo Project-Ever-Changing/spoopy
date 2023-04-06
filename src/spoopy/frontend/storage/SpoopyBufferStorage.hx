@@ -75,7 +75,7 @@ class SpoopyBufferStorage {
         
         while(index < list.length) {
             var buffer = list[index++];
-            buffer.destory();
+            buffer.destroy();
             buffer = null;
         }
     }

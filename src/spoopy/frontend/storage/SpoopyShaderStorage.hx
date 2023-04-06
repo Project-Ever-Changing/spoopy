@@ -24,8 +24,6 @@ class SpoopyShaderStorage {
     public var parent(default, null):SpoopyScene;
 
     @:allow(spoopy.graphics.SpoopyScene) private function new(parent:SpoopyScene) {
-        bucketSize = SpoopyApplication.SPOOPY_CONFIG_MAX_FRAME_LATENCY;
-
         shaders = new Map<String, SpoopyShader>();
         list = new Array<SpoopyShader>();
 
@@ -40,8 +38,8 @@ class SpoopyShaderStorage {
     * @return The `SpoopyShader` object that was added.
     */
     public function add(name:String, shader:SpoopyShader):SpoopyShader {
-        if(list.indexOf(shader) == -1){list.push(s);}else{return;}
-        if(!shaders.exists(shader)){shaders.set(name, s);}else{return;}
+        if(list.indexOf(shader) == -1){list.push(shader);}else{return;}
+        if(!shaders.exists(name)){shaders.set(name, shader);}else{return;}
 
         shader.assignName(name);
         shader.assignDevice(parent);

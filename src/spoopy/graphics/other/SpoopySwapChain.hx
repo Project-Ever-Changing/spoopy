@@ -28,7 +28,7 @@ class SpoopySwapChain extends WindowEventManager {
 
     public function new(application:SpoopyApplication) {
         this.application = application;
-        this.buffers = new SpoopyBufferStorage();
+        this.buffers = new SpoopyBufferStorage(this);
         super();
     }
 
