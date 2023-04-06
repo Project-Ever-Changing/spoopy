@@ -3,6 +3,7 @@ package spoopy.graphics;
 import spoopy.state.SpoopyState;
 import spoopy.app.SpoopyApplication;
 import spoopy.frontend.storage.SpoopyCameraStorage;
+import spoopy.frontend.storage.SpoopyShaderStorage;
 import spoopy.graphics.other.SpoopySwapChain;
 
 import lime.utils.Log;

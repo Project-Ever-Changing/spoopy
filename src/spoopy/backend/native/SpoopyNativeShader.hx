@@ -4,7 +4,6 @@ import lime.utils.Log;
 
 import spoopy.app.SpoopyApplication;
 import spoopy.obj.SpoopyObject;
-import spoopy.rendering.interfaces.ShaderReference;
 import spoopy.rendering.interfaces.ShaderType;
 
 #if (spoopy_vulkan || spoopy_metal)
