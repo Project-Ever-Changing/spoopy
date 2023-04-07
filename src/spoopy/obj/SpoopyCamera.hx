@@ -3,6 +3,8 @@ package spoopy.obj;
 import spoopy.graphics.SpoopyBufferType;
 import spoopy.graphics.manager.TriangleBufferManager;
 import spoopy.graphics.vertices.VertexBufferObject;
+import spoopy.rendering.command.SpoopyCommand;
+import spoopy.rendering.SpoopyDrawType;
 import spoopy.obj.display.SpoopyDisplayObject;
 import spoopy.obj.prim.SpoopyPrimitive;
 import spoopy.util.SpoopyFloatBuffer;
@@ -28,6 +30,8 @@ class SpoopyCamera implements SpoopyDisplayObject {
     */
     public var inScene(default, set):Bool = true;
 
+    @:noCompletion var __command:SpoopyCommand;
+
     @:noCompletion var __triangleBuffers:TriangleBufferManager;
     @:noCompletion var __vertices:VertexBufferObject;
     @:noCompletion var __vertexDirty:Bool;
@@ -39,6 +43,19 @@ class SpoopyCamera implements SpoopyDisplayObject {
     public function new() {
         __triangleBuffers = new TriangleBufferManager();
         __vertices = new VertexBufferObject();
+        __command = new SpoopyCommand(this, getCommandType());
+    }
+
+    public function getCommandType():SpoopyCommandType {
+        return SpoopyCommandType.UNKNOWN_COMMAND;
+    }
+
+    public function getFlags():UInt {
+        return 0;
+    }
+
+    public function getDepthInView():Float {
+        return 0;
     }
 
     public function render():Void {

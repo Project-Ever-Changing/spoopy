@@ -1,9 +1,13 @@
 package spoopy.obj.s3d;
 
+import spoopy.rendering.command.*;
+
 import spoopy.obj.SpoopyCamera;
 import spoopy.obj.data.SpoopyRotationMode;
 import spoopy.obj.s3d.SpoopyNode3D;
 import spoopy.obj.geom.SpoopyPoint;
+import spoopy.rendering.command.SpoopyCommand;
+import spoopy.rendering.SpoopyDrawType;
 import spoopy.math.SpoopyMath;
 import spoopy.math.SpoopyPointMath;
 
@@ -28,8 +32,14 @@ class SpoopyCamera3D extends SpoopyCamera implements SpoopyNode3D {
     */
     public var transform(default, null):Matrix4;
 
-    @:noCompletion var __position:SpoopyPoint;
-    @:noCompletion var __rotation:SpoopyPoint;
+    /*
+    * `view` handles the camera's position and rotation.
+    */
+    public var view(get, never):Matrix4;
+
+    @:noCompletion private var __view:Matrix4;
+    @:noCompletion private var __position:SpoopyPoint;
+    @:noCompletion private var __rotation:SpoopyPoint;
 
     public function new() {
         super();
@@ -112,6 +122,21 @@ class SpoopyCamera3D extends SpoopyCamera implements SpoopyNode3D {
         }
     }
 
+    public override function getCommandType():SpoopyCommandType {
+        return SpoopyCommandType.MESH_COMMAND;
+    }
+
+    public override function getFlags():UInt {
+        var flags:UInt = super.getFlags();
+        flags |= SpoopyRenderFlag.RENDER_AS_3D;
+        return flags;
+    }
+
+    public override function getDepthInView():Float {
+        var depth:Float = -(view[2] * transform[12] + view[6] * transform[13] + view[10] * transform[14] + view[14]);
+        return depth;
+    }
+
     public override function destroy():Void {
         super.destroy();
 
@@ -120,6 +145,9 @@ class SpoopyCamera3D extends SpoopyCamera implements SpoopyNode3D {
 
         this.__position = null;
         this.__rotation = null;
+
+        this.__view = null;
+        this.transform = null;
     }
 
     @:noCompletion function set_x(value:Float):Float {
@@ -160,5 +188,9 @@ class SpoopyCamera3D extends SpoopyCamera implements SpoopyNode3D {
         rotate(new SpoopyPoint(0, 0, 1), angleZ);
 
         return axis;
+    }
+
+    @:noCompletion function get_view():Matrix4 {
+        return __view;
     }
 }
