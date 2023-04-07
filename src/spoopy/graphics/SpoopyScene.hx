@@ -129,6 +129,11 @@ class SpoopyScene extends SpoopySwapChain {
         frameRate = renderFramerate;
     }
 
+    override function beginRenderPass():Void {
+        super.beginRenderPass();
+        
+    }
+
     #if desktop
     override function onWindowFocusIn():Void {
         super.onWindowFocusIn();

@@ -118,6 +118,14 @@ class SpoopyCameraStorage {
         }
     }
 
+    @:allow(spoopy.graphics.SpoopyScene) inline function beginRenderPass():Void {
+        for(cam in viewpoints) {
+            if((cam != null) && cam.inScene && cam.visible) {
+                cam.beginRenderPass();
+            }
+        }
+    }
+
     @:allow(spoopy.graphics.SpoopyScene) inline function update(elapsed:Float):Void {
         for(cam in viewpoints) {
             if((cam != null) && cam.inScene && cam.active) {

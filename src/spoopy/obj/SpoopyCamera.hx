@@ -13,7 +13,49 @@ import spoopy.util.SpoopyFloatBuffer;
 import spoopy.graphics.other.SpoopySwapChain;
 #end
 
+import lime.math.Rectangle;
+
 class SpoopyCamera implements SpoopyDisplayObject {
+
+    /*
+    * How many game pixels are displayed horizontally by the camera.
+    */
+    public var width(default, set):Int;
+
+    /*
+    * How many game pixels are displayed vertically by the camera.
+    */
+    public var height(default, set):Int;
+
+    /*
+    * The visible area of the world that gets cropped off on the left and right when the camera zooms in or out.
+    */
+    public var viewMarginX(default, null):Float;
+
+    /*
+    * The visible area of the world that gets cropped off on the top and bottom when the camera zooms in or out.
+    */
+    public var viewMarginY(default, null):Float;
+
+    /*
+    * The scaling on horizontal axis for this camera.
+    */
+    public var scaleX(default, null):Float = 0;
+
+    /*
+    * The scaling on vertical axis for this camera.
+    */
+    public var scaleY(default, null):Float = 0;
+
+    /*
+    * The default zoom level of the camera, which is utilized for managing its scaling.
+    */
+    public var initialZoom(default, null):Float = 1;
+
+    /*
+    * The current zoom level of the camera.
+    */
+    public var zoom(default, set):Float = 0;
 
     /*
     * If `update()` is automatically called;
@@ -36,14 +78,34 @@ class SpoopyCamera implements SpoopyDisplayObject {
     @:noCompletion var __vertices:VertexBufferObject;
     @:noCompletion var __vertexDirty:Bool;
 
+    @:noCompletion var __scissorRect:Rectangle;
+    @:noCompletion var __viewportRect:Rectangle;
+
     #if (spoopy_vulkan || spoopy_metal)
     @:allow(spoopy.frontend.storage.SpoopyCameraStorage) var device(default, set):SpoopySwapChain;
     #end
 
-    public function new() {
+    public function new(zoom:Float = 0) {
         __triangleBuffers = new TriangleBufferManager();
         __vertices = new VertexBufferObject();
         __command = new SpoopyCommand(this, getCommandType());
+        __scissorRect = new Rectangle(0, 0, width, height);
+
+        initialZoom = (zoom < 0) ? 0 : zoom;
+
+    }
+
+    public function setScale(scaleX:Float, scaleY:Float):Void {
+        this.scaleX = scaleX;
+        this.scaleY = scaleY;
+
+        if(this.scaleX == scaleX) {
+            calcMarginX();
+        }
+
+        if(this.scaleY == scaleY) {
+            calcMarginY();
+        }
     }
 
     public function getCommandType():SpoopyCommandType {
@@ -56,6 +118,10 @@ class SpoopyCamera implements SpoopyDisplayObject {
 
     public function getDepthInView():Float {
         return 0;
+    }
+
+    public function beginRenderFrame():Void {
+        
     }
 
     public function render():Void {
@@ -93,22 +159,61 @@ class SpoopyCamera implements SpoopyDisplayObject {
         return Type.getClassName(Type.getClass(this)).split(".").pop();
     }
 
-    @:noCompletion function set_active(value:Bool):Bool {
+    @:noCompletion private function set_active(value:Bool):Bool {
         return active = value;
     }
 
-    @:noCompletion function set_visible(value:Bool):Bool {
+    @:noCompletion private function set_visible(value:Bool):Bool {
         return visible = value;
     }
 
-    @:noCompletion function set_inScene(value:Bool):Bool {
+    @:noCompletion private function set_inScene(value:Bool):Bool {
         return inScene = value;
+    }
+
+    @:noCompletion private function set_width(value:Int):Int {
+        if(width != value && value > 0) {
+            width = value;
+            __scissorRect.width = value;
+
+            calcMarginX();
+        }
+
+        return value;
+    }
+
+    @:noCompletion private function set_height(value:Int):Int {
+        if(height != value && value > 0) {
+            height = value;
+            __scissorRect.height = value;
+
+            calcMarginY();
+        }
+
+        return value;
+    }
+
+    @:noCompletion private function set_zoom(value:Float):Float {
+        setScale(value, value);
+        return zoom = value;
     }
 
     #if (spoopy_vulkan || spoopy_metal)
     @:noCompletion function set_device(value:SpoopySwapChain):SpoopySwapChain {
         __vertices.bindToDevice(value);
+
+        width = value.window.width;
+        height = value.window.height;
+
         return device = value;
     }
     #end
+
+    private inline function calcMarginX():Void {
+        viewMarginX = 0.5 * width * (scaleX - initialZoom) / scaleX;
+    }
+
+    private inline function calcMarginY():Void {
+        viewMarginY = 0.5 * height * (scaleY - initialZoom) / scaleY;
+    }
 }

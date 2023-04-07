@@ -27,14 +27,12 @@ class SpoopySwapChain extends WindowEventManager {
     public var cullFace:SpoopyCullMode = CULL_MODE_NONE;
     public var winding:SpoopyWinding = CLOCKWISE;
 
-    public var viewport(get, never):Rectangle;
-
-    @:noCompletion private var __viewport:Rectangle;
     @:noCompletion private var __surface:SpoopyNativeSurface;
 
     public function new(application:SpoopyApplication) {
         this.application = application;
         this.buffers = new SpoopyBufferStorage(this);
+        this.__scissorRect = new Rectangle(0, 0, 0, 0);
         super();
     }
 
@@ -87,7 +85,6 @@ class SpoopySwapChain extends WindowEventManager {
 
     private function beginRenderPass():Void {
         __surface.beginRenderPass();
-        __surface.setViewport(__viewport);
         __surface.cullFace(cullFace);
         __surface.winding(winding);
     }
