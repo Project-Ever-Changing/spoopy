@@ -21,6 +21,7 @@ namespace lime {
             virtual void clear() = 0;
 
             virtual void cullFace(int cullMode) = 0;
+            virtual void setWinding(int winding) = 0;
             virtual void setVertexBuffer(value __buffer, int __offset, int __atIndex) = 0;
             virtual void useProgram(value __pipeline) = 0;
 

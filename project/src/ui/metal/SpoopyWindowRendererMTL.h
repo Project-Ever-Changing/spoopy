@@ -29,6 +29,7 @@ namespace lime {
             virtual void clear();
 
             virtual void cullFace(int cullMode);
+            virtual void setWinding(int winding);
 
             virtual CAMetalLayer* getMetalLayer() const;
 

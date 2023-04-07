@@ -77,6 +77,10 @@ namespace lime {
         commandBuffer -> setCullMode(cullMode);
     }
 
+    void SpoopyWindowRendererMTL::setWinding(int winding) {
+        commandBuffer -> setWinding(winding);
+    }
+
     CAMetalLayer* SpoopyWindowRendererMTL::getMetalLayer() const {
         return layer;
     }
