@@ -99,11 +99,11 @@ class SpoopyCamera implements SpoopyDisplayObject {
         this.scaleX = scaleX;
         this.scaleY = scaleY;
 
-        if(this.scaleX == scaleX) {
+        if(this.scaleX != scaleX) {
             calcMarginX();
         }
 
-        if(this.scaleY == scaleY) {
+        if(this.scaleY != scaleY) {
             calcMarginY();
         }
     }
