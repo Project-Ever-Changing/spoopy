@@ -5,6 +5,9 @@ import spoopy.obj.SpoopyCamera;
 
 import lime.math.Matrix4;
 
+/*
+* The based fundamental class for all commands.
+*/
 class SpoopyRenderCommand implements SpoopyObject {
     public var vcam(default, null):SpoopyCamera;
 

@@ -5,9 +5,9 @@
 
 #ifdef SPOOPY_METAL
 #import "../helpers/metal/SpoopyMetalHelpers.h"
-#else
-#include <helpers/SpoopyRenderTypes.h>
 #endif
+
+#include <helpers/SpoopyRenderTypes.h>
 
 namespace lime {
     class CommandBuffer {
@@ -18,6 +18,7 @@ namespace lime {
             virtual void endFrame() = 0;
             virtual void setRenderPipeline(SpoopyPipelineState& renderPipeline) = 0;
             virtual void setViewport(Rectangle* rect) = 0;
+            virtual void setScissor(bool isEnabled, Rectangle* rect) = 0;
             virtual void setCullMode(int cullMode) = 0;
             virtual void setWinding(int winding) = 0;
             virtual void setIndexBuffer(Buffer* buffer) = 0;

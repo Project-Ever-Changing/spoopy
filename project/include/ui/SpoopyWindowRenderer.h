@@ -24,7 +24,9 @@ namespace lime {
             virtual void setWinding(int winding) = 0;
             virtual void setVertexBuffer(value __buffer, int __offset, int __atIndex) = 0;
             virtual void setViewport(Rectangle* rect) = 0;
+            virtual void setScissorMode(bool isEnabled, Rectangle* rect) = 0;
             virtual void useProgram(value __pipeline) = 0;
+            virtual void beginRenderPass() = 0;
 
             #ifdef SPOOPY_SDL
             virtual const SDLWindow& getWindow() const = 0;

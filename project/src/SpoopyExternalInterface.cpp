@@ -184,6 +184,22 @@ namespace lime {
     }
     DEFINE_PRIME2v(spoopy_set_surface_viewport);
 
+    void spoopy_set_surface_scissor_rect(value window_surface, value rect, bool enabled) {
+        SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
+
+        if(!val_is_null(rect)) {
+            Rectangle rectangle = Rectangle(rect);
+            windowSurface -> setScissorMode(enabled, &rectangle);
+        }
+    }
+    DEFINE_PRIME3v(spoopy_set_surface_scissor_rect);
+
+    void spoopy_surface_begin_render_pass(value window_surface) {
+        SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
+        windowSurface -> beginRenderPass();
+    }
+    DEFINE_PRIME1v(spoopy_surface_begin_render_pass);
+
     void spoopy_set_vertex_buffer(value window_surface, value buffer, int offset, int atIndex) {
         SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
         windowSurface -> setVertexBuffer(buffer, offset, atIndex);

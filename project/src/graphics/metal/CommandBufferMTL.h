@@ -17,6 +17,7 @@ namespace lime {
             virtual void refreshRenderCommandEncoder(MTLRenderPassDescriptor* renderPassDescriptor);
             virtual void setRenderPipeline(SpoopyPipelineState& renderPipeline);
             virtual void setViewport(Rectangle* rect);
+            virtual void setScissor(bool isEnabled, Rectangle* rect);
             virtual void setCullMode(int cullMode);
             virtual void setWinding(int winding);
             virtual void setIndexBuffer(Buffer* buffer);

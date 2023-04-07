@@ -96,6 +96,36 @@ namespace lime {
         [_renderCommandEncoder setViewport:viewport];
     }
 
+    void CommandBufferMTL::setScissor(bool isEnabled, Rectangle* rect) {
+        MTLScissorRect scissorRect;
+
+        if(isEnabled) {
+            rect -> y = (int)(_renderTargetHeight - rect -> y - rect -> height);
+
+            int minX = CLAMP((int)rect -> x, 0, (int)_renderTargetWidth);
+            int minY = CLAMP((int)rect -> y, 0, (int)_renderTargetHeight);
+            int maxX = CLAMP((int)(rect -> x + rect -> width), 0, (int)_renderTargetWidth);
+            int maxY = CLAMP((int)(rect -> y + rect -> height), 0, (int)_renderTargetHeight);
+
+            scissorRect.x = minX;
+            scissorRect.y = minY;
+            scissorRect.width = maxX - minX;
+            scissorRect.height = maxY - minY;
+
+            if(scissorRect.width == 0 || scissorRect.height == 0) {
+                scissorRect.width = 0;
+                scissorRect.height = 0;
+            }
+        }else {
+            scissorRect.x = 0;
+            scissorRect.y = 0;
+            scissorRect.width = _renderTargetWidth;
+            scissorRect.height = _renderTargetHeight;
+        }
+
+        [_renderCommandEncoder setScissorRect:scissorRect];
+    }
+
     void CommandBufferMTL::setCullMode(int cullMode) {
         switch(cullMode) {
             case 0x0404:

@@ -8,6 +8,7 @@ import spoopy.window.WindowEventManager;
 import spoopy.frontend.storage.SpoopyBufferStorage;
 import spoopy.backend.native.SpoopyNativeShader;
 import spoopy.graphics.SpoopyBuffer;
+import spoopy.rendering.command.SpoopyCommand;
 import spoopy.rendering.SpoopyCullMode;
 import spoopy.rendering.SpoopyWinding;
 
@@ -23,11 +24,13 @@ class SpoopySwapChain extends WindowEventManager {
 
     public var atIndexVertex(default, null):Int = 0;
 
-    public var cullMode(default, set):SpoopyCullMode = CULL_MODE_NONE;
-    public var windingMode(default, set):SpoopyWinding = CLOCKWISE;
+    public var cullFace:SpoopyCullMode = CULL_MODE_NONE;
+    public var winding:SpoopyWinding = CLOCKWISE;
 
+    public var viewport(get, never):Rectangle;
+
+    @:noCompletion private var __viewport:Rectangle;
     @:noCompletion private var __surface:SpoopyNativeSurface;
-    @:noCompletion private var __cullDirty:Bool;
 
     public function new(application:SpoopyApplication) {
         this.application = application;
@@ -56,15 +59,18 @@ class SpoopySwapChain extends WindowEventManager {
         atIndexVertex++;
     }
 
+    public function drawBasedOnCommand(command:SpoopyCommand):Void {
+        if(command.beforeCallback != null) {
+            command.beforeCallback();
+        }
+
+        beginRenderPass();
+    }
+
     public override function onWindowUpdate():Void {
         super.onWindowUpdate();
 
         atIndexVertex = 0;
-
-        if(__cullDirty) {
-            __surface.cullFace(cullMode);
-            __cullDirty = false;
-        }
 
         __surface.updateWindow();
         buffers.beginFrame();
@@ -76,13 +82,14 @@ class SpoopySwapChain extends WindowEventManager {
 
     private override function onWindowChangedSize(width:Int, height:Int):Void {
         super.onWindowChangedSize(width, height);
-        setViewport(0, 0, width, height);
+        __viewport = new Rectangle(0, 0, width, height);
     }
 
-    private function setViewport(x:Int, y:Int, width:Int, height:Int):Void {
-        var rect:Rectangle = new Rectangle(x, y, width, height);
-        __surface.setViewport(rect);
-        rect = null;
+    private function beginRenderPass():Void {
+        __surface.beginRenderPass();
+        __surface.setViewport(__viewport);
+        __surface.cullFace(cullFace);
+        __surface.winding(winding);
     }
 
     @:noCompletion override private function __registerWindowModule(window:Window):Void {
@@ -102,22 +109,8 @@ class SpoopySwapChain extends WindowEventManager {
         buffers = null;
     }
 
-    @:noCompletion private function set_cullMode(value:SpoopyCullMode):SpoopyCullMode {
-        if(cullMode == value) {
-            return value;
-        }
-
-        __cullDirty = true;
-        return cullMode = value;
-    }
-
-    @:noCompletion private function set_windingMode(value:SpoopyWinding):SpoopyWinding {
-        if(windingMode == value) {
-            return value;
-        }
-
-        __surface.winding(value);
-        return windingMode = value;
+    @:noCompletion private function get_viewport():Rectangle {
+        return __viewport.clone();
     }
 }
 

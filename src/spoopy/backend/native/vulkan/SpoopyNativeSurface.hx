@@ -51,6 +51,10 @@ class SpoopyNativeSurface {
         SpoopyNativeCFFI.spoopy_set_surface_viewport(handle, rect);
     }
 
+    public function beginRenderPass():Void {
+        SpoopyNativeCFFI.spoopy_begin_render_pass(handle);
+    }
+
     public function updateWindow():Void {
         SpoopyNativeCFFI.spoopy_update_window_surface(handle);
     }

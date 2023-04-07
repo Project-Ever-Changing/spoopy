@@ -55,6 +55,10 @@ namespace lime {
         commandBuffer -> setViewport(rect);
     }
 
+    void SpoopyWindowRendererMTL::setScissorMode(bool isEnabled, Rectangle* rect) {
+        commandBuffer -> setScissor(isEnabled, rect);
+    }
+
     void SpoopyWindowRendererMTL::useProgram(value __pipeline) {
         SpoopyPipelineState pipelineState = (SpoopyPipelineState)val_data(__pipeline);
         commandBuffer -> setRenderPipeline(pipelineState);
@@ -70,6 +74,9 @@ namespace lime {
 
         _surface = [layer nextDrawable];
         commandBuffer -> storeDrawable(_surface);
+    }
+
+    void SpoopyWindowRendererMTL::beginRenderPass() {
         commandBuffer -> refreshRenderCommandEncoder(renderPassDescriptor);
     }
 

@@ -24,7 +24,9 @@ namespace lime {
             virtual void assignMetalDevice(value __layerDevice);
             virtual void setVertexBuffer(value __buffer, int __offset, int __atIndex);
             virtual void setViewport(Rectangle* rect);
+            virtual void setScissorMode(bool isEnabled, Rectangle* rect);
             virtual void useProgram(value __pipeline);
+            virtual void beginRenderPass();
 
             virtual void render();
             virtual void clear();
