@@ -1,5 +1,7 @@
 package spoopy.rendering;
 
+#if lime
+
 import lime.graphics.opengl.GL;
 
 @:enum abstract SpoopyCullMode(UInt) from UInt to UInt {
@@ -16,3 +18,5 @@ import lime.graphics.opengl.GL;
     /* specifies that all triangles are discarded */
     var CULL_MODE_FRONT_AND_BACK = GL.FRONT_AND_BACK;
 }
+
+#end

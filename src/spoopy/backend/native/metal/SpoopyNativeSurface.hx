@@ -4,6 +4,7 @@ import spoopy.backend.native.SpoopyNativeCFFI;
 import spoopy.backend.native.SpoopyNativeShader;
 import spoopy.graphics.SpoopyBuffer;
 import spoopy.rendering.SpoopyCullMode;
+import spoopy.rendering.SpoopyWinding;
 
 import lime._internal.backend.native.NativeWindow;
 import lime.app.Application;
@@ -31,6 +32,10 @@ class SpoopyNativeSurface {
 
     public function cullFace(cullMode:SpoopyCullMode):Void {
         SpoopyNativeCFFI.spoopy_set_surface_cull_face(handle, cullMode);
+    }
+
+    public function winding(winding:SpoopyWinding):Void {
+        SpoopyNativeCFFI.spoopy_set_surface_winding(handle, winding);
     }
 
     public function updateWindow():Void {

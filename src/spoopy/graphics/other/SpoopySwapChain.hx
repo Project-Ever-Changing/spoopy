@@ -8,6 +8,7 @@ import spoopy.frontend.storage.SpoopyBufferStorage;
 import spoopy.backend.native.SpoopyNativeShader;
 import spoopy.graphics.SpoopyBuffer;
 import spoopy.rendering.SpoopyCullMode;
+import spoopy.rendering.SpoopyWinding
 
 @:access(lime.ui.Window)
 class SpoopySwapChain extends WindowEventManager {
@@ -22,6 +23,7 @@ class SpoopySwapChain extends WindowEventManager {
     public var atIndexVertex(default, null):Int = 0;
 
     public var cullMode(default, set):SpoopyCullMode = CULL_MODE_NONE;
+    public var windingMode(default, set):SpoopyWinding = CLOCKWISE;
 
     @:noCompletion private var __surface:SpoopyNativeSurface;
     @:noCompletion private var __cullDirty:Bool;
@@ -95,6 +97,15 @@ class SpoopySwapChain extends WindowEventManager {
 
         __cullDirty = true;
         return cullMode = value;
+    }
+
+    @:noCompletion private function set_windingMode(value:SpoopyWinding):SpoopyWinding {
+        if(windingMode == value) {
+            return value;
+        }
+
+        __surface.winding(value);
+        return windingMode = value;
     }
 }
 

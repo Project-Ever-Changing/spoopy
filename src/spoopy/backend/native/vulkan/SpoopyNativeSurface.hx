@@ -42,6 +42,10 @@ class SpoopyNativeSurface {
         SpoopyNativeCFFI.spoopy_set_surface_cull_face(handle, cullMode);
     }
 
+    public function winding(winding:SpoopyWinding):Void {
+        SpoopyNativeCFFI.spoopy_set_surface_winding(handle, winding);
+    }
+
     public function updateWindow():Void {
         SpoopyNativeCFFI.spoopy_update_window_surface(handle);
     }
