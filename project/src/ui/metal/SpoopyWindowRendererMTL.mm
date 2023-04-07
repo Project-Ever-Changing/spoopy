@@ -51,6 +51,10 @@ namespace lime {
         commandBuffer -> setVertexBuffer(bufferOBJ, __offset, __atIndex);
     }
 
+    void SpoopyWindowRendererMTL::setViewport(Rectangle* rect) {
+        commandBuffer -> setViewport(rect);
+    }
+
     void SpoopyWindowRendererMTL::useProgram(value __pipeline) {
         SpoopyPipelineState pipelineState = (SpoopyPipelineState)val_data(__pipeline);
         commandBuffer -> setRenderPipeline(pipelineState);

@@ -55,7 +55,7 @@ class SpoopySwapChain extends WindowEventManager {
         atIndexVertex++;
     }
 
-    override public function onWindowUpdate():Void {
+    public override function onWindowUpdate():Void {
         super.onWindowUpdate();
 
         atIndexVertex = 0;
@@ -71,6 +71,15 @@ class SpoopySwapChain extends WindowEventManager {
         onUpdate();
 
         __surface.release();
+    }
+
+    public override function onWindowChangedSize():Void {
+        super.onWindowChangedSize();
+
+    }
+
+    private function setViewport(x:Int, y:Int, width:Int, height:Int):Void {
+
     }
 
     @:noCompletion override private function __registerWindowModule(window:Window):Void {

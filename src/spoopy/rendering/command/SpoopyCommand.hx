@@ -3,6 +3,9 @@ package spoopy.rendering.command;
 import spoopy.graphics.SpoopyBuffer;
 
 class SpoopyCommand extends SpoopyRenderCommand {
+    public var beforeCallback:Void->Void;
+    public var afterCallback:Void->Void;
+
     public var vertexDrawStart(get, never):Int;
     public var vertexDrawCount(get, never):Int;
 

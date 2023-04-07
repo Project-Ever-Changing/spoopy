@@ -23,6 +23,7 @@ namespace lime {
             virtual void updateMetalDescriptor();
             virtual void assignMetalDevice(value __layerDevice);
             virtual void setVertexBuffer(value __buffer, int __offset, int __atIndex);
+            virtual void setViewport(Rectangle* rect);
             virtual void useProgram(value __pipeline);
 
             virtual void render();
