@@ -1,6 +1,7 @@
 package spoopy.graphics.other;
 
 import lime.ui.Window;
+import lime.math.Rectangle;
 
 import spoopy.app.SpoopyApplication;
 import spoopy.window.WindowEventManager;
@@ -73,13 +74,15 @@ class SpoopySwapChain extends WindowEventManager {
         __surface.release();
     }
 
-    public override function onWindowChangedSize():Void {
-        super.onWindowChangedSize();
-
+    private override function onWindowChangedSize(width:Int, height:Int):Void {
+        super.onWindowChangedSize(width, height);
+        setViewport(0, 0, width, height);
     }
 
     private function setViewport(x:Int, y:Int, width:Int, height:Int):Void {
-
+        var rect:Rectangle = new Rectangle(x, y, width, height);
+        __surface.setViewport(rect);
+        rect = null;
     }
 
     @:noCompletion override private function __registerWindowModule(window:Window):Void {

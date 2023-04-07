@@ -7,6 +7,7 @@ import spoopy.rendering.SpoopyCullMode;
 import spoopy.rendering.SpoopyWinding;
 
 import lime._internal.backend.native.NativeWindow;
+import lime.math.Rectangle;
 import lime.app.Application;
 
 @:access(spoopy.graphics.SpoopyBuffer)
@@ -36,6 +37,10 @@ class SpoopyNativeSurface {
 
     public function winding(winding:SpoopyWinding):Void {
         SpoopyNativeCFFI.spoopy_set_surface_winding(handle, winding);
+    }
+
+    public function setViewport(rect:Rectangle):Void {
+        SpoopyNativeCFFI.spoopy_set_surface_viewport(handle, rect);
     }
 
     public function updateWindow():Void {
