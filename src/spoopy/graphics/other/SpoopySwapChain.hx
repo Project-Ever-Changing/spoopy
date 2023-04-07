@@ -9,7 +9,7 @@ import spoopy.frontend.storage.SpoopyBufferStorage;
 import spoopy.backend.native.SpoopyNativeShader;
 import spoopy.graphics.SpoopyBuffer;
 import spoopy.rendering.SpoopyCullMode;
-import spoopy.rendering.SpoopyWinding
+import spoopy.rendering.SpoopyWinding;
 
 @:access(lime.ui.Window)
 class SpoopySwapChain extends WindowEventManager {
