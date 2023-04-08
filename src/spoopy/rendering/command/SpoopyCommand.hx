@@ -1,7 +1,6 @@
 package spoopy.rendering.command;
 
 import spoopy.graphics.SpoopyBuffer;
-import spoopy.rendering.command.SpoopyCommandType;
 import spoopy.obj.SpoopyCamera;
 
 class SpoopyCommand extends SpoopyRenderCommand {
@@ -34,7 +33,7 @@ class SpoopyCommand extends SpoopyRenderCommand {
     @:noCompletion private var __vertexCapacity:Int = 0;
     @:noCompletion private var __indexCapacity:Int = 0;
 
-    public function new(vcam:SpoopyCamera, type:SpoopyCommandType) {
+    public function new(vcam:SpoopyCamera) {
         super(vcam);
 
         __type = type;

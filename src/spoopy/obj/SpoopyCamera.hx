@@ -115,6 +115,8 @@ class SpoopyCamera implements SpoopyDisplayObject {
 
         initialZoom = (zoom < 0) ? 0 : zoom;
         this.zoom = initialZoom;
+
+        __command.init(getFlags());
     }
 
     public function setScale(scaleX:Float, scaleY:Float):Void {

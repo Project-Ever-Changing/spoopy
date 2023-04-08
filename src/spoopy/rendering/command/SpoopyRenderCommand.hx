@@ -11,18 +11,14 @@ import lime.math.Matrix4;
 class SpoopyRenderCommand implements SpoopyObject {
     public var vcam(default, null):SpoopyCamera;
 
-    public var globalOrder(get, never):Float;
     public var depth(get, never):Float;
-    public var type(get, never):SpoopyCommandType;
     public var mat4(get, never):Matrix4;
 
     public var transparent(get, set):Bool;
     public var skipBatching(get, set):Bool;
     public var is3D(get, set):Bool;
 
-    @:noCompletion private var __globalOrder:Float = 0;
     @:noCompletion private var __depth:Float = 0;
-    @:noCompletion private var __type:SpoopyCommandType = SpoopyCommandType.UNKNOWN_COMMAND;
     @:noCompletion private var __transparent:Bool = true;
     @:noCompletion private var __skipBatching:Bool = false;
     @:noCompletion private var __is3D:Bool = false;
@@ -32,7 +28,7 @@ class SpoopyRenderCommand implements SpoopyObject {
         this.vcam = vcam;
     }
 
-    public function init(globalZOrder:Float, ?flags:UInt = 0):Void {
+    public function init(?flags:UInt = 0):Void {
         __depth = vcam.getDepthInView();
         if((flags & SpoopyRenderFlag.RENDER_AS_3D) != 0)__is3D = true;
     }
@@ -62,16 +58,8 @@ class SpoopyRenderCommand implements SpoopyObject {
     * Getters.
     */
 
-    @:noCompletion private function get_globalOrder():Float {
-        return __globalOrder;
-    }
-
     @:noCompletion private function get_depth():Float {
         return __depth;
-    }
-
-    @:noCompletion private function get_type():SpoopyCommandType {
-        return __type;
     }
 
     @:noCompletion private function get_transparent():Bool {
