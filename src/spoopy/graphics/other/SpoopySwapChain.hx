@@ -11,6 +11,7 @@ import spoopy.graphics.SpoopyBuffer;
 import spoopy.rendering.command.SpoopyCommand;
 import spoopy.rendering.SpoopyCullMode;
 import spoopy.rendering.SpoopyWinding;
+import spoopy.rendering.SpoopyDrawType;
 
 @:access(lime.ui.Window)
 class SpoopySwapChain extends WindowEventManager {
@@ -52,25 +53,12 @@ class SpoopySwapChain extends WindowEventManager {
         __surface.useProgram(shader);
     }
 
-    public function setVertexBuffer(buffer:SpoopyBuffer, offset:Int):Void {
-        __surface.setVertexBuffer(buffer, offset, atIndexVertex);
-        atIndexVertex++;
-    }
-
     public function setViewport(rect:Rectangle):Void {
         __surface.setViewport(rect);
     }
 
     public function setScissor(rect:Rectangle, enabled:Bool):Void {
         __surface.setScissorRect(rect, enabled);
-    }
-
-    public function drawBasedOnCommand(command:SpoopyCommand):Void {
-        if(command.beforeCallback != null) {
-            command.beforeCallback();
-        }
-
-        beginRenderPass();
     }
 
     public override function onWindowUpdate():Void {
@@ -86,10 +74,30 @@ class SpoopySwapChain extends WindowEventManager {
         __surface.release();
     }
 
+    private function drawBasedOnCommand(command:SpoopyCommand):Void {
+        if(command.beforeCallback != null) {
+            command.beforeCallback();
+        }
+
+        beginRenderPass();
+        setVertexBuffer(command.vertexBuffer, 0);
+
+        if(command.drawType == ELEMENTS) {
+
+        }else {
+            
+        }
+    }
+
     private function beginRenderPass():Void {
         __surface.beginRenderPass();
         __surface.cullFace(cullFace);
         __surface.winding(winding);
+    }
+
+    private function setVertexBuffer(buffer:SpoopyBuffer, offset:Int):Void {
+        __surface.setVertexBuffer(buffer, offset, atIndexVertex);
+        atIndexVertex++;
     }
 
     @:noCompletion override private function __registerWindowModule(window:Window):Void {

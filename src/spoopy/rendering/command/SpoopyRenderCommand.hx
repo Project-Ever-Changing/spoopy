@@ -14,11 +14,13 @@ class SpoopyRenderCommand implements SpoopyObject {
     public var depth(get, never):Float;
     public var mat4(get, never):Matrix4;
 
+    public var drawType(get, set):SpoopyDrawType;
     public var transparent(get, set):Bool;
     public var skipBatching(get, set):Bool;
     public var is3D(get, set):Bool;
 
     @:noCompletion private var __depth:Float = 0;
+    @:noCompletion private var __drawType:SpoopyDrawType;
     @:noCompletion private var __transparent:Bool = true;
     @:noCompletion private var __skipBatching:Bool = false;
     @:noCompletion private var __is3D:Bool = false;
@@ -26,6 +28,8 @@ class SpoopyRenderCommand implements SpoopyObject {
 
     private function new(vcam:SpoopyCamera) {
         this.vcam = vcam;
+
+        __drawType = SpoopyDrawType.ELEMENTS;
     }
 
     public function init(?flags:UInt = 0):Void {
@@ -40,6 +44,10 @@ class SpoopyRenderCommand implements SpoopyObject {
     /*
     * Setters.
     */
+
+    @:noCompletion private function set_drawType(value:SpoopyDrawType):SpoopyDrawType {
+        return __drawType = value;
+    }
 
     @:noCompletion private function set_transparent(value:Bool):Bool {
         return __transparent = value;
@@ -57,6 +65,10 @@ class SpoopyRenderCommand implements SpoopyObject {
     /*
     * Getters.
     */
+
+    @:noCompletion private function get_drawType():SpoopyDrawType {
+        return __drawType;
+    }
 
     @:noCompletion private function get_depth():Float {
         return __depth;

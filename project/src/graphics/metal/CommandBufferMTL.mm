@@ -160,7 +160,7 @@ namespace lime {
     }
 
     void CommandBufferMTL::setIndexBuffer(Buffer* buffer) {
-        assert(buffer != nullptr);
+        SPOOPY_ASSERT(buffer != nullptr);
 
         if(!buffer) {
             return;

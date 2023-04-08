@@ -18,8 +18,8 @@ class SpoopyCommand extends SpoopyRenderCommand {
     public var vertexCapacity(get, never):Int;
     public var indexCapacity(get, never):Int;
 
-    @:noCompletion private var __vertexBuffer:SpoopyBuffer;
-    @:noCompletion private var __indexBuffer:SpoopyBuffer;
+    public var vertexBuffer(default, null):SpoopyBuffer;
+    public var indexBuffer(default, null):SpoopyBuffer;
 
     @:noCompletion private var __vertexDrawStart:Int = 0;
     @:noCompletion private var __vertexDrawCount:Int = 0;
@@ -35,8 +35,6 @@ class SpoopyCommand extends SpoopyRenderCommand {
 
     public function new(vcam:SpoopyCamera) {
         super(vcam);
-
-        __type = type;
     }
 
     public inline function setVertexDrawInfo(start:Int, count:Int):Void {
@@ -50,26 +48,26 @@ class SpoopyCommand extends SpoopyRenderCommand {
     }
 
     public function setVertexBuffer(vertexBuffer:SpoopyBuffer):Void {
-        if(__vertexBuffer != vertexBuffer && __vertexBuffer != null) {
-            __vertexBuffer.destroy();
+        if(vertexBuffer != vertexBuffer && vertexBuffer != null) {
+            vertexBuffer.destroy();
         }
 
-        __vertexBuffer = vertexBuffer;
+        vertexBuffer = vertexBuffer;
     }
 
     public function setIndexBuffer(indexBuffer:SpoopyBuffer):Void {
-        if(__indexBuffer != indexBuffer && __indexBuffer != null) {
-            __indexBuffer.destroy();
+        if(indexBuffer != indexBuffer && indexBuffer != null) {
+            indexBuffer.destroy();
         }
 
-        __indexBuffer = indexBuffer;
+        indexBuffer = indexBuffer;
     }
 
     public override function destroy():Void {
         super.destroy();
 
-        __vertexBuffer = null;
-        __indexBuffer = null;
+        vertexBuffer = null;
+        indexBuffer = null;
     }
 
     /*

@@ -206,6 +206,12 @@ namespace lime {
     }
     DEFINE_PRIME4v(spoopy_set_vertex_buffer);
 
+    void spoopy_set_index_buffer(value window_surface, value buffer) {
+        SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
+        windowSurface -> setIndexBuffer(buffer);
+    }
+    DEFINE_PRIME2v(spoopy_set_index_buffer);
+
     value spoopy_create_shader(value window_surface, value device) {
         Shader* shader = createShader(window_surface, device);
         return CFFIPointer(shader, apply_gc_shader);

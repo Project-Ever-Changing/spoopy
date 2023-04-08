@@ -51,6 +51,11 @@ namespace lime {
         commandBuffer -> setVertexBuffer(bufferOBJ, __offset, __atIndex);
     }
 
+    void SpoopyWindowRendererMTL::setIndexBuffer(value __buffer) {
+        Buffer* bufferOBJ = (Buffer*)val_data(__buffer);
+        commandBuffer -> setIndexBuffer(bufferOBJ);
+    }
+
     void SpoopyWindowRendererMTL::setViewport(Rectangle* rect) {
         commandBuffer -> setViewport(rect);
     }

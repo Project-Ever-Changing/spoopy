@@ -5,6 +5,7 @@ import spoopy.app.SpoopyApplication;
 import spoopy.frontend.storage.SpoopyCameraStorage;
 import spoopy.frontend.storage.SpoopyShaderStorage;
 import spoopy.graphics.other.SpoopySwapChain;
+import spoopy.rendering.command.SpoopyCommand;
 
 import lime.utils.Log;
 
@@ -28,9 +29,11 @@ class SpoopyScene extends SpoopySwapChain {
     public var renderFramerate(default, set):Int;
 
     @:noCompletion var __nextState:SpoopyState;
+    @:noCompletion var __commandQueue:Array<SpoopyCommand>;
 
     @:noCompletion var __initialize:Bool;
     @:noCompletion var __fullscreenDirty:Bool;
+    @:noCompletion var __drawOnCommandDirty:Bool;
     @:noCompletion var __focusDirty:Bool;
     @:noCompletion var __focusLost:Bool;
 
@@ -64,6 +67,10 @@ class SpoopyScene extends SpoopySwapChain {
         }
 
         __nextState = nextState;
+    }
+
+    public function addCommandToQueue(command:SpoopyCommand):Void {
+        __commandQueue.insert(0, command);
     }
 
     private function processSwitch():Void {
@@ -109,6 +116,11 @@ class SpoopyScene extends SpoopySwapChain {
 
         cameras.render();
         state.render();
+
+        while(__commandQueue.length > 0) {
+            drawBasedOnCommand(__commandQueue[0]);
+            __commandQueue.shift();
+        }
     }
 
     override function create():Void {

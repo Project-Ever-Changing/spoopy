@@ -23,6 +23,7 @@ namespace lime {
             virtual void cullFace(int cullMode) = 0;
             virtual void setWinding(int winding) = 0;
             virtual void setVertexBuffer(value __buffer, int __offset, int __atIndex) = 0;
+            virtual void setIndexBuffer(value __buffer) = 0;
             virtual void setViewport(Rectangle* rect) = 0;
             virtual void setScissorMode(bool isEnabled, Rectangle* rect) = 0;
             virtual void useProgram(value __pipeline) = 0;

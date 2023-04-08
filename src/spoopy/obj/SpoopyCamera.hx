@@ -3,7 +3,7 @@ package spoopy.obj;
 import spoopy.graphics.SpoopyBufferType;
 import spoopy.graphics.manager.TriangleBufferManager;
 import spoopy.graphics.vertices.VertexBufferObject;
-import spoopy.graphics.other.SpoopySwapChain;
+import spoopy.graphics.SpoopyScene;
 import spoopy.rendering.command.SpoopyCommand;
 import spoopy.rendering.SpoopyDrawType;
 import spoopy.obj.display.SpoopyDisplayObject;
@@ -97,13 +97,14 @@ class SpoopyCamera implements SpoopyDisplayObject {
     @:noCompletion var __command:SpoopyCommand;
 
     @:noCompletion var __triangleBuffers:TriangleBufferManager;
+
     @:noCompletion var __vertices:VertexBufferObject;
     @:noCompletion var __vertexDirty:Bool;
 
     @:noCompletion var __scissorRect:Rectangle;
     @:noCompletion var __viewportRect:Rectangle;
 
-    @:allow(spoopy.frontend.storage.SpoopyCameraStorage) var device(default, set):SpoopySwapChain;
+    @:allow(spoopy.frontend.storage.SpoopyCameraStorage) var device(default, set):SpoopyScene;
 
     public function new(zoom:Float = 0) {
         __triangleBuffers = new TriangleBufferManager();
@@ -156,8 +157,11 @@ class SpoopyCamera implements SpoopyDisplayObject {
             var verticeBuffer = __vertices.vertices;
             
             __triangleBuffers.createBuffer(verticeBuffer, verticeBuffer.byteLength, VERTEX);
+            __command.setVertexBuffer(vertexBuffer);
             __vertexDirty = false;
         }
+
+        device.addCommandToQueue(__command);
     }
 
     public function update(elapsed:Float):Void {
@@ -250,7 +254,7 @@ class SpoopyCamera implements SpoopyDisplayObject {
         return zoom = value;
     }
 
-    @:noCompletion function set_device(value:SpoopySwapChain):SpoopySwapChain {
+    @:noCompletion function set_device(value:SpoopyScene):SpoopyScene {
         __vertices.bindToDevice(value);
 
         width = value.window.width;
