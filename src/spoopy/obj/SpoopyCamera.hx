@@ -4,6 +4,7 @@ import spoopy.graphics.SpoopyBufferType;
 import spoopy.graphics.manager.TriangleBufferManager;
 import spoopy.graphics.vertices.VertexBufferObject;
 import spoopy.graphics.other.SpoopySwapChain;
+import spoopy.rendering.command.SpoopyCommandType;
 import spoopy.rendering.command.SpoopyCommand;
 import spoopy.rendering.SpoopyDrawType;
 import spoopy.obj.display.SpoopyDisplayObject;
