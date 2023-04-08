@@ -4,7 +4,6 @@ import spoopy.graphics.SpoopyBufferType;
 import spoopy.graphics.manager.TriangleBufferManager;
 import spoopy.graphics.vertices.VertexBufferObject;
 import spoopy.graphics.other.SpoopySwapChain;
-import spoopy.rendering.command.SpoopyCommandType;
 import spoopy.rendering.command.SpoopyCommand;
 import spoopy.rendering.SpoopyDrawType;
 import spoopy.obj.display.SpoopyDisplayObject;
@@ -109,7 +108,7 @@ class SpoopyCamera implements SpoopyDisplayObject {
     public function new(zoom:Float = 0) {
         __triangleBuffers = new TriangleBufferManager();
         __vertices = new VertexBufferObject();
-        __command = new SpoopyCommand(this, getCommandType());
+        __command = new SpoopyCommand(this);
         __viewportRect = new Rectangle(viewMarginX, viewMarginY, viewWidth, viewHeight);
         __scissorRect = new Rectangle(0, 0, width, height);
 
@@ -132,10 +131,6 @@ class SpoopyCamera implements SpoopyDisplayObject {
         }
 
         updateViewport();
-    }
-
-    public function getCommandType():SpoopyCommandType {
-        return SpoopyCommandType.UNKNOWN_COMMAND;
     }
 
     public function getFlags():UInt {

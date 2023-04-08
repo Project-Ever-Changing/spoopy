@@ -122,10 +122,6 @@ class SpoopyCamera3D extends SpoopyCamera implements SpoopyNode3D {
         }
     }
 
-    public override function getCommandType():SpoopyCommandType {
-        return SpoopyCommandType.MESH_COMMAND;
-    }
-
     public override function getFlags():UInt {
         var flags:UInt = super.getFlags();
         flags |= SpoopyRenderFlag.RENDER_AS_3D;
