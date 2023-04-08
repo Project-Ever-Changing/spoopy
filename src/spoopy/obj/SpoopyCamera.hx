@@ -3,19 +3,21 @@ package spoopy.obj;
 import spoopy.graphics.SpoopyBufferType;
 import spoopy.graphics.manager.TriangleBufferManager;
 import spoopy.graphics.vertices.VertexBufferObject;
+import spoopy.graphics.other.SpoopySwapChain;
 import spoopy.rendering.command.SpoopyCommand;
 import spoopy.rendering.SpoopyDrawType;
 import spoopy.obj.display.SpoopyDisplayObject;
 import spoopy.obj.prim.SpoopyPrimitive;
 import spoopy.util.SpoopyFloatBuffer;
 
-#if (spoopy_vulkan || spoopy_metal)
-import spoopy.graphics.other.SpoopySwapChain;
-#end
-
 import lime.math.Rectangle;
 
 class SpoopyCamera implements SpoopyDisplayObject {
+
+    /*
+    * Determines whether or not to enable scissoring in rendering.
+    */
+    public var enableScissor:Bool = true;
 
     /*
     * How many game pixels are displayed horizontally by the camera.
@@ -101,19 +103,17 @@ class SpoopyCamera implements SpoopyDisplayObject {
     @:noCompletion var __scissorRect:Rectangle;
     @:noCompletion var __viewportRect:Rectangle;
 
-    #if (spoopy_vulkan || spoopy_metal)
     @:allow(spoopy.frontend.storage.SpoopyCameraStorage) var device(default, set):SpoopySwapChain;
-    #end
 
     public function new(zoom:Float = 0) {
         __triangleBuffers = new TriangleBufferManager();
         __vertices = new VertexBufferObject();
         __command = new SpoopyCommand(this, getCommandType());
-        __viewportRect = new Rectangle(0, 0, viewWidth, viewHeight);
+        __viewportRect = new Rectangle(viewMarginX, viewMarginY, viewWidth, viewHeight);
         __scissorRect = new Rectangle(0, 0, width, height);
 
         initialZoom = (zoom < 0) ? 0 : zoom;
-
+        this.zoom = initialZoom;
     }
 
     public function setScale(scaleX:Float, scaleY:Float):Void {
@@ -144,7 +144,12 @@ class SpoopyCamera implements SpoopyDisplayObject {
     }
 
     public function beginRenderFrame():Void {
-        
+        device.setViewport(__viewportRect);
+        device.setScissor(__scissorRect);
+
+        /*
+        * TODO: Implement stencil.
+        */
     }
 
     public function render():Void {
@@ -247,7 +252,6 @@ class SpoopyCamera implements SpoopyDisplayObject {
         return zoom = value;
     }
 
-    #if (spoopy_vulkan || spoopy_metal)
     @:noCompletion function set_device(value:SpoopySwapChain):SpoopySwapChain {
         __vertices.bindToDevice(value);
 
@@ -256,7 +260,6 @@ class SpoopyCamera implements SpoopyDisplayObject {
 
         return device = value;
     }
-    #end
 
     private inline function calcMarginX():Void {
         viewMarginX = 0.5 * width * (scaleX - initialZoom) / scaleX;

@@ -43,9 +43,7 @@ class SpoopyCameraStorage {
         if(list.indexOf(cam) != -1) return cam;
         #end
 
-        #if (spoopy_vulkan || spoopy_metal)
         cam.device = parent;
-        #end
 
         list.push(cam);
         if(viewport)viewpoints.push(cam);

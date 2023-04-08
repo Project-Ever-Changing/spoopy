@@ -83,7 +83,6 @@ class SpoopyShaderStorage {
 
         list.splice(index, 1);
         shaders.remove(name);
-        shader.unbind();
 
         if(destroy) {
             shader.destroy();
@@ -108,7 +107,6 @@ class SpoopyShaderStorage {
         }
 
         shader.createShader(vertex, fragment, cache);
-        shader.bind();
     }
 
     /*
@@ -157,5 +155,11 @@ class SpoopyShaderStorage {
         }
 
         return false;
+    }
+
+    @:allow(spoopy.graphics.SpoopyScene) inline function bind():Void {
+        for(s in list) {
+            s.bind();
+        }
     }
 }

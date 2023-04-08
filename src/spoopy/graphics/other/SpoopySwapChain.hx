@@ -57,6 +57,14 @@ class SpoopySwapChain extends WindowEventManager {
         atIndexVertex++;
     }
 
+    public function setViewport(rect:Rectangle):Void {
+        __surface.setViewport(rect);
+    }
+
+    public function setScissor(rect:Rectangle, enabled:Bool):Void {
+        __surface.setScissorRect(rect, enabled);
+    }
+
     public function drawBasedOnCommand(command:SpoopyCommand):Void {
         if(command.beforeCallback != null) {
             command.beforeCallback();
@@ -76,11 +84,6 @@ class SpoopySwapChain extends WindowEventManager {
         onUpdate();
 
         __surface.release();
-    }
-
-    private override function onWindowChangedSize(width:Int, height:Int):Void {
-        super.onWindowChangedSize(width, height);
-        __viewport = new Rectangle(0, 0, width, height);
     }
 
     private function beginRenderPass():Void {
@@ -104,10 +107,6 @@ class SpoopySwapChain extends WindowEventManager {
 
         buffers.destroy();
         buffers = null;
-    }
-
-    @:noCompletion private function get_viewport():Rectangle {
-        return __viewport.clone();
     }
 }
 

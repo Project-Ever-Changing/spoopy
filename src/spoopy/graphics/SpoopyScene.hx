@@ -131,7 +131,8 @@ class SpoopyScene extends SpoopySwapChain {
 
     override function beginRenderPass():Void {
         super.beginRenderPass();
-        
+        cameras.beginRenderPass();
+        shaders.bind();
     }
 
     #if desktop
