@@ -2,6 +2,7 @@ package spoopy.rendering.command;
 
 import spoopy.graphics.SpoopyBuffer;
 import spoopy.rendering.command.SpoopyCommandType;
+import spoopy.obj.SpoopyCamera;
 
 class SpoopyCommand extends SpoopyRenderCommand {
     public var beforeCallback:Void->Void;
