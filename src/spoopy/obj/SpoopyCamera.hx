@@ -60,6 +60,11 @@ class SpoopyCamera implements SpoopyDisplayObject {
     public var viewMarginHeight(get, never):Float;
 
     /*
+    * The render instruction for this camera.
+    */
+    public var command(get, never):SpoopyCommand;
+
+    /*
     * The scaling on horizontal axis for this camera.
     */
     public var scaleX(default, null):Float = 0;
@@ -195,6 +200,10 @@ class SpoopyCamera implements SpoopyDisplayObject {
         __viewportRect.y = viewMarginY;
         __viewportRect.width = viewWidth;
         __viewportRect.height = viewHeight;
+    }
+
+    @:noCompletion private function get_command():SpoopyCommand {
+        return __command;
     }
 
     @:noCompletion private function get_viewWidth():Float {

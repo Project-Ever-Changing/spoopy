@@ -55,6 +55,10 @@ class SpoopyNativeSurface {
         SpoopyNativeCFFI.spoopy_set_surface_scissor_rect(handle, rect, enabled);
     }
 
+    public function setLineWidth(width:Float):Void {
+        SpoopyNativeCFFI.spoopy_set_surface_line_width(handle, width);
+    }
+
     public function updateWindow():Void {
         SpoopyNativeCFFI.spoopy_update_window_surface(handle);
     }
