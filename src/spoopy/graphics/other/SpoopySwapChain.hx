@@ -32,7 +32,7 @@ class SpoopySwapChain extends WindowEventManager {
     public function new(application:SpoopyApplication) {
         this.application = application;
         this.buffers = new SpoopyBufferStorage(this);
-        this.__scissorRect = new Rectangle(0, 0, 0, 0);
+        
         super();
     }
 

@@ -28,7 +28,7 @@ class SpoopyRenderCommand implements SpoopyObject {
     @:noCompletion private var __is3D:Bool = false;
     @:noCompletion private var __mat4:Matrix4;
 
-    private function new(vcam:SpoopyCamera, flags:UInt) {
+    private function new(vcam:SpoopyCamera) {
         this.vcam = vcam;
     }
 
