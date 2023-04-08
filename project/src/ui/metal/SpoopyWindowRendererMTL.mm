@@ -64,6 +64,10 @@ namespace lime {
         commandBuffer -> setScissor(isEnabled, rect);
     }
 
+    void SpoopyWindowRendererMTL::setLineWidth(float width) {
+        commandBuffer -> setLineWidth(width);
+    }
+
     void SpoopyWindowRendererMTL::useProgram(value __pipeline) {
         SpoopyPipelineState pipelineState = (SpoopyPipelineState)val_data(__pipeline);
         commandBuffer -> setRenderPipeline(pipelineState);

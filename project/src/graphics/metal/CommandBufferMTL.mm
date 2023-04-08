@@ -155,6 +155,12 @@ namespace lime {
         [_renderCommandEncoder setFrontFacingWinding:mtlWinding];
     }
 
+    void CommandBufferMTL::setLineWidth(float width) {
+        /*
+         * Metal doesn't support line width.
+         */
+    }
+
     void CommandBufferMTL::setVertexBuffer(Buffer* buffer, int offset, int index) {
         [_renderCommandEncoder setVertexBuffer:static_cast<BufferMTL*>(buffer) -> getMTLBuffer() offset:offset atIndex:index];
     }

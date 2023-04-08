@@ -30,6 +30,8 @@ class SpoopySwapChain extends WindowEventManager {
 
     @:noCompletion private var __surface:SpoopyNativeSurface;
 
+    @:noCompletion private var __drawnCounter:Int = 0;
+
     public function new(application:SpoopyApplication) {
         this.application = application;
         this.buffers = new SpoopyBufferStorage(this);
@@ -82,10 +84,11 @@ class SpoopySwapChain extends WindowEventManager {
         beginRenderPass();
         setVertexBuffer(command.vertexBuffer, 0);
 
-        if(command.drawType == ELEMENTS) {
 
+        if(command.drawType == ELEMENTS) {
+            setIndexBuffer(command.indexBuffer);
         }else {
-            
+
         }
     }
 
@@ -98,6 +101,18 @@ class SpoopySwapChain extends WindowEventManager {
     private function setVertexBuffer(buffer:SpoopyBuffer, offset:Int):Void {
         __surface.setVertexBuffer(buffer, offset, atIndexVertex);
         atIndexVertex++;
+    }
+
+    private function setIndexBuffer(buffer:SpoopyBuffer):Void {
+        __surface.setIndexBuffer(buffer);
+    }
+
+    private function drawElements():Void {
+        
+    }
+
+    private function setLineWidth(width:Float):Void {
+        __surface.setLineWidth(width);
     }
 
     @:noCompletion override private function __registerWindowModule(window:Window):Void {

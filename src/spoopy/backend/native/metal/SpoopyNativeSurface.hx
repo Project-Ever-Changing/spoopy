@@ -24,7 +24,11 @@ class SpoopyNativeSurface {
     }
 
     public function setVertexBuffer(buffer:SpoopyBuffer, offset:Int, atIndex:Int):Void {
-        SpoopyNativeCFFI.spoopy_set_vertex_buffer(handle, buffer.__buffer.handle, offset, device.atIndex);
+        SpoopyNativeCFFI.spoopy_set_vertex_buffer(handle, buffer.__buffer.handle, offset, atIndex);
+    }
+
+    public function setIndexBuffer(buffer:SpoopyBuffer):Void {
+        SpoopyNativeCFFI.spoopy_set_index_buffer(handle, buffer.__buffer.handle);
     }
 
     public function useProgram(shader:SpoopyNativeShader) {

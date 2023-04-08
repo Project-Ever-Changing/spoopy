@@ -21,6 +21,7 @@ namespace lime {
             virtual void setScissor(bool isEnabled, Rectangle* rect) = 0;
             virtual void setCullMode(int cullMode) = 0;
             virtual void setWinding(int winding) = 0;
+            virtual void setLineWidth(float width) = 0;
             virtual void setIndexBuffer(Buffer* buffer) = 0;
             virtual void setVertexBuffer(Buffer* buffer, int offset, int index) = 0;
             virtual void setUniformBuffer(void* bufferData, size_t bufferSize, int bufferIndex) = 0;

@@ -194,6 +194,12 @@ namespace lime {
     }
     DEFINE_PRIME3v(spoopy_set_surface_scissor_rect);
 
+    void spoopy_set_surface_line_width(value window_surface, float width) {
+        SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
+        windowSurface -> setLineWidth(width);
+    }
+    DEFINE_PRIME2v(spoopy_set_surface_line_width);
+
     void spoopy_surface_begin_render_pass(value window_surface) {
         SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
         windowSurface -> beginRenderPass();

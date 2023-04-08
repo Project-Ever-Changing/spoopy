@@ -26,6 +26,7 @@ namespace lime {
             virtual void setIndexBuffer(value __buffer);
             virtual void setViewport(Rectangle* rect);
             virtual void setScissorMode(bool isEnabled, Rectangle* rect);
+            virtual void setLineWidth(float width);
             virtual void useProgram(value __pipeline);
             virtual void beginRenderPass();
 
