@@ -1,4 +1,6 @@
-package spoopy.graphics;
+package spoopy.obj.prim;
+
+#if lime
 
 import lime.graphics.opengl.GL;
 
@@ -11,3 +13,5 @@ import lime.graphics.opengl.GL;
     var TRIANGLE_STRIP = GL.TRIANGLE_STRIP;
     var TRIANGLE_FAN = GL.TRIANGLE_FAN;
 }
+
+#end

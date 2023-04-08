@@ -2,6 +2,7 @@ package spoopy.rendering.command;
 
 import spoopy.obj.SpoopyObject;
 import spoopy.obj.SpoopyCamera;
+import spoopy.obj.prim.SpoopyPrimitiveType;
 
 import lime.math.Matrix4;
 
@@ -15,12 +16,14 @@ class SpoopyRenderCommand implements SpoopyObject {
     public var mat4(get, never):Matrix4;
 
     public var drawType(get, set):SpoopyDrawType;
+    public var primitiveType(get, set):SpoopyPrimitiveType;
     public var transparent(get, set):Bool;
     public var skipBatching(get, set):Bool;
     public var is3D(get, set):Bool;
 
     @:noCompletion private var __depth:Float = 0;
     @:noCompletion private var __drawType:SpoopyDrawType;
+    @:noCompletion private var __primitiveType:SpoopyPrimitiveType;
     @:noCompletion private var __transparent:Bool = true;
     @:noCompletion private var __skipBatching:Bool = false;
     @:noCompletion private var __is3D:Bool = false;
@@ -30,6 +33,7 @@ class SpoopyRenderCommand implements SpoopyObject {
         this.vcam = vcam;
 
         __drawType = SpoopyDrawType.ELEMENTS;
+        __primitiveType = SpoopyPrimitiveType.TRIANGLES;
     }
 
     public function init(?flags:UInt = 0):Void {
@@ -44,6 +48,10 @@ class SpoopyRenderCommand implements SpoopyObject {
     /*
     * Setters.
     */
+
+    @:noCompletion private function set_primitiveType(value:SpoopyPrimitiveType):SpoopyPrimitiveType {
+        return __primitiveType = value;
+    }
 
     @:noCompletion private function set_drawType(value:SpoopyDrawType):SpoopyDrawType {
         return __drawType = value;
@@ -65,6 +73,10 @@ class SpoopyRenderCommand implements SpoopyObject {
     /*
     * Getters.
     */
+
+    @:noCompletion private function get_primitiveType():SpoopyPrimitiveType {
+        return __primitiveType;
+    }
 
     @:noCompletion private function get_drawType():SpoopyDrawType {
         return __drawType;

@@ -83,7 +83,7 @@ class SpoopySwapChain extends WindowEventManager {
 
         beginRenderPass();
         setVertexBuffer(command.vertexBuffer, 0);
-
+        setLineWidth(command.lineWidth);
 
         if(command.drawType == ELEMENTS) {
             setIndexBuffer(command.indexBuffer);
