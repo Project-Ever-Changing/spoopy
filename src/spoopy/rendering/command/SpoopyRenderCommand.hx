@@ -34,7 +34,7 @@ class SpoopyRenderCommand implements SpoopyObject {
 
     public function init(globalZOrder:Float, ?flags:UInt = 0):Void {
         __depth = vcam.getDepthInView();
-        if(flags & SpoopyRenderFlag.RENDER_AS_3D)__is3D = true;
+        if((flags & SpoopyRenderFlag.RENDER_AS_3D) != 0)__is3D = true;
     }
 
     public function destroy():Void {
