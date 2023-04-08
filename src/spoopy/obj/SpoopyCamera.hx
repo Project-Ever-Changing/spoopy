@@ -28,6 +28,16 @@ class SpoopyCamera implements SpoopyDisplayObject {
     public var height(default, set):Int;
 
     /*
+    * The width of the camera's view in game pixels.
+    */
+    public var viewWidth(get, never):Float;
+
+    /*
+    * The height of the camera's view in game pixels.
+    */
+    public var viewHeight(get, never):Float;
+
+    /*
     * The visible area of the world that gets cropped off on the left and right when the camera zooms in or out.
     */
     public var viewMarginX(default, null):Float;
@@ -36,6 +46,16 @@ class SpoopyCamera implements SpoopyDisplayObject {
     * The visible area of the world that gets cropped off on the top and bottom when the camera zooms in or out.
     */
     public var viewMarginY(default, null):Float;
+
+    /*
+    * The amount of world space that is cropped from the right when the camera zooms in or out.
+    */
+    public var viewMarginWidth(get, never):Float;
+    
+    /*
+    * The amount of world space that is cropped from the bottom when the camera zooms in or out.
+    */
+    public var viewMarginHeight(get, never):Float;
 
     /*
     * The scaling on horizontal axis for this camera.
@@ -89,6 +109,7 @@ class SpoopyCamera implements SpoopyDisplayObject {
         __triangleBuffers = new TriangleBufferManager();
         __vertices = new VertexBufferObject();
         __command = new SpoopyCommand(this, getCommandType());
+        __viewportRect = new Rectangle(0, 0, viewWidth, viewHeight);
         __scissorRect = new Rectangle(0, 0, width, height);
 
         initialZoom = (zoom < 0) ? 0 : zoom;
@@ -106,6 +127,8 @@ class SpoopyCamera implements SpoopyDisplayObject {
         if(this.scaleY != scaleY) {
             calcMarginY();
         }
+
+        updateViewport();
     }
 
     public function getCommandType():SpoopyCommandType {
@@ -153,10 +176,34 @@ class SpoopyCamera implements SpoopyDisplayObject {
     public function destroy():Void {
         this.__vertices.destroy();
         this.__vertices = null;
+        this.__viewportRect = null;
     }
 
     public function toString():String {
         return Type.getClassName(Type.getClass(this)).split(".").pop();
+    }
+
+    @:noCompletion private function updateViewport():Void {
+        __viewportRect.x = viewMarginX;
+        __viewportRect.y = viewMarginY;
+        __viewportRect.width = viewWidth;
+        __viewportRect.height = viewHeight;
+    }
+
+    @:noCompletion private function get_viewWidth():Float {
+        return width - viewMarginX * 2;
+    }
+
+    @:noCompletion private function get_viewHeight():Float {
+        return height - viewMarginY * 2;
+    }
+
+    @:noCompletion private function get_viewMarginWidth():Float {
+        return width - viewMarginX;
+    }
+
+    @:noCompletion private function get_viewMarginHeight():Float {
+        return height - viewMarginY;
     }
 
     @:noCompletion private function set_active(value:Bool):Bool {
@@ -177,6 +224,7 @@ class SpoopyCamera implements SpoopyDisplayObject {
             __scissorRect.width = value;
 
             calcMarginX();
+            updateViewport();
         }
 
         return value;
@@ -188,6 +236,7 @@ class SpoopyCamera implements SpoopyDisplayObject {
             __scissorRect.height = value;
 
             calcMarginY();
+            updateViewport();
         }
 
         return value;
