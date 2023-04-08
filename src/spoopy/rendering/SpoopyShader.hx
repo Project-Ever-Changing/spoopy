@@ -47,12 +47,12 @@ class SpoopyShader extends SpoopyShaderBasic  {
 
     private static var cachedShader:Map<String, String> = new Map<String, String>();
 
-    @:noCompletion private var __shader:SpoopyNativeShader;
-
     /*
     * The data to be sent to the shader.
     */
     public var data(default, null):ArrayBufferView;
+
+    @:noCompletion private var __shader:SpoopyNativeShader;
 
     public function new() {
         super();
@@ -62,17 +62,6 @@ class SpoopyShader extends SpoopyShaderBasic  {
         super.bind();   
 
         __device.useShaderProgram(__shader);
-    }
-
-    public function convertMat3toMat4x3(src:Float32Array, size:Int):Float32Array {
-        var dst:Float32Array = new Float32Array(size);
-
-        dst[3] = dst[7] = dst[11] = 0.0;
-        dst[0] = src[0]; dst[1] = src[1]; dst[2] = src[2];
-        dst[4] = src[3]; dst[5] = src[4]; dst[6] = src[5];
-        dst[8] = src[6]; dst[9] = src[7]; dst[10] = src[8];
-
-        return dst;
     }
 
     public function createShader(vertex:String, fragment:String, cache:Bool = false):Void {
@@ -145,7 +134,13 @@ class SpoopyShader extends SpoopyShaderBasic  {
 
         if(Assets.exists(__shader)) {
             rawShader = Assets.getText(__shader);
-            return SpoopyNativeShader.decompileSPV(rawShader);
+            var decompiledShader = SpoopyNativeShader.decompileSPV(rawShader);
+
+            #if spoopy_debug
+            Log.info('Shader file:\n\n${decompiledShader}');
+            #end
+
+            return decompiledShader;
         }else {
             Log.warn('The shader file "${__shader}" was not found!');
             return "";
