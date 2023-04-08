@@ -1,6 +1,7 @@
 package spoopy.rendering.command;
 
 import spoopy.graphics.SpoopyBuffer;
+import spoopy.rendering.command.SpoopyCommandType;
 
 class SpoopyCommand extends SpoopyRenderCommand {
     public var beforeCallback:Void->Void;
