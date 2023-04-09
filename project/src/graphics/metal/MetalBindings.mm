@@ -52,7 +52,7 @@ namespace lime {
         SpoopyWindowRendererMTL* window_renderer = static_cast<SpoopyWindowRendererMTL*>(window_surface);
 
         if(debug) {
-            NSLog("Getting metal device from layer");
+            printf("%s", "Getting metal device from layer");
         }
 
         return CFFIPointer(window_renderer -> getMetalLayer().device, spoopy_gc_device);

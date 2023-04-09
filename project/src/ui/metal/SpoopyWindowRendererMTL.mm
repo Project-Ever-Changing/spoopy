@@ -23,7 +23,7 @@ namespace lime {
         id<MTLDevice> _device = (id<MTLDevice>)val_data(__layerDevice);
 
         if (!_device) {
-            NSLog("Failed to create Metal device!");
+            printf("%s", "Failed to create Metal device!");
             return;
         }
 
