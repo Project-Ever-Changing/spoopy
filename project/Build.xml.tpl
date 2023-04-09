@@ -28,7 +28,7 @@
 	<set name="LIME_INCLUDE_PATH" value="../lime-project/include" />
 
 	<set name="LIME_OPENGL" value="1" />
-	<set name="LIME_ENABLE_GL_CONTEXT" value="1" />
+	<!--<set name="LIME_ENABLE_GL_CONTEXT" value="1" />-->
 
 	<section if="mac">
 		<setenv name="MACOSX_DEPLOYMENT_TARGET" value="10.9" if="HXCPP_CPP11 || HXCPP_CPP14" />
