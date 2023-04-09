@@ -51,9 +51,6 @@ class SpoopyScene extends SpoopySwapChain {
         cameras = new SpoopyCameraStorage(this);
         shaders = new SpoopyShaderStorage(this);
 
-        updateFramerate = Std.int(window.frameRate);
-        renderFramerate = Std.int(window.frameRate);
-
         __fullscreenDirty = fullscreen;
         __acumulator = __stepMS;
 
@@ -189,6 +186,13 @@ class SpoopyScene extends SpoopySwapChain {
         }
 
         render();
+    }
+
+    @:noCompletion override private function __registerWindowModule(window:Window):Void {
+        super.__registerWindowModule(window);
+
+        updateFramerate = Std.int(window.frameRate);
+        renderFramerate = Std.int(window.frameRate);
     }
 
     @:noCompletion function get_fullscreen():Bool {
