@@ -23,6 +23,10 @@ namespace lime {
         layer = (__bridge CAMetalLayer*)SDL_RenderGetMetalLayer(m_window.sdlRenderer);
         layer.pixelFormat = SpoopyMetalHelpers::convertSDLtoMetal(SDL_GetWindowPixelFormat(m_window.sdlWindow));
 
+        if(layer.device == nil) {
+            printf("%s", "Warning: The device was found to be null!\n");
+        }
+
         commandBuffer = new CommandBufferMTL(layer.device);
         commandBuffer -> storeCommandQueue([layer.device newCommandQueue]);
     }

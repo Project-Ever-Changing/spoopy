@@ -50,11 +50,7 @@ namespace lime {
             printf("%s", "Getting metal device from layer\n");
         }
 
-        if(_mtlDevice == nil) {
-            printf("%s", "Warning: The device was found to be null!\n");
-        }
-
-        return CFFIPointer(window_renderer -> getMetalLayer().device, spoopy_gc_device);
+        return CFFIPointer(_mtlDevice, spoopy_gc_device);
     }
     DEFINE_PRIME2(spoopy_get_metal_device_from_layer);
 
