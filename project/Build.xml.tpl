@@ -128,8 +128,8 @@
 				<vflag name="-framework" value="QuartzCore" />
 			</section>
 
-			<cppflag value="-std=c++14" if="HXCPP_CPP14"/>
-    		<cppflag value="-Wc++14-extensions" if="HXCPP_CPP14"/>
+			<cppflag value="-std=c++14" if="HXCPP_CPP14" />
+    		<cppflag value="-Wc++14-extensions" if="HXCPP_CPP14" />
 		</section>
 
 	</target>
