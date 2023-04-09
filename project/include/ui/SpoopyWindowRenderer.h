@@ -42,7 +42,7 @@ namespace lime {
             #endif
 
             #ifdef SPOOPY_METAL
-            virtual void assignMetalDevice(value __layerDevice) = 0;
+            virtual void assignMetalDevice() = 0;
             virtual void updateMetalDescriptor() = 0;
             #endif
     };

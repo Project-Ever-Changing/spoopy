@@ -95,11 +95,11 @@ namespace lime {
 
 #ifdef SPOOPY_METAL
 
-    void spoopy_assign_metal_surface(value window_surface, value metal_device) {
+    void spoopy_assign_metal_surface(value window_surface) {
         SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
-        windowSurface -> assignMetalDevice(metal_device);
+        windowSurface -> assignMetalDevice();
     }
-    DEFINE_PRIME2v(spoopy_assign_metal_surface);
+    DEFINE_PRIME1v(spoopy_assign_metal_surface);
 
     void spoopy_surface_set_vertex_buffer(value window_surface, value buffer, int offset, int atIndex) {
         SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);

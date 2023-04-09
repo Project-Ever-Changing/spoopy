@@ -19,26 +19,17 @@ namespace lime {
     /*
      * The `init` method.
      */
-    void SpoopyWindowRendererMTL::assignMetalDevice(value __layerDevice) {
-        id<MTLDevice> _device = (id<MTLDevice>)val_data(__layerDevice);
-
-        if (!_device) {
-            printf("%s", "Failed to create Metal device!\n");
-
-            if(__layerDevice == nil) {
-                printf("%s", "Reason: The layer device was found to be nil!\n");
-            }else {
-                printf("%s", "Reason: Unknown\n");
-            }
-
-            return;
-        }
-
+    void SpoopyWindowRendererMTL::assignMetalDevice() {
         layer = (__bridge CAMetalLayer*)SDL_RenderGetMetalLayer(m_window.sdlRenderer);
         layer.pixelFormat = SpoopyMetalHelpers::convertSDLtoMetal(SDL_GetWindowPixelFormat(m_window.sdlWindow));
 
-        commandBuffer = new CommandBufferMTL(_device);
-        commandBuffer -> storeCommandQueue([_device newCommandQueue]);
+        if(m_window.sdlRenderer == NULL) {
+            printf("Error creating renderer: %s\n", SDL_GetError());
+            return;
+        }
+
+        commandBuffer = new CommandBufferMTL(layer.device);
+        commandBuffer -> storeCommandQueue([layer.device newCommandQueue]);
     }
 
     void SpoopyWindowRendererMTL::updateMetalDescriptor() {
@@ -114,10 +105,6 @@ namespace lime {
 
     void SpoopyWindowRendererMTL::drawElements(int primitiveType, int indexFormat, size_t count, size_t offset) {
         commandBuffer -> drawElements(primitiveType, indexFormat, count, offset);
-    }
-
-    CAMetalLayer* SpoopyWindowRendererMTL::getMetalLayer() const {
-        return layer;
     }
 
     SpoopyWindowRendererMTL::~SpoopyWindowRendererMTL() {

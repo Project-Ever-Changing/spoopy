@@ -21,7 +21,7 @@ namespace lime {
             ~SpoopyWindowRendererMTL();
 
             virtual void updateMetalDescriptor();
-            virtual void assignMetalDevice(value __layerDevice);
+            virtual void assignMetalDevice();
             virtual void setVertexBuffer(value __buffer, int __offset, int __atIndex);
             virtual void setIndexBuffer(value __buffer);
             virtual void setViewport(Rectangle* rect);
@@ -39,7 +39,8 @@ namespace lime {
             virtual void drawArrays(int primitiveType, size_t start, size_t count);
             virtual void drawElements(int primitiveType, int indexFormat, size_t count, size_t offset);
 
-            virtual CAMetalLayer* getMetalLayer() const;
+            virtual CAMetalLayer* getMetalLayer() const {return layer;};
+
 
             virtual const SDLWindow& getWindow() const;
         private:

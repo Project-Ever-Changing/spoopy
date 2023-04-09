@@ -19,14 +19,13 @@ class SpoopyNativeSurface {
 
     public function new(window:NativeWindow, application:Application) {
         handle = SpoopyNativeCFFI.spoopy_create_window_surface(window.handle);
+        SpoopyNativeCFFI.spoopy_assign_metal_surface(handle);
 
         #if (debug || spoopy_debug)
         device = SpoopyNativeCFFI.spoopy_get_metal_device_from_layer(handle, true);
         #else
         device = SpoopyNativeCFFI.spoopy_get_metal_device_from_layer(handle, false);
         #end
-
-        SpoopyNativeCFFI.spoopy_assign_metal_surface(handle, device);
     }
 
     public function setVertexBuffer(buffer:SpoopyBuffer, offset:Int, atIndex:Int):Void {
