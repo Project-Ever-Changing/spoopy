@@ -53,7 +53,7 @@ class TriangleBufferManager implements SpoopyObject {
                     __vertexPointers.set(size, __vertexBufferIndex);
                     __device.buffers.addBuffer(buffer);
 
-                    __vertexBufferIndex = (__vertexBufferIndex + 1) % SpoopyApplication.SPOOPY_CONFIG_MAX_VERTEX_BUFFERS;
+                    __vertexBufferIndex = (__vertexBufferIndex + 1) % SpoopyApplication.SPOOPY_CONFIG_MAX_LAYOUTS;
                 }
 
                 vertexBuffer = buffer;
@@ -71,7 +71,7 @@ class TriangleBufferManager implements SpoopyObject {
                     __indexPointers.set(size, __indexBufferIndex);
                     __device.buffers.addBuffer(buffer);
 
-                    __indexBufferIndex = (__indexBufferIndex + 1) % SpoopyApplication.SPOOPY_CONFIG_MAX_INDEX_BUFFERS;
+                    __indexBufferIndex = (__indexBufferIndex + 1) % SpoopyApplication.SPOOPY_CONFIG_MAX_LAYOUTS;
                 }
 
                 indexBuffer = buffer;
