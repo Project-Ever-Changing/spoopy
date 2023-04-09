@@ -7,6 +7,7 @@ import spoopy.frontend.storage.SpoopyShaderStorage;
 import spoopy.graphics.other.SpoopySwapChain;
 import spoopy.rendering.command.SpoopyCommand;
 
+import lime.ui.Window;
 import lime.utils.Log;
 
 class SpoopyScene extends SpoopySwapChain {
