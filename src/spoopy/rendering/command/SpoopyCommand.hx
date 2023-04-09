@@ -55,7 +55,7 @@ class SpoopyCommand extends SpoopyRenderCommand {
         this.vertexBuffer = vertexBuffer;
     }
 
-    public function setIndexBuffer(indexBuffer:SpoopyBuffer, indexFormat:Int):Void {
+    public function setIndexBuffer(indexBuffer:SpoopyBuffer):Void {
         if(this.indexBuffer != indexBuffer && this.indexBuffer != null) {
             this.indexBuffer.destroy();
         }
