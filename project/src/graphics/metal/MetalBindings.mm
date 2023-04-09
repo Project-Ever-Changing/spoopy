@@ -41,12 +41,6 @@ namespace lime {
         release(device);
     }
 
-    value spoopy_create_metal_default_device() {
-        id<MTLDevice> device = MTLCreateSystemDefaultDevice();
-        return CFFIPointer(device, spoopy_gc_device);
-    }
-    DEFINE_PRIME0(spoopy_create_metal_default_device);
-
     value spoopy_get_metal_device_from_layer(value surface, bool debug) {
         SpoopyWindowRenderer* window_surface = (SpoopyWindowRenderer*)val_data(surface);
         SpoopyWindowRendererMTL* window_renderer = static_cast<SpoopyWindowRendererMTL*>(window_surface);
