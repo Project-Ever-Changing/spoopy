@@ -27,6 +27,8 @@
 	<set name="LIME_SOURCE_PATH" value="../lime-project/src" />
 	<set name="LIME_INCLUDE_PATH" value="../lime-project/include" />
 
+	<set name="LIME_OPENGL" value="1" if="SPOOPY_VULKAN || SPOOPY_METAL" />
+
 	<section if="mac">
 		<setenv name="MACOSX_DEPLOYMENT_TARGET" value="10.9" if="HXCPP_CPP11 || HXCPP_CPP14" />
 		<setenv name="MACOSX_DEPLOYMENT_TARGET" value="10.7" if="OBJC_ARC" unless="MACOSX_DEPLOYMENT_TARGET" />
