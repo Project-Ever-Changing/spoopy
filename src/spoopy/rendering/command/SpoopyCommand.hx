@@ -48,19 +48,19 @@ class SpoopyCommand extends SpoopyRenderCommand {
     }
 
     public function setVertexBuffer(vertexBuffer:SpoopyBuffer):Void {
-        if(vertexBuffer != vertexBuffer && vertexBuffer != null) {
-            vertexBuffer.destroy();
+        if(this.vertexBuffer != vertexBuffer && this.vertexBuffer != null) {
+            this.vertexBuffer.destroy();
         }
 
-        vertexBuffer = vertexBuffer;
+        this.vertexBuffer = vertexBuffer;
     }
 
     public function setIndexBuffer(indexBuffer:SpoopyBuffer):Void {
-        if(indexBuffer != indexBuffer && indexBuffer != null) {
-            indexBuffer.destroy();
+        if(this.indexBuffer != indexBuffer && this.indexBuffer != null) {
+            this.indexBuffer.destroy();
         }
 
-        indexBuffer = indexBuffer;
+        this.indexBuffer = indexBuffer;
     }
 
     public override function destroy():Void {

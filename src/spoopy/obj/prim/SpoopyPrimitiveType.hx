@@ -4,7 +4,7 @@ package spoopy.obj.prim;
 
 import lime.graphics.opengl.GL;
 
-@:enum abstract SpoopyPrimitiveType(Int) {
+@:enum abstract SpoopyPrimitiveType(Int) from Int to Int {
     var POINTS = GL.POINTS;
     var LINES = GL.LINES;
     var LINE_LOOP = GL.LINE_LOOP;
