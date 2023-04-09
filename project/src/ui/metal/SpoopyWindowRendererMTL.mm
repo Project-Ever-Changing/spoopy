@@ -23,7 +23,14 @@ namespace lime {
         id<MTLDevice> _device = (id<MTLDevice>)val_data(__layerDevice);
 
         if (!_device) {
-            printf("%s", "Failed to create Metal device!");
+            printf("%s", "Failed to create Metal device!\n");
+
+            if(__layerDevice == nil) {
+                printf("%s", "Reason: The layer device was found to be nil!\n");
+            }else {
+                printf("%s", "Reason: Unknown\n");
+            }
+
             return;
         }
 
