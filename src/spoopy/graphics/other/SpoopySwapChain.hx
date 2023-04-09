@@ -92,7 +92,7 @@ class SpoopySwapChain extends WindowEventManager {
             drawElements(command.primitiveType, command.indexFormat, command.indexDrawCount, command.indexDrawOffset);
             __drawnCounter += command.indexDrawCount;
         }else {
-            drawArrays(command.primitiveType, command.vertexDrawStart, command.vertexDrawCount);
+            drawArray(command.primitiveType, command.vertexDrawStart, command.vertexDrawCount);
             __drawnCounter += command.vertexDrawCount;
         }
 
@@ -116,8 +116,8 @@ class SpoopySwapChain extends WindowEventManager {
         __surface.setIndexBuffer(buffer);
     }
 
-    private function drawArrays(primitiveType:SpoopyPrimitiveType, start:Int, count:Int):Void {
-        __surface.drawArrays(primitiveType, start, count);
+    private function drawArray(primitiveType:SpoopyPrimitiveType, start:Int, count:Int):Void {
+        __surface.drawArray(primitiveType, start, count);
     }
 
     private function drawElements(primitiveType:SpoopyPrimitiveType, indexFormat:Int, count:Int, offset:Int):Void {

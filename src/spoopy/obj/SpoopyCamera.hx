@@ -162,7 +162,7 @@ class SpoopyCamera implements SpoopyDisplayObject {
             var vertexBuffer = __vertices.vertices;
             
             __triangleBuffers.createBuffer(vertexBuffer, vertexBuffer.byteLength, VERTEX);
-            __command.setVertexBuffer(vertexBuffer);
+            __command.setVertexBuffer(__triangleBuffers.vertexBuffer);
             __command.setVertexDrawInfo(0, __vertices.length);
             __vertexDirty = false;
         }
