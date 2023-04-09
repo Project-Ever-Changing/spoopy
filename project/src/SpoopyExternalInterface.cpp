@@ -143,9 +143,14 @@ namespace lime {
     }
 
     value spoopy_create_window_surface(value window_handle) {
-        SDLWindow* window = (SDLWindow*)val_data(window_handle);
+        Window* window = (Window*)val_data(window_handle);
+        SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
 
-        SpoopyWindowRenderer* windowSurface = createWindowRenderer(*window);
+        if(sdlWindow -> sdlRenderer == NULL) {
+            printf("Error creating renderer: %s\n", SDL_GetError());
+        }
+
+        SpoopyWindowRenderer* windowSurface = createWindowRenderer(*sdlWindow);
         return CFFIPointer(windowSurface, apply_gc_window_surface);
     }
     DEFINE_PRIME1(spoopy_create_window_surface);

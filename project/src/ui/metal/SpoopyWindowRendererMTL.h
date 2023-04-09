@@ -44,7 +44,9 @@ namespace lime {
 
             virtual const SDLWindow& getWindow() const;
         private:
+            #ifdef SPOOPY_SDL
             const SDLWindow &m_window;
+            #endif
 
             MTLRenderPassDescriptor* renderPassDescriptor;
             CAMetalLayer* layer;
