@@ -106,6 +106,9 @@ class SpoopyCamera implements SpoopyDisplayObject {
     @:noCompletion var __vertices:BufferDataManager;
     @:noCompletion var __vertexDirty:Bool;
 
+    @:noCompletion var __indices:BufferDataManager;
+    @:noCompletion var __indexDirty:Bool;
+
     @:noCompletion var __scissorRect:Rectangle;
     @:noCompletion var __viewportRect:Rectangle;
 
@@ -114,6 +117,7 @@ class SpoopyCamera implements SpoopyDisplayObject {
     public function new(zoom:Float = 0) {
         __triangleBuffers = new TriangleBufferManager();
         __vertices = new BufferDataManager();
+        __indices = new BufferDataManager();
         __command = new SpoopyCommand(this);
         __viewportRect = new Rectangle(viewMarginX, viewMarginY, viewWidth, viewHeight);
         __scissorRect = new Rectangle(0, 0, width, height);
@@ -167,6 +171,16 @@ class SpoopyCamera implements SpoopyDisplayObject {
             __vertexDirty = false;
         }
 
+        if(__indexDirty) {
+            __indices.update();
+            var indexBuffer = __indices.bufferData;
+
+            __triangleBuffers.createBuffer(indexBuffer, indexBuffer.byteLength, INDEX);
+            __command.setIndexBuffer(__triangleBuffers.indexBuffer);
+            __command.setIndexDrawInfo(0, __indices.length);
+            __indexDirty = false;
+        }
+
         device.addCommandToQueue(__command);
     }
 
@@ -176,14 +190,24 @@ class SpoopyCamera implements SpoopyDisplayObject {
         */
     }
 
-    @:allow(spoopy.obj.prim.SpoopyPrimitive) function removeBuffer(__vertices:SpoopyFloatBuffer):Void {
+    @:allow(spoopy.obj.prim.SpoopyPrimitive) function removeVertexBuffer(__vertices:SpoopyFloatBuffer):Void {
         __vertexDirty = true;
         this.__vertices.removeObject(__vertices);
     }
 
-    @:allow(spoopy.obj.prim.SpoopyPrimitive) function storeBuffer(__vertices:SpoopyFloatBuffer):Void {
+    @:allow(spoopy.obj.prim.SpoopyPrimitive) function storeVertexBuffer(__vertices:SpoopyFloatBuffer):Void {
         __vertexDirty = true;
         this.__vertices.addObject(__vertices);
+    }
+
+    @:allow(spoopy.obj.prim.SpoopyPrimitive) function removeIndexBuffer(__indices:SpoopyShortBuffer):Void {
+        __indexDirty = true;
+        this.__indices.removeObject(__indices);
+    }
+
+    @:allow(spoopy.obj.prim.SpoopyPrimitive) function storeIndexBuffer(__indices:SpoopyShortBuffer):Void {
+        __indexDirty = true;
+        this.__indices.addObject(__indices);
     }
 
     public function destroy():Void {

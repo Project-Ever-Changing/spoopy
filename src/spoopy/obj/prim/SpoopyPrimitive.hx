@@ -55,11 +55,18 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
     */
     public var colors(default, null):Array<Vector4>;
 
+    /*
+    * The `index` property holds an array of indices that define the order in which the vertices are drawn.
+    * NOTE: changing any value from this array won't update anything.
+    */
+    public var index(default, null):SpoopyFloatBuffer;
+
     @:noCompletion var __vertices:SpoopyFloatBuffer;
     @:noCompletion var __cameras:Array<SpoopyCamera>;
 
-    public function new(vertices:Array<SpoopyPoint>) {
+    public function new(vertices:Array<SpoopyPoint>, ?index:SpoopyFloatBuffer) {
         this.vertices = vertices;
+        this.index = index;
 
         __cameras = [];
     }
@@ -76,7 +83,7 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
             return;
         }
 
-        cam.removeBuffer(__vertices);
+        cam.removeVertexBuffer(__vertices);
     }
 
     public function draw(cam:SpoopyCamera):Void {
@@ -119,7 +126,7 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
             return;
         }
 
-        cam.storeBuffer(__vertices);
+        cam.storeVertexBuffer(__vertices);
     }
 
     public function render():Void {
@@ -139,6 +146,7 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
 
         __cameras = null;
         vertices = null;
+        index = null;
     }
 
     public function toString() {
@@ -152,11 +160,11 @@ class SpoopyPrimitive implements SpoopyDisplayObject {
     @:noCompletion function set_visible(value:Bool):Bool {
         if(value) {
             for(cam in __cameras) {
-                cam.storeBuffer(__vertices);
+                cam.storeVertexBuffer(__vertices);
             }
         }else {
             for(cam in __cameras) {
-                cam.removeBuffer(__vertices);
+                cam.removeVertexBuffer(__vertices);
             }
         }
 
