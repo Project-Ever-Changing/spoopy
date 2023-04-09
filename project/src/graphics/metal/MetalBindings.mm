@@ -50,14 +50,14 @@ namespace lime {
     value spoopy_get_metal_device_from_layer(value surface, bool debug) {
         SpoopyWindowRenderer* window_surface = (SpoopyWindowRenderer*)val_data(surface);
         SpoopyWindowRendererMTL* window_renderer = static_cast<SpoopyWindowRendererMTL*>(window_surface);
-        
+
         if(debug) {
             NSLog("Getting metal device from layer");
         }
 
         return CFFIPointer(window_renderer -> getMetalLayer().device, spoopy_gc_device);
     }
-    DEFINE_PRIME1(spoopy_get_metal_device_from_layer);
+    DEFINE_PRIME2(spoopy_get_metal_device_from_layer);
 
     value spoopy_create_metal_buffer(value metal_device, double data, int size) {
         id<MTLDevice> device = (id<MTLDevice>)val_data(metal_device);
