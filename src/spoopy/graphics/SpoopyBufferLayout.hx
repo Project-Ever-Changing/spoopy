@@ -1,10 +1,10 @@
-package spoopy.graphics.vertices;
+package spoopy.graphics;
 
 import spoopy.util.SpoopyFloatBuffer;
 import spoopy.obj.SpoopyObject;
 import spoopy.util.SpoopyFloatBuffer;
 
-class VertexLayout implements SpoopyObject {
+class SpoopyBufferLayout implements SpoopyObject {
     public var buffer(default, null):SpoopyFloatBuffer;
     public var size(default, null):Int = 0;
     public var length(default, null):Int = 0;

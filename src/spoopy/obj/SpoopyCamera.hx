@@ -2,7 +2,7 @@ package spoopy.obj;
 
 import spoopy.graphics.SpoopyBufferType;
 import spoopy.graphics.manager.TriangleBufferManager;
-import spoopy.graphics.vertices.VertexBufferObject;
+import spoopy.graphics.manager.BufferDataManager;
 import spoopy.graphics.SpoopyScene;
 import spoopy.rendering.command.SpoopyCommand;
 import spoopy.rendering.SpoopyDrawType;
@@ -103,7 +103,7 @@ class SpoopyCamera implements SpoopyDisplayObject {
 
     @:noCompletion var __triangleBuffers:TriangleBufferManager;
 
-    @:noCompletion var __vertices:VertexBufferObject;
+    @:noCompletion var __vertices:BufferDataManager;
     @:noCompletion var __vertexDirty:Bool;
 
     @:noCompletion var __scissorRect:Rectangle;
@@ -113,7 +113,7 @@ class SpoopyCamera implements SpoopyDisplayObject {
 
     public function new(zoom:Float = 0) {
         __triangleBuffers = new TriangleBufferManager();
-        __vertices = new VertexBufferObject();
+        __vertices = new BufferDataManager();
         __command = new SpoopyCommand(this);
         __viewportRect = new Rectangle(viewMarginX, viewMarginY, viewWidth, viewHeight);
         __scissorRect = new Rectangle(0, 0, width, height);

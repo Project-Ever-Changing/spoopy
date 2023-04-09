@@ -48,7 +48,7 @@ class TriangleBufferManager implements SpoopyObject {
                         __vertexBuffers[__vertexBufferIndex] = null;
                     }
 
-                    buffer = new SpoopyBuffer(__device, size, 1, type);
+                    buffer = new SpoopyBuffer(__device, size, 3, type);
                     __vertexBuffers[__vertexBufferIndex] = buffer;
                     __vertexPointers.set(size, __vertexBufferIndex);
                     __device.buffers.addBuffer(buffer);
@@ -66,7 +66,7 @@ class TriangleBufferManager implements SpoopyObject {
                         __indexBuffers[__indexBufferIndex] = null;
                     }
 
-                    buffer = new SpoopyBuffer(__device, size, 1, type);
+                    buffer = new SpoopyBuffer(__device, size, 3, type);
                     __indexBuffers[__indexBufferIndex] = buffer;
                     __indexPointers.set(size, __indexBufferIndex);
                     __device.buffers.addBuffer(buffer);

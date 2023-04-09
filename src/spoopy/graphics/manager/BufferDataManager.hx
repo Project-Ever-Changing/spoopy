@@ -1,9 +1,10 @@
-package spoopy.graphics.vertices;
+package spoopy.graphics.manager;
 
 import spoopy.obj.SpoopyObject;
 import spoopy.app.SpoopyApplication;
 import spoopy.util.SpoopyFloatBuffer;
 import spoopy.obj.prim.SpoopyPrimitive;
+import spoopy.graphics.SpoopyBufferLayout;
 
 #if (spoopy_vulkan || spoopy_metal)
 import spoopy.graphics.other.SpoopySwapChain;
@@ -12,46 +13,46 @@ import spoopy.graphics.other.SpoopySwapChain;
 import haxe.ds.ObjectMap;
 
 /*
-* Base helper class for managing buffers.
+* Base helper class for managing buffer data.
 */
-class VertexBufferObject implements SpoopyObject {
-    public var vertices(default, null):SpoopyFloatBuffer = null;
+class BufferDataManager implements SpoopyObject {
+    public var bufferData(default, null):SpoopyFloatBuffer = null;
 
     public var offset(default, null):Int = 0;
     public var length(default, null):Int = 0;
 
-    @:noCompletion var __vertexLayoutIndex:Int = 0;
+    @:noCompletion var __layoutIndex:Int = 0;
     @:noCompletion var __bucketSize:Int = 0;
 
     @:noCompletion var __modelLayoutIndexes:ObjectMap<SpoopyFloatBuffer, Int>;
-    @:noCompletion var __vertexLayouts:Array<VertexLayout>;
+    @:noCompletion var __layouts:Array<SpoopyBufferLayout>;
 
     #if (spoopy_vulkan || spoopy_metal)
     @:noCompletion var __device:SpoopySwapChain;
     #end
 
     public function new() {
-        __bucketSize = SpoopyApplication.SPOOPY_CONFIG_MAX_VERTEX_LAYOUTS;
+        __bucketSize = SpoopyApplication.SPOOPY_CONFIG_MAX_LAYOUTS;
         __modelLayoutIndexes = new ObjectMap<SpoopyFloatBuffer, Int>();
-        __vertexLayouts = [];
+        __layouts = [];
 
         for(i in 0...__bucketSize) {
-            __vertexLayouts[i] = new VertexLayout();
+            __layouts[i] = new SpoopyBufferLayout();
         }
 
-        vertices = new SpoopyFloatBuffer(length);
+        bufferData = new SpoopyFloatBuffer(length);
     }
 
     public function addObject(obj:SpoopyFloatBuffer):Void {
-        __vertexLayouts[__vertexLayoutIndex].addBuffer(obj);
-        __vertexLayoutIndex = (__vertexLayoutIndex + 1) % __bucketSize;
-        __modelLayoutIndexes.set(obj, __vertexLayoutIndex);
+        __layouts[__layoutIndex].addBuffer(obj);
+        __layoutIndex = (__layoutIndex + 1) % __bucketSize;
+        __modelLayoutIndexes.set(obj, __layoutIndex);
 
         length += obj.length;
     }
 
     public function removeObject(obj:SpoopyFloatBuffer):Void {
-        __vertexLayouts[__modelLayoutIndexes.get(obj)].removeBuffer(obj);
+        __layouts[__modelLayoutIndexes.get(obj)].removeBuffer(obj);
         length -= obj.length;
     }
 
@@ -62,23 +63,15 @@ class VertexBufferObject implements SpoopyObject {
     #end
 
     public function update():Void {
-        vertices = new SpoopyFloatBuffer(length);
+        bufferData = new SpoopyFloatBuffer(length);
         var __length:Int = 0;
 
         for(i in 0...__bucketSize) {
-            var b = __vertexLayouts[i].buffer;
+            var b = __layouts[i].buffer;
 
-            vertices.set(b, __length);
+            bufferData.set(b, __length);
             __length += b.length;
         }
-    }
-
-    public function setVertexBuffer():Void {
-        if(__device == null || vertices == null) {
-            return;
-        }
-
-        //__device.setVertexBuffer(vertices, offset);
     }
 
     public function destroy():Void {
@@ -89,6 +82,6 @@ class VertexBufferObject implements SpoopyObject {
         __modelLayoutIndexes = null;
 
         __device = null;
-        vertices = null;
+        bufferData = null;
     }
 }
