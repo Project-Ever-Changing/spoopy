@@ -101,6 +101,14 @@ namespace lime {
         commandBuffer -> setWinding(winding);
     }
 
+    void SpoopyWindowRendererMTL::drawArrays(int primitiveType, size_t start, size_t count) {
+        commandBuffer -> drawArrays(primitiveType, start, count);
+    }
+
+    void SpoopyWindowRendererMTL::drawElements(int primitiveType, int indexFormat, size_t count, size_t offset) {
+        commandBuffer -> drawElements(primitiveType, indexFormat, count, offset);
+    }
+
     CAMetalLayer* SpoopyWindowRendererMTL::getMetalLayer() const {
         return layer;
     }

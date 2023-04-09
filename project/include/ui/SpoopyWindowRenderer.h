@@ -30,6 +30,9 @@ namespace lime {
             virtual void useProgram(value __pipeline) = 0;
             virtual void beginRenderPass() = 0;
 
+            virtual void drawArrays(int primitiveType, size_t start, size_t count) = 0;
+            virtual void drawElements(int primitiveType, int indexFormat, size_t count, size_t offset) = 0;
+
             #ifdef SPOOPY_SDL
             virtual const SDLWindow& getWindow() const = 0;
             #endif

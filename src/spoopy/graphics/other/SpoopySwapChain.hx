@@ -87,6 +87,8 @@ class SpoopySwapChain extends WindowEventManager {
 
         if(command.drawType == ELEMENTS) {
             setIndexBuffer(command.indexBuffer);
+
+            
         }else {
 
         }

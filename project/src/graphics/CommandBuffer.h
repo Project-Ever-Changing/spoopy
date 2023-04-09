@@ -7,7 +7,7 @@
 #import "../helpers/metal/SpoopyMetalHelpers.h"
 #endif
 
-#include <helpers/SpoopyRenderTypes.h>
+#include <spoopy.h>
 
 namespace lime {
     class CommandBuffer {

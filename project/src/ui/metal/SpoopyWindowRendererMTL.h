@@ -36,6 +36,9 @@ namespace lime {
             virtual void cullFace(int cullMode);
             virtual void setWinding(int winding);
 
+            virtual void drawArrays(int primitiveType, size_t start, size_t count);
+            virtual void drawElements(int primitiveType, int indexFormat, size_t count, size_t offset);
+
             virtual CAMetalLayer* getMetalLayer() const;
 
             virtual const SDLWindow& getWindow() const;

@@ -206,6 +206,18 @@ namespace lime {
     }
     DEFINE_PRIME1v(spoopy_surface_begin_render_pass);
 
+    void spoopy_surface_draw_arrays(value window_surface, int primitiveType, int start, int count) {
+        SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
+        windowSurface -> drawArrays(primitiveType, (size_t)start, (size_t)count);
+    }
+    DEFINE_PRIME4v(spoopy_surface_draw_arrays);
+
+    void spoopy_surface_draw_elements(value window_surface, int primitiveType, int indexFormat, int count, int offset) {
+        SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
+        windowSurface -> drawElements(primitiveType, indexFormat, (size_t)count, (size_t)offset);
+    }
+    DEFINE_PRIME5v(spoopy_surface_draw_elements);
+
     void spoopy_set_vertex_buffer(value window_surface, value buffer, int offset, int atIndex) {
         SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
         windowSurface -> setVertexBuffer(buffer, offset, atIndex);

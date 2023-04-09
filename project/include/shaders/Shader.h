@@ -1,8 +1,8 @@
 #pragma once
 
 #include <system/CFFIPointer.h>
-#include <helpers/SpoopyRenderTypes.h>
 #include <ui/SpoopyWindowRenderer.h>
+#include <spoopy.h>
 
 namespace lime {
     class Shader {
