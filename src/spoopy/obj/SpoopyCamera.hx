@@ -200,12 +200,12 @@ class SpoopyCamera implements SpoopyDisplayObject {
         this.__vertices.addObject(__vertices);
     }
 
-    @:allow(spoopy.obj.prim.SpoopyPrimitive) function removeIndexBuffer(__indices:SpoopyShortBuffer):Void {
+    @:allow(spoopy.obj.prim.SpoopyPrimitive) function removeIndexBuffer(__indices:SpoopyFloatBuffer):Void {
         __indexDirty = true;
         this.__indices.removeObject(__indices);
     }
 
-    @:allow(spoopy.obj.prim.SpoopyPrimitive) function storeIndexBuffer(__indices:SpoopyShortBuffer):Void {
+    @:allow(spoopy.obj.prim.SpoopyPrimitive) function storeIndexBuffer(__indices:SpoopyFloatBuffer):Void {
         __indexDirty = true;
         this.__indices.addObject(__indices);
     }
