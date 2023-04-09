@@ -356,6 +356,8 @@ class WindowEventManager implements IWindowModule {
     }
 
     @:noCompletion private function __registerWindowModule(window:Window):Void {
+        if(this.window != window) return;
+
         this.window = window;
 
         window.onRender.add(__onWindowRender);
