@@ -36,7 +36,7 @@ namespace lime {
     }
 
     MTLIndexType CommandBufferMTL::getMTLIndexType(int indexFormat) {
-        if(indexFormat == 0x1403) {
+        if(indexFormat == 0x1403) { // 0x1403 is U_SHORT
             return MTLIndexTypeUInt16;
         }
 

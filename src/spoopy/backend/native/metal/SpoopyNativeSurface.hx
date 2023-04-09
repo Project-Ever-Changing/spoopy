@@ -2,6 +2,7 @@ package spoopy.backend.native.metal;
 
 import spoopy.backend.native.SpoopyNativeCFFI;
 import spoopy.backend.native.SpoopyNativeShader;
+import spoopy.obj.prim.SpoopyPrimitiveType;
 import spoopy.graphics.SpoopyBuffer;
 import spoopy.rendering.SpoopyCullMode;
 import spoopy.rendering.SpoopyWinding;
@@ -57,6 +58,14 @@ class SpoopyNativeSurface {
 
     public function setLineWidth(width:Float):Void {
         SpoopyNativeCFFI.spoopy_set_surface_line_width(handle, width);
+    }
+
+    public function drawArray(primitiveType:SpoopyPrimitiveType, start:Int, count:Int):Void {
+        SpoopyNativeCFFI.spoopy_surface_draw_arrays(handle, primitiveType, start, count);
+    }
+
+    public function drawElements(primitiveType:SpoopyPrimitiveType, indexFormat:Int, count:Int, offset:Int):Void {
+        SpoopyNativeCFFI.spoopy_surface_draw_elements(handle, primitiveType, indexFormat, count, offset);
     }
 
     public function updateWindow():Void {

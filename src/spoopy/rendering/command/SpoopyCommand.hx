@@ -10,7 +10,7 @@ class SpoopyCommand extends SpoopyRenderCommand {
     public var vertexDrawStart(get, never):Int;
     public var vertexDrawCount(get, never):Int;
 
-    public var indexDrawStart(get, never):Int;
+    public var indexDrawOffset(get, never):Int;
     public var indexDrawCount(get, never):Int;
 
     public var lineWidth(get, set):Float;
@@ -24,7 +24,7 @@ class SpoopyCommand extends SpoopyRenderCommand {
     @:noCompletion private var __vertexDrawStart:Int = 0;
     @:noCompletion private var __vertexDrawCount:Int = 0;
 
-    @:noCompletion private var __indexDrawStart:Int = 0;
+    @:noCompletion private var __indexDrawOffset:Int = 0;
     @:noCompletion private var __indexDrawCount:Int = 0;
 
     @:noCompletion private var __indexSize:Int = 0;
@@ -43,7 +43,7 @@ class SpoopyCommand extends SpoopyRenderCommand {
     }
 
     public inline function setIndexDrawInfo(start:Int, count:Int):Void {
-        __indexDrawStart = start * __indexSize;
+        __indexDrawOffset = start * __indexSize;
         __indexDrawCount = count;
     }
 
@@ -91,8 +91,8 @@ class SpoopyCommand extends SpoopyRenderCommand {
         return __vertexDrawCount;
     }
 
-    @:noCompletion function get_indexDrawStart():Int {
-        return __indexDrawStart;
+    @:noCompletion function get_indexDrawOffset():Int {
+        return __indexDrawOffset;
     }
 
     @:noCompletion function get_indexDrawCount():Int {

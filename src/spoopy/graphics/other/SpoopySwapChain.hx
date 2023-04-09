@@ -5,6 +5,7 @@ import lime.math.Rectangle;
 
 import spoopy.app.SpoopyApplication;
 import spoopy.window.WindowEventManager;
+import spoopy.obj.prim.SpoopyPrimitiveType;
 import spoopy.frontend.storage.SpoopyBufferStorage;
 import spoopy.backend.native.SpoopyNativeShader;
 import spoopy.graphics.SpoopyBuffer;
@@ -74,6 +75,7 @@ class SpoopySwapChain extends WindowEventManager {
         onUpdate();
 
         __surface.release();
+
     }
 
     private function drawBasedOnCommand(command:SpoopyCommand):Void {
@@ -87,10 +89,15 @@ class SpoopySwapChain extends WindowEventManager {
 
         if(command.drawType == ELEMENTS) {
             setIndexBuffer(command.indexBuffer);
-
-            
+            drawElements(command.primitiveType, command.indexFormat, command.indexDrawCount, command.indexDrawOffset);
+            __drawnCounter += command.indexDrawCount;
         }else {
+            drawArrays(command.primitiveType, command.vertexDrawStart, command.vertexDrawCount);
+            __drawnCounter += command.vertexDrawCount;
+        }
 
+        if(command.afterCallback != null) {
+            command.afterCallback();
         }
     }
 
@@ -109,8 +116,12 @@ class SpoopySwapChain extends WindowEventManager {
         __surface.setIndexBuffer(buffer);
     }
 
-    private function drawElements():Void {
-        
+    private function drawArrays(primitiveType:SpoopyPrimitiveType, start:Int, count:Int):Void {
+        __surface.drawArrays(primitiveType, start, count);
+    }
+
+    private function drawElements(primitiveType:SpoopyPrimitiveType, indexFormat:Int, count:Int, offset:Int):Void {
+        __surface.drawElements(primitiveType, indexFormat, count, offset);
     }
 
     private function setLineWidth(width:Float):Void {

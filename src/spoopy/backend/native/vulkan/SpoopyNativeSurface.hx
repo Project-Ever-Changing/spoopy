@@ -63,6 +63,14 @@ class SpoopyNativeSurface {
         SpoopyNativeCFFI.spoopy_set_surface_line_width(handle, width);
     }
 
+    public function drawArray(primitiveType:Int, start:Int, count:Int):Void {
+        SpoopyNativeCFFI.spoopy_surface_draw_arrays(handle, primitiveType, start, count);
+    }
+
+    public function drawElements(primitiveType:Int, indexFormat:Int, count:Int, offset:Int):Void {
+        SpoopyNativeCFFI.spoopy_surface_draw_elements(handle, primitiveType, indexFormat, count, offset);
+    }
+
     public function updateWindow():Void {
         SpoopyNativeCFFI.spoopy_update_window_surface(handle);
     }

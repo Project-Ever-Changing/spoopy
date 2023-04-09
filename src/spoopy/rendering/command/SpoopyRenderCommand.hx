@@ -4,6 +4,7 @@ import spoopy.obj.SpoopyObject;
 import spoopy.obj.SpoopyCamera;
 import spoopy.obj.prim.SpoopyPrimitiveType;
 
+import lime.graphics.opengl.GL;
 import lime.math.Matrix4;
 
 /*
@@ -17,6 +18,7 @@ class SpoopyRenderCommand implements SpoopyObject {
 
     public var drawType(get, set):SpoopyDrawType;
     public var primitiveType(get, set):SpoopyPrimitiveType;
+    public var indexFormat(get, set):Int;
     public var transparent(get, set):Bool;
     public var skipBatching(get, set):Bool;
     public var is3D(get, set):Bool;
@@ -24,6 +26,7 @@ class SpoopyRenderCommand implements SpoopyObject {
     @:noCompletion private var __depth:Float = 0;
     @:noCompletion private var __drawType:SpoopyDrawType;
     @:noCompletion private var __primitiveType:SpoopyPrimitiveType;
+    @:noCompletion private var __indexFormat:Int = GL.UNSIGNED_SHORT;
     @:noCompletion private var __transparent:Bool = true;
     @:noCompletion private var __skipBatching:Bool = false;
     @:noCompletion private var __is3D:Bool = false;
@@ -49,6 +52,10 @@ class SpoopyRenderCommand implements SpoopyObject {
     * Setters.
     */
 
+    @:noCompletion private function set_indexFormat(value:Int):Int {
+        return __indexFormat = value;
+    }
+
     @:noCompletion private function set_primitiveType(value:SpoopyPrimitiveType):SpoopyPrimitiveType {
         return __primitiveType = value;
     }
@@ -73,6 +80,10 @@ class SpoopyRenderCommand implements SpoopyObject {
     /*
     * Getters.
     */
+
+    @:noCompletion private function get_indexFormat():Int {
+        return __indexFormat;
+    }
 
     @:noCompletion private function get_primitiveType():SpoopyPrimitiveType {
         return __primitiveType;
