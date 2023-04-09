@@ -28,7 +28,7 @@
 	<set name="LIME_INCLUDE_PATH" value="../lime-project/include" />
 
 	<set name="LIME_OPENGL" value="1" />
-	<set name="LIME_DISABLE_GL_CONTEXT" value="1" if="SPOOPY_VULKAN || SPOOPY_METAL" />
+	<set name="LIME_ENABLE_GL_CONTEXT" value="1" />
 
 	<section if="mac">
 		<setenv name="MACOSX_DEPLOYMENT_TARGET" value="10.9" if="HXCPP_CPP11 || HXCPP_CPP14" />
@@ -55,6 +55,7 @@
 
 	<files id="lime">
 		<compilerflag value="-DLIME_DEBUG" if="SPOOPY_DEBUG" />
+		<compilerflag value="-DLIME_ENABLE_GL_CONTEXT" if="LIME_ENABLE_GL_CONTEXT" />
 
 		<section if="SPOOPY_VOLK">
 			<compilerflag value="-DSPOOPY_VOLK" />
