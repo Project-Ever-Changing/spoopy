@@ -362,7 +362,7 @@ class WindowEventManager implements IWindowModule {
     }
 
     @:noCompletion private function __registerWindowModule(window:Window):Void {
-        if(this.window != window)return;
+        if(this.window == window)return;
         this.window = window;
 
         window.onActivate.add(__onWindowActivate.bind(window));
