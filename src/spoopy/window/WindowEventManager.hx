@@ -103,6 +103,10 @@ class WindowEventManager implements IWindowModule {
     */
 
     @:noCompletion private function __onWindowRender(context:RenderContext):Void {
+        #if spoopy_debug
+        trace("Get window renderer!");
+        #end
+
         if(__rendering) return;
         __rendering = true;
 
@@ -387,10 +391,9 @@ class WindowEventManager implements IWindowModule {
         window.onMouseMoveRelative.add(__onWindowMouseMoveRelative.bind(window));
         window.onMouseWheel.add(__onWindowMouseWheel.bind(window));
         window.onMove.add(__onWindowMove.bind(window));
+        window.onRender.add(__onWindowRender);
         window.onResize.add(__onWindowResize.bind(window));
         window.onRestore.add(__onWindowRestore.bind(window));
-
-        window.onRender.add(__onWindowRender);
     }
 
     @:noCompletion private function __unregisterWindowModule(window:Window):Void {
