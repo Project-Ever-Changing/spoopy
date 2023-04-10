@@ -32,6 +32,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_surface_begin_render_pass = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_surface_begin_render_pass", "ov", false));
     public static var spoopy_surface_draw_arrays = new cpp.Callable<cpp.Object->Int->Int->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_surface_draw_arrays", "oiiiv", false));
     public static var spoopy_surface_draw_elements = new cpp.Callable<cpp.Object->Int->Int->Int->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_surface_draw_elements", "oiiiiv", false));
+    public static var spoopy_surface_find_command_buffer = new cpp.Callable<cpp.Object->Bool>(cpp.Prime._loadPrime("lime", "spoopy_surface_find_command_buffer", "ob", false));
     public static var spoopy_set_surface_scissor_rect = new cpp.Callable<cpp.Object->cpp.Object->Bool->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_surface_scissor_rect", "oobv", false));
     public static var spoopy_set_surface_line_width = new cpp.Callable<cpp.Object->Float32->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_surface_line_width", "ofv", false));
     public static var spoopy_create_buffer = new cpp.Callable<cpp.Object->Int->Int->Int->Int->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_buffer", "oiiiio", false));
@@ -61,6 +62,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_surface_begin_render_pass = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_surface_begin_render_pass", "ov", false));
     public static var spoopy_surface_draw_arrays = new cpp.Callable<cpp.Object->Int->Int->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_surface_draw_arrays", "oiiiv", false));
     public static var spoopy_surface_draw_elements = new cpp.Callable<cpp.Object->Int->Int->Int->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_surface_draw_elements", "oiiiiv", false));
+    public static var spoopy_surface_find_command_buffer = new cpp.Callable<cpp.Object->Bool>(cpp.Prime._loadPrime("lime", "spoopy_surface_find_command_buffer", "ob", false));
     public static var spoopy_set_surface_scissor_rect = new cpp.Callable<cpp.Object->cpp.Object->Bool->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_surface_scissor_rect", "oobv", false));
     public static var spoopy_set_surface_line_width = new cpp.Callable<cpp.Object->Float32->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_surface_line_width", "ofv", false));
     public static var spoopy_create_buffer = new cpp.Callable<cpp.Object->Int->Int->Int->Int->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_buffer", "oiiiio", false));
@@ -100,6 +102,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_surface_begin_render_pass = CFFI.load("lime", "spoopy_surface_begin_render_pass", 1);
     public static var spoopy_surface_draw_arrays = CFFI.load("lime", "spoopy_surface_draw_arrays", 4);
     public static var spoopy_surface_draw_elements = CFFI.load("lime", "spoopy_surface_draw_elements", 5);
+    public static var spoopy_surface_find_command_buffer = CFFI.load("lime", "spoopy_surface_find_command_buffer", 1);
     public static var spoopy_set_surface_scissor_rect = CFFI.load("lime", "spoopy_set_surface_scissor_rect", 3);
     public static var spoopy_set_surface_line_width = CFFI.load("lime", "spoopy_set_surface_line_width", 2);
     public static var spoopy_create_buffer = CFFI.load("lime", "spoopy_create_buffer", 5);
@@ -130,6 +133,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_surface_begin_render_pass = CFFI.load("lime", "spoopy_surface_begin_render_pass", 1);
     public static var spoopy_surface_draw_arrays = CFFI.load("lime", "spoopy_surface_draw_arrays", 4);
     public static var spoopy_surface_draw_elements = CFFI.load("lime", "spoopy_surface_draw_elements", 5);
+    public static var spoopy_surface_find_command_buffer = CFFI.load("lime", "spoopy_surface_find_command_buffer", 1);
     public static var spoopy_set_surface_scissor_rect = CFFI.load("lime", "spoopy_set_surface_scissor_rect", 3);
     public static var spoopy_set_surface_line_width = CFFI.load("lime", "spoopy_set_surface_line_width", 2);
     public static var spoopy_create_buffer = CFFI.load("lime", "spoopy_create_buffer", 5);
@@ -207,6 +211,10 @@ class SpoopyNativeCFFI {
 
     public static function spoopy_surface_draw_elements(surface:Dynamic, primitiveType:Int, indexFormat:Int, count:Int, offset:Int):Void {
         return;
+    }
+
+    public static function spoopy_surface_find_command_buffer(surface:Dynmaic):Bool {
+        return false;
     }
 
     public static function spoopy_set_surface_scissor_rect(surface:Dynamic, rect:Dynamic, enabled:Bool):Void {
@@ -313,6 +321,10 @@ class SpoopyNativeCFFI {
 
     public static function spoopy_surface_draw_elements(surface:Dynamic, primitiveType:Int, indexFormat:Int, count:Int, offset:Int):Void {
         return;
+    }
+
+    public static function spoopy_surface_find_command_buffer(surface:Dynmaic):Bool {
+        return false;
     }
 
     public static function spoopy_set_surface_scissor_rect(surface:Dynamic, rect:Dynamic, enabled:Bool):Void {

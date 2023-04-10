@@ -31,6 +31,8 @@ namespace lime {
 
             virtual void storeDrawable(id<CAMetalDrawable> drawable);
             virtual void storeCommandQueue(id<MTLCommandQueue> commandQueue);
+
+            virtual bool findCommandBuffer() const;
         private:
             MTLPrimitiveType getMTLPrimitiveType(int primitiveType);
             MTLIndexType getMTLIndexType(int indexFormat);

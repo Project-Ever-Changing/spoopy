@@ -215,6 +215,10 @@ namespace lime {
         #endif
     }
 
+    bool CommandBufferMTL::findCommandBuffer() const {
+        return _commandBuffer != nil;
+    }
+
     /*
      * TODO: Make the methods for Texture and Stencil.
      */

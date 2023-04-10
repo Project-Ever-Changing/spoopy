@@ -223,6 +223,12 @@ namespace lime {
     }
     DEFINE_PRIME5v(spoopy_surface_draw_elements);
 
+    bool spoopy_surface_find_command_buffer(value window_surface) {
+        SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
+        return windowSurface -> findCommandBuffer();
+    }
+    DEFINE_PRIME1(spoopy_surface_find_command_buffer);
+
     void spoopy_set_vertex_buffer(value window_surface, value buffer, int offset, int atIndex) {
         SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
         windowSurface -> setVertexBuffer(buffer, offset, atIndex);

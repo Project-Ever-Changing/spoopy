@@ -10,6 +10,7 @@ import spoopy.rendering.SpoopyWinding;
 import lime._internal.backend.native.NativeWindow;
 import lime.math.Rectangle;
 import lime.app.Application;
+import lime.utils.Log;
 
 @:access(spoopy.graphics.SpoopyBuffer)
 @:access(spoopy.backend.native.SpoopyNativeShader)
@@ -21,11 +22,7 @@ class SpoopyNativeSurface {
         handle = SpoopyNativeCFFI.spoopy_create_window_surface(window.handle);
         SpoopyNativeCFFI.spoopy_assign_metal_surface(handle);
 
-        #if (debug || spoopy_debug)
-        device = SpoopyNativeCFFI.spoopy_get_metal_device_from_layer(handle, true);
-        #else
         device = SpoopyNativeCFFI.spoopy_get_metal_device_from_layer(handle, false);
-        #end
     }
 
     public function setVertexBuffer(buffer:SpoopyBuffer, offset:Int, atIndex:Int):Void {
@@ -77,6 +74,12 @@ class SpoopyNativeSurface {
     }
 
     public function release():Void {
+        #if spoopy_debug
+        if(!SpoopyNativeCFFI.spoopy_surface_find_command_buffer(handle)) {
+            Log.error("Command buffer does not exist!");
+        }
+        #end
+
         SpoopyNativeCFFI.spoopy_release_window_surface(handle);
     }
 }

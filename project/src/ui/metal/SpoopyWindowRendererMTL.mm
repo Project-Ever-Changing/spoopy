@@ -106,6 +106,20 @@ namespace lime {
         commandBuffer -> drawElements(primitiveType, indexFormat, count, offset);
     }
 
+    bool SpoopyWindowRendererMTL::findCommandBuffer() const {
+        if(commandBuffer != NULL) {
+            printf("%s", "Error: Command buffer object not found.");
+            return false;
+        }
+
+        if(commandBuffer -> findCommandBuffer()) {
+            printf("%s", "Error: Command buffer not found.");
+            return false;
+        }
+
+        return true;
+    }
+
     SpoopyWindowRendererMTL::~SpoopyWindowRendererMTL() {
         if(commandBuffer != nullptr) {
             delete commandBuffer;

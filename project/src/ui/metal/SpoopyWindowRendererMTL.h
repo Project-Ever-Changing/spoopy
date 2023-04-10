@@ -39,6 +39,7 @@ namespace lime {
             virtual void drawArrays(int primitiveType, size_t start, size_t count);
             virtual void drawElements(int primitiveType, int indexFormat, size_t count, size_t offset);
 
+            virtual bool findCommandBuffer() const;
             virtual CAMetalLayer* getMetalLayer() const {return layer;};
 
 
