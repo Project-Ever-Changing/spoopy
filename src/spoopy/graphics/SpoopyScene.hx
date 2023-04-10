@@ -56,6 +56,8 @@ class SpoopyScene extends SpoopySwapChain {
         __acumulator = __stepMS;
 
         state = (initState == null) ? new SpoopyState(this) : initState;
+        state.device = this;
+
         __nextState = state;
     }
 
@@ -65,6 +67,7 @@ class SpoopyScene extends SpoopySwapChain {
         }
 
         __nextState = nextState;
+        __nextState.device = this;
     }
 
     public function addCommandToQueue(command:SpoopyCommand):Void {
