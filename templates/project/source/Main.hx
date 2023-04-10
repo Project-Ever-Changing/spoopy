@@ -8,4 +8,10 @@ class Main extends SpoopyApplication {
 
         // Code Goes Here
     }
+
+    public override function onWindowCreate():Void {
+        super.onWindowCreate();
+
+        // Code Goes Here
+    }
 }
