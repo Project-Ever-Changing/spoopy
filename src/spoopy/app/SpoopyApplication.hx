@@ -49,7 +49,7 @@ class SpoopyApplication extends Application {
     }
 
     public function addWindowModule(module:IWindowModule, window:Window):Void {
-        module.__registerWindowModule(window);
+        onCreateWindow.add(module.__registerWindowModule.bind());
         windowModules.set(window, module);
     }
 
