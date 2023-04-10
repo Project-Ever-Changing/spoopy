@@ -167,7 +167,7 @@ class SpoopyScene extends SpoopySwapChain {
     #end
 
     override function onUpdate():Void {
-        super.onWindowUpdate();
+        super.onUpdate();
 
         ticks = getTicks();
         __elapsedMS = ticks - __totalTime;
