@@ -55,7 +55,7 @@ class SpoopyScene extends SpoopySwapChain {
         __fullscreenDirty = fullscreen;
         __acumulator = __stepMS;
 
-        state = (initState == null) ? new SpoopyState(this) : initState;
+        state = (initState == null) ? new SpoopyState() : initState;
         state.device = this;
 
         __nextState = state;
