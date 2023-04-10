@@ -58,7 +58,7 @@ class WindowEventManager implements IWindowModule {
     /*
     * How many times the window has been rendered.
     */
-    public var trackedRenderCalls:Int = 0;
+    public var trackedRenderCalls(default, null):Int = 0;
 
     #end
     
