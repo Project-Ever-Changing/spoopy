@@ -52,6 +52,15 @@ class WindowEventManager implements IWindowModule {
     * `framerate` for the application window, in frames per second.
     */
     public var frameRate(get, set):Float;
+
+    #if spoopy_track_render_calls
+
+    /*
+    * How many times the window has been rendered.
+    */
+    public var trackedRenderCalls:Int = 0;
+
+    #end
     
 
     @:noCompletion private var __rendering:Bool;
@@ -103,6 +112,10 @@ class WindowEventManager implements IWindowModule {
         __rendering = true;
 
         onWindowUpdate();
+        
+        #if spoopy_track_render_calls
+        trackedRenderCalls++;
+        #end
 
         __rendering = false;
     }
