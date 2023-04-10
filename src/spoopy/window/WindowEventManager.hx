@@ -360,8 +360,6 @@ class WindowEventManager implements IWindowModule {
 
         this.window = window;
 
-        window.onRender.add(__onWindowRender);
-
         window.onActivate.add(__onWindowActivate.bind(window));
         window.onClose.add(__onWindowClose.bind(window), false, -9000);
         window.onDeactivate.add(__onWindowDeactivate.bind(window));
@@ -382,6 +380,8 @@ class WindowEventManager implements IWindowModule {
         window.onMove.add(__onWindowMove.bind(window));
         window.onResize.add(__onWindowResize.bind(window));
         window.onRestore.add(__onWindowRestore.bind(window));
+
+        window.onRender.add(__onWindowRender);
     }
 
     @:noCompletion private function __unregisterWindowModule(window:Window):Void {
