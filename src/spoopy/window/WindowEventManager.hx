@@ -363,11 +363,10 @@ class WindowEventManager implements IWindowModule {
 
     @:noCompletion private function __registerWindowModule(window:Window):Void {
         #if spoopy_debug
-        trace("Registering window module: " + Std.string(this.window));
+        trace("Registering window module: " + Std.string(window));
         #end
 
-        if(this.window != window) return;
-
+        if(this.window != window)return;
         this.window = window;
 
         window.onActivate.add(__onWindowActivate.bind(window));
