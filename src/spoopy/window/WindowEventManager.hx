@@ -53,15 +53,10 @@ class WindowEventManager implements IWindowModule {
     */
     public var frameRate(get, set):Float;
 
-    #if spoopy_track_render_calls
-
     /*
     * How many times the window has been rendered.
     */
-    public var trackedRenderCalls(default, null):Int = 0;
-
-    #end
-    
+    public var deltaTime(default, null):Int = 0;
 
     @:noCompletion private var __rendering:Bool;
     @:noCompletion private var __fullscreen:Bool;
@@ -113,9 +108,7 @@ class WindowEventManager implements IWindowModule {
 
         onWindowUpdate();
         
-        #if spoopy_track_render_calls
-        trackedRenderCalls++;
-        #end
+        deltaTime++;
 
         __rendering = false;
     }
