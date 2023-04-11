@@ -36,7 +36,7 @@ namespace lime {
             release(renderPassDescriptor);
         }
 
-        MTLRenderPassDescriptor* renderPassDescriptor = [MTLRenderPassDescriptor new];
+        renderPassDescriptor = [MTLRenderPassDescriptor new];
         renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(rgba[0], rgba[1], rgba[2], rgba[3]);
         renderPassDescriptor.colorAttachments[0].texture = _surface.texture;
         renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
