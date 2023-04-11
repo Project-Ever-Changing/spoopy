@@ -108,12 +108,12 @@ namespace lime {
 
     bool SpoopyWindowRendererMTL::findCommandBuffer() const {
         if(commandBuffer != NULL) {
-            printf("%s", "Error: Command buffer object not found.");
+            printf("%s", "Error: Command buffer object not found.\n");
             return false;
         }
 
         if(commandBuffer -> findCommandBuffer()) {
-            printf("%s", "Error: Command buffer not found.");
+            printf("%s", "Error: Command buffer not found.\n");
             return false;
         }
 
