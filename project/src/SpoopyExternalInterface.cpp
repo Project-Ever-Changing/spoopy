@@ -205,6 +205,11 @@ namespace lime {
     }
     DEFINE_PRIME2v(spoopy_set_surface_line_width);
 
+    void spoopy_surface_update_descriptor(value window_surface) {
+        SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
+        windowSurface -> updateMetalDescriptor();
+    }
+
     void spoopy_surface_begin_render_pass(value window_surface) {
         SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
         windowSurface -> beginRenderPass();

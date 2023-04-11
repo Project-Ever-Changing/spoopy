@@ -61,7 +61,7 @@ namespace lime {
         retain(_commandBuffer);
     }
 
-    void CommandBufferMTL::refreshRenderCommandEncoder(MTLRenderPassDescriptor* renderPassDescriptor) {
+    void CommandBufferMTL::beginRenderPass(MTLRenderPassDescriptor* renderPassDescriptor) {
         if(_renderCommandEncoder != nil && renderPassDescriptor == _prevDescriptor) {
             return;
         }else {

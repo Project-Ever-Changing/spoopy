@@ -83,7 +83,7 @@ namespace lime {
     }
 
     void SpoopyWindowRendererMTL::beginRenderPass() {
-        commandBuffer -> refreshRenderCommandEncoder(renderPassDescriptor);
+        commandBuffer -> beginRenderPass(renderPassDescriptor);
     }
 
     void SpoopyWindowRendererMTL::clear() {
