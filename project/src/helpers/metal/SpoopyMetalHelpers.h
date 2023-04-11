@@ -38,10 +38,6 @@ namespace lime {
         [_obj reset];
     }
 
-    inline void endEncoding(id<MTLRenderCommandEncoder> _obj) {
-        [_obj endEncoding];
-    }
-
     inline void enqueue(id<MTLCommandBuffer> _obj) {
         [_obj enqueue];
     }

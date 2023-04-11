@@ -69,7 +69,7 @@ namespace lime {
         }
 
         if(_renderCommandEncoder != nil) {
-            endEncoding(_renderCommandEncoder);
+            [_renderCommandEncoder endEncoding];
             release(_renderCommandEncoder);
             _renderCommandEncoder = nil;
         }
@@ -198,7 +198,7 @@ namespace lime {
     }
 
     void CommandBufferMTL::endFrame() {
-        endEncoding(_renderCommandEncoder);
+        [_renderCommandEncoder endEncoding];
         release(_renderCommandEncoder);
         _renderCommandEncoder = nil;
 
