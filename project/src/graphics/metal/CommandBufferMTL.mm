@@ -211,7 +211,10 @@ namespace lime {
         _drawable = nil;
 
         #ifndef OBJC_ARC
-        [pool drain];
+        if(pool != nil) {
+            [pool drain];
+            pool = nil;
+        }
         #endif
     }
 

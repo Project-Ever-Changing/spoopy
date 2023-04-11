@@ -44,7 +44,7 @@ namespace lime {
             renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
             renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
         }else {
-            printf("%s", "Failed to create render pass descriptor");
+            printf("%s", "Failed to create render pass descriptor\n");
         }
     }
 
