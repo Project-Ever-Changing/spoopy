@@ -73,13 +73,12 @@ namespace lime {
     void SpoopyWindowRendererMTL::render() {
         int width, height;
 
-        commandBuffer -> beginFrame();
-
         SDL_GetRendererOutputSize(getWindow().sdlRenderer, &width, &height);
         layer.drawableSize = CGSizeMake(width, height);
 
         _surface = [layer nextDrawable];
         commandBuffer -> storeDrawable(_surface);
+        commandBuffer -> beginFrame();
     }
 
     void SpoopyWindowRendererMTL::beginRenderPass() {
