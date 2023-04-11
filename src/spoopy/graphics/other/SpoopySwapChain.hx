@@ -72,6 +72,7 @@ class SpoopySwapChain extends WindowEventManager {
         __surface.updateWindow();
         buffers.beginFrame();
 
+        beginRenderPass();
         onUpdate();
 
         __surface.release();
@@ -83,7 +84,6 @@ class SpoopySwapChain extends WindowEventManager {
             command.beforeCallback();
         }
 
-        beginRenderPass();
         setVertexBuffer(command.vertexBuffer, 0);
         setLineWidth(command.lineWidth);
 
