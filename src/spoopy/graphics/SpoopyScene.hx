@@ -46,11 +46,14 @@ class SpoopyScene extends SpoopySwapChain {
     @:noCompletion var __elapsedMS:Float;
     @:noCompletion var __startTime:Int;
 
-    public function new(application:SpoopyApplication, fullscreen:Bool = false, ?initState:SpoopyState = null) {
+    public function new(application:SpoopyApplication, ?initState:SpoopyState = null, fullscreen:Bool = false, updateFramerate:Int = 60, renderFramerate:Int = 60) {
         super(application);
 
         cameras = new SpoopyCameraStorage(this);
         shaders = new SpoopyShaderStorage(this);
+
+        this.updateFramerate = updateFramerate;
+        this.renderFramerate = renderFramerate;
 
         __fullscreenDirty = fullscreen;
         __acumulator = __stepMS;
