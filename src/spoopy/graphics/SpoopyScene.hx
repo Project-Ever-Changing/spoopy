@@ -192,17 +192,6 @@ class SpoopyScene extends SpoopySwapChain {
         render();
     }
 
-    @:noCompletion override private function __registerWindowModule(window:Window):Void {
-        #if spoopy_debug
-        Log.info("Window's framerate is set to " + frameRate + " fps.");
-        #end
-
-        super.__registerWindowModule(window);
-
-        updateFramerate = Std.int(frameRate);
-        renderFramerate = Std.int(frameRate);
-    }
-
     @:noCompletion function get_fullscreen():Bool {
         return __fullscreenDirty;
     }
