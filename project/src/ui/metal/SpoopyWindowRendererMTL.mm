@@ -36,16 +36,16 @@ namespace lime {
             release(renderPassDescriptor);
         }
 
-        renderPassDescriptor = [MTLRenderPassDescriptor new];
-
-        if(renderPassDescriptor != nil) {
-            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(rgba[0], rgba[1], rgba[2], rgba[3]);
-            renderPassDescriptor.colorAttachments[0].texture = _surface.texture;
-            renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-            renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
-        }else {
-            printf("%s", "Failed to create render pass descriptor\n");
+        if (_surface == nil || _surface.texture == nil) {
+            printf("%s", "Surface or texture is not valid\n");
+            return;
         }
+
+        renderPassDescriptor = [MTLRenderPassDescriptor new];
+        renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(rgba[0], rgba[1], rgba[2], rgba[3]);
+        renderPassDescriptor.colorAttachments[0].texture = _surface.texture;
+        renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
+        renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
     }
 
     void SpoopyWindowRendererMTL::setVertexBuffer(value __buffer, int __offset, int __atIndex) {
