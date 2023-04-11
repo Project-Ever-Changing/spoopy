@@ -33,6 +33,8 @@ class SpoopySwapChain extends WindowEventManager {
 
     @:noCompletion private var __drawnCounter:Int = 0;
 
+    @:noCompletion private var __updateDescriptorDirty:Bool = true;
+
     public function new(application:SpoopyApplication) {
         this.application = application;
         this.buffers = new SpoopyBufferStorage(this);
@@ -71,6 +73,14 @@ class SpoopySwapChain extends WindowEventManager {
 
         __surface.updateWindow();
         buffers.beginFrame();
+
+        if(__updateDescriptorDirty) {
+            #if spoopy_metal
+            __surface.updateMetalDescriptor();
+            #end
+
+            __updateDescriptorDirty = false;
+        }
 
         beginRenderPass();
         onUpdate();
