@@ -76,7 +76,7 @@ class SpoopyNativeSurface {
     public function release():Void {
         #if spoopy_debug
         if(!SpoopyNativeCFFI.spoopy_surface_find_command_buffer(handle)) {
-            Log.info("Command buffer does not exist!");
+            Log.warn("Command buffer does not exist!");
         }
         #end
 
