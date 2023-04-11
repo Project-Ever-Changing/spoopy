@@ -138,8 +138,6 @@ class SpoopyScene extends SpoopySwapChain {
         #if desktop
         fullscreen = __fullscreenDirty;
         #end
-
-        frameRate = renderFramerate;
     }
 
     override function beginRenderPass():Void {
