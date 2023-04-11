@@ -198,8 +198,8 @@ namespace lime {
     }
 
     void CommandBufferMTL::endFrame() {
-        [_renderCommandEncoder endEncoding];
-        [_renderCommandEncoder release];
+        endEncoding(_renderCommandEncoder);
+        release(_renderCommandEncoder);
         _renderCommandEncoder = nil;
 
         [_commandBuffer presentDrawable:_drawable];
