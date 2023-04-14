@@ -18,7 +18,7 @@ If both Haxe and Lime are appropriately set up, install the repository using `ha
 
 Similar to Lime, setup the repository with `haxelib run spoopy setup`.
 
-If you are planning to compile natively to either C++ or neko, make sure to build an NDLL using the following `spoopy build_ndll` or `haxelib run spoopy build_ndll`.
+If you are planning to compile natively to either C++ or Neko, make sure to build an NDLL using the following `spoopy build_ndll` or `haxelib run spoopy build_ndll`.
 
 ## Creating a Spoopy Project
 
