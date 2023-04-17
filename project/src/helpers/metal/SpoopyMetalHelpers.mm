@@ -1,24 +1,19 @@
 #include "SpoopyMetalHelpers.h"
 
 namespace lime {
-    SpoopyPixelFormat SpoopyMetalHelpers::convertSDLtoMetal(Uint32 pixelFormat) {
-        SpoopyPixelFormat mpf = 0;
-
+    SpoopyPixelFormat SpoopyMetalHelpers::convertSDLtoMetal(UInt32 pixelFormat) {
         switch(pixelFormat) {
+            case SDL_PIXELFORMAT_RGBA32:
             case SDL_PIXELFORMAT_ARGB8888:
-                mpf = MTLPixelFormatBGRA8Unorm;
-                break;
-            case SDL_PIXELFORMAT_BGR888:
-                mpf = MTLPixelFormatBGRA8Unorm;
-                break;
-            case SDL_PIXELFORMAT_BGRX8888:
-                mpf = MTLPixelFormatBGRA8Unorm_sRGB;
-                break;
-            default:
-                mpf = MTLPixelFormatRGBA8Unorm;
-                break;
-        }
+                return MTLPixelFormatRGBA8Unorm;
 
-        return mpf;
+            case SDL_PIXELFORMAT_BGRA8888:
+            case SDL_PIXELFORMAT_BGRX8888:
+                return MTLPixelFormatBGRA8Unorm;
+
+            default:
+                printf("Unsupported SDL_PixelFormat: 0x%X\n", pixelFormat);
+                return MTLPixelFormatInvalid;
+        }
     }
 }

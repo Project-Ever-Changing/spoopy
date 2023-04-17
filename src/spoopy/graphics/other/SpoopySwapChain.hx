@@ -113,8 +113,6 @@ class SpoopySwapChain extends WindowEventManager {
 
     private function beginRenderPass():Void {
         __surface.beginRenderPass();
-        __surface.cullFace(cullFace);
-        __surface.winding(winding);
     }
 
     private function setVertexBuffer(buffer:SpoopyBuffer, offset:Int):Void {

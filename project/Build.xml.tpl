@@ -104,11 +104,14 @@
 			<file name="src/shaders/metal/MetalShader.mm" />
 			<file name="src/graphics/metal/BufferMTL.mm" />
 			<file name="src/graphics/metal/CommandBufferMTL.mm" />
+			<file name="src/graphics/metal/texture/Texture2DMTL.mm" />
 			<compilerflag value="-DSPOOPY_METAL" />
 		</section>
 
 		<file name="src/shaders/CrossShader.cpp" />
 		<file name="src/helpers/SpoopyHelpers.cpp" />
+		<file name="src/helpers/SpoopyBytes.cpp" />
+		<file name="src/graphics/Texture.cpp" />
 		<file name="src/math/SpoopyPoint.cpp" />
 	</files>
 
@@ -134,6 +137,8 @@
 
 			<cppflag value="-std=c++14" if="HXCPP_CPP14" />
     		<cppflag value="-Wc++14-extensions" if="HXCPP_CPP14" />
+
+    		<cppflag value="-std=c++11" if="HXCPP_CPP11" />
 		</section>
 
 	</target>

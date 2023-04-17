@@ -4,6 +4,22 @@
  * TODO: Make the methods for Texture and Stencil.
  */
 namespace lime {
+    MTLRenderPassDescriptor* getMTLRenderPassDescriptor(const RenderPassDescriptor<Texture2DMTL>& descriptor) {
+        MTLRenderPassDescriptor* _mtlDescritpor = [MTLRenderPassDescriptor renderPassDescriptor];
+
+        if(descriptor.needColorAttachment) {
+            bool hasCustomColorAttachment = false;
+
+            for(int i=0; i<MAX_COLOR_ATTACHMENT; ++i) {
+                if(!descriptor.colorAttachment[i]) {
+                    continue;
+                }
+            }
+        }
+
+        return _mtlDescritpor;
+    }
+
     CommandBufferMTL::CommandBufferMTL(id<MTLDevice> device): _device(device) {
         _renderTargetWidth = 0;
         _renderTargetHeight = 0;
@@ -61,7 +77,8 @@ namespace lime {
         retain(_commandBuffer);
     }
 
-    void CommandBufferMTL::beginRenderPass(MTLRenderPassDescriptor* renderPassDescriptor) {
+    void CommandBufferMTL::beginRenderPass(RenderPassDescriptor<Texture2DMTL>& renderPassDescriptor) {
+        /*
         if(_renderCommandEncoder != nil && renderPassDescriptor == _prevDescriptor) {
             return;
         }else {
@@ -78,6 +95,7 @@ namespace lime {
         _renderTargetHeight = (unsigned int)_prevDescriptor.colorAttachments[0].texture.height;
         _renderCommandEncoder = [_commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
         retain(_renderCommandEncoder);
+         */
     }
 
     void CommandBufferMTL::setRenderPipeline(SpoopyPipelineState& renderPipeline) {

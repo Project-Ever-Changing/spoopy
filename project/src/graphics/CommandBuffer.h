@@ -1,6 +1,7 @@
 #pragma once
 
 #include <graphics/Buffer.h>
+#include <graphics/RenderPassDescriptor.h>
 #include <math/Rectangle.h>
 
 #ifdef SPOOPY_METAL
@@ -16,6 +17,7 @@ namespace lime {
 
             virtual void beginFrame() = 0;
             virtual void endFrame() = 0;
+
             virtual void setRenderPipeline(SpoopyPipelineState& renderPipeline) = 0;
             virtual void setViewport(Rectangle* rect) = 0;
             virtual void setScissor(bool isEnabled, Rectangle* rect) = 0;

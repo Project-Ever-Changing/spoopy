@@ -6,6 +6,8 @@
 
 #include <assert.h>
 
+#define MAX_COLOR_ATTACHMENT 1
+
 #define SPOOPY_SAFE_DELETE_ARRAY(p) do {if(p) { delete[] (p); (p) = nullptr;}} while(0)
 
 #if SPOOPY_DISABLE_ASSERT > 0

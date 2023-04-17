@@ -23,7 +23,7 @@ namespace lime {
     typedef MTLPixelFormat SpoopyPixelFormat;
 
     struct SpoopyMetalHelpers {
-        static SpoopyPixelFormat convertSDLtoMetal(Uint32 pixelFormat);
+        static SpoopyPixelFormat convertSDLtoMetal(UInt32 pixelFormat);
     };
 
     inline void release(NSObject* _obj) {

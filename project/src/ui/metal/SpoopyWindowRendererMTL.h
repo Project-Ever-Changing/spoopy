@@ -3,6 +3,8 @@
 #import "../../helpers/metal/SpoopyMetalHelpers.h"
 #import "../../graphics/metal/CommandBufferMTL.h"
 
+#include "../../graphics/metal/texture/Texture2DMTL.h"
+
 #include <ui/SpoopyWindowRenderer.h>
 #include <SDL_metal.h>
 
@@ -33,15 +35,16 @@ namespace lime {
             virtual void render();
             virtual void clear();
 
-            virtual void cullFace(int cullMode);
-            virtual void setWinding(int winding);
-
             virtual void drawArrays(int primitiveType, size_t start, size_t count);
             virtual void drawElements(int primitiveType, int indexFormat, size_t count, size_t offset);
 
+            virtual void setRenderTarget(RenderTargetFlag flags, Texture2D* colorAttachment, Texture2D* depthAttachment, Texture2D* stencilAttachment);
+
+            virtual void cullFace(int cullMode);
+            virtual void setWinding(int winding);
+
             virtual bool findCommandBuffer() const;
             virtual CAMetalLayer* getMetalLayer() const {return layer;};
-
 
             virtual const SDLWindow& getWindow() const;
         private:
@@ -49,13 +52,13 @@ namespace lime {
             const SDLWindow &m_window;
             #endif
 
-            MTLRenderPassDescriptor* renderPassDescriptor;
             CAMetalLayer* layer;
 
-            CommandBufferMTL* commandBuffer;
+            RenderPassDescriptor<Texture2DMTL> renderPassDescriptor;
+
+            CommandBufferMTL* _commandBuffer;
+            Texture2DMTL* _colorAttachment;
 
             id<CAMetalDrawable> _surface;
-
-            float rgba[4];
     };
 }

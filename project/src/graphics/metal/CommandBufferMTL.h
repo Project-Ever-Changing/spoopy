@@ -1,5 +1,6 @@
 #pragma once
 
+#include "texture/Texture2DMTL.h"
 #include "../CommandBuffer.h"
 #include "BufferMTL.h"
 
@@ -14,7 +15,6 @@ namespace lime {
             virtual void beginFrame();
             virtual void endFrame();
 
-            virtual void beginRenderPass(MTLRenderPassDescriptor* renderPassDescriptor);
             virtual void setRenderPipeline(SpoopyPipelineState& renderPipeline);
             virtual void setViewport(Rectangle* rect);
             virtual void setScissor(bool isEnabled, Rectangle* rect);
@@ -33,6 +33,8 @@ namespace lime {
             virtual void storeCommandQueue(id<MTLCommandQueue> commandQueue);
 
             virtual bool findCommandBuffer() const;
+
+            virtual void beginRenderPass(RenderPassDescriptor<Texture2DMTL>& renderPassDescriptor);
         private:
             MTLPrimitiveType getMTLPrimitiveType(int primitiveType);
             MTLIndexType getMTLIndexType(int indexFormat);
