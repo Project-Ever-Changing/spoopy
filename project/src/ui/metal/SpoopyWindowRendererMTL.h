@@ -52,13 +52,10 @@ namespace lime {
             const SDLWindow &m_window;
             #endif
 
+            CommandBufferMTL* _commandBuffer;
             CAMetalLayer* layer;
 
             RenderPassDescriptor<Texture2DMTL> renderPassDescriptor;
-
-            CommandBufferMTL* _commandBuffer;
-            Texture2DMTL* _colorAttachment;
-
             id<CAMetalDrawable> _surface;
     };
 }

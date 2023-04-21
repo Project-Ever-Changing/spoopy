@@ -10,10 +10,22 @@ namespace lime {
             clearColorValue[2] = 0.0f;
             clearColorValue[3] = 1.0f;
 
-            useColorAttachment = true;
-
             for(int i=0; i<MAX_COLOR_ATTACHMENT; ++i) {
                 colorAttachment[i] = nullptr;
+            }
+
+            needColorAttachment = true;
+            needClearColor = false;
+        }
+
+        bool operator==(const RenderPassDescriptor& descriptor) const {
+            if(clearColorValue == descriptor.clearColorValue &&
+            colorAttachment[0] == descriptor.colorAttachment[0] &&
+            needColorAttachment == descriptor.needColorAttachment &&
+            needClearColor == descriptor.needClearColor) {
+                return true;
+            } else {
+                return false;
             }
         }
 
@@ -28,8 +40,8 @@ namespace lime {
 
         float clearColorValue[4];
 
-        bool useColorAttachment;
         bool needColorAttachment;
+        bool needClearColor;
 
         TEXTURE_2D* colorAttachment[MAX_COLOR_ATTACHMENT];
     };

@@ -9,8 +9,8 @@
 
 namespace lime {
     enum TextureType: uint32_t {
-        TEXTURE_2D,
-        TEXTURE_CUBE
+        TEXTURE_2D = 0x0DE1,
+        TEXTURE_CUBE = 0x8513
     };
 
     enum TextureUsage: uint32_t {
@@ -26,7 +26,6 @@ namespace lime {
 
         uint32_t width;
         uint32_t height;
-        uint32_t depth;
 
         SamplerDescriptor samplerDescriptor;
 
@@ -37,14 +36,12 @@ namespace lime {
 
             width = 0;
             height = 0;
-            depth = 0;
         }
     };
 
     class Texture {
         public:
             virtual void updateTextureDescriptor(TextureDescriptor& descriptor);
-
             virtual void updateSamplerDescriptor(SamplerDescriptor& descriptor) = 0;
         protected:
             Texture(const TextureDescriptor& descriptor);

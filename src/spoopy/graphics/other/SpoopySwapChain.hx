@@ -26,14 +26,17 @@ class SpoopySwapChain extends WindowEventManager {
 
     public var atIndexVertex(default, null):Int = 0;
 
-    public var cullFace:SpoopyCullMode = CULL_MODE_NONE;
-    public var winding:SpoopyWinding = CLOCKWISE;
+
+    public var scissorRect(default, null):Rectangle;
+    public var currentCullFace(default, null):SpoopyCullMode = CULL_MODE_NONE;
+    public var currentWinding(default, null):SpoopyWinding = CLOCKWISE;
 
     @:noCompletion private var __surface:SpoopyNativeSurface;
 
     @:noCompletion private var __drawnCounter:Int = 0;
 
     @:noCompletion private var __updateDescriptorDirty:Bool = true;
+    @:noCompletion private var __enabledDirty:Bool = false;
 
     public function new(application:SpoopyApplication) {
         this.application = application;
@@ -62,8 +65,40 @@ class SpoopySwapChain extends WindowEventManager {
         __surface.setViewport(rect);
     }
 
-    public function setScissor(rect:Rectangle, enabled:Bool):Void {
+    public function setScissorRect(rect:Rectangle, enabled:Bool):Void {
+        if(rect == null) {
+            return;
+        }
+
+        if(scissorRect.x == rect.x
+        && scissorRect.y == rect.y
+        && scissorRect.width == rect.width
+        && scissorRect.height == rect.height
+        && enabled == __enabledDirty) {
+            return;
+        }
+
+        scissorRect = rect;
+        __enabledDirty = enabled;
         __surface.setScissorRect(rect, enabled);
+    }
+
+    public function setCullFace(cull:SpoopyCullMode):Void {
+        if(currentCullFace == cull) {
+            return;
+        }
+
+        currentCullFace = cull;
+        __surface.cullFace(cull);
+    }
+
+    public function setWinding(winding:SpoopyWinding):Void {
+        if(currentWinding == winding) {
+            return;
+        }
+        
+        currentWinding = winding;
+        __surface.winding(winding);
     }
 
     public override function onWindowUpdate():Void {
@@ -139,6 +174,9 @@ class SpoopySwapChain extends WindowEventManager {
     @:noCompletion override private function __registerWindowModule(window:Window):Void {
         super.__registerWindowModule(window);
         __surface = new SpoopyNativeSurface(window.__backend, application);
+
+        viewportRect = new Rectangle(0, 0, window.width, window.height);
+        scissorRect = new Rectangle(0, 0, window.width, window.height);
 
         create();
     }

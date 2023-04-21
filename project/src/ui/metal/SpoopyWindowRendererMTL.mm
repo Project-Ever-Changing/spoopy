@@ -95,7 +95,7 @@ namespace lime {
     }
 
     void SpoopyWindowRendererMTL::beginRenderPass() {
-        //_commandBuffer -> beginRenderPass(_mtlDescriptor);
+        _commandBuffer -> beginRenderPass(renderPassDescriptor);
         _commandBuffer -> setViewport(_viewport);
         _commandBuffer -> setCullMode(_cullMode);
         _commandBuffer -> setWinding(_winding);
@@ -125,10 +125,7 @@ namespace lime {
             }else {
                 renderPassDescriptor.colorAttachment[0] = nullptr;
             }
-
-            _colorAttachment = static_cast<Texture2DMTL*>(colorAttachment);
         }else {
-            _colorAttachment = nullptr;
             renderPassDescriptor.needColorAttachment = false;
             renderPassDescriptor.colorAttachment[0] = nullptr;
         }

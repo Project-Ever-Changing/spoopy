@@ -4,17 +4,51 @@
  * TODO: Make the methods for Texture and Stencil.
  */
 namespace lime {
-    MTLRenderPassDescriptor* getMTLRenderPassDescriptor(const RenderPassDescriptor<Texture2DMTL>& descriptor) {
+    MTLRenderPassDescriptor* getMTLRenderPassDescriptor(const RenderPassDescriptor<Texture2DMTL>& descriptor, id<CAMetalDrawable> _drawable) {
         MTLRenderPassDescriptor* _mtlDescritpor = [MTLRenderPassDescriptor renderPassDescriptor];
 
         if(descriptor.needColorAttachment) {
             bool hasCustomColorAttachment = false;
 
             for(int i=0; i<MAX_COLOR_ATTACHMENT; ++i) {
-                if(!descriptor.colorAttachment[i]) {
+                if(descriptor.colorAttachment[i] == nullptr) {
                     continue;
                 }
+
+                _mtlDescritpor.colorAttachments[i].texture = descriptor.colorAttachment[i] -> getMTLTexture();
+
+                if(descriptor.needClearColor) {
+                    _mtlDescritpor.colorAttachments[i].loadAction = MTLLoadActionClear;
+                    _mtlDescritpor.colorAttachments[i].clearColor = MTLClearColorMake(
+                            descriptor.clearColorValue[0],
+                            descriptor.clearColorValue[1],
+                            descriptor.clearColorValue[2],
+                            descriptor.clearColorValue[3]
+                    );
+                }else {
+                    _mtlDescritpor.colorAttachments[i].loadAction = MTLLoadActionLoad;
+                }
+
+                hasCustomColorAttachment = true;
             }
+
+            if(!hasCustomColorAttachment) {
+                _mtlDescritpor.colorAttachments[0].texture = _drawable.texture;
+
+                if(descriptor.needClearColor) {
+                    _mtlDescritpor.colorAttachments[0].loadAction = MTLLoadActionClear;
+                    _mtlDescritpor.colorAttachments[0].clearColor = MTLClearColorMake(
+                            descriptor.clearColorValue[0],
+                            descriptor.clearColorValue[1],
+                            descriptor.clearColorValue[2],
+                            descriptor.clearColorValue[3]
+                    );
+                }else {
+                    _mtlDescritpor.colorAttachments[0].loadAction = MTLLoadActionLoad;
+                }
+            }
+
+            _mtlDescritpor.colorAttachments[0].storeAction = MTLStoreActionStore;
         }
 
         return _mtlDescritpor;
@@ -77,10 +111,9 @@ namespace lime {
         retain(_commandBuffer);
     }
 
-    void CommandBufferMTL::beginRenderPass(RenderPassDescriptor<Texture2DMTL>& renderPassDescriptor) {
-        /*
+    id<MTLRenderCommandEncoder> CommandBufferMTL::getRenderCommandEncoder(RenderPassDescriptor<Texture2DMTL>& renderPassDescriptor) {
         if(_renderCommandEncoder != nil && renderPassDescriptor == _prevDescriptor) {
-            return;
+            return _renderCommandEncoder;
         }else {
             _prevDescriptor = renderPassDescriptor;
         }
@@ -91,11 +124,17 @@ namespace lime {
             _renderCommandEncoder = nil;
         }
 
-        _renderTargetWidth = (unsigned int)_prevDescriptor.colorAttachments[0].texture.width;
-        _renderTargetHeight = (unsigned int)_prevDescriptor.colorAttachments[0].texture.height;
-        _renderCommandEncoder = [_commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
+        MTLRenderPassDescriptor* _mtlDescriptor = getMTLRenderPassDescriptor(renderPassDescriptor, _drawable);
+        _renderTargetWidth = (unsigned int)_mtlDescriptor.colorAttachments[0].texture.width;
+        _renderTargetHeight = (unsigned int)_mtlDescriptor.colorAttachments[0].texture.height;
+        _renderCommandEncoder = [_commandBuffer renderCommandEncoderWithDescriptor:_mtlDescriptor];
         retain(_renderCommandEncoder);
-         */
+
+        return _renderCommandEncoder;
+    }
+
+    void CommandBufferMTL::beginRenderPass(RenderPassDescriptor<Texture2DMTL>& renderPassDescriptor) {
+        _renderCommandEncoder = getRenderCommandEncoder(renderPassDescriptor);
     }
 
     void CommandBufferMTL::setRenderPipeline(SpoopyPipelineState& renderPipeline) {
@@ -250,7 +289,6 @@ namespace lime {
         _commandBuffer = nil;
         _renderCommandEncoder = nil;
         _indexBufferMTL = nil;
-        _prevDescriptor = nil;
         _drawable = nil;
     }
 }

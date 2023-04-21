@@ -1,5 +1,7 @@
 #pragma once
 
+#include <system/CFFI.h>
+
 namespace lime {
     enum SamplerFilter: uint32_t {
         NEAREST = 0x2600,
@@ -38,5 +40,7 @@ namespace lime {
                 SamplerAddressMode _tAddressMode
         ): magFilter(_magFilter), minFilter(_minFilter),
             sAddressMode(_sAddressMode), tAddressMode(_tAddressMode) {}
+
+        SamplerDescriptor(value descriptor);
     };
 }

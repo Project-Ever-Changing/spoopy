@@ -111,6 +111,7 @@
 		<file name="src/shaders/CrossShader.cpp" />
 		<file name="src/helpers/SpoopyHelpers.cpp" />
 		<file name="src/helpers/SpoopyBytes.cpp" />
+		<file name="src/graphics/Sampler.cpp" />
 		<file name="src/graphics/Texture.cpp" />
 		<file name="src/math/SpoopyPoint.cpp" />
 	</files>

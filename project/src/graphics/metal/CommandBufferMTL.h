@@ -35,6 +35,8 @@ namespace lime {
             virtual bool findCommandBuffer() const;
 
             virtual void beginRenderPass(RenderPassDescriptor<Texture2DMTL>& renderPassDescriptor);
+
+            virtual id<MTLRenderCommandEncoder> getRenderCommandEncoder(RenderPassDescriptor<Texture2DMTL>& renderPassDescriptor);
         private:
             MTLPrimitiveType getMTLPrimitiveType(int primitiveType);
             MTLIndexType getMTLIndexType(int indexFormat);
@@ -54,6 +56,6 @@ namespace lime {
             unsigned int _renderTargetWidth;
             unsigned int _renderTargetHeight;
 
-            MTLRenderPassDescriptor* _prevDescriptor;
+            RenderPassDescriptor<Texture2DMTL> _prevDescriptor;
     };
 }
