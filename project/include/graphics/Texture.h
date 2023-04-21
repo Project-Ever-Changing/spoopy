@@ -31,7 +31,7 @@ namespace lime {
 
         TextureDescriptor() {
             textureType = TEXTURE_2D;
-            textureFormat = SDL_PIXELFORMAT_RGBA32;
+            textureFormat = SDL_PIXELFORMAT_RGBA8888;
             textureUsage = READ;
 
             width = 0;

@@ -32,6 +32,11 @@ class SpoopyApplication extends Application {
     * Defines the maximum number of frames that can be in flight at once.
     */
     public static var SPOOPY_CONFIG_MAX_FRAME_LATENCY:UInt = 3;
+
+    /*
+    * The default texture descriptor used when creating a texture.
+    */
+    public static var SPOOPY_DEFAULT_TEXTURE_DESCRIPTOR(default, null):SpoopyTextureDescriptor = new SpoopyTextureDescriptor();
     
     /*
 	* A list of active Window module instances associated with this Application.

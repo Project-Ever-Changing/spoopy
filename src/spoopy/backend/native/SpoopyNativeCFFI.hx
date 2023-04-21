@@ -47,7 +47,8 @@ class SpoopyNativeCFFI {
     public static var spoopy_specialize_shader = new cpp.Callable<cpp.Object->String->String->String->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_specialize_shader", "osssv", false));
     public static var spoopy_cleanup_shader = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_cleanup_shader", "ov", false));
     public static var spoopy_bind_shader = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_bind_shader", "oov", false));
-    public static var spoopy_set_shader_uniform = new cpp.Callable<cpp.Object->cpp.Object->Int->Int->lime.utils.DataPointer->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_shader_uniform", "ooiidiv"));
+    public static var spoopy_set_shader_uniform = new cpp.Callable<cpp.Object->cpp.Object->Int->Int->lime.utils.DataPointer->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_shader_uniform", "ooiidiv", false));
+    public static var spoopy_create_texture_descriptor = new cpp.Callable<Int->Int->Int->Int->Int->cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_texture_descriptor", "iiiiioo", false));
     #end
 
     #if spoopy_metal
@@ -79,7 +80,8 @@ class SpoopyNativeCFFI {
     public static var spoopy_specialize_shader = new cpp.Callable<cpp.Object->String->String->String->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_specialize_shader", "osssv", false));
     public static var spoopy_cleanup_shader = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_cleanup_shader", "ov", false));
     public static var spoopy_bind_shader = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_bind_shader", "oov", false));
-    public static var spoopy_set_shader_uniform = new cpp.Callable<cpp.Object->cpp.Object->Int->Int->lime.utils.DataPointer->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_shader_uniform", "ooiidiv"));
+    public static var spoopy_set_shader_uniform = new cpp.Callable<cpp.Object->cpp.Object->Int->Int->lime.utils.DataPointer->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_shader_uniform", "ooiidiv", false));
+    public static var spoopy_create_texture_descriptor = new cpp.Callable<Int->Int->Int->Int->Int->cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_texture_descriptor", "iiiiioo", false));
     #end
 
     #if spoopy_example
@@ -120,6 +122,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_cleanup_shader = CFFI.load("lime", "spoopy_cleanup_shader", 1);
     public static var spoopy_bind_shader = CFFI.load("lime", "spoopy_bind_shader", 2);
     public static var spoopy_set_shader_uniform = CFFI.load("lime", "spoopy_set_shader_uniform", 6);
+    public static var spoopy_create_texture_descriptor = CFFI.load("lime", "spoopy_create_texture_descriptor", 6);
     #end
 
     #if spoopy_metal
@@ -152,6 +155,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_cleanup_shader = CFFI.load("lime", "spoopy_cleanup_shader", 1);
     public static var spoopy_bind_shader = CFFI.load("lime", "spoopy_bind_shader", 2);
     public static var spoopy_set_shader_uniform = CFFI.load("lime", "spoopy_set_shader_uniform", 6);
+    public static var spoopy_create_texture_descriptor = CFFI.load("lime", "spoopy_create_texture_descriptor", 6);
     #end
 
     #if spoopy_example
@@ -278,6 +282,10 @@ class SpoopyNativeCFFI {
     public static function spoopy_buffer_begin_frame(buffer:Dynamic):Dynamic {
         return null;
     }
+
+    public static function spoopy_create_texture_descriptor(width:Int, height:Int, type:Int, format:Int, usage:Int, sd:Dynamic):Dynamic {
+        return null;
+    }
     #end
 
     #if spoopy_metal
@@ -394,6 +402,10 @@ class SpoopyNativeCFFI {
     }
 
     public static function spoopy_buffer_begin_frame(buffer:Dynamic):Dynamic {
+        return null;
+    }
+
+    public static function spoopy_create_texture_descriptor(width:Int, height:Int, type:Int, format:Int, usage:Int, sd:Dynamic):Dynamic {
         return null;
     }
     #end

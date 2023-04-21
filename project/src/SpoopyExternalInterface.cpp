@@ -2,6 +2,7 @@
 #include <string>
 #include <cstdlib>
 
+#include <graphics/Texture.h>
 #include <helpers/SpoopyBufferHelper.h>
 #include <system/CFFIPointer.h>
 #include <core/Log.h>
@@ -147,6 +148,42 @@ namespace lime {
         Buffer* buffer = (Buffer*)val_data(handle);
         delete buffer;
     }
+
+    void apply_gc_texture_descriptor(value handle) {
+        TextureDescriptor* descriptor = (TextureDescriptor*)val_data(handle);
+        delete descriptor;
+    }
+
+    value spoopy_create_texture_descriptor(int width, int height, int type, int format, int usage, value sd) {
+        TextureDescriptor* descriptor = new TextureDescriptor();
+        SamplerDescriptor sampler(sd);
+
+        descriptor -> width = width;
+        descriptor -> height = height;
+        descriptor -> textureType = (TextureType)type;
+
+        PixelFormat _format = (PixelFormat)format;
+        SDL_PixelFormatEnum pixelFormat;
+
+        switch(_format) {
+            case ARGB32:
+                pixelFormat = SDL_PIXELFORMAT_ARGB8888;
+                break;
+            case BGRA32:
+                pixelFormat = SDL_PIXELFORMAT_BGRA8888;
+                break;
+            default:
+                pixelFormat = SDL_PIXELFORMAT_RGBA8888;
+                break;
+        }
+
+        descriptor -> textureFormat = pixelFormat;
+        descriptor -> textureUsage = (TextureUsage)usage;
+        descriptor -> samplerDescriptor = sampler;
+
+        return CFFIPointer(descriptor, apply_gc_texture_descriptor);
+    }
+    DEFINE_PRIME6(spoopy_create_texture_descriptor);
 
     value spoopy_create_window_surface(value window_handle) {
         Window* window = (Window*)val_data(window_handle);
@@ -333,7 +370,7 @@ namespace lime {
 
 #endif
 
-    //Testing Purposes
+    // Testing Purposes
 
     bool has_spoopy_wrapper() {
         return true;

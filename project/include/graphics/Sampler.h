@@ -10,14 +10,14 @@ namespace lime {
         LINEAR_MIPMAP_NEAREST = 0x2701,
         NEAREST_MIPMAP_LINEAR = 0x2702,
         LINEAR_MIPMAP_LINEAR = 0x2703,
-        NO_FILTER = 0x0
+        NO_FILTER = 0x0000
     };
 
     enum SamplerAddressMode: uint32_t {
         CLAMP_TO_EDGE = 0x812F,
         MIRROR_REPEAT = 0x8370,
         REPEAT = 0x2901,
-        NO_MODE = 0x0
+        NO_MODE = 0x0000
     };
 
     struct SamplerDescriptor {
