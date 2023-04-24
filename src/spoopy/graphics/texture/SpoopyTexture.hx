@@ -22,7 +22,7 @@ class SpoopyTexture {
     /*
     * NOTE: Changing any of these values will not take effect until `updateSampler` is called.
     */
-    public var samplerCreateInfo(default, null):SpoopySampler;
+    public var samplerCreateInfo(default, null):SpoopySamplerInfo;
 
     @:noCompletion private var __backend:SpoopyNativeTexture;
 
@@ -38,6 +38,10 @@ class SpoopyTexture {
     }
 
     public function updateTexture():Void {
-        
+        __backend.updateTexture(width, height, textureType, textureFormat, textureUsage, samplerCreateInfo);
+    }
+
+    public function updateSampler():Void {
+        __backend.updateSampler(samplerCreateInfo);
     }
 }

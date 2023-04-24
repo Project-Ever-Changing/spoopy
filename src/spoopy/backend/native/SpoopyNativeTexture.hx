@@ -29,7 +29,11 @@ class SpoopyNativeTexture {
         }
     }
 
-    public function updateTexture(width:Int, height:Int, tType:SpoopyTextureType, tFormat:PixelFormat, tUsage:SpoopyTextureUsage, samplerInfo:SpoopySampler):Void {
+    public function updateTexture(width:Int, height:Int, tType:SpoopyTextureType, tFormat:PixelFormat, tUsage:SpoopyTextureUsage, samplerInfo:SpoopySamplerInfo):Void {
         SpoopyNativeCFFI.spoopy_update_texture_descriptor(handle, descriptor, width, height, tType, tFormat, tUsage, samplerInfo);
+    }
+
+    public function updateSampler(samplerInfo:SpoopySamplerInfo):Void {
+        SpoopyNativeCFFI.spoopy_update_sampler_descriptor(handle, samplerInfo);
     }
 }
