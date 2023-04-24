@@ -106,4 +106,10 @@ namespace lime {
 
         _mtlDevice = nil;
     }
+
+
+    Texture2D* createTexture2D(value device, TextureDescriptor& descriptor) {
+        id<MTLDevice> _mtlDevice = (id<MTLDevice>)val_data(device);
+        return new Texture2DMTL(_mtlDevice, descriptor);
+    }
 }

@@ -49,6 +49,8 @@ class SpoopyNativeCFFI {
     public static var spoopy_bind_shader = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_bind_shader", "oov", false));
     public static var spoopy_set_shader_uniform = new cpp.Callable<cpp.Object->cpp.Object->Int->Int->lime.utils.DataPointer->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_shader_uniform", "ooiidiv", false));
     public static var spoopy_create_texture_descriptor = new cpp.Callable<Int->Int->Int->Int->Int->cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_texture_descriptor", "iiiiioo", false));
+    public static var spoopy_update_texture_descriptor = new cpp.Callable<cpp.Object->cpp.Object->Int->Int->Int->Int->Int->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_update_texture_descriptor", "ooiiiiiov", false));
+    public static var spoopy_update_sampler_descriptor = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_update_sampler_descriptor", "oov", false));
     #end
 
     #if spoopy_metal
@@ -82,6 +84,8 @@ class SpoopyNativeCFFI {
     public static var spoopy_bind_shader = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_bind_shader", "oov", false));
     public static var spoopy_set_shader_uniform = new cpp.Callable<cpp.Object->cpp.Object->Int->Int->lime.utils.DataPointer->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_shader_uniform", "ooiidiv", false));
     public static var spoopy_create_texture_descriptor = new cpp.Callable<Int->Int->Int->Int->Int->cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_texture_descriptor", "iiiiioo", false));
+    public static var spoopy_update_texture_descriptor = new cpp.Callable<cpp.Object->cpp.Object->Int->Int->Int->Int->Int->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_update_texture_descriptor", "ooiiiiiov", false));
+    public static var spoopy_update_sampler_descriptor = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_update_sampler_descriptor", "oov", false));
     #end
 
     #if spoopy_example
@@ -123,6 +127,8 @@ class SpoopyNativeCFFI {
     public static var spoopy_bind_shader = CFFI.load("lime", "spoopy_bind_shader", 2);
     public static var spoopy_set_shader_uniform = CFFI.load("lime", "spoopy_set_shader_uniform", 6);
     public static var spoopy_create_texture_descriptor = CFFI.load("lime", "spoopy_create_texture_descriptor", 6);
+    public static var spoopy_update_texture_descriptor = CFFI.load("lime", "spoopy_update_texture_descriptor", 8);
+    public static var spoopy_update_sampler_descriptor = CFFI.load("lime", "spoopy_update_sampler_descriptor", 2);
     #end
 
     #if spoopy_metal
@@ -156,6 +162,8 @@ class SpoopyNativeCFFI {
     public static var spoopy_bind_shader = CFFI.load("lime", "spoopy_bind_shader", 2);
     public static var spoopy_set_shader_uniform = CFFI.load("lime", "spoopy_set_shader_uniform", 6);
     public static var spoopy_create_texture_descriptor = CFFI.load("lime", "spoopy_create_texture_descriptor", 6);
+    public static var spoopy_update_texture_descriptor = CFFI.load("lime", "spoopy_update_texture_descriptor", 8);
+    public static var spoopy_update_sampler_descriptor = CFFI.load("lime", "spoopy_update_sampler_descriptor", 2);
     #end
 
     #if spoopy_example
@@ -286,6 +294,14 @@ class SpoopyNativeCFFI {
     public static function spoopy_create_texture_descriptor(width:Int, height:Int, type:Int, format:Int, usage:Int, sd:Dynamic):Dynamic {
         return null;
     }
+
+    public static function spoopy_update_texture_descriptor(texture:Dynamic, td:Dynamic, width:Int, height:Int, type:Int, format:Int, usage:Int, sd:Dynamic):Void {
+        return;
+    }
+
+    public static function spoopy_update_sampler_descriptor(texture:Dynamic, sd:Dynamic):Void {
+        return;
+    }
     #end
 
     #if spoopy_metal
@@ -407,6 +423,14 @@ class SpoopyNativeCFFI {
 
     public static function spoopy_create_texture_descriptor(width:Int, height:Int, type:Int, format:Int, usage:Int, sd:Dynamic):Dynamic {
         return null;
+    }
+
+    public static function spoopy_update_texture_descriptor(texture:Dynamic, td:Dynamic, width:Int, height:Int, type:Int, format:Int, usage:Int, sd:Dynamic):Void {
+        return;
+    }
+
+    public static function spoopy_update_sampler_descriptor(texture:Dynamic, sd:Dynamic):Void {
+        return;
     }
     #end
 

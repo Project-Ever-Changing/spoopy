@@ -61,4 +61,7 @@ namespace lime {
         protected:
             Texture2D(const TextureDescriptor& descriptor);
     };
+
+    Texture2D* createTexture2D(value device, TextureDescriptor& descriptor);
+    // TODO: Texture* createTextureCube(const TextureDescriptor& descriptor);
 }

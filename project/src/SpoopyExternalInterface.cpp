@@ -5,7 +5,6 @@
 #include <graphics/Texture.h>
 #include <helpers/SpoopyBufferHelper.h>
 #include <system/CFFIPointer.h>
-#include <core/Log.h>
 
 #ifdef SPOOPY_VULKAN
 #include <device/InstanceDevice.h>
@@ -154,6 +153,11 @@ namespace lime {
         delete descriptor;
     }
 
+    void apply_gc_texture(value handle) {
+        Texture2D* texture = (Texture2D*)val_data(handle);
+        delete texture;
+    }
+
     value spoopy_create_texture_descriptor(int width, int height, int type, int format, int usage, value sd) {
         TextureDescriptor* descriptor = new TextureDescriptor();
         SamplerDescriptor sampler(sd);
@@ -184,6 +188,52 @@ namespace lime {
         return CFFIPointer(descriptor, apply_gc_texture_descriptor);
     }
     DEFINE_PRIME6(spoopy_create_texture_descriptor);
+
+    void spoopy_update_texture_descriptor(value texture, value td, int width, int height, int type, int format, int usage, value sd) {
+        Texture* _texture = (Texture*)val_data(texture);
+        TextureDescriptor* descriptor = (TextureDescriptor*)val_data(td);
+        SamplerDescriptor sampler(sd);
+
+        descriptor -> width = width;
+        descriptor -> height = height;
+        descriptor -> textureType = (TextureType)type;
+
+        PixelFormat _format = (PixelFormat)format;
+        SDL_PixelFormatEnum pixelFormat;
+
+        switch(_format) {
+            case ARGB32:
+                pixelFormat = SDL_PIXELFORMAT_ARGB8888;
+                break;
+            case BGRA32:
+                pixelFormat = SDL_PIXELFORMAT_BGRA8888;
+                break;
+            default:
+                pixelFormat = SDL_PIXELFORMAT_RGBA8888;
+                break;
+        }
+
+        descriptor -> textureFormat = pixelFormat;
+        descriptor -> textureUsage = (TextureUsage)usage;
+        descriptor -> samplerDescriptor = sampler;
+
+        _texture -> updateTextureDescriptor(*descriptor);
+    }
+    DEFINE_PRIME8v(spoopy_update_texture_descriptor);
+
+    void spoopy_update_sampler_descriptor(value texture, value sd) {
+        Texture* _texture = (Texture*)val_data(texture);
+        SamplerDescriptor sampler(sd);
+        _texture -> updateSamplerDescriptor(sampler);
+    }
+    DEFINE_PRIME2v(spoopy_update_sampler_descriptor);
+
+    value spoopy_create_texture(value device, value descriptor) {
+        TextureDescriptor* _descriptor = (TextureDescriptor*)val_data(descriptor);
+        Texture2D* texture = createTexture2D(device, *_descriptor);
+        return CFFIPointer(texture, apply_gc_texture);
+    }
+    DEFINE_PRIME2(spoopy_create_texture);
 
     value spoopy_create_window_surface(value window_handle) {
         Window* window = (Window*)val_data(window_handle);
