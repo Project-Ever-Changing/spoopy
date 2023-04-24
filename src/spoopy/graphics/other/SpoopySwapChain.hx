@@ -8,6 +8,7 @@ import spoopy.window.WindowEventManager;
 import spoopy.obj.prim.SpoopyPrimitiveType;
 import spoopy.frontend.storage.SpoopyBufferStorage;
 import spoopy.backend.native.SpoopyNativeShader;
+import spoopy.graphics.texture.SpoopyTexture;
 import spoopy.graphics.SpoopyBuffer;
 import spoopy.rendering.command.SpoopyCommand;
 import spoopy.rendering.SpoopyCullMode;
@@ -22,17 +23,14 @@ class SpoopySwapChain extends WindowEventManager {
     @:final public var application:SpoopyApplication;
     #end
 
-    public var buffers(default, null):SpoopyBufferStorage;
-
-    public var atIndexVertex(default, null):Int = 0;
-
-
     public var scissorRect(default, null):Rectangle;
+    public var buffers(default, null):SpoopyBufferStorage;
+    public var colorAttachment(default, null):SpoopyTexture;
     public var currentCullFace(default, null):SpoopyCullMode = CULL_MODE_NONE;
     public var currentWinding(default, null):SpoopyWinding = CLOCKWISE;
+    public var atIndexVertex(default, null):Int = 0;
 
     @:noCompletion private var __surface:SpoopyNativeSurface;
-
     @:noCompletion private var __drawnCounter:Int = 0;
 
     @:noCompletion private var __updateDescriptorDirty:Bool = true;
@@ -62,6 +60,14 @@ class SpoopySwapChain extends WindowEventManager {
     }
 
     public function setViewport(rect:Rectangle):Void {
+        if(rect == null) {
+            return;
+        }
+
+        colorAttachment.width = rect.width;
+        colorAttachment.height = rect.height;
+        colorAttachment.updateTexture();
+
         __surface.setViewport(rect);
     }
 
@@ -171,12 +177,19 @@ class SpoopySwapChain extends WindowEventManager {
         __surface.setLineWidth(width);
     }
 
+    private function destroy():Void {
+        /*
+        * Empty.
+        */
+    }
+
     @:noCompletion override private function __registerWindowModule(window:Window):Void {
         super.__registerWindowModule(window);
         __surface = new SpoopyNativeSurface(window.__backend, application);
 
         viewportRect = new Rectangle(0, 0, window.width, window.height);
         scissorRect = new Rectangle(0, 0, window.width, window.height);
+        colorAttachment = new SpoopyTexture(viewportRect.width, viewportRect.height, this, SpoopyApplication.SPOOPY_DEFAULT_TEXTURE_DESCRIPTOR);
 
         create();
     }
@@ -189,6 +202,10 @@ class SpoopySwapChain extends WindowEventManager {
 
         buffers.destroy();
         buffers = null;
+
+        destroy();
+
+        colorAttachments = null;
     }
 }
 

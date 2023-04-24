@@ -20,7 +20,6 @@ class SpoopyScene extends SpoopySwapChain {
     public var timeScale:Float = 1;
 
     public var fullscreen(get, set):Bool;
-
     public var state(default, null):SpoopyState;
 
     public var fixedTimestep:Bool = true;
@@ -191,6 +190,14 @@ class SpoopyScene extends SpoopySwapChain {
         }
 
         render();
+    }
+
+    override function destroy():Void {
+        super.destroy();
+
+        if(state != null) {
+            state.destroy();
+        }
     }
 
     @:noCompletion function get_fullscreen():Bool {
