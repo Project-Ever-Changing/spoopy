@@ -25,12 +25,17 @@ class SpoopySwapChain extends WindowEventManager {
 
     public var scissorRect(default, null):Rectangle;
     public var buffers(default, null):SpoopyBufferStorage;
-    public var colorAttachment(default, null):SpoopyTexture;
     public var currentCullFace(default, null):SpoopyCullMode = CULL_MODE_NONE;
     public var currentWinding(default, null):SpoopyWinding = CLOCKWISE;
     public var atIndexVertex(default, null):Int = 0;
 
+    /*
+    * Textures
+    */
+    public var colorAttachment(default, null):SpoopyTexture;
+
     @:noCompletion private var __surface:SpoopyNativeSurface;
+    @:noCompletion private var __renderTargetFlags:Int = 1;
     @:noCompletion private var __drawnCounter:Int = 0;
 
     @:noCompletion private var __updateDescriptorDirty:Bool = true;

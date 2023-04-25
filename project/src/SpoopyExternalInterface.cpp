@@ -298,6 +298,29 @@ namespace lime {
     }
     DEFINE_PRIME2v(spoopy_set_surface_line_width);
 
+    void spoopy_set_surface_render_target(value window_surface, int flags, value ct, value dt, value st) {
+        SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
+
+        Texture2D* colorTexture;
+        Texture2D* depthTexture;
+        Texture2D* stencilTexture;
+
+        if(!val_is_null(ct)) {
+            colorTexture = (Texture2D*)val_data(ct);
+        }
+
+        if(!val_is_null(dt)) {
+            depthTexture = (Texture2D*)val_data(dt);
+        }
+
+        if(!val_is_null(st)) {
+            stencilTexture = (Texture2D*)val_data(st);
+        }
+
+        windowSurface -> setRenderTarget((RenderTargetFlag)flags, colorTexture, depthTexture, stencilTexture);
+    }
+    DEFINE_PRIME5v(spoopy_set_surface_render_target);
+
     void spoopy_surface_begin_render_pass(value window_surface) {
         SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
         windowSurface -> beginRenderPass();

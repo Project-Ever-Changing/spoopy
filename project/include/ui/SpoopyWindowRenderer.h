@@ -39,7 +39,7 @@ namespace lime {
             virtual void drawArrays(int primitiveType, size_t start, size_t count) = 0;
             virtual void drawElements(int primitiveType, int indexFormat, size_t count, size_t offset) = 0;
 
-            //virtual void setRenderTarget(RenderTargetFlag flags, Texture2D* colorAttachment, Texture2D* depthAttachment, Texture2D* stencilAttachment) = 0;
+            virtual void setRenderTarget(RenderTargetFlag flags, Texture2D* colorAttachment, Texture2D* depthAttachment, Texture2D* stencilAttachment) = 0;
 
             virtual bool findCommandBuffer() const = 0;
 
