@@ -230,7 +230,7 @@ class SpoopySwapChain extends WindowEventManager {
     @:noCompletion private function set_renderTargetFlags(value:Int):Int {
         __renderTargetFlags = value;
 
-        if(!__textureDirty) {
+        if(__textureDirty) {
             setRenderTarget();
         }
         
