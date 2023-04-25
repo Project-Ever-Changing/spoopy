@@ -3,6 +3,7 @@ package spoopy.backend.native;
 import spoopy.graphics.other.SpoopySwapChain;
 import spoopy.graphics.texture.sampler.SpoopySamplerInfo;
 import spoopy.graphics.texture.SpoopyTextureDescriptor;
+import spoopy.graphics.texture.SpoopyTextureUsage;
 import spoopy.graphics.texture.SpoopyTextureType;
 
 import lime.graphics.PixelFormat;
