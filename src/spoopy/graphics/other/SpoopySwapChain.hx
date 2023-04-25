@@ -176,7 +176,7 @@ class SpoopySwapChain extends WindowEventManager {
     }
 
     private function setRenderTarget():Void {
-        #if spoopy_no_texture_debug
+        #if !spoopy_no_texture_debug
         __surface.setRenderTarget(__renderTargetFlags, colorAttachment.__backend, null, null);
         #end
     }
@@ -215,7 +215,7 @@ class SpoopySwapChain extends WindowEventManager {
         __viewportRect = new Rectangle(0, 0, window.width, window.height);
         __scissorRect = new Rectangle(0, 0, window.width, window.height);
 
-        #if spoopy_no_texture_debug
+        #if !spoopy_no_texture_debug
         colorAttachment = new SpoopyTexture(Std.int(__viewportRect.width), Std.int(__viewportRect.height), this, SpoopyApplication.SPOOPY_DEFAULT_TEXTURE_DESCRIPTOR);
         #end
 
