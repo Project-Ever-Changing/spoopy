@@ -25,8 +25,6 @@ class SpoopySwapChain extends WindowEventManager {
     @:final public var application:SpoopyApplication;
     #end
 
-    public var scissorRect(default, null):Rectangle;
-    public var viewportRect(default, null):Rectangle;
     public var buffers(default, null):SpoopyBufferStorage;
     public var currentCullFace(default, null):SpoopyCullMode = CULL_MODE_NONE;
     public var currentWinding(default, null):SpoopyWinding = CLOCKWISE;
@@ -40,6 +38,8 @@ class SpoopySwapChain extends WindowEventManager {
     public var colorAttachment(default, null):SpoopyTexture;
 
     @:noCompletion private var __surface:SpoopyNativeSurface;
+    @:noCompletion private var __scissorRect(default, null):Rectangle;
+    @:noCompletion private var __viewportRect(default, null):Rectangle;
     @:noCompletion private var __renderTargetFlags:Int;
     @:noCompletion private var __drawnCounter:Int = 0;
 
@@ -87,15 +87,15 @@ class SpoopySwapChain extends WindowEventManager {
             return;
         }
 
-        if(scissorRect.x == rect.x
-        && scissorRect.y == rect.y
-        && scissorRect.width == rect.width
-        && scissorRect.height == rect.height
+        if(__scissorRect.x == rect.x
+        && __scissorRect.y == rect.y
+        && __scissorRect.width == rect.width
+        && __scissorRect.height == rect.height
         && enabled == __enabledDirty) {
             return;
         }
 
-        scissorRect = rect;
+        __scissorRect = rect;
         __enabledDirty = enabled;
         __surface.setScissorRect(rect, enabled);
     }
@@ -202,10 +202,10 @@ class SpoopySwapChain extends WindowEventManager {
         super.__registerWindowModule(window);
         __surface = new SpoopyNativeSurface(window.__backend, application);
 
-        viewportRect = new Rectangle(0, 0, window.width, window.height);
-        scissorRect = new Rectangle(0, 0, window.width, window.height);
+        __viewportRect = new Rectangle(0, 0, window.width, window.height);
+        __scissorRect = new Rectangle(0, 0, window.width, window.height);
 
-        colorAttachment = new SpoopyTexture(viewportRect.width, viewportRect.height, this, SpoopyApplication.SPOOPY_DEFAULT_TEXTURE_DESCRIPTOR);
+        colorAttachment = new SpoopyTexture(__viewportRect.width, __viewportRect.height, this, SpoopyApplication.SPOOPY_DEFAULT_TEXTURE_DESCRIPTOR);
 
         __textureDirty = true;
 
