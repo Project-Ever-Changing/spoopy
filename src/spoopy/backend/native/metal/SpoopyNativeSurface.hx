@@ -2,6 +2,7 @@ package spoopy.backend.native.metal;
 
 import spoopy.backend.native.SpoopyNativeCFFI;
 import spoopy.backend.native.SpoopyNativeShader;
+import spoopy.backend.native.SpoopyNativeTexture;
 import spoopy.obj.prim.SpoopyPrimitiveType;
 import spoopy.graphics.SpoopyBuffer;
 import spoopy.rendering.SpoopyCullMode;
@@ -51,6 +52,10 @@ class SpoopyNativeSurface {
 
     public function beginRenderPass():Void {
         SpoopyNativeCFFI.spoopy_surface_begin_render_pass(handle);
+    }
+
+    public function setRenderTarget(flags:Int, cd:SpoopyNativeTexture, dt:SpoopyNativeTexture, st:SpoopyNativeTexture):Void {
+        SpoopyNativeCFFI.spoopy_set_surface_render_target(handle, flags, cd.handle, dt.handle, st.handle);
     }
 
     public function setScissorRect(rect:Rectangle, enabled:Bool):Void {

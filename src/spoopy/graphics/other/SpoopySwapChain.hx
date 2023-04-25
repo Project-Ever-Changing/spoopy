@@ -16,6 +16,7 @@ import spoopy.rendering.SpoopyWinding;
 import spoopy.rendering.SpoopyDrawType;
 
 @:access(lime.ui.Window)
+@:access(spoopy.graphics.texture.SpoopyTexture)
 class SpoopySwapChain extends WindowEventManager {
     #if (haxe >= "4.0.0")
     public final application:SpoopyApplication;
@@ -29,16 +30,19 @@ class SpoopySwapChain extends WindowEventManager {
     public var currentWinding(default, null):SpoopyWinding = CLOCKWISE;
     public var atIndexVertex(default, null):Int = 0;
 
+    private var renderTargetFlags(default, set):Int = 1;
+
     /*
     * Textures
     */
     public var colorAttachment(default, null):SpoopyTexture;
 
     @:noCompletion private var __surface:SpoopyNativeSurface;
-    @:noCompletion private var __renderTargetFlags:Int = 1;
+    @:noCompletion private var __renderTargetFlags:Int;
     @:noCompletion private var __drawnCounter:Int = 0;
 
     @:noCompletion private var __updateDescriptorDirty:Bool = true;
+    @:noCompletion private var __textureDirty:Bool = false;
     @:noCompletion private var __enabledDirty:Bool = false;
 
     public function new(application:SpoopyApplication) {
@@ -161,6 +165,10 @@ class SpoopySwapChain extends WindowEventManager {
         __surface.beginRenderPass();
     }
 
+    private function setRenderTarget():Void {
+        __surface.setRenderTarget(__renderTargetFlags, colorAttachment.__backend, null, null);
+    }
+
     private function setVertexBuffer(buffer:SpoopyBuffer, offset:Int):Void {
         __surface.setVertexBuffer(buffer, offset, atIndexVertex);
         atIndexVertex++;
@@ -194,8 +202,12 @@ class SpoopySwapChain extends WindowEventManager {
 
         viewportRect = new Rectangle(0, 0, window.width, window.height);
         scissorRect = new Rectangle(0, 0, window.width, window.height);
+
         colorAttachment = new SpoopyTexture(viewportRect.width, viewportRect.height, this, SpoopyApplication.SPOOPY_DEFAULT_TEXTURE_DESCRIPTOR);
 
+        __textureDirty = true;
+
+        setRenderTarget();
         create();
     }
 
@@ -211,6 +223,16 @@ class SpoopySwapChain extends WindowEventManager {
         destroy();
 
         colorAttachments = null;
+    }
+
+    @:noCompletion override private function set_renderTargetFlags(value:Int):Int {
+        __renderTargetFlags = value;
+
+        if(!__textureDirty) {
+            setRenderTarget();
+        }
+        
+        return renderTargetFlags = value;
     }
 }
 

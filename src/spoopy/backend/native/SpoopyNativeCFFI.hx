@@ -51,6 +51,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_texture_descriptor = new cpp.Callable<Int->Int->Int->Int->Int->cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_texture_descriptor", "iiiiioo", false));
     public static var spoopy_update_texture_descriptor = new cpp.Callable<cpp.Object->cpp.Object->Int->Int->Int->Int->Int->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_update_texture_descriptor", "ooiiiiiov", false));
     public static var spoopy_update_sampler_descriptor = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_update_sampler_descriptor", "oov", false));
+    public static var spoopy_set_surface_render_target = new cpp.Callable<cpp.Object->Int->cpp.Object->cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_surface_render_target", "oiooov", false));
     #end
 
     #if spoopy_metal
@@ -86,6 +87,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_texture_descriptor = new cpp.Callable<Int->Int->Int->Int->Int->cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_texture_descriptor", "iiiiioo", false));
     public static var spoopy_update_texture_descriptor = new cpp.Callable<cpp.Object->cpp.Object->Int->Int->Int->Int->Int->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_update_texture_descriptor", "ooiiiiiov", false));
     public static var spoopy_update_sampler_descriptor = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_update_sampler_descriptor", "oov", false));
+    public static var spoopy_set_surface_render_target = new cpp.Callable<cpp.Object->Int->cpp.Object->cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_surface_render_target", "oiooov", false));
     #end
 
     #if spoopy_example
@@ -129,6 +131,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_texture_descriptor = CFFI.load("lime", "spoopy_create_texture_descriptor", 6);
     public static var spoopy_update_texture_descriptor = CFFI.load("lime", "spoopy_update_texture_descriptor", 8);
     public static var spoopy_update_sampler_descriptor = CFFI.load("lime", "spoopy_update_sampler_descriptor", 2);
+    public static var spoopy_set_surface_render_target = CFFI.load("lime", "spoopy_set_surface_render_target", 5);
     #end
 
     #if spoopy_metal
@@ -164,6 +167,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_texture_descriptor = CFFI.load("lime", "spoopy_create_texture_descriptor", 6);
     public static var spoopy_update_texture_descriptor = CFFI.load("lime", "spoopy_update_texture_descriptor", 8);
     public static var spoopy_update_sampler_descriptor = CFFI.load("lime", "spoopy_update_sampler_descriptor", 2);
+    public static var spoopy_set_surface_render_target = CFFI.load("lime", "spoopy_set_surface_render_target", 5);
     #end
 
     #if spoopy_example
@@ -302,6 +306,10 @@ class SpoopyNativeCFFI {
     public static function spoopy_update_sampler_descriptor(texture:Dynamic, sd:Dynamic):Void {
         return;
     }
+
+    public static function spoopy_set_surface_render_target(surface:Dynamic, flags:Int, ct:Dynamic, dt:Dynamic, st:Dynamic):Void {
+        return;
+    }
     #end
 
     #if spoopy_metal
@@ -430,6 +438,10 @@ class SpoopyNativeCFFI {
     }
 
     public static function spoopy_update_sampler_descriptor(texture:Dynamic, sd:Dynamic):Void {
+        return;
+    }
+
+    public static function spoopy_set_surface_render_target(surface:Dynamic, flags:Int, ct:Dynamic, dt:Dynamic, st:Dynamic):Void {
         return;
     }
     #end
