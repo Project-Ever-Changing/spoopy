@@ -9,6 +9,7 @@ import spoopy.obj.prim.SpoopyPrimitiveType;
 import spoopy.frontend.storage.SpoopyBufferStorage;
 import spoopy.backend.native.SpoopyNativeShader;
 import spoopy.graphics.texture.SpoopyTexture;
+import spoopy.graphics.texture.SpoopyTextureDescriptor;
 import spoopy.graphics.SpoopyBuffer;
 import spoopy.rendering.command.SpoopyCommand;
 import spoopy.rendering.SpoopyCullMode;
