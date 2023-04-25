@@ -153,7 +153,7 @@ class SpoopyCamera implements SpoopyDisplayObject {
 
     public function beginRenderPass():Void {
         device.setViewport(__viewportRect);
-        device.setScissor(__scissorRect, enableScissor);
+        device.setScissorRect(__scissorRect, enableScissor);
 
         /*
         * TODO: Implement stencil.

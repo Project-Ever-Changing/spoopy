@@ -26,6 +26,7 @@ class SpoopySwapChain extends WindowEventManager {
     #end
 
     public var scissorRect(default, null):Rectangle;
+    public var viewportRect(default, null):Rectangle;
     public var buffers(default, null):SpoopyBufferStorage;
     public var currentCullFace(default, null):SpoopyCullMode = CULL_MODE_NONE;
     public var currentWinding(default, null):SpoopyWinding = CLOCKWISE;
@@ -74,8 +75,8 @@ class SpoopySwapChain extends WindowEventManager {
             return;
         }
 
-        colorAttachment.width = rect.width;
-        colorAttachment.height = rect.height;
+        colorAttachment.width = Std.int(rect.width);
+        colorAttachment.height = Std.int(rect.height);
         colorAttachment.updateTexture();
 
         __surface.setViewport(rect);
@@ -223,10 +224,10 @@ class SpoopySwapChain extends WindowEventManager {
 
         destroy();
 
-        colorAttachments = null;
+        colorAttachment = null;
     }
 
-    @:noCompletion override private function set_renderTargetFlags(value:Int):Int {
+    @:noCompletion private function set_renderTargetFlags(value:Int):Int {
         __renderTargetFlags = value;
 
         if(!__textureDirty) {
