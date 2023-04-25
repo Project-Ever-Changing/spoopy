@@ -7,6 +7,7 @@ import lime.app.Application;
 import lime.utils.Log;
 
 import spoopy.window.IWindowModule;
+import spoopy.graphics.texture.SpoopyTextureDescriptor;
 import spoopy.graphics.SpoopyScene;
 
 import haxe.ds.ObjectMap;
