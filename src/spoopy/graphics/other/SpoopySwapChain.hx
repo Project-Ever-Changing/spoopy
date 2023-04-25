@@ -205,7 +205,7 @@ class SpoopySwapChain extends WindowEventManager {
         __viewportRect = new Rectangle(0, 0, window.width, window.height);
         __scissorRect = new Rectangle(0, 0, window.width, window.height);
 
-        colorAttachment = new SpoopyTexture(__viewportRect.width, __viewportRect.height, this, SpoopyApplication.SPOOPY_DEFAULT_TEXTURE_DESCRIPTOR);
+        colorAttachment = new SpoopyTexture(Std.int(__viewportRect.width), Std.int(__viewportRect.height), this, SpoopyApplication.SPOOPY_DEFAULT_TEXTURE_DESCRIPTOR);
 
         __textureDirty = true;
 
