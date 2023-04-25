@@ -30,8 +30,6 @@ class SpoopySwapChain extends WindowEventManager {
     public var currentWinding(default, null):SpoopyWinding = CLOCKWISE;
     public var atIndexVertex(default, null):Int = 0;
 
-    private var renderTargetFlags(default, set):Int = 1;
-
     /*
     * Textures
     */
@@ -116,6 +114,16 @@ class SpoopySwapChain extends WindowEventManager {
         
         currentWinding = winding;
         __surface.winding(winding);
+    }
+
+    /** public **/ function setRenderTargetFlags(value:Int):Void {
+        __renderTargetFlags = value;
+
+        if(!__textureDirty) {
+            return;
+        }
+
+        setRenderTarget();
     }
 
     public override function onWindowUpdate():Void {
@@ -225,16 +233,6 @@ class SpoopySwapChain extends WindowEventManager {
         destroy();
 
         colorAttachment = null;
-    }
-
-    @:noCompletion private function set_renderTargetFlags(value:Int):Int {
-        __renderTargetFlags = value;
-
-        if(__textureDirty) {
-            setRenderTarget();
-        }
-        
-        return renderTargetFlags = value;
     }
 }
 
