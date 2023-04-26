@@ -51,8 +51,8 @@ namespace lime {
         }
 
         if(_mtlDevice == nil) {
-            printf("%s", "\033[1m\033[37m" + "Error: " + "\033[0m");
-            printf("%s\n", "\033[1m\033[31m" + "Metal Device not found!" + "\033[0m");
+            printf("%s%s%s", "\033[1m\033[37m", "Error: ", "\033[0m");
+            printf("%s%s%s\n", "\033[1m\033[31m", "Metal Device not found!", "\033[0m");
         }
 
         return CFFIPointer(_mtlDevice, spoopy_gc_device);
