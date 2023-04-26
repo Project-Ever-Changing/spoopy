@@ -26,7 +26,10 @@ class SpoopyNativeTexture {
         if(textureDescriptor.textureType == SpoopyTextureType.TEXTURE_CUBE) {
             //TODO: Have backend cube texture creation.
         }else {
-            handle = SpoopyNativeCFFI.spoopy_create_texture(device.__surface.device, descriptor);
+            handle = SpoopyNativeCFFI.spoopy_create_texture(
+                device.__surface.device,
+                descriptor
+            );
         }
     }
 
