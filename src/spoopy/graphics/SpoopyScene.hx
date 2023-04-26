@@ -140,6 +140,8 @@ class SpoopyScene extends SpoopySwapChain {
         #if desktop
         fullscreen = __fullscreenDirty;
         #end
+
+        __nextState.create();
     }
 
     override function beginRenderPass():Void {
