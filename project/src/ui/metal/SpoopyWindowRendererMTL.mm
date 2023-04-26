@@ -30,6 +30,8 @@ namespace lime {
 
         _commandBuffer = new CommandBufferMTL(layer.device);
         _commandBuffer -> storeCommandQueue([layer.device newCommandQueue]);
+
+        retain(layer);
     }
 
     void SpoopyWindowRendererMTL::updateMetalDescriptor() {
