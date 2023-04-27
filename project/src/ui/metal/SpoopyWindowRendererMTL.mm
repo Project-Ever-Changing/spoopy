@@ -21,22 +21,28 @@ namespace lime {
      * The `init` method.
      */
     void SpoopyWindowRendererMTL::assignMetalDevice() {
-        layer = (__bridge CAMetalLayer*)SDL_RenderGetMetalLayer(m_window.sdlRenderer);
-        layer.pixelFormat = SpoopyMetalHelpers::convertSDLtoMetal(SDL_GetWindowPixelFormat(m_window.sdlWindow));
-        id<MTLDevice> device = layer.device;
-
-        if(device == nil) {
-            device = MTLCreateSystemDefaultDevice();
+        if(_device != nil) { // Just in case.
+            release(_device);
         }
 
-        if(device != nil) {
+        layer = (__bridge CAMetalLayer*)SDL_RenderGetMetalLayer(m_window.sdlRenderer);
+        layer.pixelFormat = SpoopyMetalHelpers::convertSDLtoMetal(SDL_GetWindowPixelFormat(m_window.sdlWindow));
+        _device = layer.device;
+
+        if(_device == nil) {
+            _device = MTLCreateSystemDefaultDevice();
+        }
+
+        if(_device != nil) {
             SPOOPY_LOG_SUCCESS("Metal device created successfully!");
         }else {
             SPOOPY_LOG_ERROR("This device does not support Metal!");
         }
 
-        _commandBuffer = new CommandBufferMTL(device);
-        _commandBuffer -> storeCommandQueue([device newCommandQueue]);
+        _commandBuffer = new CommandBufferMTL(_device);
+        _commandBuffer -> storeCommandQueue([_device newCommandQueue]);
+
+        retain(_device);
     }
 
     void SpoopyWindowRendererMTL::updateMetalDescriptor() {
@@ -167,6 +173,7 @@ namespace lime {
 
         release(_surface);
         release(layer);
+        release(_device);
     }
 
     #ifdef SPOOPY_SDL    
