@@ -23,19 +23,20 @@ namespace lime {
     void SpoopyWindowRendererMTL::assignMetalDevice() {
         layer = (__bridge CAMetalLayer*)SDL_RenderGetMetalLayer(m_window.sdlRenderer);
         layer.pixelFormat = SpoopyMetalHelpers::convertSDLtoMetal(SDL_GetWindowPixelFormat(m_window.sdlWindow));
+        id<MTLDevice> device = layer.device;
 
-        if(layer.device == nil) {
-            layer.device = MTLCreateSystemDefaultDevice();
+        if(device == nil) {
+            device = MTLCreateSystemDefaultDevice();
 
-            if(layer.device != nil) {
+            if(device != nil) {
                 SPOOPY_LOG_SUCCESS("Metal device created successfully!");
             }else {
                 SPOOPY_LOG_ERROR("This device does not support Metal!");
             }
         }
 
-        _commandBuffer = new CommandBufferMTL(layer.device);
-        _commandBuffer -> storeCommandQueue([layer.device newCommandQueue]);
+        _commandBuffer = new CommandBufferMTL(device);
+        _commandBuffer -> storeCommandQueue([device newCommandQueue]);
     }
 
     void SpoopyWindowRendererMTL::updateMetalDescriptor() {
