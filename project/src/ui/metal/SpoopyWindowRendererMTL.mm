@@ -27,7 +27,7 @@ namespace lime {
         if(layer.device == nil) {
             layer.device = MTLCreateSystemDefaultDevice();
 
-            #ifdef LIME_HAS_APPLE
+            #ifndef LIME_HAS_APPLE
             SPOOPY_LOG_ERROR("Lime is not compiled with Apple support!");
             #endif
 
