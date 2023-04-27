@@ -22,7 +22,6 @@
 	<set name="NATIVE_TOOLKIT_SDL_ANGLE" value="1" if="SPOOPY_SDL_ANGLE" />
 
 	<set name="INCLUDE_SDL" value="1" if="SPOOPY_SDL" />
-	<set name="INCLUDE_MAC" value ="1" if="SPOOPY_MAC" />
 
 	<set name="LIME_SOURCE_PATH" value="../lime-project/src" />
 	<set name="LIME_INCLUDE_PATH" value="../lime-project/include" />
@@ -128,14 +127,12 @@
 				<vflag name="-framework" value="Metal" />
 				<vflag name="-framework" value="MetalKit" />
 				<vflag name="-framework" value="QuartzCore" />
-				<vflag name="-framework" value="Foundation" />
 			</section>
 
 			<section if="ios">
 				<vflag name="-framework" value="Metal" />
 				<vflag name="-framework" value="MetalKit" />
 				<vflag name="-framework" value="QuartzCore" />
-				<vflag name="-framework" value="Foundation" />
 			</section>
 
 			<cppflag value="-std=c++14" if="HXCPP_CPP14" />
