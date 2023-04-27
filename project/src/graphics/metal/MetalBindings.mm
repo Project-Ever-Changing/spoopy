@@ -50,10 +50,6 @@ namespace lime {
             printf("%s\n", "Getting metal device from layer.");
         }
 
-        if(_mtlDevice == nil) {
-            SPOOPY_LOG_ERROR("Metal Device not found!");
-        }
-
         return CFFIPointer(_mtlDevice, spoopy_gc_device);
     }
     DEFINE_PRIME2(spoopy_get_metal_device_from_layer);

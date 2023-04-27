@@ -29,6 +29,8 @@ namespace lime {
 
             if(layer.device != nil) {
                 SPOOPY_LOG_SUCCESS("Metal device created successfully!");
+            }else {
+                SPOOPY_LOG_ERROR("This device does not support Metal!");
             }
         }
 
