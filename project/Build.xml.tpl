@@ -131,16 +131,12 @@
 				<vflag name="-framework" value="Metal" />
 				<vflag name="-framework" value="MetalKit" />
 				<vflag name="-framework" value="QuartzCore" />
-
-				<compilerflag value="-DLIME_HAS_APPLE" />
 			</section>
 
 			<section if="ios">
 				<vflag name="-framework" value="Metal" />
 				<vflag name="-framework" value="MetalKit" />
 				<vflag name="-framework" value="QuartzCore" />
-
-				<compilerflag value="-DLIME_HAS_APPLE" />
 			</section>
 		</section>
 
