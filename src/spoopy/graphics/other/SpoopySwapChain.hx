@@ -41,7 +41,6 @@ class SpoopySwapChain extends WindowEventManager {
     @:noCompletion private var __renderTargetFlags:Int;
     @:noCompletion private var __drawnCounter:Int = 0;
 
-    @:noCompletion private var __updateDescriptorDirty:Bool = true;
     @:noCompletion private var __textureDirty:Bool = false;
     @:noCompletion private var __enabledDirty:Bool = false;
 
@@ -133,14 +132,6 @@ class SpoopySwapChain extends WindowEventManager {
 
         __surface.updateWindow();
         buffers.beginFrame();
-
-        if(__updateDescriptorDirty) {
-            #if spoopy_metal
-            __surface.updateMetalDescriptor();
-            #end
-
-            __updateDescriptorDirty = false;
-        }
 
         beginRenderPass();
         onUpdate();

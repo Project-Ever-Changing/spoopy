@@ -72,10 +72,6 @@ class SpoopyNativeSurface {
         SpoopyNativeCFFI.spoopy_set_surface_line_width(handle, width);
     }
 
-    public function updateMetalDescriptor():Void {
-        SpoopyNativeCFFI.spoopy_surface_update_descriptor(handle);
-    }
-
     public function drawArray(primitiveType:SpoopyPrimitiveType, start:Int, count:Int):Void {
         SpoopyNativeCFFI.spoopy_surface_draw_arrays(handle, primitiveType, start, count);
     }
