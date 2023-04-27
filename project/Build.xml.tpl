@@ -128,12 +128,14 @@
 				<vflag name="-framework" value="Metal" />
 				<vflag name="-framework" value="MetalKit" />
 				<vflag name="-framework" value="QuartzCore" />
+				<vflag name="-framework" value="Foundation" />
 			</section>
 
 			<section if="ios">
 				<vflag name="-framework" value="Metal" />
 				<vflag name="-framework" value="MetalKit" />
 				<vflag name="-framework" value="QuartzCore" />
+				<vflag name="-framework" value="Foundation" />
 			</section>
 
 			<cppflag value="-std=c++14" if="HXCPP_CPP14" />
