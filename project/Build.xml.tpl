@@ -122,23 +122,26 @@
 		<files id="spoopy-toolkit-volk" if="SPOOPY_VOLK" />
 		<files id="spoopy-toolkit-spirv" if="SPOOPY_SPIRV_CROSS" />
 
+		<cppflag value="-std=c++14" if="HXCPP_CPP14" />
+        <cppflag value="-Wc++14-extensions" if="HXCPP_CPP14" />
+        <cppflag value="-std=c++11" if="HXCPP_CPP11" />
+
 		<section unless="static_link">
 			<section if="mac">
 				<vflag name="-framework" value="Metal" />
 				<vflag name="-framework" value="MetalKit" />
 				<vflag name="-framework" value="QuartzCore" />
+
+				<compilerflag value="-DLIME_HAS_APPLE" />
 			</section>
 
 			<section if="ios">
 				<vflag name="-framework" value="Metal" />
 				<vflag name="-framework" value="MetalKit" />
 				<vflag name="-framework" value="QuartzCore" />
+
+				<compilerflag value="-DLIME_HAS_APPLE" />
 			</section>
-
-			<cppflag value="-std=c++14" if="HXCPP_CPP14" />
-    		<cppflag value="-Wc++14-extensions" if="HXCPP_CPP14" />
-
-    		<cppflag value="-std=c++11" if="HXCPP_CPP11" />
 		</section>
 
 	</target>
