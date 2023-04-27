@@ -45,13 +45,6 @@ namespace lime {
         retain(_device);
     }
 
-    void SpoopyWindowRendererMTL::updateMetalDescriptor() {
-        if (_surface == nil || _surface.texture == nil) {
-            printf("%s", "Surface or texture is not valid.\n");
-            return;
-        }
-    }
-
     void SpoopyWindowRendererMTL::setVertexBuffer(value __buffer, int __offset, int __atIndex) {
         Buffer* bufferOBJ = (Buffer*)val_data(__buffer);
         _commandBuffer -> setVertexBuffer(bufferOBJ, __offset, __atIndex);

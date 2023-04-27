@@ -22,7 +22,6 @@ namespace lime {
 
             ~SpoopyWindowRendererMTL();
 
-            virtual void updateMetalDescriptor();
             virtual void assignMetalDevice();
             virtual void setVertexBuffer(value __buffer, int __offset, int __atIndex);
             virtual void setIndexBuffer(value __buffer);

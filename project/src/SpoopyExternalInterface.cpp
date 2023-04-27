@@ -123,13 +123,6 @@ namespace lime {
         }
     }
     DEFINE_PRIME1(spoopy_spv_to_metal_shader);
-
-    void spoopy_surface_update_descriptor(value window_surface) {
-        SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
-        windowSurface -> updateMetalDescriptor();
-    }
-    DEFINE_PRIME1v(spoopy_surface_update_descriptor);
-
 #endif
 
 #if defined(SPOOPY_VULKAN) || defined(SPOOPY_METAL)

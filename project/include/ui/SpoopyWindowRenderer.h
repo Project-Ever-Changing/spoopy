@@ -57,7 +57,6 @@ namespace lime {
 
             #ifdef SPOOPY_METAL
             virtual void assignMetalDevice() = 0;
-            virtual void updateMetalDescriptor() = 0;
             #endif
         protected:
             Rectangle* _viewport;
