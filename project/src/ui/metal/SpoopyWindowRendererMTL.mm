@@ -27,12 +27,12 @@ namespace lime {
 
         if(device == nil) {
             device = MTLCreateSystemDefaultDevice();
+        }
 
-            if(device != nil) {
-                SPOOPY_LOG_SUCCESS("Metal device created successfully!");
-            }else {
-                SPOOPY_LOG_ERROR("This device does not support Metal!");
-            }
+        if(device != nil) {
+            SPOOPY_LOG_SUCCESS("Metal device created successfully!");
+        }else {
+            SPOOPY_LOG_ERROR("This device does not support Metal!");
         }
 
         _commandBuffer = new CommandBufferMTL(device);
