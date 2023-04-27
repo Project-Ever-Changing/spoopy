@@ -44,7 +44,7 @@ namespace lime {
     value spoopy_get_metal_device_from_layer(value surface, bool debug) {
         SpoopyWindowRenderer* window_surface = (SpoopyWindowRenderer*)val_data(surface);
         SpoopyWindowRendererMTL* window_renderer = static_cast<SpoopyWindowRendererMTL*>(window_surface);
-        id<MTLDevice> _mtlDevice = window_renderer -> getMetalLayer().device;
+        id<MTLDevice> _mtlDevice = [window_renderer -> getMetalLayer().device retain];
 
         if(debug) {
             printf("%s\n", "Getting metal device from layer.");
