@@ -55,7 +55,13 @@ class SpoopyNativeSurface {
     }
 
     public function setRenderTarget(flags:Int, cd:SpoopyNativeTexture, dt:SpoopyNativeTexture, st:SpoopyNativeTexture):Void {
-        SpoopyNativeCFFI.spoopy_set_surface_render_target(handle, flags, cd.handle, dt.handle, st.handle);
+        var cdr, dtr, str:Dynamic;
+
+        cdr = cd == null ? null : cd.handle;
+        dtr = dt == null ? null : dt.handle;
+        str = st == null ? null : st.handle;
+
+        SpoopyNativeCFFI.spoopy_set_surface_render_target(handle, flags, cdr, dtr, str);
     }
 
     public function setScissorRect(rect:Rectangle, enabled:Bool):Void {
