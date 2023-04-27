@@ -5,29 +5,24 @@
 namespace lime {
     class Log {
         public:
-            template<typename... Args> static void Display(const char* label, Args... args) {
-                std::cout << label;
-
-                using output = int[];
-
-                (void)output{0, (void(std::cout << std::forward<Args>(args)), 0)...};
-                std::cout << "\n";
+            static void Info(const char* message) {
+                printf("%s", "[WARN] ");
+                printf("%s%s\n", "\033[0m", message);
             }
 
-            template<typename... Args> static void Info(Args... args) {
-                Display("[INFO] ", args...);
+            static void Warn(const char* message) {
+                printf("%s", "[WARN] ");
+                printf("%s%s%s\n", "\033[1m\033[33m", message, "\033[0m");
             }
 
-            template<typename... Args> static void Warn(Args... args) {
-                Display("[WARN] ", args...);
+            static void Error(const char* message) {
+                printf("%s", "[ERROR] ");
+                printf("%s%s%s\n", "\033[1m\033[31m", message, "\033[0m");
             }
 
-            template<typename... Args> static void Error(Args... args) {
-                Display("[ERROR] ", args...);
-            }
-
-            template<typename... Args> static void Success(Args... args) {
-                Display("[SUCCESS] ", args...);
+            static void Success(const char* message) {
+                printf("%s", "[SUCCESS] ");
+                printf("%s%s%s\n", "\033[1m\033[32m", message, "\033[0m");
             }
     };
 }

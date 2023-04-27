@@ -5,6 +5,7 @@
 #include <graphics/Texture.h>
 #include <helpers/SpoopyBufferHelper.h>
 #include <system/CFFIPointer.h>
+#include <core/Log.h>
 
 #ifdef SPOOPY_VULKAN
 #include <device/InstanceDevice.h>

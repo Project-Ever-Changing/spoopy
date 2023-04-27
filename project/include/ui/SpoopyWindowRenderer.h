@@ -2,6 +2,7 @@
 
 #include <system/CFFIPointer.h>
 #include <graphics/Texture.h>
+#include <core/Log.h>
 
 #include <vector>
 

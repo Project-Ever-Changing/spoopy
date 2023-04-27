@@ -26,6 +26,10 @@ namespace lime {
 
         if(layer.device == nil) {
             layer.device = MTLCreateSystemDefaultDevice();
+
+            if(layer.device != nil) {
+                SPOOPY_LOG_SUCCESS("Metal device created successfully!");
+            }
         }
 
         _commandBuffer = new CommandBufferMTL(layer.device);
