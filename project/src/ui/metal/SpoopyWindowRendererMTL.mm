@@ -27,7 +27,7 @@ namespace lime {
         }
 
         if(m_window.sdlRenderer) {
-            if(SDL_GetWindowFlags(m_window.sdlWindow) & SDL_WINDOW_OPENGL) {
+            if(!(SDL_GetWindowFlags(m_window.sdlWindow) & SDL_WINDOW_OPENGL)) {
                 SPOOPY_LOG_SUCCESS("SDL Renderer found initialized with window using Metal!");
             }else {
                 SPOOPY_LOG_ERROR("SDL Renderer is initialize with OpenGL instead of Metal!");
