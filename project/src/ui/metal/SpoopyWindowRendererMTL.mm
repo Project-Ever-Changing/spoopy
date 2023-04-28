@@ -42,6 +42,10 @@ namespace lime {
         _commandBuffer = new CommandBufferMTL(_device);
         _commandBuffer -> storeCommandQueue([_device newCommandQueue]);
 
+        if(layer == nil) {
+            SPOOPY_LOG_ERROR("Unable to create CAMetalLayer from SDL!");
+        }
+
         retain(_device);
         retain(layer);
     }
