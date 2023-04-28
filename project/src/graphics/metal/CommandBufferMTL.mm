@@ -98,6 +98,10 @@ namespace lime {
     }
 
     void CommandBufferMTL::storeDrawable(id<CAMetalDrawable> drawable) {
+        if(drawable == nil) {
+            SPOOPY_LOG_ERROR("The `drawable` is detected as null!");
+        }
+
         _drawable = drawable;
     }
 

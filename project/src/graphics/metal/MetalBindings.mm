@@ -47,7 +47,7 @@ namespace lime {
         id<MTLDevice> _mtlDevice = window_renderer -> getMetalDevice();
 
         if(debug) {
-            printf("%s\n", "Getting metal device from layer.");
+            SPOOPY_LOG_INFO("Getting metal device from layer.");
         }
 
         return CFFIPointer(_mtlDevice, spoopy_gc_device);
