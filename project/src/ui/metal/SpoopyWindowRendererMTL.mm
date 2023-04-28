@@ -43,6 +43,7 @@ namespace lime {
         _commandBuffer -> storeCommandQueue([_device newCommandQueue]);
 
         retain(_device);
+        retain(layer);
     }
 
     void SpoopyWindowRendererMTL::setVertexBuffer(value __buffer, int __offset, int __atIndex) {
@@ -98,6 +99,8 @@ namespace lime {
         _surface = [layer nextDrawable];
         _commandBuffer -> storeDrawable(_surface);
         _commandBuffer -> beginFrame();
+
+        retain(_surface);
     }
 
     void SpoopyWindowRendererMTL::beginRenderPass() {
