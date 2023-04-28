@@ -28,7 +28,7 @@ namespace lime {
         if(m_window.sdlRenderer) {
             SPOOPY_LOG_SUCCESS("SDL Renderer found initialized with window!");
         }else {
-            SPOOPY_LOG_ERROR("Unable to find SDL_Renderer!");
+            SPOOPY_LOG_ERROR("Unable to find SDL_Renderer initialized with window!");
         }
 
         layer = (__bridge CAMetalLayer*)SDL_RenderGetMetalLayer(m_window.sdlRenderer);
