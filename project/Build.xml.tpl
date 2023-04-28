@@ -58,6 +58,7 @@
 		<compilerflag value="-DLIME_DEBUG" if="SPOOPY_DEBUG" />
 		<compilerflag value="-DLIME_ENABLE_GL_CONTEXT" if="LIME_ENABLE_GL_CONTEXT" />
 		<compilerflag value="-DLIME_OPENGL_FLAG" if="LIME_OPENGL_FLAG" />
+		<compilerflag value="-DLIME_METAL" if="LIME_METAL" />
 
 		<section if="SPOOPY_VOLK">
 			<compilerflag value="-DSPOOPY_VOLK" />
