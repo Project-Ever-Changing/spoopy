@@ -22,6 +22,10 @@ namespace lime {
     void SpoopyWindowRendererMTL::assignMetalInstructions() {
         SDL_SetHint(SDL_HINT_RENDER_DRIVER, "Metal");
 
+        #if defined(LIME_OPENGL_FLAG)
+        SPOOPY_LOG_ERROR("SDL Window Flag is set to OpenGL!");
+        #endif
+
         if(_device != nil) { // Just in case.
             release(_device);
         }
