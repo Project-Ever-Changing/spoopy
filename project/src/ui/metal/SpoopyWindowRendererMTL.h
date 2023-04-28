@@ -22,7 +22,7 @@ namespace lime {
 
             ~SpoopyWindowRendererMTL();
 
-            virtual void assignMetalDevice();
+            virtual void assignMetalInstructions();
             virtual void setVertexBuffer(value __buffer, int __offset, int __atIndex);
             virtual void setIndexBuffer(value __buffer);
             virtual void setViewport(Rectangle* rect);

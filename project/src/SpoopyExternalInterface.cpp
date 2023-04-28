@@ -98,7 +98,7 @@ namespace lime {
 
     void spoopy_assign_metal_surface(value window_surface) {
         SpoopyWindowRenderer* windowSurface = (SpoopyWindowRenderer*)val_data(window_surface);
-        windowSurface -> assignMetalDevice();
+        windowSurface -> assignMetalInstructions();
     }
     DEFINE_PRIME1v(spoopy_assign_metal_surface);
 
@@ -232,10 +232,6 @@ namespace lime {
     value spoopy_create_window_surface(value window_handle) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
-
-        if(sdlWindow -> sdlRenderer == NULL) {
-            printf("Error creating renderer: %s\n", SDL_GetError());
-        }
 
         SpoopyWindowRenderer* windowSurface = createWindowRenderer(*sdlWindow);
         return CFFIPointer(windowSurface, apply_gc_window_surface);

@@ -20,9 +20,15 @@ namespace lime {
     /*
      * The `init` method.
      */
-    void SpoopyWindowRendererMTL::assignMetalDevice() {
+    void SpoopyWindowRendererMTL::assignMetalInstructions() {
         if(_device != nil) { // Just in case.
             release(_device);
+        }
+
+        if(m_window.sdlRenderer) {
+            SPOOPY_LOG_SUCCESS("SDL Renderer found initialized with window!");
+        }else {
+            SPOOPY_LOG_ERROR("Unable to find SDL_Renderer!");
         }
 
         layer = (__bridge CAMetalLayer*)SDL_RenderGetMetalLayer(m_window.sdlRenderer);
