@@ -6,7 +6,11 @@
 #include "../../graphics/metal/texture/Texture2DMTL.h"
 
 #include <ui/SpoopyWindowRenderer.h>
+
+#ifdef SPOOPY_SDL
+#include <SDL_video.h>
 #include <SDL_metal.h>
+#endif
 
 /*
  * Having the main components like the commandBuffer in this class can cause potential issues and limitations,

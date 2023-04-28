@@ -30,7 +30,7 @@ namespace lime {
             SPOOPY_LOG_ERROR("Unable to find SDL_Renderer initialized with window!");
         }
 
-        SDL_MetalView view = SDL_Metal_CreateView(m_window);
+        SDL_MetalView view = SDL_Metal_CreateView(m_window.sdlWindow);
 	    layer = SDL_Metal_GetLayer(view);
 
         if(_device == nil) {
