@@ -3,8 +3,6 @@
 namespace lime {
     #ifdef SPOOPY_SDL
     SpoopyWindowRendererMTL::SpoopyWindowRendererMTL(const SDLWindow &m_window): m_window(m_window) {
-        SDL_SetHint(SDL_HINT_RENDER_DRIVER, "Metal");
-
         _viewport = new Rectangle(0.0, 0.0, 0.0, 0.0);
         _scissor = new Rectangle(0.0, 0.0, 0.0, 0.0);
 
@@ -20,7 +18,10 @@ namespace lime {
     /*
      * The `init` method.
      */
+    #ifdef SPOOPY_SDL
     void SpoopyWindowRendererMTL::assignMetalInstructions() {
+        SDL_SetHint(SDL_HINT_RENDER_DRIVER, "Metal");
+
         if(_device != nil) { // Just in case.
             release(_device);
         }
@@ -55,6 +56,7 @@ namespace lime {
         retain(_device);
         retain(layer);
     }
+    #endif
 
     void SpoopyWindowRendererMTL::setVertexBuffer(value __buffer, int __offset, int __atIndex) {
         Buffer* bufferOBJ = (Buffer*)val_data(__buffer);

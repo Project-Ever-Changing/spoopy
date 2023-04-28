@@ -55,7 +55,7 @@ namespace lime {
             virtual void createWindowSurfaceVulkan(VkInstance instance, VkSurfaceKHR* surface) const = 0;
             #endif
 
-            #ifdef SPOOPY_METAL
+            #if defined(SPOOPY_METAL) && defined(SPOOPY_SDL)
             virtual void assignMetalInstructions() = 0;
             #endif
         protected:
