@@ -25,6 +25,7 @@
 
 	<set name="LIME_SOURCE_PATH" value="../lime-project/src" />
 	<set name="LIME_INCLUDE_PATH" value="../lime-project/include" />
+	<!--<set name="LIME_OPENGL_FLAG" value="1"/>-->
 
 	<set name="LIME_OPENGL" value="1" />
 	<set name="LIME_ENABLE_GL_CONTEXT" value="1" unless="SPOOPY_METAL || SPOOPY_VULKAN" />
@@ -55,6 +56,7 @@
 	<files id="lime">
 		<compilerflag value="-DLIME_DEBUG" if="SPOOPY_DEBUG" />
 		<compilerflag value="-DLIME_ENABLE_GL_CONTEXT" if="LIME_ENABLE_GL_CONTEXT" />
+		<compilerflag value="-DLIME_OPENGL_FLAG" if="LIME_OPENGL_FLAG" />
 
 		<section if="SPOOPY_VOLK">
 			<compilerflag value="-DSPOOPY_VOLK" />
