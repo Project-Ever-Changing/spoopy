@@ -20,8 +20,6 @@ namespace lime {
      */
     #ifdef SPOOPY_SDL
     void SpoopyWindowRendererMTL::assignMetalInstructions() {
-        SDL_SetHint(SDL_HINT_RENDER_DRIVER, "Metal");
-
         if(_device != nil) { // Just in case.
             release(_device);
         }

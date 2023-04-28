@@ -28,6 +28,7 @@
 	<!--<set name="LIME_OPENGL_FLAG" value="1"/>-->
 
 	<set name="LIME_OPENGL" value="1" />
+	<set name="LIME_METAL" value="1" />
 	<set name="LIME_ENABLE_GL_CONTEXT" value="1" unless="SPOOPY_METAL || SPOOPY_VULKAN" />
 
 	<section if="mac">
