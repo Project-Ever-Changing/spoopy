@@ -4,6 +4,8 @@
 #include "../CommandBuffer.h"
 #include "BufferMTL.h"
 
+#include <core/Log.h>
+
 #import "../../helpers/metal/SpoopyMetalHelpers.h"
 
 namespace lime {
