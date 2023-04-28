@@ -25,18 +25,13 @@ namespace lime {
         }
 
         if(m_window.sdlRenderer) {
-            if(!(SDL_GetWindowFlags(m_window.sdlWindow) & SDL_WINDOW_OPENGL)) {
-                SPOOPY_LOG_SUCCESS("SDL Renderer found initialized with window using Metal!");
-            }else {
-                SPOOPY_LOG_ERROR("SDL Renderer is initialize with OpenGL instead of Metal!");
-            }
+            SPOOPY_LOG_ERROR("SDL Renderer is initialize with OpenGL instead of Metal!");
         }else {
             SPOOPY_LOG_ERROR("Unable to find SDL_Renderer initialized with window!");
         }
 
-        layer = (__bridge CAMetalLayer*)SDL_RenderGetMetalLayer(m_window.sdlRenderer);
-        layer.pixelFormat = SpoopyMetalHelpers::convertSDLtoMetal(SDL_GetWindowPixelFormat(m_window.sdlWindow));
-        _device = layer.device;
+        SDL_MetalView view = SDL_Metal_CreateView(m_window);
+	    layer = SDL_Metal_GetLayer(view);
 
         if(_device == nil) {
             _device = MTLCreateSystemDefaultDevice();
@@ -54,6 +49,8 @@ namespace lime {
         if(layer == nil) {
             SPOOPY_LOG_ERROR("Unable to create CAMetalLayer from SDL!");
         }
+
+        layer.device = _device;
 
         retain(_device);
         retain(layer);
