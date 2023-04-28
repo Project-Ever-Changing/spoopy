@@ -125,7 +125,7 @@ class SpoopySwapChain extends WindowEventManager {
         setRenderTarget();
     }
 
-    public override function onWindowUpdate():Void {
+    private override function onWindowUpdate():Void {
         super.onWindowUpdate();
 
         atIndexVertex = 0;
