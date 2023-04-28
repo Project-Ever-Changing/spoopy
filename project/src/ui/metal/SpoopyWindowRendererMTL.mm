@@ -97,10 +97,10 @@ namespace lime {
         layer.drawableSize = CGSizeMake(width, height);
 
         _surface = [layer nextDrawable];
+        retain(_surface);
+
         _commandBuffer -> storeDrawable(_surface);
         _commandBuffer -> beginFrame();
-
-        retain(_surface);
     }
 
     void SpoopyWindowRendererMTL::beginRenderPass() {
