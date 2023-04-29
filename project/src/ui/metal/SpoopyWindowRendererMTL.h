@@ -8,7 +8,6 @@
 #include <ui/SpoopyWindowRenderer.h>
 
 #ifdef SPOOPY_SDL
-#include <SDL_video.h>
 #include <SDL_metal.h>
 #endif
 
