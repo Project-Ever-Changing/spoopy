@@ -112,7 +112,7 @@
 		</section>
 
 		<section if="SPOOPY_SDL">
-		    <compilerflag value="-DSDL_VIDEO_DRIVER_METAL" if="SPOOPY_METAL" />
+		    <compilerflag value="-DSDL_VIDEO_DRIVER_METAL=1" if="SPOOPY_METAL" />
 		</section>
 
 		<file name="src/shaders/CrossShader.cpp" />
