@@ -163,11 +163,19 @@ class RunScript {
         }
 
         if(!(args.indexOf("-no_vulkan") > 0) && !FileSys.isMac) {
+            if(!FileSystem.exists(Sys.getCwd() + "ndll-vulkan")) {
+                FileSystem.createDirectory(Sys.getCwd() + "ndll-vulkan");
+            }
+
             have_API = "-DSPOOPY_VULKAN";
             build_args.push(have_API);
         }
 
         if(!(args.indexOf("-no_metal") > 0) && FileSys.isMac) {
+            if(!FileSystem.exists(Sys.getCwd() + "ndll-metal")) {
+                FileSystem.createDirectory(Sys.getCwd() + "ndll-metal");
+            }
+
             have_API = "-DSPOOPY_METAL";
             build_args.push(have_API);
         }
@@ -205,7 +213,7 @@ class RunScript {
         Sys.command("haxelib", ["update", "spoopy"]);
 
         if(args.indexOf("-git") > 0) {
-            Sys.command("git", ["submodule", "update", "--init", "--recursive", "--remote"]);
+            Sys.command("git", ["submodule", "update", "--init", "--remote"]);
         }
         
         if(args.indexOf("-ndll") > 0) {
