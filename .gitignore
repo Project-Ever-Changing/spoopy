@@ -1,6 +1,7 @@
 export/
 project/obj
 .DS_Store
+update-lime.sh
 
 ndll
 ndll-vulkan
