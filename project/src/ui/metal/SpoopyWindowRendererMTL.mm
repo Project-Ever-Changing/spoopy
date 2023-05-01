@@ -30,18 +30,16 @@ namespace lime {
             SPOOPY_LOG_ERROR("Unable to find SDL_Renderer initialized with window!");
         }
 
-        SDL_MetalView view = SDL_Metal_CreateView(m_window.sdlWindow);
-	    CAMetalLayer* layer = (CAMetalLayer*)SDL_Metal_GetLayer(view);
-
-        if(_device == nil) {
-            _device = MTLCreateSystemDefaultDevice();
-        }
+        _device = MTLCreateSystemDefaultDevice();
 
         if(_device != nil) {
             SPOOPY_LOG_SUCCESS("Metal device created successfully!");
         }else {
             SPOOPY_LOG_ERROR("This device does not support Metal!");
         }
+
+        SDL_MetalView view = SDL_Metal_CreateView(m_window.sdlWindow);
+	    CAMetalLayer* layer = (CAMetalLayer*)SDL_Metal_GetLayer(view);
 
         _commandBuffer = new CommandBufferMTL(_device);
         _commandBuffer -> storeCommandQueue([_device newCommandQueue]);
