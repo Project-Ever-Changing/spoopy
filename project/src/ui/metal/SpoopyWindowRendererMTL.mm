@@ -30,8 +30,8 @@ namespace lime {
             SPOOPY_LOG_ERROR("Unable to find SDL_Renderer initialized with window!");
         }
 
-        layer = (__bridge CAMetalLayer*)SDL_RenderGetMetalLayer(m_window.sdlRenderer);
-        layer.pixelFormat = SpoopyMetalHelpers::convertSDLtoMetal(SDL_GetWindowPixelFormat(m_window.sdlWindow));
+        SDL_MetalView view = SDL_Metal_CreateView(m_window.sdlWindow);
+	    CAMetalLayer *layer = SDL_Metal_GetLayer(view);
 
         if(_device == nil) {
             _device = MTLCreateSystemDefaultDevice();
