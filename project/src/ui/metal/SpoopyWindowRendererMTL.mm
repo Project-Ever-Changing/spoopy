@@ -25,7 +25,7 @@ namespace lime {
         }
 
         if(m_window.sdlRenderer) {
-            SPOOPY_LOG_ERROR("SDL Renderer is initialize with OpenGL instead of Metal!");
+            SPOOPY_LOG_ERROR("SDL Context is initialize with OpenGL instead of Metal!");
         }else {
             SPOOPY_LOG_ERROR("Unable to find SDL_Renderer initialized with window!");
         }
