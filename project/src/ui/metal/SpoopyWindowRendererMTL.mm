@@ -24,10 +24,10 @@ namespace lime {
             release(_device);
         }
 
-        if(m_window.sdlRenderer) {
-            SPOOPY_LOG_ERROR("SDL Context is initialize with OpenGL instead of Metal!");
+        if(m_window.context) {
+            SPOOPY_LOG_SUCCESS("SDL Context is initialize with window!");
         }else {
-            SPOOPY_LOG_ERROR("Unable to find SDL_Renderer initialized with window!");
+            SPOOPY_LOG_ERROR("Unable to find SDL Context initialized with window!");
         }
 
         _device = MTLCreateSystemDefaultDevice();
@@ -38,8 +38,7 @@ namespace lime {
             SPOOPY_LOG_ERROR("This device does not support Metal!");
         }
 
-        SDL_MetalView view = SDL_Metal_CreateView(m_window.sdlWindow);
-	    CAMetalLayer* layer = (CAMetalLayer*)SDL_Metal_GetLayer(view);
+	    CAMetalLayer* layer = (CAMetalLayer*)SDL_Metal_GetLayer(m_window.context);
 
         _commandBuffer = new CommandBufferMTL(_device);
         _commandBuffer -> storeCommandQueue([_device newCommandQueue]);
