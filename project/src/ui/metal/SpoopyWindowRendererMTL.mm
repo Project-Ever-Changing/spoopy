@@ -24,12 +24,6 @@ namespace lime {
             release(_device);
         }
 
-        if(m_window.context) {
-            SPOOPY_LOG_SUCCESS("SDL Context is initialize with window!");
-        }else {
-            SPOOPY_LOG_ERROR("Unable to find SDL Context initialized with window!");
-        }
-
         _device = MTLCreateSystemDefaultDevice();
 
         if(_device != nil) {
