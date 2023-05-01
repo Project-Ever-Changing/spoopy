@@ -31,7 +31,7 @@ namespace lime {
         }
 
         SDL_MetalView view = SDL_Metal_CreateView(m_window.sdlWindow);
-	    CAMetalLayer *layer = SDL_Metal_GetLayer(view);
+	    CAMetalLayer* layer = (CAMetalLayer*)SDL_Metal_GetLayer(view);
 
         if(_device == nil) {
             _device = MTLCreateSystemDefaultDevice();
