@@ -158,19 +158,6 @@ class RunScript {
         var have_API:String = "";
         var build_args:Array<String> = [];
 
-        if(!FileSystem.exists(Sys.getCwd() + "ndll")) {
-            FileSystem.createDirectory(Sys.getCwd() + "ndll");
-        }
-
-        if(!(args.indexOf("-no_vulkan") > 0)) {
-            if(!FileSystem.exists(Sys.getCwd() + "ndll-vulkan")) {
-                FileSystem.createDirectory(Sys.getCwd() + "ndll-vulkan");
-            }
-
-            have_API = "-DSPOOPY_VULKAN";
-            build_args.push(have_API);
-        }
-
         if(!(args.indexOf("-no_metal") > 0) && FileSys.isMac) {
             if(!FileSystem.exists(Sys.getCwd() + "ndll-metal")) {
                 FileSystem.createDirectory(Sys.getCwd() + "ndll-metal");
@@ -178,6 +165,15 @@ class RunScript {
 
             have_API = "-DSPOOPY_METAL";
             build_args.push(have_API);
+        }else if(!(args.indexOf("-no_vulkan") > 0)) {
+            if(!FileSystem.exists(Sys.getCwd() + "ndll-vulkan")) {
+                FileSystem.createDirectory(Sys.getCwd() + "ndll-vulkan");
+            }
+
+            have_API = "-DSPOOPY_VULKAN";
+            build_args.push(have_API);
+        }else if(!FileSystem.exists(Sys.getCwd() + "ndll")) {
+            FileSystem.createDirectory(Sys.getCwd() + "ndll");
         }
 
         build_args.push(getXMLArgs(args, "-include_example"));
@@ -196,15 +192,11 @@ class RunScript {
     static inline function destroyCMD(args:Array<String>):Void {
         var ndllPath:String = "ndll";
 
-        if(!(args.indexOf("-no_vulkan") > 0) && !FileSys.isMac) {
-            ndllPath = "ndll-vulkan";
-        }
-
         if(!(args.indexOf("-no_metal") > 0) && FileSys.isMac) {
             ndllPath = "ndll-metal";
-        }
-
-        if(FileSystem.exists(ndllPath)) {
+        }else if(!(args.indexOf("-no_vulkan") > 0) && !FileSys.isMac) {
+            ndllPath = "ndll-vulkan";
+        }else if(FileSystem.exists(ndllPath)) {
             PathUtils.deleteDirRecursively(ndllPath);
         }
     }
