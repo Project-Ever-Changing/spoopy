@@ -162,7 +162,7 @@ class RunScript {
             FileSystem.createDirectory(Sys.getCwd() + "ndll");
         }
 
-        if(!(args.indexOf("-no_vulkan") > 0) && !FileSys.isMac) {
+        if(!(args.indexOf("-no_vulkan") > 0)) {
             if(!FileSystem.exists(Sys.getCwd() + "ndll-vulkan")) {
                 FileSystem.createDirectory(Sys.getCwd() + "ndll-vulkan");
             }
