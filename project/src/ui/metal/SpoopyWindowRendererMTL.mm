@@ -98,7 +98,7 @@ namespace lime {
 
         int width, height;
 
-        SDL_GetDrawableSize(m_window.sdlWindow, &width, &width);
+        SDL_GetWindowSize (m_window.sdlWindow, &width, &height);
         layer.pixelFormat = MTLPixelFormatBGRA8Unorm;
         layer.drawableSize = CGSizeMake(width, height);
         id<CAMetalDrawable> drawable = [layer nextDrawable];
