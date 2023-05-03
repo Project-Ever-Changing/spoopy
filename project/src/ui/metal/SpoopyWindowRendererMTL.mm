@@ -99,7 +99,7 @@ namespace lime {
         int width, height;
 
         SDL_GetDrawableSize(m_window.sdlWindow, &width, &width);
-        layer.pixelFormat = SpoopyMetalHelpers::convertSDLtoMetal(SDL_GetWindowPixelFormat(m_window.sdlWindow));
+        layer.pixelFormat = MTLPixelFormatBGRA8Unorm;
         layer.drawableSize = CGSizeMake(width, height);
         id<CAMetalDrawable> drawable = [layer nextDrawable];
 
