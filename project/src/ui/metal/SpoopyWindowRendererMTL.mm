@@ -103,9 +103,7 @@ namespace lime {
         id<CAMetalDrawable> _surface = [layer nextDrawable];
 
         if(_surface == nil) {
-            SPOOPY_LOG_ERROR("The `drawable` is detected as null!");
-        }else {
-            SPOOPY_LOG_SUCCESS("The `drawable` is successfully detected!");
+            return;
         }
 
         _commandBuffer -> storeDrawable(_surface);
