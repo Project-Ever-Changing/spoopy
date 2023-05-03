@@ -96,13 +96,19 @@ namespace lime {
 
         #ifdef SPOOPY_SDL
 
+        while (SDL_PollEvent(&e) != 0) {
+            switch (e.type) {
+                case SDL_QUIT: {
+                    quit = true;
+                } break;
+            }
+        }
+
         int width, height;
 
         SDL_GetDrawableSize(m_window.sdlWindow, &width, &width);
         layer.drawableSize = CGSizeMake(width, height);
-
-        [layer nextDrawable];
-        id<CAMetalDrawable> drawable = layer -> currentDrawable;
+        id<CAMetalDrawable> drawable = [layer nextDrawable];
 
         if(drawable == nil) {
             SPOOPY_LOG_ERROR("Unable to find CAMetalDrawable! Drawable size (" + std::to_string(width) + ", " + std::to_string(height) + ").");
