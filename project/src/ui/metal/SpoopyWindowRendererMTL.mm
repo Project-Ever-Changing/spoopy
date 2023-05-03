@@ -39,6 +39,8 @@ namespace lime {
 
         if(layer == nil) {
             SPOOPY_LOG_ERROR("Unable to create CAMetalLayer from SDL!");
+        }else {
+            SPOOPY_LOG_SUCCESS("CAMetalLayer created successfully from SDL!");
         }
 
         layer.device = _device;
