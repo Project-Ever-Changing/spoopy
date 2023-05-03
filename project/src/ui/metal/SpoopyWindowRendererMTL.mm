@@ -103,7 +103,7 @@ namespace lime {
         id<CAMetalDrawable> _surface = [layer nextDrawable];
 
         if(_surface == nil) {
-            SPOOPY_LOG_ERROR("Unable to find CAMetalDrawable! Drawable size (" + std::to_string(width) + ", " + std::to_string(height) + ").");
+            SPOOPY_LOG_ERROR("Unable to find CAMetalDrawable! Drawable size (" + std::to_string(width).c_str() + ", " + std::to_string(height).c_str() + ").");
             return;
         }
 
