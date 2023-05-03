@@ -96,7 +96,7 @@ namespace lime {
         id<CAMetalDrawable> drawable = [layer nextDrawable];
 
         if(drawable == nil) {
-            SPOOPY_LOG_ERROR("Unable to find CAMetalDrawable! Drawable size (" + std::to_string(width) + ", " + std::to_string(height) + ").");
+            SPOOPY_LOG_ERROR("Unable to find CAMetalDrawable from layer!");
             return;
         }
 
