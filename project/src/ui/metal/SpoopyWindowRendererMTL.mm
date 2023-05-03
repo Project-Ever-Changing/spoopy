@@ -100,14 +100,16 @@ namespace lime {
 
         SDL_GetDrawableSize(m_window.sdlWindow, &width, &width);
         layer.drawableSize = CGSizeMake(width, height);
-        id<CAMetalDrawable> _surface = [layer nextDrawable];
 
-        if(_surface == nil) {
+        [layer nextDrawable];
+        id<CAMetalDrawable> drawable = layer.currentDrawable;
+
+        if(drawable == nil) {
             SPOOPY_LOG_ERROR("Unable to find CAMetalDrawable! Drawable size (" + std::to_string(width) + ", " + std::to_string(height) + ").");
             return;
         }
 
-        _commandBuffer -> storeDrawable(_surface);
+        _commandBuffer -> storeDrawable(drawable);
         _commandBuffer -> beginFrame();
 
         #endif
