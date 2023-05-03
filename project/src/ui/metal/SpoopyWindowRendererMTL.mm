@@ -107,6 +107,8 @@ namespace lime {
             return;
         }else {
             _continueRendering = true;
+            
+            SPOOPY_LOG_INFO("Window is currently rendering.");
         }
 
         _commandBuffer -> storeDrawable(_surface);
