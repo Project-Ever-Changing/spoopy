@@ -10,7 +10,6 @@
 	<haxedef name="native" if="cpp || neko" />
 
 	<haxelib name="lime" unless="create" />
-	<haxelib name="openfl" unless="create" />
 	<haxelib name="hscript" unless="create || coverage2" optional="true" />
 
 	<log warn="Spoopy Engine expects Haxe 4.0.0 or greater, but version ${haxe} is being used!" if="${${haxe} < 4.0.0}" unless="display" />
