@@ -102,7 +102,7 @@ namespace lime {
         layer.drawableSize = CGSizeMake(width, height);
 
         [layer nextDrawable];
-        id<CAMetalDrawable> drawable = layer.currentDrawable;
+        id<CAMetalDrawable> drawable = layer -> currentDrawable;
 
         if(drawable == nil) {
             SPOOPY_LOG_ERROR("Unable to find CAMetalDrawable! Drawable size (" + std::to_string(width) + ", " + std::to_string(height) + ").");
