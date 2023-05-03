@@ -43,12 +43,6 @@ namespace lime {
             SPOOPY_LOG_SUCCESS("CAMetalLayer created successfully from SDL!");
         }
 
-        if(layer.drawable == nil) {
-            SPOOPY_LOG_ERROR("The `drawable` is detected as null!");
-        }else {
-            SPOOPY_LOG_SUCCESS("The `drawable` is successfully detected!");
-        }
-
         layer.device = _device;
 
         retain(_device);
@@ -108,6 +102,12 @@ namespace lime {
 
         _surface = [layer nextDrawable];
         retain(_surface);
+
+        if(_surface == nil) {
+            SPOOPY_LOG_ERROR("The `drawable` is detected as null!");
+        }else {
+            SPOOPY_LOG_SUCCESS("The `drawable` is successfully detected!");
+        }
 
         _commandBuffer -> storeDrawable(_surface);
         _commandBuffer -> beginFrame();
