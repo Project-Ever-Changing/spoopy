@@ -92,11 +92,7 @@ namespace lime {
 
         #ifdef SPOOPY_SDL
 
-        int width, height;
-
-        SDL_GetWindowSize(m_window.sdlWindow, &width, &height);
         layer.pixelFormat = MTLPixelFormatBGRA8Unorm;
-        layer.drawableSize = CGSizeMake(width, height);
         id<CAMetalDrawable> drawable = [layer nextDrawable];
 
         if(drawable == nil) {
