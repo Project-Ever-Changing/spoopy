@@ -20,10 +20,6 @@ namespace lime {
      */
     #ifdef SPOOPY_SDL
     void SpoopyWindowRendererMTL::assignMetalInstructions() {
-        if(_device != nil) { // Just in case.
-            release(_device);
-        }
-
         id<MTLDevice> _device = MTLCreateSystemDefaultDevice();
 
         if(_device != nil) {
