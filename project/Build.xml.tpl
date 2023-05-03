@@ -112,6 +112,8 @@
 			<compilerflag value="-DSPOOPY_METAL" />
 		</section>
 
+        <file name="src/graphics/EmptyOpenGL.cpp" unless="LIME_OPENGL"/>
+
 		<file name="src/shaders/CrossShader.cpp" />
 		<file name="src/helpers/SpoopyHelpers.cpp" />
 		<file name="src/helpers/SpoopyBytes.cpp" />
