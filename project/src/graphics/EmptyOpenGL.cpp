@@ -19,7 +19,7 @@ namespace lime {
 
     void lime_gl_bind_buffer_base(int target, int index, int buffer) {}
 
-    void lime_gl_bind_buffer_range(int target, int index, int buffer, int offset, int size) {}
+    void lime_gl_bind_buffer_range(int target, int index, int buffer, double offset, int size) {}
 
     void lime_gl_bind_framebuffer(int target, int framebuffer) {}
 
