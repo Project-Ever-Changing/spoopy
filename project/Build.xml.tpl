@@ -108,7 +108,6 @@
 			<file name="src/graphics/metal/BufferMTL.mm" />
 			<file name="src/graphics/metal/CommandBufferMTL.mm" />
 			<file name="src/graphics/metal/texture/Texture2DMTL.mm" />
-			<compilerflag value="-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64" />
 			<compilerflag value="-DSPOOPY_METAL" />
 		</section>
 
