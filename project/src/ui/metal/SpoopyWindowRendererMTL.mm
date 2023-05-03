@@ -44,9 +44,7 @@ namespace lime {
         }
 
         layer.device = _device;
-
         retain(_device);
-        retain(layer);
     }
     #endif
 
@@ -95,13 +93,14 @@ namespace lime {
     }
 
     void SpoopyWindowRendererMTL::render() {
+
+        #ifdef SPOOPY_SDL
+
         int width, height;
 
-        SDL_GetRendererOutputSize(getWindow().sdlRenderer, &width, &height);
+        SDL_GetDrawableSize(m_window.sdlWindow, &width, &width);
         layer.drawableSize = CGSizeMake(width, height);
-
-        _surface = [layer nextDrawable];
-        retain(_surface);
+        id<CAMetalDrawable> _surface = [layer nextDrawable];
 
         if(_surface == nil) {
             SPOOPY_LOG_ERROR("The `drawable` is detected as null!");
@@ -111,6 +110,8 @@ namespace lime {
 
         _commandBuffer -> storeDrawable(_surface);
         _commandBuffer -> beginFrame();
+
+        #endif
     }
 
     void SpoopyWindowRendererMTL::beginRenderPass() {
@@ -177,7 +178,6 @@ namespace lime {
             delete _commandBuffer;
         }
 
-        release(_surface);
         release(layer);
         release(_device);
     }

@@ -61,7 +61,6 @@ namespace lime {
             CAMetalLayer* layer;
 
             RenderPassDescriptor<Texture2DMTL> renderPassDescriptor;
-            id<CAMetalDrawable> _surface;
             id<MTLDevice> _device;
     };
 }
