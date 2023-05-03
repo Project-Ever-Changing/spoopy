@@ -103,7 +103,10 @@ namespace lime {
         id<CAMetalDrawable> _surface = [layer nextDrawable];
 
         if(_surface == nil) {
+            _continueRendering = false;
             return;
+        }else {
+            _continueRendering = true;
         }
 
         _commandBuffer -> storeDrawable(_surface);
@@ -113,6 +116,10 @@ namespace lime {
     }
 
     void SpoopyWindowRendererMTL::beginRenderPass() {
+        if(!_continueRendering) {
+            return;
+        }
+
         _commandBuffer -> beginRenderPass(renderPassDescriptor);
         _commandBuffer -> setViewport(_viewport);
         _commandBuffer -> setCullMode(_cullMode);
@@ -121,6 +128,10 @@ namespace lime {
     }
 
     void SpoopyWindowRendererMTL::clear() {
+        if(!_continueRendering) {
+            return;
+        }
+
         _commandBuffer -> endFrame();
     }
 
