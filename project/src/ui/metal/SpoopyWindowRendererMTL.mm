@@ -96,17 +96,10 @@ namespace lime {
 
         #ifdef SPOOPY_SDL
 
-        while (SDL_PollEvent(&e) != 0) {
-            switch (e.type) {
-                case SDL_QUIT: {
-                    quit = true;
-                } break;
-            }
-        }
-
         int width, height;
 
         SDL_GetDrawableSize(m_window.sdlWindow, &width, &width);
+        layer.pixelFormat = SpoopyMetalHelpers::convertSDLtoMetal(SDL_GetWindowPixelFormat(m_window.sdlWindow));
         layer.drawableSize = CGSizeMake(width, height);
         id<CAMetalDrawable> drawable = [layer nextDrawable];
 
