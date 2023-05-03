@@ -284,7 +284,7 @@ namespace lime {
 
     void lime_gl_get_shaderiv(int shader, int pname, double params) {}
 
-    int lime_gl_get_shader_precision_format(int shadertype, int precisiontype) { return 0; }
+    value lime_gl_get_shader_precision_format(int shadertype, int precisiontype) { return 0; }
 
     value lime_gl_get_shader_source(int handle) { return alloc_null(); }
 
