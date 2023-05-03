@@ -63,7 +63,6 @@ namespace lime {
             Rectangle* _scissor;
 
             bool _enabledScissor;
-            bool _continueRendering;
 
             int _cullMode;
             int _winding;

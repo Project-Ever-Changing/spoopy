@@ -103,12 +103,8 @@ namespace lime {
         id<CAMetalDrawable> _surface = [layer nextDrawable];
 
         if(_surface == nil) {
-            _continueRendering = false;
+            SPOOPY_LOG_ERROR("Unable to find CAMetalDrawable! Drawable size (" + std::to_string(width) + ", " + std::to_string(height) + ").");
             return;
-        }else {
-            _continueRendering = true;
-            
-            SPOOPY_LOG_INFO("Window is currently rendering.");
         }
 
         _commandBuffer -> storeDrawable(_surface);
@@ -118,10 +114,6 @@ namespace lime {
     }
 
     void SpoopyWindowRendererMTL::beginRenderPass() {
-        if(!_continueRendering) {
-            return;
-        }
-
         _commandBuffer -> beginRenderPass(renderPassDescriptor);
         _commandBuffer -> setViewport(_viewport);
         _commandBuffer -> setCullMode(_cullMode);
@@ -130,10 +122,6 @@ namespace lime {
     }
 
     void SpoopyWindowRendererMTL::clear() {
-        if(!_continueRendering) {
-            return;
-        }
-
         _commandBuffer -> endFrame();
     }
 
