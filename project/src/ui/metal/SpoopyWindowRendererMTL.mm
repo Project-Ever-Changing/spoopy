@@ -24,7 +24,7 @@ namespace lime {
             release(_device);
         }
 
-        _device = MTLCreateSystemDefaultDevice();
+        id<MTLDevice> _device = MTLCreateSystemDefaultDevice();
 
         if(_device != nil) {
             SPOOPY_LOG_SUCCESS("Metal device created successfully!");
@@ -44,7 +44,7 @@ namespace lime {
         }
 
         layer.device = _device;
-        retain(_device);
+        retain(layer);
     }
     #endif
 
@@ -98,7 +98,7 @@ namespace lime {
 
         int width, height;
 
-        SDL_GetWindowSize (m_window.sdlWindow, &width, &height);
+        SDL_GetWindowSize(m_window.sdlWindow, &width, &height);
         layer.pixelFormat = MTLPixelFormatBGRA8Unorm;
         layer.drawableSize = CGSizeMake(width, height);
         id<CAMetalDrawable> drawable = [layer nextDrawable];
@@ -179,7 +179,6 @@ namespace lime {
         }
 
         release(layer);
-        release(_device);
     }
 
     #ifdef SPOOPY_SDL    

@@ -49,7 +49,7 @@ namespace lime {
             virtual void setWinding(int winding);
 
             virtual bool findCommandBuffer() const;
-            virtual id<MTLDevice> getMetalDevice() const {return _device;};
+            virtual id<MTLDevice> getMetalDevice() const {return layer.device;};
 
             virtual const SDLWindow& getWindow() const;
         private:
@@ -61,6 +61,5 @@ namespace lime {
             CAMetalLayer* layer;
 
             RenderPassDescriptor<Texture2DMTL> renderPassDescriptor;
-            id<MTLDevice> _device;
     };
 }
