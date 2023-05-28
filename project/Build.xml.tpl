@@ -11,6 +11,7 @@
 	<set name="SPOOPY_HASHLINK" value="1" if="hashlink" />
 	<set name="SPOOPY_SDL" value="1" />
 	<set name="SPOOPY_SPIRV_CROSS" value="1" />
+	<set name="SPOOPY_ROCKET" value="1" />
 	<set name="SPOOPY_SDL_SUPPORT_RENDERER" value="1" />
 	<set name="SPOOPY_SDL_ANGLE" value="1" if="windows SPOOPY_SDL_ANGLE" unless="static_link" />
 	<set name="SPOOPY_SDL_ANGLE" value="1" if="windows angle" unless="static_link" />
@@ -22,6 +23,7 @@
 	<set name="NATIVE_TOOLKIT_SDL_ANGLE" value="1" if="SPOOPY_SDL_ANGLE" />
 
 	<set name="INCLUDE_SDL" value="1" if="SPOOPY_SDL" />
+	<set name="USE_CUSTOM_SDL_DEFINITIONS" value="1" if="SPOOPY_SDL" />
 
 	<set name="LIME_SOURCE_PATH" value="../lime-project/src" />
 	<set name="LIME_INCLUDE_PATH" value="../lime-project/include" />
@@ -62,8 +64,9 @@
 
 		<section if="SPOOPY_VOLK">
 			<compilerflag value="-DSPOOPY_VOLK" />
-			<compilerflag value="-DLIME_VOLK" />
+			<!--<compilerflag value="-DLIME_VOLK" />-->
 			<compilerflag value="-DVK_NO_PROTOTYPES" />
+			<compilerflag value="-DVOLK_IMPLEMENTATION" />
 			<compilerflag value="-Ilib/volk/" />
 		</section>
 
@@ -72,6 +75,11 @@
 			<compilerflag value="-DSPOOPY_SPIRV_CROSS" />
 			<compilerflag value="-Ilib/spirv-cross/include/spirv_cross/" />
 			<compilerflag value="-Ilib/spirv-cross/" />
+		</section>
+
+		<section if="SPOOPY_ROCKET">
+		    <compilerflag value="-DSPOOPY_ROCKET" />
+		    <compilerflag value="-Ilib/rocket/" />
 		</section>
 
 		<file name="src/SpoopyExternalInterface.cpp" />
@@ -83,6 +91,7 @@
 		<compilerflag value="-DSPOOPY_VULKAN" if="SPOOPY_VULKAN" />
 		<compilerflag value="-DLIME_VULKAN" if="SPOOPY_VULKAN" />
 		<compilerflag value="-DSPOOPY_INCLUDE_EXAMPLE" if="SPOOPY_INCLUDE_EXAMPLE" />
+		<compilerflag value="-DUSE_CUSTOM_SDL_DEFINITIONS" if="USE_CUSTOM_SDL_DEFINITIONS"/>
 		<compilerflag value="-DNO_GLSLANG_INCLUDED" />
 
 		<section if="SPOOPY_INCLUDE_EXAMPLE">
@@ -91,12 +100,15 @@
 
 		<section if="SPOOPY_VULKAN">
 			<file name="src/device/Devices.cpp" />
-			<file name="src/ui/vulkan/SpoopyWindowVulkan.cpp" />
-			<file name="src/device/InstanceDevice.cpp" />
+			<!--<file name="src/ui/vulkan/SpoopyWindowVulkan.cpp" />-->
+			<file name="src/graphics/vulkan/ContextVulkan.cpp" />
+			<file name="src/graphics/vulkan/GraphicsHandlerVulkan.cpp" />
+			<file name="src/graphics/vulkan/GraphicsVulkan.cpp" />
+			<file name="src/graphics/vulkan/SwapchainVulkan.cpp" />
+			<file name="src/device/Instance.cpp" />
 			<file name="src/device/PhysicalDevice.cpp" />
 			<file name="src/device/LogicalDevice.cpp" />
-			<file name="src/device/SurfaceDevice.cpp" />
-			<file name="src/families/QueueFamilyIndices.cpp" />
+			<file name="src/device/Surface.cpp" />
 		</section>
 
 		<section if="SPOOPY_METAL">
@@ -123,6 +135,7 @@
 
 	<include name="volk.xml.tpl" if="SPOOPY_VOLK" />
 	<include name="spirv-cross.xml.tpl" if="SPOOPY_SPIRV_CROSS" />
+	<include name="rocket.xml.tpl" if="SPOOPY_ROCKET" />
 
 	<target id="lime" output="${LIBPREFIX}lime${DEBUGEXTRA}${LIBSUFFIX}" tool="linker" toolid="${STD_MODULE_LINK}">
 		<files id="spoopy-toolkit-volk" if="SPOOPY_VOLK" />

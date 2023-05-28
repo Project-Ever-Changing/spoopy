@@ -16,10 +16,11 @@
 
 namespace lime {
     #ifdef SPOOPY_VULKAN
+
     void checkVulkan(VkResult result);
     std::string stringifyResultVk(VkResult result);
 
-    VkResult FvkCreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo, 
+    VkResult FvkCreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
 	const VkAllocationCallbacks *pAllocator, VkDebugUtilsMessengerEXT *pDebugMessenger);
     VkResult FvkCreateDebugReportCallbackEXT(VkInstance instance, const VkDebugReportCallbackCreateInfoEXT *pCreateInfo,
     const VkAllocationCallbacks *pAllocator, VkDebugReportCallbackEXT *pCallback);
@@ -27,6 +28,13 @@ namespace lime {
     void FvkDestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT messenger, const VkAllocationCallbacks *pAllocator);
     void FvkDestroyDebugReportCallbackEXT(VkInstance instance, VkDebugReportCallbackEXT callback, const VkAllocationCallbacks *pAllocator);
 
-    VkSampleCountFlagBits getMaxUsableSampleCount(VkPhysicalDevice &physicalDevice);
+    void FvkCmdPushDescriptorSetKHR(VkDevice device, VkCommandBuffer commandBuffer, VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout, uint32_t set,
+		uint32_t descriptorWriteCount, const VkWriteDescriptorSet *pDescriptorWrites);
+
+    uint32_t FindMemoryTypeIndex(const VkPhysicalDeviceMemoryProperties *deviceMemoryProperties, const VkMemoryRequirements *memoryRequirements,
+		VkMemoryPropertyFlags requiredProperties);
+
+    VkSampleCountFlagBits GetMaxUsableSampleCount(VkPhysicalDevice &physicalDevice);
+
     #endif
 }

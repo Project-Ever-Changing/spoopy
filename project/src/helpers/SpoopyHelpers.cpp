@@ -8,7 +8,7 @@ namespace lime {
         }
 
         auto failure = stringifyResultVk(result);
-        throw std::runtime_error("[ERROR] " + failure);
+        SPOOPY_LOG_ERROR(failure);
     }
 
     /*
@@ -104,10 +104,33 @@ namespace lime {
         }
     }
 
+    void FvkCmdPushDescriptorSetKHR(VkDevice device, VkCommandBuffer commandBuffer, VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout, uint32_t set,
+		uint32_t descriptorWriteCount, const VkWriteDescriptorSet *pDescriptorWrites) {
+
+        auto func = reinterpret_cast<PFN_vkCmdPushDescriptorSetKHR>(vkGetDeviceProcAddr(device, "vkCmdPushDescriptorSetKHR"));
+
+        if(func) {
+            func(commandBuffer, pipelineBindPoint, layout, set, descriptorWriteCount, pDescriptorWrites);
+        }
+    }
+
+    uint32_t FindMemoryTypeIndex(const VkPhysicalDeviceMemoryProperties *deviceMemoryProperties, const VkMemoryRequirements *memoryRequirements,
+	VkMemoryPropertyFlags requiredProperties) {
+        for (uint32_t i = 0; i < deviceMemoryProperties->memoryTypeCount; ++i) {
+            if (memoryRequirements->memoryTypeBits & (1 << i)) {
+                if ((deviceMemoryProperties->memoryTypes[i].propertyFlags & requiredProperties) == requiredProperties) {
+                    return i;
+                }
+            }
+        }
+
+        throw std::runtime_error("Couldn't find a proper memory type");
+    }
+
     /*
     * https://vulkan-tutorial.com/Multisampling
     */
-    VkSampleCountFlagBits getMaxUsableSampleCount(VkPhysicalDevice &physicalDevice) {
+    VkSampleCountFlagBits GetMaxUsableSampleCount(VkPhysicalDevice &physicalDevice) {
         VkPhysicalDeviceProperties physicalDeviceProperties;
         vkGetPhysicalDeviceProperties(physicalDevice, &physicalDeviceProperties);
 
