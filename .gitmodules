@@ -13,3 +13,6 @@
 [submodule "project/lib/bx"]
 	path = project/lib/bx
 	url = https://github.com/Just-Feeshy/bx
+[submodule "project/lib/rocket"]
+	path = project/lib/rocket
+	url = https://github.com/tripleslash/rocket
