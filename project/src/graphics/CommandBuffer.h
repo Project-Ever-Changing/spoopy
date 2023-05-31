@@ -4,10 +4,6 @@
 #include <graphics/RenderPassDescriptor.h>
 #include <math/Rectangle.h>
 
-#ifdef SPOOPY_METAL
-#import "../helpers/metal/SpoopyMetalHelpers.h"
-#endif
-
 #include <spoopy.h>
 
 namespace lime {
