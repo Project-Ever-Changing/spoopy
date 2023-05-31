@@ -1,9 +1,5 @@
 #pragma once
 
-#include <graphics/Buffer.h>
-#include <graphics/RenderPassDescriptor.h>
-#include <math/Rectangle.h>
-
 #include <spoopy.h>
 
 namespace lime {

@@ -5,8 +5,6 @@
 #include "../../device/PhysicalDevice.h"
 #include "GraphicsHandlerVulkan.h"
 
-#include <utils/Enumerate.h>
-
 #include <vector>
 
 namespace lime {
@@ -19,7 +17,7 @@ namespace lime {
             GraphicsVulkan(SDL_Window* m_window);
             ~GraphicsVulkan();
 
-            static GraphicsVulkan* GetCurrent() const { return Main; }
+            static const GraphicsVulkan* GetCurrent() { return Main; }
             const PhysicalDevice *GetPhysicalDevice() const { return physicalDevice.get(); }
             const LogicalDevice *GetLogicalDevice() const { return logicalDevice.get(); }
             const VkPipelineCache &GetPipelineCache() const { return pipelineCache; }

@@ -2,6 +2,8 @@
 
 #include <helpers/SpoopyHelpers.h>
 
+#include "GraphicsVulkan.h"
+
 #ifdef SPOOPY_VOLK
 #include <volk.h>
 #endif

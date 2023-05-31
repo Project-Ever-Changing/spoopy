@@ -1,3 +1,4 @@
+#include "SwapchainVulkan.h"
 #include "GraphicsHandlerVulkan.h"
 
 namespace lime {
@@ -45,7 +46,7 @@ namespace lime {
         ));
 
         std::unique_ptr<SwapchainVulkan> swapchain = std::unique_ptr<SwapchainVulkan>(new SwapchainVulkan(
-                *GraphicsVulkan::Main,
+                GraphicsVulkan::Main,
                 *surface.get(),
                 nullptr
         ));
@@ -56,10 +57,14 @@ namespace lime {
     }
 
     int GraphicsHandlerVulkan::SwapInterval(int vsync) {
-        auto contexts = GraphicsVulkan::Main->contexts;
+        auto& contexts = GraphicsVulkan::Main->contexts;
 
-        for(const auto [id, context]: Enumerate(contexts)) {
-            if(contexts[id]->swapchain->SetVSYNC(vsync) == -1) {
+        for(size_t i=0; i<contexts.size(); ++i) {
+            auto& context = contexts[i];
+
+            if(context->swapchain->SetVSYNC(vsync) == -1) {
+                SPOOPY_LOG_WARN("Failed to set VSYNC for context!");
+                printf("%s%lu\n", "Index of context: ", i);
                 return -1;
             }
         }

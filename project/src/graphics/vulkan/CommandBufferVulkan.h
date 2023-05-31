@@ -12,24 +12,24 @@
 #include <volk.h>
 #endif
 
-class CommandBufferVulkan {
-    public:
-        CommandBufferVulkan();
-        CommandBufferVulkan(bool begin = true, VkCommandPool commandPool);
-        ~CommandBufferVulkan();
+namespace lime {
+    class CommandBufferVulkan : public CommandBuffer {
+        public:
+            CommandBufferVulkan(bool begin = true, const VkCommandPool commandPool = VK_NULL_HANDLE);
+            ~CommandBufferVulkan();
 
-        void BeginFrame();
-        void EndFrame();
+            void BeginFrame();
+            void EndFrame();
 
-        void BindPipeline(SpoopyPipelineState renderPipeline);
-        void SetBeginFlags(VkCommandBufferUsageFlags usage);
-    private:
-        VkDevice _device;
+            void BindPipeline(const SpoopyPipelineState renderPipeline);
+            void SetBeginFlags(const VkCommandBufferUsageFlags usage);
 
-        VkCommandPool _commandPool;
-        VkCommandBuffer _commandBuffer;
+        private:
+            VkDevice _device;
+            VkCommandPool _commandPool;
+            VkCommandBuffer _commandBuffer;
+            VkCommandBufferUsageFlags _usageFlags;
 
-        VkCommandBufferUsageFlags _usageFlags;
-
-        bool running = false;
-};
+            bool running = false;
+    };
+}

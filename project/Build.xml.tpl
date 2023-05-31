@@ -105,22 +105,12 @@
 			<file name="src/graphics/vulkan/GraphicsHandlerVulkan.cpp" />
 			<file name="src/graphics/vulkan/GraphicsVulkan.cpp" />
 			<file name="src/graphics/vulkan/SwapchainVulkan.cpp" />
+			<file name="src/graphics/vulkan/CommandBufferVulkan.cpp" />
+			<file name="src/graphics/vulkan/CommandPoolVulkan.cpp" />
 			<file name="src/device/Instance.cpp" />
 			<file name="src/device/PhysicalDevice.cpp" />
 			<file name="src/device/LogicalDevice.cpp" />
 			<file name="src/device/Surface.cpp" />
-		</section>
-
-		<section if="SPOOPY_METAL">
-			<file name="src/graphics/metal/MetalBindings.mm" />
-			<file name="src/helpers/metal/SpoopyMetalHelpers.mm" />
-			<file name="src/helpers/metal/SpoopyBufferHelpers.mm" />
-			<file name="src/ui/metal/SpoopyWindowRendererMTL.mm" />
-			<file name="src/shaders/metal/MetalShader.mm" />
-			<file name="src/graphics/metal/BufferMTL.mm" />
-			<file name="src/graphics/metal/CommandBufferMTL.mm" />
-			<file name="src/graphics/metal/texture/Texture2DMTL.mm" />
-			<compilerflag value="-DSPOOPY_METAL" />
 		</section>
 
         <file name="src/graphics/EmptyOpenGL.cpp" unless="LIME_OPENGL"/>
@@ -128,8 +118,6 @@
 		<file name="src/shaders/CrossShader.cpp" />
 		<file name="src/helpers/SpoopyHelpers.cpp" />
 		<file name="src/helpers/SpoopyBytes.cpp" />
-		<file name="src/graphics/Sampler.cpp" />
-		<file name="src/graphics/Texture.cpp" />
 		<file name="src/math/SpoopyPoint.cpp" />
 	</files>
 
