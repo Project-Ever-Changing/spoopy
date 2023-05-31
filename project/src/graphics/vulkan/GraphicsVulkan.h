@@ -19,6 +19,7 @@ namespace lime {
             GraphicsVulkan(SDL_Window* m_window);
             ~GraphicsVulkan();
 
+            static GraphicsVulkan* GetCurrent() const { return Main; }
             const PhysicalDevice *GetPhysicalDevice() const { return physicalDevice.get(); }
             const LogicalDevice *GetLogicalDevice() const { return logicalDevice.get(); }
             const VkPipelineCache &GetPipelineCache() const { return pipelineCache; }

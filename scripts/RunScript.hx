@@ -158,14 +158,7 @@ class RunScript {
         var have_API:String = "";
         var build_args:Array<String> = [];
 
-        if(!(args.indexOf("-no_metal") > 0) && FileSys.isMac) {
-            if(!FileSystem.exists(Sys.getCwd() + "ndll-metal")) {
-                FileSystem.createDirectory(Sys.getCwd() + "ndll-metal");
-            }
-
-            have_API = "-DSPOOPY_METAL";
-            build_args.push(have_API);
-        }else if(!(args.indexOf("-no_vulkan") > 0)) {
+        if(!(args.indexOf("-no_vulkan") > 0)) {
             if(!FileSystem.exists(Sys.getCwd() + "ndll-vulkan")) {
                 FileSystem.createDirectory(Sys.getCwd() + "ndll-vulkan");
             }
@@ -192,9 +185,7 @@ class RunScript {
     static inline function destroyCMD(args:Array<String>):Void {
         var ndllPath:String = "ndll";
 
-        if(!(args.indexOf("-no_metal") > 0) && FileSys.isMac) {
-            ndllPath = "ndll-metal";
-        }else if(!(args.indexOf("-no_vulkan") > 0) && !FileSys.isMac) {
+        if(!(args.indexOf("-no_vulkan") > 0) && !FileSys.isMac) {
             ndllPath = "ndll-vulkan";
         }else if(FileSystem.exists(ndllPath)) {
             PathUtils.deleteDirRecursively(ndllPath);
