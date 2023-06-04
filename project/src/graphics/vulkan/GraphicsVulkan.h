@@ -3,16 +3,15 @@
 #include "../../device/Instance.h"
 #include "../../device/LogicalDevice.h"
 #include "../../device/PhysicalDevice.h"
-#include "GraphicsHandlerVulkan.h"
+#include "ContextVulkan.h"
 
+#include <sdl_definitions_config.h>
 #include <vector>
 
 namespace lime {
-    class ContextVulkan;
-
     class GraphicsVulkan {
         public:
-            friend class GraphicsHandlerVulkan;
+            friend class GraphicsHandler;
 
             GraphicsVulkan(SDL_Window* m_window);
             ~GraphicsVulkan();

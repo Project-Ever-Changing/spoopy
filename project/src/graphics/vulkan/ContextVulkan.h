@@ -1,7 +1,5 @@
 #pragma once
 
-#include "GraphicsHandlerVulkan.h"
-
 #include <sdl_definitions_config.h>
 #include <core/Log.h>
 
@@ -13,13 +11,12 @@ namespace lime {
 
     class ContextVulkan: public ContextBase {
         public:
-            friend class GraphicsHandlerVulkan;
+            friend class GraphicsHandler;
 
             ContextVulkan();
             ~ContextVulkan();
 
             void SetSurface(std::unique_ptr<Surface> surface);
-            void SetSwapchain(std::unique_ptr<SwapchainVulkan> swapchain);
         private:
             std::unique_ptr<Surface> surface;
             std::unique_ptr<SwapchainVulkan> swapchain;

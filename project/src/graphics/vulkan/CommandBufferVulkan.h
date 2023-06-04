@@ -1,19 +1,11 @@
 #pragma once
 
-#include <helpers/SpoopyHelpers.h>
+#include "CommandPoolVulkan.h"
 
-#include <spoopy.h>
 #include <memory>
 
-#include "GraphicsVulkan.h"
-#include "../CommandBuffer.h"
-
-#ifdef SPOOPY_VOLK
-#include <volk.h>
-#endif
-
 namespace lime {
-    class CommandBufferVulkan : public CommandBuffer {
+    class CommandBufferVulkan {
         public:
             CommandBufferVulkan(bool begin = true, const VkCommandPool commandPool = VK_NULL_HANDLE);
             ~CommandBufferVulkan();

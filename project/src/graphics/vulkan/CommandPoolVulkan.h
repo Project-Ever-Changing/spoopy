@@ -1,12 +1,6 @@
 #pragma once
 
-#include <helpers/SpoopyHelpers.h>
-
-#include "GraphicsVulkan.h"
-
-#ifdef SPOOPY_VOLK
-#include <volk.h>
-#endif
+#include <spoopy.h>
 
 namespace lime {
     class CommandPoolVulkan {

@@ -1,8 +1,6 @@
 #pragma once
 
-#ifdef SPOOPY_VOLK
-#include <volk.h>
-#endif
+#include <spoopy.h>
 
 #include <vector>
 #include <map>
@@ -22,6 +20,8 @@ namespace lime {
             const VkPhysicalDeviceMemoryProperties &GetMemoryProperties() const { return memoryProperties; }
             const VkSampleCountFlagBits &GetMsaaSamples() const { return msaaSamples; }
         private:
+            VkSampleCountFlagBits GetMaxUsableSampleCount();
+
             VkPhysicalDevice BestPhysicalDevice(const std::vector<VkPhysicalDevice> &devices);
 
             static uint32_t ScorePhysicalDevice(const VkPhysicalDevice &device);

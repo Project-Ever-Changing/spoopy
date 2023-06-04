@@ -3,7 +3,47 @@
 #include <sstream>
 #include <string>
 
+#ifndef VK_EXT_DEBUG_UTILS_EXTENSION_NAME
+#define VK_EXT_DEBUG_UTILS_EXTENSION_NAME "VK_EXT_debug_utils"
+#endif
+
 namespace lime {
+    #if VK_HEADER_VERSION > 101
+        const std::vector<const char*> Instance::ValidationLayers = {"VK_LAYER_KHRONOS_validation"};
+    #else
+        const std::vector<const char*> Instance::ValidationLayers = {"VK_LAYER_LUNARG_standard_validation"};
+    #endif
+
+    #if SPOOPY_DEBUG_MESSENGER
+    VKAPI_ATTR VkBool32 VKAPI_CALL CallbackDebug(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageTypes,
+        const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData, void *pUserData) {
+
+        if (messageSeverity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) {
+            SPOOPY_LOG_WARN(pCallbackData->pMessage);
+        }else if (messageSeverity &  VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT) {
+            SPOOPY_LOG_INFO(pCallbackData->pMessage);
+        }else {
+            SPOOPY_LOG_ERROR(pCallbackData->pMessage);
+        }
+
+        return VK_FALSE;
+    }
+    #else
+    VKAPI_ATTR VkBool32 VKAPI_CALL CallbackDebug(VkDebugReportFlagsEXT flags, VkDebugReportObjectTypeEXT objectType, uint64_t object, size_t location, int32_t messageCode,
+        const char *pLayerPrefix, const char *pMessage, void *pUserData) {
+
+        if (flags & VK_DEBUG_REPORT_WARNING_BIT_EXT) {
+            SPOOPY_LOG_WARN(pMessage);
+        }else if (flags & VK_DEBUG_REPORT_INFORMATION_BIT_EXT) {
+            SPOOPY_LOG_INFO(pMessage);
+        }else {
+            SPOOPY_LOG_ERROR(pMessage);
+        }
+
+        return VK_FALSE;
+    }
+    #endif
+
     Instance::Instance(SDL_Window* window): m_window(window) {
         #ifdef SPOOPY_DEBUG
         enableValidationLayers = true;
@@ -46,18 +86,18 @@ namespace lime {
         instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
         instanceCreateInfo.ppEnabledExtensionNames = extensions.data();
 
-        #if SPOOPY_DEBUG_MESSENGER
+        #ifdef SPOOPY_DEBUG_MESSENGER
             VkDebugUtilsMessengerCreateInfoEXT debugUtilsMessengerCreateInfo = {};
         #endif
 
         if (enableValidationLayers) {
-            #if USE_DEBUG_MESSENGER
+            #ifdef SPOOPY_DEBUG_MESSENGER
                 debugUtilsMessengerCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
                 debugUtilsMessengerCreateInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
                         VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
                 debugUtilsMessengerCreateInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
                         VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
-                debugUtilsMessengerCreateInfo.pfnUserCallback = &Devices::DebugCallback;
+                debugUtilsMessengerCreateInfo.pfnUserCallback = &CallbackDebug;
                 instanceCreateInfo.pNext = static_cast<VkDebugUtilsMessengerCreateInfoEXT *>(&debugUtilsMessengerCreateInfo);
             #endif
 
@@ -79,14 +119,14 @@ namespace lime {
             return;
         }
 
-        #if SPOOPY_DEBUG_MESSENGER
+        #ifdef SPOOPY_DEBUG_MESSENGER
                 VkDebugUtilsMessengerCreateInfoEXT debugUtilsMessengerCreateInfo = {};
             debugUtilsMessengerCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
             debugUtilsMessengerCreateInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
                 VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
             debugUtilsMessengerCreateInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
                 VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
-            debugUtilsMessengerCreateInfo.pfnUserCallback = &Devices::DebugCallback;
+            debugUtilsMessengerCreateInfo.pfnUserCallback = &CallbackDebug;
 
             checkVulkan(FvkCreateDebugUtilsMessengerEXT(instance, &debugUtilsMessengerCreateInfo, nullptr, &debugMessenger));
         #else
@@ -94,7 +134,7 @@ namespace lime {
             debugReportCallbackCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT;
             debugReportCallbackCreateInfo.pNext = nullptr;
             debugReportCallbackCreateInfo.flags = VK_DEBUG_REPORT_ERROR_BIT_EXT | VK_DEBUG_REPORT_WARNING_BIT_EXT | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT;
-            debugReportCallbackCreateInfo.pfnCallback = &Devices::DebugCallback;
+            debugReportCallbackCreateInfo.pfnCallback = &CallbackDebug;
             debugReportCallbackCreateInfo.pUserData = nullptr;
             auto debugReportResult = FvkCreateDebugReportCallbackEXT(instance, &debugReportCallbackCreateInfo, nullptr, &debugMessenger);
 
@@ -114,10 +154,10 @@ namespace lime {
         std::vector<VkLayerProperties> instanceLayerProperties(count);
         vkEnumerateInstanceLayerProperties(&count, instanceLayerProperties.data());
 
-        for(const char* layerName : Devices::ValidationLayers) {
+        for(const char* layerName: ValidationLayers) {
             bool layerFound = false;
 
-            for(const auto& layerProperties : instanceLayerProperties) {
+            for(const auto& layerProperties: instanceLayerProperties) {
                 if(strcmp(layerName, layerProperties.layerName) == 0) {
                     layerFound = true;
                     break;

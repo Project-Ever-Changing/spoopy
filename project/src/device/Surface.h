@@ -1,15 +1,6 @@
 #pragma once
 
-#ifdef SPOOPY_VOLK
-#include <volk.h>
-#endif
-
-#ifdef SPOOPY_SDL
-
-#include <SDL.h>
-#include <SDL_vulkan.h>
-
-#endif
+#include "../helpers/SpoopyHelpersVulkan.h"
 
 namespace lime {
     class Instance;

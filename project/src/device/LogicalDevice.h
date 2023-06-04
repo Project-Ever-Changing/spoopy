@@ -1,11 +1,6 @@
 #pragma once
 
-#include <helpers/SpoopyHelpers.h>
-#include "Devices.h"
-
-#ifdef SPOOPY_VOLK
-#include <volk.h>
-#endif
+#include <spoopy.h>
 
 #include <memory>
 #include <vector>
@@ -31,6 +26,9 @@ namespace lime {
             uint32_t GetPresentFamily() const { return presentFamily; }
             uint32_t GetComputeFamily() const { return computeFamily; }
             uint32_t GetTransferFamily() const { return transferFamily; }
+
+            static const std::vector<const char *> Extensions;
+
         private:
             void CreateQueueIndices();
             void CreateLogicalDevice();

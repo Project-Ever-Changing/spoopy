@@ -1,5 +1,7 @@
 #pragma once
 
+#include <spoopy.h>
+
 namespace lime {
     class PipelineVulkan {
         public:

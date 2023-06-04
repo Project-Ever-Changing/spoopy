@@ -34,7 +34,7 @@
 	<set name="LIME_OPENGL" value="1" unless="SPOOPY_METAL || SPOOPY_VULKAN" />
 
 	<section if="mac">
-		<setenv name="MACOSX_DEPLOYMENT_TARGET" value="12.0" if="HXCPP_CPP11 || HXCPP_CPP14" />
+		<setenv name="MACOSX_DEPLOYMENT_TARGET" value="10.9" if="HXCPP_CPP11 || HXCPP_CPP14" />
 		<setenv name="MACOSX_DEPLOYMENT_TARGET" value="10.7" if="OBJC_ARC" unless="MACOSX_DEPLOYMENT_TARGET" />
 		<setenv name="MACOSX_DEPLOYMENT_TARGET" value="10.6" unless="MACOSX_DEPLOYMENT_TARGET" />
 	</section>
@@ -65,8 +65,8 @@
 		<section if="SPOOPY_VOLK">
 			<compilerflag value="-DSPOOPY_VOLK" />
 			<!--<compilerflag value="-DLIME_VOLK" />-->
-			<compilerflag value="-DVK_NO_PROTOTYPES" />
-			<compilerflag value="-DVOLK_IMPLEMENTATION" />
+			<!--<compilerflag value="-DVK_NO_PROTOTYPES" />-->
+			<!--<compilerflag value="-DVOLK_IMPLEMENTATION" />-->
 			<compilerflag value="-Ilib/volk/" />
 		</section>
 
@@ -94,19 +94,15 @@
 		<compilerflag value="-DUSE_CUSTOM_SDL_DEFINITIONS" if="USE_CUSTOM_SDL_DEFINITIONS"/>
 		<compilerflag value="-DNO_GLSLANG_INCLUDED" />
 
-		<section if="SPOOPY_INCLUDE_EXAMPLE">
-			<file name="src/examples/ExampleWindow.cpp" />
-		</section>
-
 		<section if="SPOOPY_VULKAN">
-			<file name="src/device/Devices.cpp" />
-			<!--<file name="src/ui/vulkan/SpoopyWindowVulkan.cpp" />-->
 			<file name="src/graphics/vulkan/ContextVulkan.cpp" />
 			<file name="src/graphics/vulkan/GraphicsHandlerVulkan.cpp" />
 			<file name="src/graphics/vulkan/GraphicsVulkan.cpp" />
 			<file name="src/graphics/vulkan/SwapchainVulkan.cpp" />
 			<file name="src/graphics/vulkan/CommandBufferVulkan.cpp" />
 			<file name="src/graphics/vulkan/CommandPoolVulkan.cpp" />
+			<file name="src/helpers/SpoopyHelpersVulkan.cpp" />
+			<file name="src/helpers/VulkanAddons.cpp" />
 			<file name="src/device/Instance.cpp" />
 			<file name="src/device/PhysicalDevice.cpp" />
 			<file name="src/device/LogicalDevice.cpp" />
@@ -116,7 +112,6 @@
         <file name="src/graphics/EmptyOpenGL.cpp" unless="LIME_OPENGL"/>
 
 		<file name="src/shaders/CrossShader.cpp" />
-		<file name="src/helpers/SpoopyHelpers.cpp" />
 		<file name="src/helpers/SpoopyBytes.cpp" />
 		<file name="src/math/SpoopyPoint.cpp" />
 	</files>
@@ -146,7 +141,6 @@
 				<vflag name="-framework" value="QuartzCore" />
 			</section>
 		</section>
-
 	</target>
 
 	<include name="../lime-project/Build.xml" />

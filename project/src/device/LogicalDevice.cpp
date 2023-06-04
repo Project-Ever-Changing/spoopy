@@ -3,6 +3,8 @@
 #include "Instance.h"
 
 namespace lime {
+    const std::vector<const char*> LogicalDevice::Extensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
+
     LogicalDevice::LogicalDevice(const Instance &instance, const PhysicalDevice &physicalDevice)
         : instance(instance), physicalDevice(physicalDevice) {
         CreateQueueIndices();
@@ -141,12 +143,12 @@ namespace lime {
         deviceCreateInfo.pQueueCreateInfos = queueCreateInfos.data();
 
         if(instance.GetEnableValidationLayers()) {
-            deviceCreateInfo.enabledLayerCount = static_cast<uint32_t>(Devices::ValidationLayers.size());
-            deviceCreateInfo.ppEnabledLayerNames = Devices::ValidationLayers.data();
+            deviceCreateInfo.enabledLayerCount = static_cast<uint32_t>(Instance::ValidationLayers.size());
+            deviceCreateInfo.ppEnabledLayerNames = Instance::ValidationLayers.data();
         }
 
-        deviceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(Devices::Extensions.size());
-        deviceCreateInfo.ppEnabledExtensionNames = Devices::Extensions.data();
+        deviceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(Extensions.size());
+        deviceCreateInfo.ppEnabledExtensionNames = Extensions.data();
         deviceCreateInfo.pEnabledFeatures = &enabledFeatures;
 
         checkVulkan(vkCreateDevice(physicalDevice, &deviceCreateInfo, nullptr, &logicalDevice));

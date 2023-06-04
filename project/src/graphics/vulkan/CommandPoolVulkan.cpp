@@ -1,3 +1,4 @@
+#include "GraphicsVulkan.h"
 #include "CommandPoolVulkan.h"
 
 namespace lime {

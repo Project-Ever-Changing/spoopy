@@ -1,16 +1,16 @@
 #pragma once
 
-#include "../../device/Surface.h"
-#include "GraphicsVulkan.h"
-
-#ifdef SPOOPY_VOLK
-#include <volk.h>
-#endif
+#include <spoopy.h>
+#include <vector>
 
 namespace lime {
+    class PhysicalDevice;
+    class Surface;
+    class LogicalDevice;
+
     class SwapchainVulkan {
         public:
-            SwapchainVulkan(GraphicsVulkan* graphics, const Surface &surface, const SwapchainVulkan* oldSwapchain);
+            SwapchainVulkan(const PhysicalDevice &physicalDevice, const Surface &surface, const LogicalDevice &logicalDevice, const VkExtent2D &extent, const SwapchainVulkan* oldSwapchain);
             ~SwapchainVulkan();
 
             int SetVSYNC(int vsync);
@@ -21,7 +21,9 @@ namespace lime {
             const LogicalDevice &logicalDevice;
             const Surface &surface;
 
+            VkExtent2D extent;
             VkPresentModeKHR presentMode;
+
             std::vector<VkPresentModeKHR> physicalPresentModes;
     };
 }

@@ -1,7 +1,7 @@
+#include "Surface.h"
 #include "Instance.h"
 #include "LogicalDevice.h"
 #include "PhysicalDevice.h"
-#include "Surface.h"
 
 namespace lime {
     Surface::Surface(const Instance &instance, const PhysicalDevice &physicalDevice, const LogicalDevice &logicalDevice, SDL_Window* window):

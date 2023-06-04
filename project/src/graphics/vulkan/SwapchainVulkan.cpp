@@ -1,10 +1,14 @@
 #include "SwapchainVulkan.h"
+#include "../../device/LogicalDevice.h"
+#include "../../device/PhysicalDevice.h"
+#include "../../device/Surface.h"
 
 namespace lime {
-    SwapchainVulkan::SwapchainVulkan(GraphicsVulkan* graphics, const Surface &surface, const SwapchainVulkan* oldSwapchain):
-    physicalDevice(*graphics->GetPhysicalDevice()),
-    logicalDevice(*graphics->GetLogicalDevice()),
+    SwapchainVulkan::SwapchainVulkan(const PhysicalDevice &physicalDevice, const Surface &surface, const LogicalDevice &logicalDevice, const VkExtent2D &extent, const SwapchainVulkan *oldSwapchain):
+    physicalDevice(physicalDevice),
     surface(surface),
+    logicalDevice(logicalDevice),
+    extent(extent),
     presentMode(VK_PRESENT_MODE_FIFO_KHR) {
         uint32_t physicalPresentModeCount;
         vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surface, &physicalPresentModeCount, nullptr);

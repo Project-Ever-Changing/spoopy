@@ -1,10 +1,9 @@
 #pragma once
 
-#include <helpers/SpoopyHelpers.h>
-#include <spoopy.h>
+#include "../helpers/VulkanAddons.h"
+#include "../helpers/SpoopyHelpersVulkan.h"
 
-#include "../spoopy_vulkan.h"
-#include "Devices.h"
+#include <vector>
 
 namespace lime {
     class Instance {
@@ -17,7 +16,8 @@ namespace lime {
             bool GetEnableValidationLayers() const { return enableValidationLayers; }
             const VkInstance &GetInstance() const { return instance; }
 
-            static const std::vector<const char *> ValidationLayers;
+        static const std::vector<const char*> ValidationLayers;
+
         private:
             bool CheckValidationLayerSupport() const;
             std::vector<const char*> GetExtensions() const;

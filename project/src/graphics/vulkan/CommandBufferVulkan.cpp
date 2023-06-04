@@ -1,7 +1,4 @@
-//
-// Created by Diego Fonseca on 5/28/23.
-//
-
+#include "GraphicsVulkan.h"
 #include "CommandBufferVulkan.h"
 
 namespace lime {

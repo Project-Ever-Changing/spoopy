@@ -1,8 +1,12 @@
+#include "ContextVulkan.h"
+#include "../../device/Surface.h"
 #include "SwapchainVulkan.h"
-#include "GraphicsHandlerVulkan.h"
+#include "GraphicsVulkan.h"
+
+#include <sdl_definitions_config.h>
 
 namespace lime {
-    ContextBase* GraphicsHandlerVulkan::CreateContext(SDL_Window* m_window) {
+    ContextBase* GraphicsHandler::CreateContext(SDL_Window* m_window) {
         if(!GraphicsVulkan::Main) {
             GraphicsVulkan::Main = new GraphicsVulkan(m_window);
         }
@@ -12,7 +16,7 @@ namespace lime {
         return context;
     }
 
-    void GraphicsHandlerVulkan::DestroyContext(ContextBase* context) {
+    void GraphicsHandler::DestroyContext(ContextBase* context) {
         auto element = std::find_if(GraphicsVulkan::Main->contexts.begin(), GraphicsVulkan::Main->contexts.end(),
         [context](const std::unique_ptr<ContextVulkan>& contextPtr){
             return contextPtr.get() == context;
@@ -26,7 +30,7 @@ namespace lime {
         delete context;
     }
 
-    int GraphicsHandlerVulkan::MakeCurrent(SDL_Window* m_window, ContextBase* context) {
+    int GraphicsHandler::MakeCurrent(SDL_Window* m_window, ContextBase* context) {
         auto vkContext = static_cast<ContextVulkan*>(context);
         auto element = std::find_if(GraphicsVulkan::Main->contexts.begin(), GraphicsVulkan::Main->contexts.end(),
         [vkContext](const std::unique_ptr<ContextVulkan>& contextPtr){
@@ -45,18 +49,11 @@ namespace lime {
                 m_window
         ));
 
-        std::unique_ptr<SwapchainVulkan> swapchain = std::unique_ptr<SwapchainVulkan>(new SwapchainVulkan(
-                GraphicsVulkan::Main,
-                *surface.get(),
-                nullptr
-        ));
-
         vkContext->SetSurface(std::move(surface));
-        vkContext->SetSwapchain(std::move(swapchain));
         return 0;
     }
 
-    int GraphicsHandlerVulkan::SwapInterval(int vsync) {
+    int GraphicsHandler::SwapInterval(int vsync) {
         auto& contexts = GraphicsVulkan::Main->contexts;
 
         for(size_t i=0; i<contexts.size(); ++i) {

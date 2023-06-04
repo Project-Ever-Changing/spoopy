@@ -1,6 +1,6 @@
 #include "PhysicalDevice.h"
+#include "LogicalDevice.h"
 #include "Instance.h"
-#include "Devices.h"
 
 namespace lime {
     PhysicalDevice::PhysicalDevice(const Instance &instance): instance(instance) {
@@ -18,7 +18,7 @@ namespace lime {
         vkGetPhysicalDeviceProperties(physicalDevice, &properties);
         vkGetPhysicalDeviceFeatures(physicalDevice, &features);
         vkGetPhysicalDeviceMemoryProperties(physicalDevice, &memoryProperties);
-        msaaSamples = GetMaxUsableSampleCount(physicalDevice);
+        msaaSamples = GetMaxUsableSampleCount();
     }
 
     VkPhysicalDevice PhysicalDevice::BestPhysicalDevice(const std::vector<VkPhysicalDevice> &devices) {
@@ -44,7 +44,7 @@ namespace lime {
         std::vector<VkExtensionProperties> extensionProperties(count);
         vkEnumerateDeviceExtensionProperties(device, nullptr, &count, extensionProperties.data());
 
-        for(const char* extension: Devices::Extensions) {
+        for(const char* extension: LogicalDevice::Extensions) {
             bool found = false;
 
             for(const auto& extensionProperty: extensionProperties) {
@@ -70,5 +70,24 @@ namespace lime {
 
         score += physicalDeviceProperties.limits.maxImageDimension2D;
         return score;
+    }
+
+    /*
+    * https://vulkan-tutorial.com/Multisampling
+    */
+    VkSampleCountFlagBits PhysicalDevice::GetMaxUsableSampleCount() {
+        VkPhysicalDeviceProperties physicalDeviceProperties;
+        vkGetPhysicalDeviceProperties(physicalDevice, &physicalDeviceProperties);
+
+        VkSampleCountFlags counts = physicalDeviceProperties.limits.framebufferColorSampleCounts & physicalDeviceProperties.limits.framebufferDepthSampleCounts;
+
+        if (counts & VK_SAMPLE_COUNT_64_BIT) { return VK_SAMPLE_COUNT_64_BIT; }
+        if (counts & VK_SAMPLE_COUNT_32_BIT) { return VK_SAMPLE_COUNT_32_BIT; }
+        if (counts & VK_SAMPLE_COUNT_16_BIT) { return VK_SAMPLE_COUNT_16_BIT; }
+        if (counts & VK_SAMPLE_COUNT_8_BIT) { return VK_SAMPLE_COUNT_8_BIT; }
+        if (counts & VK_SAMPLE_COUNT_4_BIT) { return VK_SAMPLE_COUNT_4_BIT; }
+        if (counts & VK_SAMPLE_COUNT_2_BIT) { return VK_SAMPLE_COUNT_2_BIT; }
+
+        return VK_SAMPLE_COUNT_1_BIT;
     }
 }
