@@ -7,7 +7,7 @@ namespace lime {
         }
 
         auto failure = stringifyResultVk(result);
-        SPOOPY_LOG_ERROR(failure);
+        throw std::runtime_error("[ERROR] " + failure);
     }
 
     /*

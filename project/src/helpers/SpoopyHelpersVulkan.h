@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 #include <core/Log.h>
 #include <spoopy.h>
 
