@@ -12,7 +12,7 @@ namespace lime {
         }
 
         auto context = new ContextVulkan();
-        //GraphicsVulkan::Main->contexts.push_back(std::unique_ptr<ContextVulkan>(context));
+        GraphicsVulkan::Main->contexts.push_back(std::unique_ptr<ContextVulkan>(context));
         return context;
     }
 
