@@ -7,16 +7,11 @@
     #define VK_EXT_DEBUG_UTILS_EXTENSION_NAME "VK_EXT_debug_utils"
 #endif
 
-#ifdef HX_MACOS
-    #define VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME "VK_KHR_portability_subset"
-    #define VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME "VK_KHR_portability_enumeration"
-#endif
-
 namespace lime {
     #if VK_HEADER_VERSION > 101
-        const std::vector<const char*> Instance::ValidationLayers = {"VK_LAYER_KHRONOS_validation"};
+        const std::vector<const char*> Instance::ValidationLayers = {"VK_LAYER_KHRONOS_validation", "VK_KHR_portability_subset"};
     #else
-        const std::vector<const char*> Instance::ValidationLayers = {"VK_LAYER_LUNARG_standard_validation"};
+        const std::vector<const char*> Instance::ValidationLayers = {"VK_LAYER_LUNARG_standard_validation", "VK_KHR_portability_subset"};
     #endif
 
     #if SPOOPY_DEBUG_MESSENGER
@@ -198,7 +193,7 @@ namespace lime {
                     extensions.emplace_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
                 }
 
-                extensions.emplace_back(VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR);
+                extensions.emplace_back("VK_KHR_portability_enumeration");
         #else
                 std::vector<const char*> extensions;
         #endif
