@@ -4,7 +4,12 @@
 #include <string>
 
 #ifndef VK_EXT_DEBUG_UTILS_EXTENSION_NAME
-#define VK_EXT_DEBUG_UTILS_EXTENSION_NAME "VK_EXT_debug_utils"
+    #define VK_EXT_DEBUG_UTILS_EXTENSION_NAME "VK_EXT_debug_utils"
+#endif
+
+#ifdef HX_MACOS
+    #define VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME "VK_KHR_portability_subset"
+    #define VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME "VK_KHR_portability_enumeration"
 #endif
 
 namespace lime {
@@ -82,6 +87,11 @@ namespace lime {
 
         VkInstanceCreateInfo instanceCreateInfo = {};
         instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+
+        #ifdef HX_MACOS
+            instanceCreateInfo.flags = VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
+        #endif
+
         instanceCreateInfo.pApplicationInfo = &applicationInfo;
         instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
         instanceCreateInfo.ppEnabledExtensionNames = extensions.data();
@@ -187,6 +197,8 @@ namespace lime {
                     extensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
                     extensions.emplace_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
                 }
+
+                extensions.emplace_back(VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR);
         #else
                 std::vector<const char*> extensions;
         #endif

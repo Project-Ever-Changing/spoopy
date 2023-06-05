@@ -7,7 +7,7 @@ namespace lime {
         }
 
         auto failure = stringifyResultVk(result);
-        throw std::runtime_error("[ERROR] " + failure);
+        throw std::runtime_error(failure);
     }
 
     /*
