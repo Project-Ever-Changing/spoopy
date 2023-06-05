@@ -54,7 +54,6 @@ namespace lime {
     }
 
     int GraphicsHandler::SwapInterval(int vsync) {
-        /*
         auto& contexts = GraphicsVulkan::Main->contexts;
 
         for(size_t i=0; i<contexts.size(); ++i) {
@@ -66,7 +65,6 @@ namespace lime {
                 return -1;
             }
         }
-         */
 
         return 0;
     }
