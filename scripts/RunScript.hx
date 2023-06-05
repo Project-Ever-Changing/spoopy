@@ -185,7 +185,7 @@ class RunScript {
     static inline function destroyCMD(args:Array<String>):Void {
         var ndllPath:String = "ndll";
 
-        if(!(args.indexOf("-no_vulkan") > 0) && !FileSys.isMac) {
+        if(!(args.indexOf("-no_vulkan") > 0)) {
             ndllPath = "ndll-vulkan";
         }else if(FileSystem.exists(ndllPath)) {
             PathUtils.deleteDirRecursively(ndllPath);
@@ -253,8 +253,6 @@ class RunScript {
 
         if(project.project.defines.exists("spoopy-vulkan")) {
             ndll_path = "/ndll-vulkan/";
-        }else if(project.project.defines.exists("spoopy-metal")) {
-            ndll_path = "/ndll-metal/";
         }
 
         project.setupContentDirectory(host);
