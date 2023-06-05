@@ -7,9 +7,9 @@
 
 namespace lime {
     ContextBase* GraphicsHandler::CreateContext(SDL_Window* m_window) {
-        //if(!GraphicsVulkan::Main) {
-        //    GraphicsVulkan::Main = new GraphicsVulkan(m_window);
-        //}
+        if(!GraphicsVulkan::Main) {
+            GraphicsVulkan::Main = new GraphicsVulkan(m_window);
+        }
 
         auto context = new ContextVulkan();
         //GraphicsVulkan::Main->contexts.push_back(std::unique_ptr<ContextVulkan>(context));
