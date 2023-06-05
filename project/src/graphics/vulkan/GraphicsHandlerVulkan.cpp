@@ -17,7 +17,6 @@ namespace lime {
     }
 
     void GraphicsHandler::DestroyContext(ContextBase* context) {
-        /*
         auto element = std::find_if(GraphicsVulkan::Main->contexts.begin(), GraphicsVulkan::Main->contexts.end(),
         [context](const std::unique_ptr<ContextVulkan>& contextPtr){
             return contextPtr.get() == context;
@@ -29,7 +28,6 @@ namespace lime {
 
         GraphicsVulkan::Main->contexts.erase(element);
         delete context;
-         */
     }
 
     int GraphicsHandler::MakeCurrent(SDL_Window* m_window, ContextBase* context) {
