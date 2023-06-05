@@ -7,7 +7,7 @@ import haxe.macro.Expr.Position;
 using StringTools;
 
 private enum SpoopyAPISupport {
-    SPOOPY_METAL;
+    SPOOPY_VULKAN;
 }
 
 class SpoopyDefines {
