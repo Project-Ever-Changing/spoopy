@@ -31,7 +31,6 @@ namespace lime {
     }
 
     int GraphicsHandler::MakeCurrent(SDL_Window* m_window, ContextBase* context) {
-        /*
         auto vkContext = static_cast<ContextVulkan*>(context);
         auto element = std::find_if(GraphicsVulkan::Main->contexts.begin(), GraphicsVulkan::Main->contexts.end(),
         [vkContext](const std::unique_ptr<ContextVulkan>& contextPtr){
@@ -51,7 +50,6 @@ namespace lime {
         ));
 
         vkContext->SetSurface(std::move(surface));
-         */
         return 0;
     }
 
