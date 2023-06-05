@@ -7,16 +7,17 @@
 
 namespace lime {
     ContextBase* GraphicsHandler::CreateContext(SDL_Window* m_window) {
-        if(!GraphicsVulkan::Main) {
-            GraphicsVulkan::Main = new GraphicsVulkan(m_window);
-        }
+        //if(!GraphicsVulkan::Main) {
+        //    GraphicsVulkan::Main = new GraphicsVulkan(m_window);
+        //}
 
         auto context = new ContextVulkan();
-        GraphicsVulkan::Main->contexts.push_back(std::unique_ptr<ContextVulkan>(context));
+        //GraphicsVulkan::Main->contexts.push_back(std::unique_ptr<ContextVulkan>(context));
         return context;
     }
 
     void GraphicsHandler::DestroyContext(ContextBase* context) {
+        /*
         auto element = std::find_if(GraphicsVulkan::Main->contexts.begin(), GraphicsVulkan::Main->contexts.end(),
         [context](const std::unique_ptr<ContextVulkan>& contextPtr){
             return contextPtr.get() == context;
@@ -28,6 +29,7 @@ namespace lime {
 
         GraphicsVulkan::Main->contexts.erase(element);
         delete context;
+         */
     }
 
     int GraphicsHandler::MakeCurrent(SDL_Window* m_window, ContextBase* context) {
