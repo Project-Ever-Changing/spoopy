@@ -20,7 +20,7 @@ namespace lime {
 
         if (messageSeverity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) {
             SPOOPY_LOG_WARN(pCallbackData->pMessage);
-        }else if (messageSeverity &  VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT) {
+        }else if (messageSeverity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT) {
             SPOOPY_LOG_INFO(pCallbackData->pMessage);
         }else {
             SPOOPY_LOG_ERROR(pCallbackData->pMessage);
