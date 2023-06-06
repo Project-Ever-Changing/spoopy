@@ -2,7 +2,7 @@
 
 #include <spoopy.h>
 
-namespace lime {
+namespace lime { namespace spoopy {
     class PipelineVulkan {
         public:
             PipelineVulkan() = default;
@@ -19,4 +19,4 @@ namespace lime {
             VkPipelineLayout pipelineLayout = VK_NULL_HANDLE;
             VkPipelineBindPoint pipelineBindPoint;
     };
-}
+}}

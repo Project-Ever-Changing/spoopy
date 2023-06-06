@@ -3,7 +3,7 @@
 #include "LogicalDevice.h"
 #include "PhysicalDevice.h"
 
-namespace lime {
+namespace lime { namespace spoopy {
     Surface::Surface(const Instance &instance, const PhysicalDevice &physicalDevice, const LogicalDevice &logicalDevice, SDL_Window* window):
     instance(instance),
     physicalDevice(physicalDevice),
@@ -57,4 +57,4 @@ namespace lime {
             }
         #endif
     }
-}
+}}

@@ -5,7 +5,7 @@
 #include <vector>
 #include <map>
 
-namespace lime {
+namespace lime { namespace spoopy {
     class Instance;
 
     class PhysicalDevice {
@@ -34,4 +34,4 @@ namespace lime {
             VkPhysicalDeviceMemoryProperties memoryProperties = {};
             VkSampleCountFlagBits msaaSamples = VK_SAMPLE_COUNT_1_BIT;
     };
-}
+}}

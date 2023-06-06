@@ -1,7 +1,7 @@
 #include "ContextVulkan.h"
 #include "GraphicsVulkan.h"
 
-namespace lime {
+namespace lime { namespace spoopy {
     GraphicsVulkan* GraphicsVulkan::Main = nullptr;
 
     GraphicsVulkan::GraphicsVulkan(SDL_Window* m_window):
@@ -26,4 +26,4 @@ namespace lime {
             Main = nullptr;
         }
     }
-}
+}}

@@ -31,7 +31,7 @@
 #include <iterator>
 #include <sstream>
 
-namespace lime {
+namespace lime { namespace spoopy {
     enum ShaderFormat {
         GLSL,
         HLSL,
@@ -51,4 +51,4 @@ namespace lime {
     };
 
     std::string compile(const char* source, ShaderFormat outputFormat);
-}
+}}

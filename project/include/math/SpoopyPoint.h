@@ -4,7 +4,7 @@
 
 #include <array>
 
-namespace lime {
+namespace lime { namespace spoopy {
     struct SpoopyPoint {
         double x;
         double y;
@@ -18,4 +18,4 @@ namespace lime {
 
         std::array<double, 3> toArray() const;
     };
-}
+}}

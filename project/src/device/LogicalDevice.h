@@ -5,7 +5,7 @@
 #include <memory>
 #include <vector>
 
-namespace lime {
+namespace lime { namespace spoopy {
     class PhysicalDevice;
     class Instance;
 
@@ -50,4 +50,4 @@ namespace lime {
             VkQueue computeQueue = VK_NULL_HANDLE;
             VkQueue transferQueue = VK_NULL_HANDLE;
     };
-}
+}}

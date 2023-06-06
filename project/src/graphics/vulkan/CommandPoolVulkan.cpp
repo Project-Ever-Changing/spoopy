@@ -1,7 +1,7 @@
 #include "GraphicsVulkan.h"
 #include "CommandPoolVulkan.h"
 
-namespace lime {
+namespace lime { namespace spoopy {
     CommandPoolVulkan::CommandPoolVulkan() {
         auto device = GraphicsVulkan::GetCurrent()->GetLogicalDevice();
         auto family = device->GetGraphicsFamily();
@@ -17,4 +17,4 @@ namespace lime {
         auto device = GraphicsVulkan::GetCurrent()->GetLogicalDevice();
         vkDestroyCommandPool(*device, commandPool, nullptr);
     }
-}
+}}

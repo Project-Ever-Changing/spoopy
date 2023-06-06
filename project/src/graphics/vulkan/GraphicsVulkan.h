@@ -8,7 +8,7 @@
 #include <sdl_definitions_config.h>
 #include <vector>
 
-namespace lime {
+namespace lime { namespace spoopy {
     class GraphicsVulkan {
         public:
             friend class GraphicsHandler;
@@ -30,4 +30,4 @@ namespace lime {
 
             VkPipelineCache pipelineCache;
     };
-}
+}}

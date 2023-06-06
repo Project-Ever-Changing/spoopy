@@ -2,7 +2,7 @@
 #include "LogicalDevice.h"
 #include "Instance.h"
 
-namespace lime {
+namespace lime { namespace spoopy {
     PhysicalDevice::PhysicalDevice(const Instance &instance): instance(instance) {
         uint32_t physicalDeviceCount;
         vkEnumeratePhysicalDevices(instance, &physicalDeviceCount, nullptr);
@@ -90,4 +90,4 @@ namespace lime {
 
         return VK_SAMPLE_COUNT_1_BIT;
     }
-}
+}}

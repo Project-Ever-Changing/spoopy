@@ -1,7 +1,7 @@
 #include "GraphicsVulkan.h"
 #include "CommandBufferVulkan.h"
 
-namespace lime {
+namespace lime { namespace spoopy {
     CommandBufferVulkan::CommandBufferVulkan(bool begin, VkCommandPool commandPool) :
             _device(*GraphicsVulkan::GetCurrent()->GetLogicalDevice()),
             _commandPool(commandPool),
@@ -44,4 +44,4 @@ namespace lime {
     void CommandBufferVulkan::SetBeginFlags(const VkCommandBufferUsageFlags usage) {
         _usageFlags = usage;
     }
-}
+}}

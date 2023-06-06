@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-namespace lime {
+namespace lime { namespace spoopy {
     class Log {
         public:
             static void Info(const char* message) {
@@ -45,9 +45,9 @@ namespace lime {
                 printf("%s%s%s\n", "\033[1m\033[32m", message.c_str(), "\033[0m");
             }
     };
-}
+}}
 
-#define SPOOPY_LOG_INFO(...) ::lime::Log::Info(__VA_ARGS__)
-#define SPOOPY_LOG_WARN(...) ::lime::Log::Warn(__VA_ARGS__)
-#define SPOOPY_LOG_ERROR(...) ::lime::Log::Error(__VA_ARGS__)
-#define SPOOPY_LOG_SUCCESS(...) ::lime::Log::Success(__VA_ARGS__)
+#define SPOOPY_LOG_INFO(...) ::lime::spoopy::Log::Info(__VA_ARGS__)
+#define SPOOPY_LOG_WARN(...) ::lime::spoopy::Log::Warn(__VA_ARGS__)
+#define SPOOPY_LOG_ERROR(...) ::lime::spoopy::Log::Error(__VA_ARGS__)
+#define SPOOPY_LOG_SUCCESS(...) ::lime::spoopy::Log::Success(__VA_ARGS__)

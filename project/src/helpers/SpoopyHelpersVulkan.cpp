@@ -1,6 +1,6 @@
 #include "SpoopyHelpersVulkan.h"
 
-namespace lime {
+namespace lime { namespace spoopy {
     void checkVulkan(VkResult result) {
         if(result >= 0) {
             return;
@@ -63,4 +63,4 @@ namespace lime {
                 return "Unknown Vulkan error";
         }
     }
-}
+}}

@@ -2,7 +2,7 @@
 
 #include <spoopy.h>
 
-namespace lime {
+namespace lime { namespace spoopy {
     class CommandPoolVulkan {
         public:
             explicit CommandPoolVulkan();
@@ -15,4 +15,4 @@ namespace lime {
         private:
             VkCommandPool commandPool = VK_NULL_HANDLE;
     };
-}
+}}

@@ -5,7 +5,7 @@
 
 #include <vector>
 
-namespace lime {
+namespace lime { namespace spoopy {
     class Instance {
         public:
             Instance(SDL_Window* window);
@@ -38,4 +38,4 @@ namespace lime {
             VkDebugReportCallbackEXT debugMessenger = VK_NULL_HANDLE;
             #endif
     };
-}
+}}

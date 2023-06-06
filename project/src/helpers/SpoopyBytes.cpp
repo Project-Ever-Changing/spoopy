@@ -1,6 +1,6 @@
 #include <helpers/SpoopyBytes.h>
 
-namespace lime {
+namespace lime { namespace spoopy {
     uint8_t SpoopyBytes::bitsOfFormat(SDL_PixelFormatEnum format) {
         switch(format) {
             case SDL_PIXELFORMAT_RGBA8888:
@@ -20,4 +20,4 @@ namespace lime {
 
         return 0;
     }
-}
+}}

@@ -12,7 +12,7 @@
 
 #define SPOOPY_DEBUG_MESSENGER VK_HEADER_VERSION >= 121
 
-namespace lime {
+namespace lime { namespace spoopy {
     #if SPOOPY_DEBUG_MESSENGER
         VkResult FvkCreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
         const VkAllocationCallbacks *pAllocator, VkDebugUtilsMessengerEXT *pDebugMessenger);
@@ -28,4 +28,4 @@ namespace lime {
 
     uint32_t FindMemoryTypeIndex(const VkPhysicalDeviceMemoryProperties *deviceMemoryProperties, const VkMemoryRequirements *memoryRequirements,
     VkMemoryPropertyFlags requiredProperties);
-}
+}}

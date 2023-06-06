@@ -7,7 +7,7 @@
     #define VK_EXT_DEBUG_UTILS_EXTENSION_NAME "VK_EXT_debug_utils"
 #endif
 
-namespace lime {
+namespace lime { namespace spoopy {
     #if VK_HEADER_VERSION > 101
         const std::vector<const char*> Instance::ValidationLayers = {"VK_LAYER_KHRONOS_validation", "VK_KHR_portability_subset"};
     #else
@@ -196,4 +196,4 @@ namespace lime {
 
         return extensions;
     }
-}
+}}

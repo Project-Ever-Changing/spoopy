@@ -1,6 +1,6 @@
 #include <math/SpoopyPoint.h>
 
-namespace lime {
+namespace lime { namespace spoopy {
     static int id_x;
     static int id_y;
     static int id_z;
@@ -38,4 +38,4 @@ namespace lime {
     std::array<double, 3> SpoopyPoint::toArray() const {
         return {this -> x, this -> y, this -> z};
     }
-}
+}}

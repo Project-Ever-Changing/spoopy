@@ -12,7 +12,7 @@
     #include <volk.h>
     #endif
 
-    namespace lime {
+    namespace lime { namespace spoopy {
         class ExampleWindow {
             public:
                 ExampleWindow(const char* title, int width, int height, int flags);
@@ -22,6 +22,6 @@
                 SDL_Window* sdl_window;
                 #endif
         };
-    }
+    }}
 
 #endif

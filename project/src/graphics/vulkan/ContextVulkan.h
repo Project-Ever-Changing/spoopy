@@ -5,7 +5,7 @@
 
 #include <memory>
 
-namespace lime {
+namespace lime { namespace spoopy {
     class Surface;
     class SwapchainVulkan;
 
@@ -21,4 +21,4 @@ namespace lime {
             std::unique_ptr<Surface> surface;
             std::unique_ptr<SwapchainVulkan> swapchain;
     };
-}
+}}

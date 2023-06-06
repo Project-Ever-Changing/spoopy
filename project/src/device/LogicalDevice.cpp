@@ -2,7 +2,7 @@
 #include "PhysicalDevice.h"
 #include "Instance.h"
 
-namespace lime {
+namespace lime { namespace spoopy {
     const std::vector<const char*> LogicalDevice::Extensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
 
     LogicalDevice::LogicalDevice(const Instance &instance, const PhysicalDevice &physicalDevice)
@@ -159,4 +159,4 @@ namespace lime {
         vkGetDeviceQueue(logicalDevice, computeFamily, 0, &computeQueue);
         vkGetDeviceQueue(logicalDevice, transferFamily, 0, &transferQueue);
     }
-}
+}}

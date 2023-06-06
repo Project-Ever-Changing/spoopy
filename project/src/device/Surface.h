@@ -2,7 +2,7 @@
 
 #include "../helpers/SpoopyHelpersVulkan.h"
 
-namespace lime {
+namespace lime { namespace spoopy {
     class Instance;
     class LogicalDevice;
     class PhysicalDevice;
@@ -30,4 +30,4 @@ namespace lime {
             VkSurfaceCapabilitiesKHR capabilities = {};
             VkSurfaceFormatKHR format = {};
     };
-}
+}}

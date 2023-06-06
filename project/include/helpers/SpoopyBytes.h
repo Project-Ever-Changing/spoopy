@@ -4,8 +4,8 @@
 
 #include <SDL.h>
 
-namespace lime {
+namespace lime { namespace spoopy {
     struct SpoopyBytes {
         static uint8_t bitsOfFormat(SDL_PixelFormatEnum format);
     };
-}
+}}

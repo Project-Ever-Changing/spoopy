@@ -4,7 +4,7 @@
 
 #include <memory>
 
-namespace lime {
+namespace lime { namespace spoopy {
     class CommandBufferVulkan {
         public:
             CommandBufferVulkan(bool begin = true, const VkCommandPool commandPool = VK_NULL_HANDLE);
@@ -24,4 +24,4 @@ namespace lime {
 
             bool running = false;
     };
-}
+}}

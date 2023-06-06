@@ -3,7 +3,7 @@
 #include <spoopy.h>
 #include <vector>
 
-namespace lime {
+namespace lime { namespace spoopy {
     class PhysicalDevice;
     class Surface;
     class LogicalDevice;
@@ -26,4 +26,4 @@ namespace lime {
 
             std::vector<VkPresentModeKHR> physicalPresentModes;
     };
-}
+}}

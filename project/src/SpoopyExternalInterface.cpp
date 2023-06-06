@@ -1,6 +1,6 @@
 #include <system/CFFIPointer.h>
 //#include <shaders/CrossShader.h>
 
-namespace lime {
+namespace lime { namespace spoopy {
 
-}
+}}

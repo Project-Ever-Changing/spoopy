@@ -2,7 +2,7 @@
 #include "SwapchainVulkan.h"
 #include "ContextVulkan.h"
 
-namespace lime {
+namespace lime { namespace spoopy {
     ContextVulkan::ContextVulkan() {
 
     }
@@ -14,4 +14,4 @@ namespace lime {
     void ContextVulkan::SetSurface(std::unique_ptr<Surface> surface) {
         this->surface = std::move(surface);
     }
-}
+}}

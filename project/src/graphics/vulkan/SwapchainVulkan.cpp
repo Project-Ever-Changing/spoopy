@@ -3,7 +3,7 @@
 #include "../../device/PhysicalDevice.h"
 #include "../../device/Surface.h"
 
-namespace lime {
+namespace lime { namespace spoopy {
     SwapchainVulkan::SwapchainVulkan(const PhysicalDevice &physicalDevice, const Surface &surface, const LogicalDevice &logicalDevice, const VkExtent2D &extent, const SwapchainVulkan *oldSwapchain):
     physicalDevice(physicalDevice),
     surface(surface),
@@ -39,4 +39,4 @@ namespace lime {
     SwapchainVulkan::~SwapchainVulkan() {
 
     }
-}
+}}

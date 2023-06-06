@@ -10,7 +10,7 @@
 
 #include <shaders/CrossShader.h>
 
-namespace lime {
+namespace lime { namespace spoopy {
     std::string compile(const char* source, ShaderFormat outputFormat) {
 
         // ⬇️ Input Compilation
@@ -79,4 +79,4 @@ namespace lime {
     }
     
     #endif
-}
+}}

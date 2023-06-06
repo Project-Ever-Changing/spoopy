@@ -5,7 +5,7 @@
 
 #include <sdl_definitions_config.h>
 
-namespace lime {
+namespace lime { namespace spoopy {
     ContextBase* GraphicsHandler::CreateContext(SDL_Window* m_window) {
         if(!GraphicsVulkan::Main) {
             GraphicsVulkan::Main = new GraphicsVulkan(m_window);
@@ -72,4 +72,4 @@ namespace lime {
 
         return 0;
     }
-}
+}}

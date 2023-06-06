@@ -10,7 +10,7 @@
     #include <SDL_vulkan.h>
 #endif
 
-namespace lime {
+namespace lime { namespace spoopy {
     void checkVulkan(VkResult result);
     std::string stringifyResultVk(VkResult result);
-}
+}}
