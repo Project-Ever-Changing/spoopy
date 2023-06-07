@@ -17,7 +17,10 @@ namespace lime { namespace spoopy {
             ~ContextVulkan();
 
             void SetSurface(std::unique_ptr<Surface> surface);
+            void SetVSYNC(uint8_t sync);
         private:
+            uint8_t sync = 0;
+
             std::unique_ptr<Surface> surface;
             std::unique_ptr<SwapchainVulkan> swapchain;
     };

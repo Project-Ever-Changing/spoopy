@@ -58,16 +58,7 @@ namespace lime { namespace spoopy {
 
         for(size_t i=0; i<contexts.size(); ++i) {
             auto& context = contexts[i];
-
-            if(!context->swapchain) {
-                continue;
-            }
-
-            if(context->swapchain->SetVSYNC(vsync) == -1) {
-                SPOOPY_LOG_WARN("Failed to set VSYNC for context!");
-                printf("%s%lu\n", "Index of context: ", i);
-                return -1;
-            }
+            context->SetVSYNC(vsync);
         }
 
         return 0;

@@ -14,4 +14,11 @@ namespace lime { namespace spoopy {
     void ContextVulkan::SetSurface(std::unique_ptr<Surface> surface) {
         this->surface = std::move(surface);
     }
+
+    /*
+     * I don't know what the point of this really is...
+     */
+    void ContextVulkan::SetVSYNC(uint8_t sync) {
+        this->sync = sync;
+    }
 }}
