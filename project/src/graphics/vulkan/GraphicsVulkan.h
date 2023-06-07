@@ -16,7 +16,10 @@ namespace lime { namespace spoopy {
             GraphicsVulkan(SDL_Window* m_window);
             ~GraphicsVulkan();
 
-            static const GraphicsVulkan* GetCurrent() { return Main; }
+            void Update();
+
+            static GraphicsVulkan *GetCurrent() { return Main; }
+
             const PhysicalDevice *GetPhysicalDevice() const { return physicalDevice.get(); }
             const LogicalDevice *GetLogicalDevice() const { return logicalDevice.get(); }
             const VkPipelineCache &GetPipelineCache() const { return pipelineCache; }

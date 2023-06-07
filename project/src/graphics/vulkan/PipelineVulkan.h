@@ -3,6 +3,8 @@
 #include <spoopy.h>
 
 namespace lime { namespace spoopy {
+    typedef std::pair<uint32_t, uint32_t> PPosition;
+
     class PipelineVulkan {
         public:
             PipelineVulkan() = default;

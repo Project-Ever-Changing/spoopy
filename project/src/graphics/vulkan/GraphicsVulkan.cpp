@@ -26,4 +26,8 @@ namespace lime { namespace spoopy {
             Main = nullptr;
         }
     }
+
+    void GraphicsVulkan::Update() {
+
+    }
 }}
