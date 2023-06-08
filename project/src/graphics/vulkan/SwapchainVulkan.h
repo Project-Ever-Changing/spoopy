@@ -13,7 +13,7 @@ namespace lime { namespace spoopy {
             SwapchainVulkan(const PhysicalDevice &physicalDevice, const Surface &surface, const LogicalDevice &logicalDevice, const VkExtent2D &extent, const SwapchainVulkan* oldSwapchain, uint8_t vsync);
             ~SwapchainVulkan();
         private:
-            uint8_t SetVSYNC(uint8_t vsync);
+            int8_t SetVSYNC(uint8_t vsync);
 
             // VkResult PresentImage(const VkQueue &presentQueue, const VkSemaphore &waitSemaphore = VK_NULL_HANDLE);
 

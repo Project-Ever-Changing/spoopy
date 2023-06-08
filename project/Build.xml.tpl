@@ -95,6 +95,8 @@
 		<compilerflag value="-DNO_GLSLANG_INCLUDED" />
 
 		<section if="SPOOPY_VULKAN">
+		    <file name="src/graphics/vulkan/images/Image.cpp" />
+		    <file name="src/graphics/vulkan/descriptors/Description.cpp" />
 			<file name="src/graphics/vulkan/ContextVulkan.cpp" />
 			<file name="src/graphics/vulkan/GraphicsHandlerVulkan.cpp" />
 			<file name="src/graphics/vulkan/GraphicsVulkan.cpp" />

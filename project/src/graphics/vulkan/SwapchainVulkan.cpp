@@ -20,7 +20,7 @@ namespace lime { namespace spoopy {
         }
     }
 
-    uint8_t SwapchainVulkan::SetVSYNC(uint8_t vsync) {
+    int8_t SwapchainVulkan::SetVSYNC(uint8_t vsync) {
         switch(vsync) {
             case 0:
                 for(const auto &presentMode: physicalPresentModes) {
