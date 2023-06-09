@@ -95,6 +95,7 @@
 		<compilerflag value="-DNO_GLSLANG_INCLUDED" />
 
 		<section if="SPOOPY_VULKAN">
+		    <file name="src/graphics/vulkan/images/ImageDepth.cpp" />
 		    <file name="src/graphics/vulkan/images/Image.cpp" />
 		    <file name="src/graphics/vulkan/descriptors/Description.cpp" />
 			<file name="src/graphics/vulkan/ContextVulkan.cpp" />
@@ -115,7 +116,6 @@
 
 		<file name="src/shaders/CrossShader.cpp" />
 		<file name="src/helpers/SpoopyBytes.cpp" />
-		<file name="src/math/SpoopyPoint.cpp" />
 	</files>
 
 	<include name="volk.xml.tpl" if="SPOOPY_VOLK" />
