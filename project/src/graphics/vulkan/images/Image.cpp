@@ -1,7 +1,8 @@
+#include "../../../device/Capabilities.h"
 #include "Image.h"
 
 namespace lime { namespace spoopy {
-    Image::Image(VkDevice device, VkFilter filter, VkSamplerAddressMode addressMode, VkSampleCountFlagBits samples, VkImageLayout layout, VkImageUsageFlags usage, VkFormat format, uint32_t mipLevels,
+    Image::Image(LogicalDevice device, VkFilter filter, VkSamplerAddressMode addressMode, VkSampleCountFlagBits samples, VkImageLayout layout, VkImageUsageFlags usage, VkFormat format, uint32_t mipLevels,
         uint32_t arrayLayers, const VkExtent3D &extent):
         device(device),
         filter(filter),
@@ -49,7 +50,7 @@ namespace lime { namespace spoopy {
         return descriptorSetLayoutBinding;
     }
 
-    VkFormat Image::FindSupportedFormat(VkPhysicalDevice physicalDevice, const std::vector<VkFormat> &candidates, VkImageTiling tiling, VkFormatFeatureFlags features) {
+    VkFormat Image::FindSupportedFormat(PhysicalDevice physicalDevice, const std::vector<VkFormat> &candidates, VkImageTiling tiling, VkFormatFeatureFlags features) {
         for(VkFormat format: candidates) {
             VkFormatProperties properties;
             vkGetPhysicalDeviceFormatProperties(physicalDevice, format, &properties);
@@ -80,5 +81,81 @@ namespace lime { namespace spoopy {
     bool Image::HasStencil(VkFormat format) {
         static const std::vector<VkFormat> STENCIL_FORMATS = {VK_FORMAT_S8_UINT, VK_FORMAT_D16_UNORM_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT, VK_FORMAT_D32_SFLOAT_S8_UINT};
         return std::find(STENCIL_FORMATS.begin(), STENCIL_FORMATS.end(), format) != std::end(STENCIL_FORMATS);
+    }
+
+    void Image::CreateImage(PhysicalDevice physicalDevice, LogicalDevice device, VkImage &image, VkDeviceMemory &memory, const VkExtent3D &extent, VkFormat format, VkSampleCountFlagBits samples,
+        VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, uint32_t mipLevels, uint32_t arrayLayers, VkImageType type) {
+        VkImageCreateInfo imageInfo = {};
+        imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+        imageInfo.imageType = type;
+        imageInfo.format = format;
+        imageInfo.extent = extent;
+        imageInfo.mipLevels = mipLevels;
+        imageInfo.arrayLayers = arrayLayers;
+        imageInfo.samples = samples;
+        imageInfo.tiling = tiling;
+        imageInfo.usage = usage;
+        imageInfo.flags = arrayLayers == 6 ? VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT : 0;
+        imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+        imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+        checkVulkan(vkCreateImage(device, &imageInfo, nullptr, &image));
+
+        VkMemoryRequirements memoryRequirements;
+        vkGetImageMemoryRequirements(device, image, &memoryRequirements);
+
+        VkMemoryAllocateInfo memoryAllocateInfo = {};
+        memoryAllocateInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+        memoryAllocateInfo.allocationSize = memoryRequirements.size;
+        memoryAllocateInfo.memoryTypeIndex = Capabilities::FindMemoryType(physicalDevice, memoryRequirements.memoryTypeBits, properties);
+        checkVulkan(vkAllocateMemory(device, &memoryAllocateInfo, nullptr, &memory));
+        checkVulkan(vkBindImageMemory(device, image, memory, 0));
+    }
+
+    void Image::CreateImageSampler(PhysicalDevice physicalDevice, LogicalDevice device, VkSampler &sampler, VkFilter filter, VkSamplerAddressMode addressMode, bool anisotropic, uint32_t mipLevels) {
+        VkSamplerCreateInfo samplerInfo = {};
+        samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
+        samplerInfo.magFilter = filter;
+        samplerInfo.minFilter = filter;
+        samplerInfo.addressModeU = addressMode;
+        samplerInfo.addressModeV = addressMode;
+        samplerInfo.addressModeW = addressMode;
+        samplerInfo.anisotropyEnable = VK_FALSE;
+        samplerInfo.maxAnisotropy = 1;
+        samplerInfo.borderColor = VK_BORDER_COLOR_INT_OPAQUE_BLACK;
+        samplerInfo.unnormalizedCoordinates = VK_FALSE;
+        samplerInfo.compareEnable = VK_FALSE;
+        samplerInfo.compareOp = VK_COMPARE_OP_ALWAYS;
+        samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
+        samplerInfo.mipLodBias = 0.0f;
+        samplerInfo.minLod = 0.0f;
+        samplerInfo.maxLod = static_cast<float>(mipLevels);
+
+        if(device.GetEnabledFeatures().samplerAnisotropy && anisotropic && physicalDevice.GetProperties().limits.maxSamplerAnisotropy > 1.0f) {
+            samplerInfo.maxAnisotropy = physicalDevice.GetProperties().limits.maxSamplerAnisotropy;
+            samplerInfo.anisotropyEnable = VK_TRUE;
+        }
+
+        checkVulkan(vkCreateSampler(device, &samplerInfo, nullptr, &sampler));
+    }
+
+    void Image::CreateImageView(LogicalDevice device, const VkImage &image, VkImageView &imageView, VkImageViewType type, VkFormat format, VkImageAspectFlags imageAspect,
+        uint32_t mipLevels, uint32_t baseMipLevel, uint32_t layerCount, uint32_t baseArrayLayer) {
+        VkImageViewCreateInfo imageViewInfo = {};
+        imageViewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+        imageViewInfo.image = image;
+        imageViewInfo.viewType = type;
+        imageViewInfo.format = format;
+        imageViewInfo.components = {VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_A};
+        imageViewInfo.subresourceRange.aspectMask = imageAspect;
+        imageViewInfo.subresourceRange.baseMipLevel = baseMipLevel;
+        imageViewInfo.subresourceRange.levelCount = mipLevels;
+        imageViewInfo.subresourceRange.baseArrayLayer = baseArrayLayer;
+        imageViewInfo.subresourceRange.layerCount = layerCount;
+        checkVulkan(vkCreateImageView(device, &imageViewInfo, nullptr, &imageView));
+    }
+
+    void Image::TransitionImageLayout(const VkImage &image, VkFormat format, VkImageLayout srcImageLayout, VkImageLayout dstImageLayout,
+        VkImageAspectFlags imageAspect, uint32_t mipLevels, uint32_t baseMipLevel, uint32_t layerCount, uint32_t baseArrayLayer) {
+
     }
 }}

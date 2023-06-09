@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../helpers/SpoopyHelpersVulkan.h"
 #include "CommandPoolVulkan.h"
 
 #include <memory>
@@ -7,7 +8,7 @@
 namespace lime { namespace spoopy {
     class CommandBufferVulkan {
         public:
-            CommandBufferVulkan(bool begin = true, const VkCommandPool commandPool = VK_NULL_HANDLE);
+            CommandBufferVulkan(bool begin = true, VkQueueFlagBits queueType = VK_QUEUE_GRAPHICS_BIT, VkCommandBufferLevel bufferLevel = VK_COMMAND_BUFFER_LEVEL_PRIMARY);
             ~CommandBufferVulkan();
 
             void BeginFrame();
@@ -17,10 +18,12 @@ namespace lime { namespace spoopy {
             void SetBeginFlags(const VkCommandBufferUsageFlags usage);
 
         private:
-            VkDevice _device;
-            VkCommandPool _commandPool;
-            VkCommandBuffer _commandBuffer;
+            std::shared_ptr<CommandPoolVulkan> _commandPool;
+
+            VkDevice _device = VK_NULL_HANDLE;
+            VkCommandBuffer _commandBuffer = VK_NULL_HANDLE;
             VkCommandBufferUsageFlags _usageFlags;
+            VkQueueFlagBits _queueType;
 
             bool running = false;
     };
