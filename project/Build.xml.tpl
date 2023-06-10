@@ -96,6 +96,7 @@
 
 		<section if="SPOOPY_VULKAN">
 		    <file name="src/device/Capabilities.cpp" />
+		    <file name="src/graphics/vulkan/images/Image2D.cpp" />
 		    <file name="src/graphics/vulkan/images/ImageDepth.cpp" />
 		    <file name="src/graphics/vulkan/images/Image.cpp" />
 		    <file name="src/graphics/vulkan/descriptors/Description.cpp" />
@@ -105,6 +106,7 @@
 			<file name="src/graphics/vulkan/SwapchainVulkan.cpp" />
 			<file name="src/graphics/vulkan/CommandBufferVulkan.cpp" />
 			<file name="src/graphics/vulkan/CommandPoolVulkan.cpp" />
+			<file name="src/graphics/vulkan/BufferVulkan.cpp" />
 			<file name="src/helpers/SpoopyHelpersVulkan.cpp" />
 			<file name="src/helpers/VulkanAddons.cpp" />
 			<file name="src/device/Instance.cpp" />

@@ -302,4 +302,22 @@ namespace lime { namespace spoopy {
 
         commandBuffer.SubmitIdle(device.GetQueue(commandBuffer.GetQueueType()));
     }
+
+    void Image::CopyBufferToImage(LogicalDevice device, const VkBuffer &buffer, const VkImage &image, const VkExtent3D &extent, uint32_t mipLevels, uint32_t baseArrayLayer, uint32_t layerCount) {
+        CommandBufferVulkan commandBuffer;
+
+        VkBufferImageCopy region = {};
+        region.bufferOffset = 0;
+        region.bufferRowLength = 0;
+        region.bufferImageHeight = 0;
+        region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+        region.imageSubresource.baseArrayLayer = baseArrayLayer;
+        region.imageSubresource.layerCount = layerCount;
+        region.imageSubresource.mipLevel = 0;
+        region.imageOffset = {0, 0, 0};
+        region.imageExtent = extent;
+
+        vkCmdCopyBufferToImage(commandBuffer, buffer, image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &region);
+        commandBuffer.SubmitIdle(device.GetQueue(commandBuffer.GetQueueType()));
+    }
 }}

@@ -7,5 +7,6 @@ namespace lime { namespace spoopy {
 
     struct Capabilities {
         static uint32_t FindMemoryType(PhysicalDevice physicalDevice, uint32_t typeFilter, const VkMemoryPropertyFlags &requiredProperties);
+
     };
 }}

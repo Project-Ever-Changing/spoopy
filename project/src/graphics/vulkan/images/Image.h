@@ -50,6 +50,7 @@ namespace lime { namespace spoopy {
             VkImageAspectFlags imageAspect, uint32_t mipLevels, uint32_t baseMipLevel, uint32_t layerCount, uint32_t baseArrayLayer);
         static void CreateMipmaps(PhysicalDevice physicalDevice, LogicalDevice device, const VkImage &image, const VkExtent3D &extent, VkFormat format, VkImageLayout dstImageLayout,
             uint32_t mipLevels, uint32_t baseArrayLayer, uint32_t layerCount);
+        static void CopyBufferToImage(LogicalDevice device, const VkBuffer &buffer, const VkImage &image, const VkExtent3D &extent, uint32_t mipLevels, uint32_t baseArrayLayer, uint32_t layerCount);
 
         protected:
             LogicalDevice device;
