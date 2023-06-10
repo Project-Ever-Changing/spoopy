@@ -1,6 +1,8 @@
 #include "GraphicsVulkan.h"
 #include "CommandBufferVulkan.h"
 
+#include <stdint.h>
+
 namespace lime { namespace spoopy {
     CommandBufferVulkan::CommandBufferVulkan(bool begin, VkQueueFlagBits queueType, VkCommandBufferLevel bufferLevel):
         _device(*GraphicsVulkan::GetCurrent()->GetLogicalDevice()),
@@ -50,5 +52,26 @@ namespace lime { namespace spoopy {
 
     void CommandBufferVulkan::SetBeginFlags(const VkCommandBufferUsageFlags usage) {
         _usageFlags = usage;
+    }
+
+    void CommandBufferVulkan::SubmitIdle(const VkQueue queue) {
+        if (running) {
+            EndFrame();
+        }
+
+        VkSubmitInfo submitInfo = {};
+        submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+        submitInfo.commandBufferCount = 1;
+        submitInfo.pCommandBuffers = &_commandBuffer;
+
+        VkFenceCreateInfo fenceCreateInfo = {};
+        fenceCreateInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+
+        VkFence fence;
+        checkVulkan(vkCreateFence(_device, &fenceCreateInfo, nullptr, &fence));
+        checkVulkan(vkResetFences(_device, 1, &fence));
+        checkVulkan(vkQueueSubmit(queue, 1, &submitInfo, fence));
+        checkVulkan(vkWaitForFences(_device, 1, &fence, VK_TRUE, UINT64_MAX));
+        vkDestroyFence(_device, fence, nullptr);
     }
 }}

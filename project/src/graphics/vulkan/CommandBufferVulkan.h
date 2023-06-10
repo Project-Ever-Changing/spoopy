@@ -17,6 +17,12 @@ namespace lime { namespace spoopy {
             void BindPipeline(const SpoopyPipelineState renderPipeline);
             void SetBeginFlags(const VkCommandBufferUsageFlags usage);
 
+            void SubmitIdle(const VkQueue queue);
+
+            operator const VkCommandBuffer &() const { return _commandBuffer; }
+
+            VkQueueFlagBits GetQueueType() const { return _queueType; }
+
         private:
             std::shared_ptr<CommandPoolVulkan> _commandPool;
 

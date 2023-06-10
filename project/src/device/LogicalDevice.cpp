@@ -159,4 +159,18 @@ namespace lime { namespace spoopy {
         vkGetDeviceQueue(logicalDevice, computeFamily, 0, &computeQueue);
         vkGetDeviceQueue(logicalDevice, transferFamily, 0, &transferQueue);
     }
+
+    VkQueue LogicalDevice::GetQueue(const VkQueueFlagBits queueFamilyIndex) const {
+        switch(queueFamilyIndex) {
+            case VK_QUEUE_GRAPHICS_BIT:
+                return graphicsQueue;
+            case VK_QUEUE_COMPUTE_BIT:
+                return computeQueue;
+            case VK_QUEUE_TRANSFER_BIT:
+                return transferQueue;
+            default:
+                SPOOPY_LOG_ERROR("Invalid queue family index!");
+                return VK_NULL_HANDLE;
+        }
+    }
 }}

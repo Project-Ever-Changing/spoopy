@@ -16,6 +16,8 @@ namespace lime { namespace spoopy {
 
             operator const VkDevice &() const { return logicalDevice; }
 
+            VkQueue GetQueue(const VkQueueFlagBits queueFamilyIndex) const;
+
             const VkDevice &GetLogicalDevice() const { return logicalDevice; }
             const VkPhysicalDeviceFeatures &GetEnabledFeatures() const { return enabledFeatures; }
             const VkQueue &GetGraphicsQueue() const { return graphicsQueue; }
