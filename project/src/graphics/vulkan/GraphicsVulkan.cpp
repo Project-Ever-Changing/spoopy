@@ -13,13 +13,42 @@ namespace lime { namespace spoopy {
         VkPipelineCacheCreateInfo pipelineCacheCreateInfo = {};
         pipelineCacheCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;
         checkVulkan(vkCreatePipelineCache(*logicalDevice, &pipelineCacheCreateInfo, nullptr, &pipelineCache));
+
+        int width, height;
+        SDL_GetWindowSize(m_window, &width, &height);
+        displayExtent = {static_cast<uint32_t>(width), static_cast<uint32_t>(height)};
+    }
+
+    void GraphicsVulkan::RecreateSwapchains() {
+        vkDeviceWaitIdle(*logicalDevice);
+
+        for(auto &context: contexts) {
+            context->RecreateSwapchain(*physicalDevice, *logicalDevice, displayExtent, context->GetSwapchain());
+        }
     }
 
     GraphicsVulkan::~GraphicsVulkan() {
         auto graphicsQueue = logicalDevice->GetGraphicsQueue();
         checkVulkan(vkQueueWaitIdle(graphicsQueue));
+
+        for(auto &context: contexts) {
+            context->DestroySwapchain();
+        }
+
         vkDestroyPipelineCache(*logicalDevice, pipelineCache, nullptr);
         contexts.clear();
+
+        for(auto &context: contexts) {
+            auto perSurfaceBuffer = context->GetSurfaceBuffer();
+
+            for(std::size_t i=0; i<perSurfaceBuffer->flightFences.size(); ++i) {
+                vkDestroyFence(*logicalDevice, perSurfaceBuffer->flightFences[i], nullptr);
+                vkDestroySemaphore(*logicalDevice, perSurfaceBuffer->renderCompletes[i], nullptr);
+                vkDestroySemaphore(*logicalDevice, perSurfaceBuffer->presentCompletes[i], nullptr);
+            }
+
+            perSurfaceBuffer->commandBuffers.clear();
+        }
 
         if(Main && Main == this) {
             delete Main;
@@ -28,6 +57,8 @@ namespace lime { namespace spoopy {
     }
 
     void GraphicsVulkan::Update() {
+        for(auto &context: contexts) {
 
+        }
     }
 }}
