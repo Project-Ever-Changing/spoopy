@@ -1,6 +1,8 @@
 #include "../../../device/Capabilities.h"
 #include "Image.h"
 
+#include <assert.h>
+
 namespace lime { namespace spoopy {
     Image::Image(LogicalDevice device, VkFilter filter, VkSamplerAddressMode addressMode, VkSampleCountFlagBits samples, VkImageLayout layout, VkImageUsageFlags usage, VkFormat format, uint32_t mipLevels,
         uint32_t arrayLayers, const VkExtent3D &extent):
@@ -222,6 +224,82 @@ namespace lime { namespace spoopy {
         }
 
         vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, 0, 0, nullptr, 0, nullptr, 1, &barrier);
+        commandBuffer.SubmitIdle(device.GetQueue(commandBuffer.GetQueueType()));
+    }
+
+    void Image::CreateMipmaps(PhysicalDevice physicalDevice, LogicalDevice device, const VkImage &image, const VkExtent3D &extent, VkFormat format, VkImageLayout dstImageLayout, uint32_t mipLevels,
+        uint32_t baseArrayLayer, uint32_t layerCount) {
+        VkFormatProperties formatProperties;
+        vkGetPhysicalDeviceFormatProperties(physicalDevice, format, &formatProperties);
+
+        assert(formatProperties.optimalTilingFeatures & VK_FORMAT_FEATURE_BLIT_SRC_BIT);
+        assert(formatProperties.optimalTilingFeatures & VK_FORMAT_FEATURE_BLIT_DST_BIT);
+
+        CommandBufferVulkan commandBuffer;
+
+        for(uint32_t i=1; i<mipLevels; i++) {
+            VkImageMemoryBarrier barrier = {};
+            barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+            barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+            barrier.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
+            barrier.oldLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+            barrier.newLayout = VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL;
+            barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+            barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+            barrier.image = image;
+            barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+            barrier.subresourceRange.baseMipLevel = i-1;
+            barrier.subresourceRange.levelCount = 1;
+            barrier.subresourceRange.baseArrayLayer = baseArrayLayer;
+            barrier.subresourceRange.layerCount = layerCount;
+            vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT, 0, 0, nullptr, 0, nullptr, 1, &barrier);
+
+            VkImageBlit blit = {};
+            blit.srcOffsets[1] = {int32_t(extent.width >> (i - 1)), int32_t(extent.height >> (i - 1)), 1};
+            blit.srcSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+            blit.srcSubresource.mipLevel = i-1;
+            blit.srcSubresource.baseArrayLayer = baseArrayLayer;
+            blit.srcSubresource.layerCount = layerCount;
+            blit.dstOffsets[1] = {int32_t(extent.width >> i), int32_t(extent.height >> i), 1};
+            blit.dstSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+            blit.dstSubresource.mipLevel = i;
+            blit.dstSubresource.baseArrayLayer = baseArrayLayer;
+            blit.dstSubresource.layerCount = layerCount;
+            vkCmdBlitImage(commandBuffer, image, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL, image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &blit, VK_FILTER_LINEAR);
+
+            VkImageMemoryBarrier barrier1 = {};
+            barrier1.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+            barrier1.srcAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
+            barrier1.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+            barrier1.oldLayout = VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL;
+            barrier1.newLayout = dstImageLayout;
+            barrier1.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+            barrier1.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+            barrier1.image = image;
+            barrier1.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+            barrier1.subresourceRange.baseMipLevel = i-1;
+            barrier1.subresourceRange.levelCount = 1;
+            barrier1.subresourceRange.baseArrayLayer = baseArrayLayer;
+            barrier1.subresourceRange.layerCount = layerCount;
+            vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, 0, 0, nullptr, 0, nullptr, 1, &barrier1);
+        }
+
+        VkImageMemoryBarrier barrier = {};
+        barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+        barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+        barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+        barrier.oldLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+        barrier.newLayout = dstImageLayout;
+        barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+        barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+        barrier.image = image;
+        barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+        barrier.subresourceRange.baseMipLevel = mipLevels-1;
+        barrier.subresourceRange.levelCount = 1;
+        barrier.subresourceRange.baseArrayLayer = baseArrayLayer;
+        barrier.subresourceRange.layerCount = layerCount;
+        vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, 0, 0, nullptr, 0, nullptr, 1, &barrier);
+
         commandBuffer.SubmitIdle(device.GetQueue(commandBuffer.GetQueueType()));
     }
 }}

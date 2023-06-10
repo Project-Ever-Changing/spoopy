@@ -6,8 +6,11 @@
 
 #include <vector>
 #include <utility>
+#include <memory>
 
 namespace lime { namespace spoopy {
+    class ImageDepth;
+
     class GraphicsPipelineVulkan: public PipelineVulkan {
         public:
             enum class Mode {
@@ -25,6 +28,8 @@ namespace lime { namespace spoopy {
                 Mode mode = Mode::POLYGON, Depth depth = Depth::READWRITE, VkPrimitiveTopology topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, VkPolygonMode polygonMode = VK_POLYGON_MODE_FILL,
                 VkCullModeFlags cullMode = VK_CULL_MODE_BACK_BIT, VkFrontFace frontFace = VK_FRONT_FACE_CLOCKWISE, bool pushDescriptors = false);
             ~PipelineVulkan();
+
+            const ImageDepth* GetDepthStencil(const std::unique_ptr<u_int32_t> &id = nullptr) const;
 
         private:
             PPosition position;
