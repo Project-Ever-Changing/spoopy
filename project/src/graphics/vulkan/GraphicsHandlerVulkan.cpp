@@ -17,17 +17,17 @@ namespace lime { namespace spoopy {
     }
 
     void GraphicsHandler::DestroyContext(ContextBase* context) {
-        auto element = std::find_if(GraphicsVulkan::Main->contexts.begin(), GraphicsVulkan::Main->contexts.end(),
-        [context](const std::unique_ptr<ContextVulkan>& contextPtr){
-            return contextPtr.get() == context;
-        });
-
         if(GraphicsVulkan::Main->contexts.empty()) {
             delete GraphicsVulkan::Main;
             GraphicsVulkan::Main = nullptr;
 
             return;
         }
+
+        auto element = std::find_if(GraphicsVulkan::Main->contexts.begin(), GraphicsVulkan::Main->contexts.end(),
+        [context](const std::unique_ptr<ContextVulkan>& contextPtr){
+            return contextPtr.get() == context;
+        });
 
         if(element == GraphicsVulkan::Main->contexts.end()) {
             return;
