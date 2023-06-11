@@ -40,8 +40,6 @@ namespace lime { namespace spoopy {
     }
 
     GraphicsVulkan::~GraphicsVulkan() {
-        SPOOPY_LOG_INFO("About to be destroyed!");
-
         auto graphicsQueue = logicalDevice->GetGraphicsQueue();
         checkVulkan(vkQueueWaitIdle(graphicsQueue));
 

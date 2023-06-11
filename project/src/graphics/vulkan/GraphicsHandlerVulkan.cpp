@@ -22,17 +22,19 @@ namespace lime { namespace spoopy {
             return contextPtr.get() == context;
         });
 
+        if(GraphicsVulkan::Main->contexts.empty()) {
+            delete GraphicsVulkan::Main;
+            GraphicsVulkan::Main = nullptr;
+
+            return;
+        }
+
         if(element == GraphicsVulkan::Main->contexts.end()) {
             return;
         }
 
         GraphicsVulkan::Main->contexts.erase(element);
         delete context;
-
-        if(GraphicsVulkan::Main->contexts.empty()) {
-            delete GraphicsVulkan::Main;
-            GraphicsVulkan::Main = nullptr;
-        }
     }
 
     int GraphicsHandler::MakeCurrent(SDL_Window* m_window, ContextBase* context) {
