@@ -16,9 +16,12 @@ namespace lime { namespace spoopy {
 
             operator const VkSwapchainKHR &() const { return swapchain; }
 
+            VkResult AcquireNextImage(const VkSemaphore &presentCompleteSemaphore = VK_NULL_HANDLE, VkFence fence = VK_NULL_HANDLE);
+
             const VkExtent2D &GetExtent() const { return extent; }
             uint32_t GetImageCount() const { return imageCount; }
             VkSurfaceTransformFlagsKHR GetPreTransform() const { return preTransform; }
+            uint32_t GetActiveImageIndex() const { return activeImageIndex; }
 
         private:
             int8_t SetVSYNC(uint8_t vsync);
@@ -35,6 +38,7 @@ namespace lime { namespace spoopy {
             VkFence fenceImage = VK_NULL_HANDLE;
 
             uint32_t imageCount = 0;
+            uint32_t activeImageIndex;
             VkSurfaceTransformFlagsKHR preTransform;
 
             std::vector<VkImage> images;

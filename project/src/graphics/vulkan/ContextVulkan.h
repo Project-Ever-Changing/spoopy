@@ -36,11 +36,13 @@ namespace lime { namespace spoopy {
             void RecreateCommandBuffers(const LogicalDevice &logicalDevice);
             VkResult AcquireNextImage(const VkSemaphore &presentCompleteSemaphore = VK_NULL_HANDLE, VkFence fence = VK_NULL_HANDLE);
 
+            uint32_t GetImageCount() const;
+
             void SetSurface(std::unique_ptr<Surface> surface);
             void SetVSYNC(uint8_t sync) { this->sync = sync; }
 
             SurfaceBuffer* GetSurfaceBuffer() const { return surfaceBuffer.get(); }
-            const SwapchainVulkan* GetSwapchain() const { return swapchain.get(); }
+            SwapchainVulkan* GetSwapchain() const { return swapchain.get(); }
 
             void DestroySwapchain();
 

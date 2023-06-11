@@ -12,7 +12,8 @@ namespace lime { namespace spoopy {
     surface(surface),
     logicalDevice(logicalDevice),
     extent(extent),
-    presentMode(VK_PRESENT_MODE_FIFO_KHR) {
+    presentMode(VK_PRESENT_MODE_FIFO_KHR),
+    activeImageIndex(UINT32_MAX) {
         uint32_t physicalPresentModeCount;
         vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surface, &physicalPresentModeCount, nullptr);
         this->physicalPresentModes.resize(physicalPresentModeCount);
@@ -109,6 +110,20 @@ namespace lime { namespace spoopy {
             default:
                 return -1; // FAILURE
         }
+    }
+
+    VkResult SwapchainVulkan::AcquireNextImage(const VkSemaphore &presentCompleteSemaphore, VkFence fence) {
+        if(fence != VK_NULL_HANDLE) {
+            checkVulkan(vkWaitForFences(logicalDevice, 1, &fence, VK_TRUE, UINT64_MAX));
+        }
+
+        auto acquireResult = vkAcquireNextImageKHR(logicalDevice, swapchain, UINT64_MAX, presentCompleteSemaphore, VK_NULL_HANDLE, &activeImageIndex);
+
+        if(acquireResult != VK_SUCCESS && acquireResult != VK_SUBOPTIMAL_KHR && acquireResult != VK_ERROR_OUT_OF_DATE_KHR) {
+            throw std::runtime_error("Failed to acquire next image.");
+        }
+
+        return acquireResult;
     }
 
     SwapchainVulkan::~SwapchainVulkan() {

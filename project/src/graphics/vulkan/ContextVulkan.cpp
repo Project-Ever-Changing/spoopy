@@ -39,6 +39,14 @@ namespace lime { namespace spoopy {
         VkFenceCreateInfo fenceCreateInfo = {};
         fenceCreateInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
         fenceCreateInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
+
+        for(std::size_t i=0; i<swapchain->GetImageCount(); ++i) {
+            vkCreateSemaphore(logicalDevice, &semaphoreCreateInfo, nullptr, &surfaceBuffer->presentCompletes[i]);
+            vkCreateSemaphore(logicalDevice, &semaphoreCreateInfo, nullptr, &surfaceBuffer->renderCompletes[i]);
+            vkCreateFence(logicalDevice, &fenceCreateInfo, nullptr, &surfaceBuffer->flightFences[i]);
+
+            surfaceBuffer->commandBuffers[i] = std::unique_ptr<CommandBufferVulkan>(new CommandBufferVulkan(false));
+        }
     }
 
     void ContextVulkan::DestroySwapchain() {
@@ -51,10 +59,18 @@ namespace lime { namespace spoopy {
 
     VkResult ContextVulkan::AcquireNextImage(const VkSemaphore &presentCompleteSemaphore, VkFence fence) {
         if(!swapchain) {
+            SPOOPY_LOG_ERROR("Attempted to acquire next image without a swapchain!");
             return VK_ERROR_INITIALIZATION_FAILED;
         }
 
-        //return swapchain->AcquireNextImage(presentCompleteSemaphore, fence);
-        return VK_ERROR_INITIALIZATION_FAILED;
+        return swapchain->AcquireNextImage(presentCompleteSemaphore, fence);
+    }
+
+    uint32_t ContextVulkan::GetImageCount() const {
+        if(!swapchain) {
+            return 0;
+        }
+
+        return swapchain->GetImageCount();
     }
 }}
