@@ -17,13 +17,6 @@ namespace lime { namespace spoopy {
     }
 
     void GraphicsHandler::DestroyContext(ContextBase* context) {
-        if(GraphicsVulkan::Main->contexts.empty()) {
-            delete GraphicsVulkan::Main;
-            GraphicsVulkan::Main = nullptr;
-
-            return;
-        }
-
         auto element = std::find_if(GraphicsVulkan::Main->contexts.begin(), GraphicsVulkan::Main->contexts.end(),
         [context](const std::unique_ptr<ContextVulkan>& contextPtr){
             return contextPtr.get() == context;
@@ -33,8 +26,13 @@ namespace lime { namespace spoopy {
             return;
         }
 
+        element->reset();
         GraphicsVulkan::Main->contexts.erase(element);
-        delete context;
+
+        if(GraphicsVulkan::Main->contexts.empty()) {
+            delete GraphicsVulkan::Main;
+            GraphicsVulkan::Main = nullptr;
+        }
     }
 
     int GraphicsHandler::MakeCurrent(SDL_Window* m_window, ContextBase* context) {
