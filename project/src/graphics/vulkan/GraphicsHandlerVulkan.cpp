@@ -32,6 +32,8 @@ namespace lime { namespace spoopy {
         if(GraphicsVulkan::Main->contexts.empty()) {
             delete GraphicsVulkan::Main;
             GraphicsVulkan::Main = nullptr;
+        }else {
+            SPOOPY_LOG_INFO("Context was not found within GraphicsVulkan::Main->contexts");
         }
     }
 
