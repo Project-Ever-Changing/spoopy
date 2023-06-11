@@ -2,8 +2,9 @@
 <project name="spoopy" url="https://github.com/Project-Ever-Changing/spoopy" license="ZLIB">
 	<icon path="assets/images/logo/SpoopyLogo.svg" />
 	
+	<source path="src-openfl" unless="openfl" />
 
-	<undefined name="lime-opengl" unless="spoopy_metal || spoopy_vulkan" />
+	<undefined name="lime-opengl" unless="spoopy_vulkan" />
 
     <set name="spoopy" />
 	<set name="expect-lime-version" value="7.7.0" />

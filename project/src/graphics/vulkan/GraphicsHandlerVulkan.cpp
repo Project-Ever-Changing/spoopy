@@ -17,8 +17,6 @@ namespace lime { namespace spoopy {
     }
 
     void GraphicsHandler::DestroyContext(ContextBase* context) {
-        SPOOPY_LOG_INFO("Destroying context");
-
         auto element = std::find_if(GraphicsVulkan::Main->contexts.begin(), GraphicsVulkan::Main->contexts.end(),
         [context](const std::unique_ptr<ContextVulkan>& contextPtr){
             return contextPtr.get() == context;
