@@ -63,10 +63,7 @@ namespace lime { namespace spoopy {
 
         contexts.clear();
 
-        if(Main && Main == this) {
-            delete Main;
-            Main = nullptr;
-        }
+        SPOOPY_LOG_INFO("GraphicsVulkan destroyed!");
     }
 
     void GraphicsVulkan::Update() {

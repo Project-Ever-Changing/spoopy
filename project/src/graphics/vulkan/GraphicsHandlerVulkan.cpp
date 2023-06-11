@@ -28,6 +28,11 @@ namespace lime { namespace spoopy {
 
         GraphicsVulkan::Main->contexts.erase(element);
         delete context;
+
+        if(GraphicsVulkan::Main->contexts.empty()) {
+            delete GraphicsVulkan::Main;
+            GraphicsVulkan::Main = nullptr;
+        }
     }
 
     int GraphicsHandler::MakeCurrent(SDL_Window* m_window, ContextBase* context) {
