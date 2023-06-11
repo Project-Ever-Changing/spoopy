@@ -47,6 +47,8 @@ namespace lime { namespace spoopy {
             context->DestroySwapchain();
         }
 
+        SPOOPY_LOG_INFO("About to be destroyed!");
+
         vkDestroyPipelineCache(*logicalDevice, pipelineCache, nullptr);
 
         for(auto &context: contexts) {
