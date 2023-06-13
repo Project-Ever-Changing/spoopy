@@ -1,17 +1,20 @@
 package spoopy.app.graphics;
 
 import spoopy.backend.native.SpoopyNativeCFFI;
+
 import lime.app.IModule;
 import lime.app.Application;
+import lime.ui.Window;
 
 class SpoopyGraphicsModule implements IModule {
-    public var stage(default, null):Stage;
-
     @:noCompletion private var __backend:BackendGraphicsModule;
 
     public function new() {
         __backend = new BackendGraphicsModule();
-        stage = new Stage();
+    }
+
+    @:noCompletion private function __onCreateWindow(window:Window):Void {
+        
     }
 
     @:noCompletion private function __onUpdate(deltaTime:Int):Void {
@@ -25,11 +28,13 @@ class SpoopyGraphicsModule implements IModule {
     }
 
     @:noCompletion private function __registerLimeModule(application:Application):Void {
+        application.onCreateWindow.add(__onCreateWindow);
         application.onUpdate.add(__onUpdate);
-        application.onExit.add(__onModuleExit);
+        application.onExit.add(__onModuleExit, false, 0);
     }
 
     @:noCompletion private function __unregisterLimeModule(application:Application):Void {
+        application.onCreateWindow.remove(__onCreateWindow);
         application.onUpdate.remove(__onUpdate);
 		application.onExit.remove(__onModuleExit);
     }

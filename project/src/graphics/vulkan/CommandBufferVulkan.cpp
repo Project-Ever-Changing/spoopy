@@ -7,7 +7,8 @@ namespace lime { namespace spoopy {
     CommandBufferVulkan::CommandBufferVulkan(bool begin, VkQueueFlagBits queueType, VkCommandBufferLevel bufferLevel):
         _device(*GraphicsVulkan::GetCurrent()->GetLogicalDevice()),
         _queueType(queueType),
-        _usageFlags(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT) {
+        _usageFlags(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT),
+        _sType(VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO) {
 
         VkCommandBufferAllocateInfo commandBufferAllocateInfo = {};
         commandBufferAllocateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -17,7 +18,7 @@ namespace lime { namespace spoopy {
         checkVulkan(vkAllocateCommandBuffers(_device, &commandBufferAllocateInfo, &_commandBuffer));
 
         if (begin) {
-            BeginFrame();
+            BeginRecord();
         }
     }
 
@@ -25,19 +26,20 @@ namespace lime { namespace spoopy {
         vkFreeCommandBuffers(_device, _commandPool->GetCommandPool(), 1, &_commandBuffer);
     }
 
-    void CommandBufferVulkan::BeginFrame() {
+    void CommandBufferVulkan::BeginRecord() {
         if (running) {
             return;
         }
 
         VkCommandBufferBeginInfo beginInfo = {};
-        beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+        beginInfo.sType = _sType;
         beginInfo.flags = _usageFlags;
+        beginInfo.pNext = nullptr;
         checkVulkan(vkBeginCommandBuffer(_commandBuffer, &beginInfo));
         running = true;
     }
 
-    void CommandBufferVulkan::EndFrame() {
+    void CommandBufferVulkan::EndRecord() {
         if (!running) {
             return;
         }
@@ -54,9 +56,13 @@ namespace lime { namespace spoopy {
         _usageFlags = usage;
     }
 
+    void CommandBufferVulkan::SetBeginType(const VkStructureType type) {
+        _sType = type;
+    }
+
     void CommandBufferVulkan::SubmitIdle(const VkQueue queue) {
         if (running) {
-            EndFrame();
+            EndRecord();
         }
 
         VkSubmitInfo submitInfo = {};
