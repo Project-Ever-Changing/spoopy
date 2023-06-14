@@ -2,6 +2,7 @@
 #include "CommandBufferVulkan.h"
 
 #include <stdint.h>
+#include <vector>
 
 namespace lime { namespace spoopy {
     CommandBufferVulkan::CommandBufferVulkan(bool begin, VkQueueFlagBits queueType, VkCommandBufferLevel bufferLevel):
@@ -79,5 +80,31 @@ namespace lime { namespace spoopy {
         checkVulkan(vkQueueSubmit(queue, 1, &submitInfo, fence));
         checkVulkan(vkWaitForFences(_device, 1, &fence, VK_TRUE, UINT64_MAX));
         vkDestroyFence(_device, fence, nullptr);
+    }
+
+    void CommandBufferVulkan::BeginRenderPass(VkRenderPass renderPass, VkFramebuffer frameBuffer,
+        uint32_t width, uint32_t height, uint32_t colorAttachmentCount, int depthAttachment,
+        VkSubpassContents contentsFlag) {
+        std::vector<VkClearValue> clearValues(colorAttachmentCount + depthAttachment);
+
+        for(uint32_t i=0; i<colorAttachmentCount; ++i) {
+            clearValues[i].color = {0.0f, 0.0f, 0.0f, 1.0f};
+        }
+
+        if(depthAttachment == 1) {
+            clearValues[colorAttachmentCount].depthStencil = {1.0f, 0};
+        }
+
+        VkRenderPassBeginInfo renderPassBeginInfo = {};
+        renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+        renderPassBeginInfo.pNext = nullptr;
+        renderPassBeginInfo.renderPass = renderPass;
+        renderPassBeginInfo.framebuffer = frameBuffer;
+        renderPassBeginInfo.renderArea.offset = {0, 0};
+        renderPassBeginInfo.renderArea.extent = {width, height};
+        renderPassBeginInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
+        renderPassBeginInfo.pClearValues = clearValues.data();
+
+        checkVulkan(vkCmdBeginRenderPass(_commandBuffer, &renderPassBeginInfo, contentsFlag));
     }
 }}
