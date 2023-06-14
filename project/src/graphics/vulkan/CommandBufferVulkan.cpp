@@ -105,6 +105,10 @@ namespace lime { namespace spoopy {
         renderPassBeginInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
         renderPassBeginInfo.pClearValues = clearValues.data();
 
-        checkVulkan(vkCmdBeginRenderPass(_commandBuffer, &renderPassBeginInfo, contentsFlag));
+        vkCmdBeginRenderPass(_commandBuffer, &renderPassBeginInfo, contentsFlag);
+    }
+
+    void CommandBufferVulkan::EndRenderPass() {
+        vkCmdEndRenderPass(_commandBuffer);
     }
 }}

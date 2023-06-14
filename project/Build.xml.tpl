@@ -107,6 +107,7 @@
 			<file name="src/graphics/vulkan/CommandBufferVulkan.cpp" />
 			<file name="src/graphics/vulkan/CommandPoolVulkan.cpp" />
 			<file name="src/graphics/vulkan/BufferVulkan.cpp" />
+			<file name="src/graphics/vulkan/RenderPassVulkan.cpp" />
 			<file name="src/helpers/SpoopyHelpersVulkan.cpp" />
 			<file name="src/helpers/VulkanAddons.cpp" />
 			<file name="src/device/Instance.cpp" />

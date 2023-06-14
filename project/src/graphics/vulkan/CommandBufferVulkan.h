@@ -13,15 +13,15 @@ namespace lime { namespace spoopy {
 
             void BeginRecord();
             void EndRecord();
+            void BeginRenderPass(VkRenderPass renderPass, VkFramebuffer frameBuffer,
+                uint32_t width, uint32_t height, uint32_t colorAttachmentCount, int depthAttachment,
+                VkSubpassContents contentsFlag);
+            void EndRenderPass();
 
             void BindPipeline(const SpoopyPipelineState renderPipeline);
             void SetBeginFlags(const VkCommandBufferUsageFlags usage);
             void SetBeginType(const VkStructureType type);
-
             void SubmitIdle(const VkQueue queue);
-            void BeginRenderPass(VkRenderPass renderPass, VkFramebuffer frameBuffer,
-                uint32_t width, uint32_t height, uint32_t colorAttachmentCount, int depthAttachment,
-                VkSubpassContents contentsFlag);
 
             operator const VkCommandBuffer &() const { return _commandBuffer; }
 
