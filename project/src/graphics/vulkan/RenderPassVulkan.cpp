@@ -92,7 +92,7 @@ namespace lime { namespace spoopy {
     void RenderPassVulkan::AddAttachment(uint32_t format, VkSampleCountFlagBits samples,
         VkImageLayout finalLayout, VkImageLayout initialLayout) {
         VkAttachmentDescription attachmentDescription = {};
-        attachmentDescription.format = GetFormat(format);
+        attachmentDescription.format = static_cast<VkFormat>(format);
         attachmentDescription.samples = samples;
         attachmentDescription.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
         attachmentDescription.storeOp = VK_ATTACHMENT_STORE_OP_STORE;

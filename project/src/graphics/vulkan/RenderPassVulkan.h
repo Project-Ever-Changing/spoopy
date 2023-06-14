@@ -18,10 +18,10 @@ namespace lime { namespace spoopy {
             void CreateSubpass();
 
             void AddDepthAttachment(uint32_t location, VkImageLayout layout, uint32_t format,
-                VkSampleCountFlagBits samples, VkImageLayout finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
+                VkSampleCountFlagBits samples, VkImageLayout finalLayout = VK_IMAGE_LAYOUT_GENERAL,
                 VkImageLayout initialLayout = VK_IMAGE_LAYOUT_UNDEFINED);
             void AddColorAttachment(uint32_t location, VkImageLayout layout, uint32_t format,
-                VkSampleCountFlagBits samples, VkImageLayout finalLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
+                VkSampleCountFlagBits samples, VkImageLayout finalLayout = VK_IMAGE_LAYOUT_GENERAL,
                 VkImageLayout initialLayout = VK_IMAGE_LAYOUT_UNDEFINED);
             void AddSubpassDependency(uint32_t srcSubpass, uint32_t dstSubpass, VkPipelineStageFlags srcStageMask,
                 VkPipelineStageFlags dstStageMask, VkAccessFlags srcAccessMask, VkAccessFlags dstAccessMask,
