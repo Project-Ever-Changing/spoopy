@@ -14,7 +14,7 @@ namespace lime { namespace spoopy {
                  VkFilter filter = VK_FILTER_LINEAR, VkSamplerAddressMode addressMode = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE,
                  VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT, bool anisotropic = false, bool mipmap = false);
 
-            void SetPixels(PhysicalDevice physicalDevice, LogicalDevice device, const uint8_t *pixels, uint32_t layerCount, uint32_t baseArrayLayer);
+            void SetPixels(PhysicalDevice physicalDevice, const uint8_t *pixels, uint32_t layerCount, uint32_t baseArrayLayer);
 
             std::type_index GetTypeIndex() const { return typeid(Image2D); }
 
@@ -24,8 +24,8 @@ namespace lime { namespace spoopy {
 
         private:
             // void Load(parameters);
-            void LoadEmpty(PhysicalDevice physicalDevice, LogicalDevice device, bool loadMipmap = true);
-            void LoadMipmap(PhysicalDevice physicalDevice, LogicalDevice device);
+            void LoadEmpty(PhysicalDevice physicalDevice, bool loadMipmap = true);
+            void LoadMipmap(PhysicalDevice physicalDevice);
 
             bool anisotropic;
             bool mipmap;

@@ -1,6 +1,7 @@
 #pragma once
 
-#include <spoopy.h>
+#include "../../helpers/SpoopyHelpersVulkan.h"
+
 #include <vector>
 
 #ifdef SPOOPY_SDL
@@ -26,7 +27,12 @@ namespace lime { namespace spoopy {
                 VkPipelineStageFlags dstStageMask, VkAccessFlags srcAccessMask, VkAccessFlags dstAccessMask,
                 VkDependencyFlags dependencyFlags = 0);
 
+
+            operator const VkRenderPass &() const { return renderpass; }
+            const VkRenderPass &GetRenderpass() const { return renderpass; }
+
             static VkFormat GetFormat(uint32_t format);
+
         private:
             void AddAttachment(uint32_t format, VkSampleCountFlagBits samples,
                 VkImageLayout finalLayout, VkImageLayout initialLayout);
@@ -37,5 +43,7 @@ namespace lime { namespace spoopy {
             std::vector<VkAttachmentDescription> attachmentDescriptions;
             std::vector<VkSubpassDependency> subpassDependencies;
             std::vector<VkSubpassDescription> subpassDescriptions;
+
+            VkRenderPass renderpass = VK_NULL_HANDLE;
     };
 }}

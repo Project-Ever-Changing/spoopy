@@ -13,8 +13,8 @@ namespace lime { namespace spoopy {
             };
 
         protected:
-            Vector2T_u32 size;
-            uint32_t colorAttachmentCount;
-            uint32_t depthAttachment;
+            Vector2T_u32 size = {0, 0};
+            uint32_t colorAttachmentCount = 0;
+            uint32_t depthAttachment = 0;
     };
 }}

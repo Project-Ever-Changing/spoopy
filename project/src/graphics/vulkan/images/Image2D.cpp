@@ -10,10 +10,10 @@ namespace lime { namespace spoopy {
         anisotropic(anisotropic),
         mipmap(mipmap),
         components(4) {
-        LoadEmpty(physicalDevice, device, true);
+        LoadEmpty(physicalDevice, true);
     }
 
-    void Image2D::SetPixels(PhysicalDevice physicalDevice, LogicalDevice device, const uint8_t *pixels, uint32_t layerCount, uint32_t baseArrayLayer) {
+    void Image2D::SetPixels(PhysicalDevice physicalDevice, const uint8_t *pixels, uint32_t layerCount, uint32_t baseArrayLayer) {
         BufferVulkan buffer(physicalDevice, device, extent.width * extent.height * components * arrayLayers,
             VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
 
@@ -25,7 +25,7 @@ namespace lime { namespace spoopy {
         CopyBufferToImage(device, buffer.GetBuffer(), image, extent, arrayLayers, layerCount, baseArrayLayer);
     }
 
-    void Image2D::LoadEmpty(PhysicalDevice physicalDevice, LogicalDevice device, bool loadMipmap) {
+    void Image2D::LoadEmpty(PhysicalDevice physicalDevice, bool loadMipmap) {
         if(extent.width == 0 || extent.height == 0) {
             // SPOOPY_LOG_WARN("Image2D::LoadEmpty() called with extent.width == 0 || extent.height == 0");
             return;

@@ -35,8 +35,22 @@ namespace lime { namespace spoopy {
         #endif
     }
 
-    void RenderPassVulkan::CreateRenderPass() {
+    RenderPassVulkan::~RenderPassVulkan() {
+        vkDestroyRenderPass(device, renderpass, nullptr);
+    }
 
+    void RenderPassVulkan::CreateRenderPass() {
+        VkRenderPassCreateInfo renderPassInfo = {};
+        renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+        renderPassInfo.pNext = nullptr;
+        renderPassInfo.pAttachments = attachmentDescriptions.data();
+        renderPassInfo.attachmentCount = static_cast<uint32_t>(attachmentDescriptions.size());
+        renderPassInfo.pSubpasses = subpassDescriptions.data();
+        renderPassInfo.subpassCount = static_cast<uint32_t>(subpassDescriptions.size());
+        renderPassInfo.pDependencies = subpassDependencies.data();
+        renderPassInfo.dependencyCount = static_cast<uint32_t>(subpassDependencies.size());
+
+        checkVulkan(vkCreateRenderPass(device, &renderPassInfo, nullptr, &renderpass));
     }
 
     void RenderPassVulkan::CreateSubpass() {
