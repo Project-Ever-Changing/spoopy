@@ -9,6 +9,9 @@ typedef lime::spoopy::GraphicsVulkan GraphicsModule;
 #endif
 
 namespace lime { namespace spoopy {
+
+    #ifndef LIME_OPENGL
+
     void spoopy_check_graphics_module() {
         if(GraphicsModule::GetCurrent() != nullptr) {
             return;
@@ -22,4 +25,6 @@ namespace lime { namespace spoopy {
         GraphicsModule::GetCurrent()->Update();
     }
     DEFINE_PRIME0v(spoopy_update_graphics_module);
+
+    #endif
 }}
