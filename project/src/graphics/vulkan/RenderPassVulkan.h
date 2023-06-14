@@ -45,5 +45,6 @@ namespace lime { namespace spoopy {
             std::vector<VkSubpassDescription> subpassDescriptions;
 
             VkRenderPass renderpass = VK_NULL_HANDLE;
+            uint8_t depthAttachmentCount = 0;
     };
 }}

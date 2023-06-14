@@ -19,11 +19,15 @@ class SpoopyNativeCFFI {
     #if (cpp && !cppia)
     public static var spoopy_check_graphics_module = new cpp.Callable<Void->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_check_graphics_module", "v", false));
     public static var spoopy_update_graphics_module = new cpp.Callable<Void->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_update_graphics_module", "v", false));
-    public static var spoopy_create_render_pass = new cpp.Callable<Int->Int->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_render_pass", "iio", false));
+    public static var spoopy_create_render_pass = new cpp.Callable<cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_render_pass", "o", false));
+    public static var spoopy_add_color_attachment = new cpp.Callable<cpp.Object->Int-Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_add_color_attachment", "oiiv", false));
+    public static var spoopy_add_depth_attachment = new cpp.Callable<cpp.Object->Int-Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_add_depth_attachment", "oiiv", false));
     #elseif (neko || cppia)
     public static var spoopy_check_graphics_module = CFFI.load("lime", "spoopy_check_graphics_module", 0);
     public static var spoopy_update_graphics_module = CFFI.load("lime", "spoopy_update_graphics_module", 0);
-    public static var spoopy_create_render_pass = CFFI.load("lime", "spoopy_create_render_pass", 2);
+    public static var spoopy_create_render_pass = CFFI.load("lime", "spoopy_create_render_pass", 0);
+    public static var spoopy_add_color_attachment = CFFI.load("lime", "spoopy_add_color_attachment", 3);
+    public static var spoopy_add_depth_attachment = CFFI.load("lime", "spoopy_add_depth_attachment", 3);
     #else
     public static function spoopy_check_graphics_module():Void {
         return;
@@ -33,8 +37,16 @@ class SpoopyNativeCFFI {
         return;
     }
 
-    public static function spoopy_create_render_pass(location:Int, format:Int):Dynamic {
+    public static function spoopy_create_render_pass():Dynamic {
         return null;
+    }
+
+    public static function spoopy_add_color_attachment(renderPass:Dynamic, location:Int, format:Int):Void {
+        return;
+    }
+
+    public static function spoopy_add_depth_attachment(renderPass:Dynamic, location:Int, format:Int):Void {
+        return;
     }
     #end
 }
