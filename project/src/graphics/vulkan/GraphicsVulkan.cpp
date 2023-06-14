@@ -3,6 +3,8 @@
 
 namespace lime { namespace spoopy {
     GraphicsVulkan* GraphicsVulkan::Main = nullptr;
+    bool GraphicsVulkan::MultisamplingEnabled = true;
+
 
     GraphicsVulkan::GraphicsVulkan(SDL_Window* m_window):
         instance(std::unique_ptr<Instance>(new Instance(m_window))),

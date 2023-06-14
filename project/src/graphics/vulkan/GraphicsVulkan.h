@@ -20,10 +20,12 @@ namespace lime { namespace spoopy {
             void Update();
 
             static GraphicsVulkan *GetCurrent() { return Main; }
+            static bool MultisamplingEnabled;
 
             const PhysicalDevice *GetPhysicalDevice() const { return physicalDevice.get(); }
             const LogicalDevice *GetLogicalDevice() const { return logicalDevice.get(); }
             const VkPipelineCache &GetPipelineCache() const { return pipelineCache; }
+
         private:
             void Reset();
             void RecreateSwapchains();
