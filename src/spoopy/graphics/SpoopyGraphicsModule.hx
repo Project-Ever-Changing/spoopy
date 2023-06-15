@@ -22,9 +22,12 @@ class SpoopyGraphicsModule implements IModule {
         renderPass.addColorAttachment(SpoopyRenderPass.getFormatFromColorDepth(attributes.colorDepth));
 
         if(attributes.hardware) {
-            if(attributes.depth) {
-                
-            }
+            return;
+        }
+
+        if(attributes.depth) {
+            var format:SpoopyFormat = attributes.stencil ? SpoopyFormat.D32_SFLOAT_S8_UINT : SpoopyFormat.D32_SFLOAT;
+            renderPass.addDepthAttachment(format, attributes.stencil);
         }
     }
 

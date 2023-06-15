@@ -25,7 +25,7 @@ namespace lime { namespace spoopy {
         std::multimap<uint32_t, VkPhysicalDevice> rankedDevices;
         auto last = rankedDevices.end();
 
-        for(const auto &device : devices) {
+        for(const auto &device: devices) {
             last = rankedDevices.insert(last, {ScorePhysicalDevice(device), device});
         }
 
