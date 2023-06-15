@@ -1,40 +1,6 @@
 #include "RenderPassVulkan.h"
 
 namespace lime { namespace spoopy {
-    VkFormat RenderPassVulkan::GetFormat(uint32_t format) {
-        #ifdef SPOOPY_SDL
-
-        switch (format) {
-            case SDL_PIXELFORMAT_RGBA8888:
-                return VK_FORMAT_R8G8B8A8_UNORM;
-            case SDL_PIXELFORMAT_ARGB8888:
-                return VK_FORMAT_A8B8G8R8_UNORM_PACK32;
-            case SDL_PIXELFORMAT_BGRA8888:
-                return VK_FORMAT_B8G8R8A8_UNORM;
-
-            // These cases aren't going to be ever used, but incase that Lime updates
-            // there backend to support these formats, I'll keep them here.
-            case SDL_PIXELFORMAT_RGB332:
-                return VK_FORMAT_R8G8B8_UNORM;
-            case SDL_PIXELFORMAT_RGB444:
-                return VK_FORMAT_R4G4B4A4_UNORM_PACK16;
-            case SDL_PIXELFORMAT_RGB555:
-                return VK_FORMAT_R5G5B5A1_UNORM_PACK16;
-            case SDL_PIXELFORMAT_RGB565:
-                return VK_FORMAT_R5G6B5_UNORM_PACK16;
-            case SDL_PIXELFORMAT_RGB888:
-                return VK_FORMAT_R8G8B8_UNORM;
-            default:
-                throw std::runtime_error("Unsupported SDL pixel format!");
-        }
-
-        #else
-
-        return format;
-
-        #endif
-    }
-
     RenderPassVulkan::~RenderPassVulkan() {
         vkDestroyRenderPass(device, renderpass, nullptr);
     }

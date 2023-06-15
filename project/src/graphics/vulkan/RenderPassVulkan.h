@@ -31,8 +31,6 @@ namespace lime { namespace spoopy {
             operator const VkRenderPass &() const { return renderpass; }
             const VkRenderPass &GetRenderpass() const { return renderpass; }
 
-            static VkFormat GetFormat(uint32_t format);
-
         private:
             void AddAttachment(uint32_t format, VkSampleCountFlagBits samples,
                 VkImageLayout finalLayout, VkImageLayout initialLayout);
