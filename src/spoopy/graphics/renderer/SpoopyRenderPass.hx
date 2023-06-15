@@ -41,7 +41,6 @@ class SpoopyRenderPass {
 
     public static function getFormatFromPixelFormat(pixelFormat:PixelFormat):SpoopyFormat {
         #if lime
-
         switch(pixelFormat) {
             case PixelFormat.BGRA32:
                 return B8G8R8A8_UNORM;
@@ -50,11 +49,8 @@ class SpoopyRenderPass {
             default:
                 return R8G8B8A8_UNORM;
         }
-
         #else
-
         return R8G8B8A8_UNORM;
-
         #end
     }
 }
