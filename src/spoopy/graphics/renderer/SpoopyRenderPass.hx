@@ -40,14 +40,22 @@ class SpoopyRenderPass {
     }
 
     public static function getFormatFromPixelFormat(pixelFormat:PixelFormat):SpoopyFormat {
+        #if lime
+
         switch(pixelFormat) {
-            case BGRA32:
-                return VK_FORMAT_B8G8R8A8_UNORM;
-            case ARGB32:
-                return VK_FORMAT_A8B8G8R8_UNORM_PACK32;
+            case PixelFormat.BGRA32:
+                return B8G8R8A8_UNORM;
+            case PixelFormat.ARGB32:
+                return A8B8G8R8_UNORM_PACK32;
             default:
-                return VK_FORMAT_R8G8B8A8_UNORM;
+                return R8G8B8A8_UNORM;
         }
+
+        #else
+
+        return R8G8B8A8_UNORM;
+
+        #end
     }
 }
 

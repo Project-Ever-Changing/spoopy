@@ -1,7 +1,5 @@
 package spoopy.graphics;
 
-#if spoopy_vulkan
-
 /*
 * https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkFormat.html
 */
@@ -273,5 +271,3 @@ package spoopy.graphics;
     public var A4R4G4B4_UNORM_PACK16_EXT:Int = 1000340000;
     public var A4B4G4R4_UNORM_PACK16_EXT:Int = 1000340001;
 }
-
-#end
