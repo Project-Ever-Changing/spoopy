@@ -15,7 +15,7 @@ class SpoopyRenderPass {
     public function new() {
         __attachments = new Map<Int, SpoopyFormat>();
         __stencilAttachments = new Map<Int, Bool>();
-        __backend = new SpoopyNativePass();
+        __backend = new SpoopyBackendPass();
     }
 
     public function addColorAttachment(format:SpoopyFormat):Void {
