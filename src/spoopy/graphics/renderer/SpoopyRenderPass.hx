@@ -1,11 +1,6 @@
 package spoopy.graphics.renderer;
 
-import spoopy.backend.native.SpoopyNativePass;
 import spoopy.graphics.SpoopyFormat;
-
-#if lime
-import lime.graphics.PixelFormat;
-#end
 
 class SpoopyRenderPass {
     @:allow(spoopy.graphics.SpoopyGraphicsModule) private var __hasImageLayout:Bool = false;
@@ -13,7 +8,7 @@ class SpoopyRenderPass {
 
     @:noCompletion private var __attachments:Map<Int, SpoopyFormat>;
     @:noCompletion private var __stencilAttachments:Map<Int, Bool>;
-    @:noCompletion private var __backend:SpoopyNativePass;
+    @:noCompletion private var __backend:SpoopyBackendPass;
     @:noCompletion private var __colorCount:Int = 0;
     @:noCompletion private var __depthCount:Int = 0;
 
@@ -66,5 +61,5 @@ class SpoopyRenderPass {
 }
 
 #if spoopy_vulkan
-typedef SpoopyRenderPass = spoopy.backend.native.SpoopyNativePass;
+typedef SpoopyBackendPass = spoopy.backend.native.SpoopyNativePass;
 #end
