@@ -11,7 +11,7 @@ class SpoopyNativePass {
         SpoopyNativeCFFI.spoopy_add_color_attachment(handle, location, format, hasImageLayout);
     }
 
-    public function addDepthAttachment(location:Int, format:Int) {
-        SpoopyNativeCFFI.spoopy_add_depth_attachment(handle, location, format);
+    public function addDepthAttachment(location:Int, format:Int, hasStencil:Bool = false) {
+        SpoopyNativeCFFI.spoopy_add_depth_attachment(handle, location, format, hasStencil);
     }
 }

@@ -75,7 +75,7 @@ namespace lime { namespace spoopy {
     /*
     * https://vulkan-tutorial.com/Multisampling
     */
-    VkSampleCountFlagBits PhysicalDevice::GetMaxUsableSampleCount() {
+    VkSampleCountFlagBits PhysicalDevice::GetMaxUsableSampleCount() const {
         VkPhysicalDeviceProperties physicalDeviceProperties;
         vkGetPhysicalDeviceProperties(physicalDevice, &physicalDeviceProperties);
 

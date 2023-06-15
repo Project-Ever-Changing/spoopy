@@ -28,7 +28,7 @@ namespace lime { namespace spoopy {
     DEFINE_PRIME0v(spoopy_update_graphics_module);
 
     void spoopy_add_color_attachment(value renderpass, int location, int format, bool hasImageLayout) {
-        RenderPassVulkan* renderPass = (RenderPassVulkan*)val_data(handle);
+        RenderPassVulkan* renderPass = (RenderPassVulkan*)val_data(renderpass);
 
         #ifdef SPOOPY_VULKAN
         VkSampleCountFlagBits samples = GraphicsModule::GetCurrent()->MultisamplingEnabled
@@ -39,20 +39,21 @@ namespace lime { namespace spoopy {
         renderPass->AddColorAttachment(location, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, format, samples, layout);
         #endif
     }
-    DEFINE_PRIME3v(spoopy_add_color_attachment);
+    DEFINE_PRIME4v(spoopy_add_color_attachment);
 
-    void spoopy_add_depth_attachment(value renderpass, int location, int format) {
-        RenderPassVulkan* renderPass = (RenderPassVulkan*)val_data(handle);
+    void spoopy_add_depth_attachment(value renderpass, int location, int format, bool hasStencil) {
+        RenderPassVulkan* renderPass = (RenderPassVulkan*)val_data(renderpass);
 
         #ifdef SPOOPY_VULKAN
         VkSampleCountFlagBits samples = GraphicsModule::GetCurrent()->MultisamplingEnabled
         ? GraphicsModule::GetCurrent()->GetPhysicalDevice()->GetMaxUsableSampleCount()
         : VK_SAMPLE_COUNT_1_BIT;
 
-        renderPass->AddDepthAttachment(location, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, format, samples);
+        renderPass->AddDepthAttachment(location, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, format, samples,
+            VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, VK_IMAGE_LAYOUT_UNDEFINED, hasStencil);
         #endif
     }
-    DEFINE_PRIME3v(spoopy_add_depth_attachment);
+    DEFINE_PRIME4v(spoopy_add_depth_attachment);
 
     // Objects
 

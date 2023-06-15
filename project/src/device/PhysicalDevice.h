@@ -19,9 +19,10 @@ namespace lime { namespace spoopy {
             const VkPhysicalDeviceFeatures &GetFeatures() const { return features; }
             const VkPhysicalDeviceMemoryProperties &GetMemoryProperties() const { return memoryProperties; }
             const VkSampleCountFlagBits &GetMsaaSamples() const { return msaaSamples; }
-        private:
-            VkSampleCountFlagBits GetMaxUsableSampleCount();
 
+            VkSampleCountFlagBits GetMaxUsableSampleCount() const;
+
+        private:
             VkPhysicalDevice BestPhysicalDevice(const std::vector<VkPhysicalDevice> &devices);
 
             static uint32_t ScorePhysicalDevice(const VkPhysicalDevice &device);

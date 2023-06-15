@@ -19,7 +19,7 @@ namespace lime { namespace spoopy {
 
             void AddDepthAttachment(uint32_t location, VkImageLayout layout, uint32_t format,
                 VkSampleCountFlagBits samples, VkImageLayout finalLayout = VK_IMAGE_LAYOUT_GENERAL,
-                VkImageLayout initialLayout = VK_IMAGE_LAYOUT_UNDEFINED);
+                VkImageLayout initialLayout = VK_IMAGE_LAYOUT_UNDEFINED, bool hasStencil = false);
             void AddColorAttachment(uint32_t location, VkImageLayout layout, uint32_t format,
                 VkSampleCountFlagBits samples, VkImageLayout finalLayout = VK_IMAGE_LAYOUT_GENERAL,
                 VkImageLayout initialLayout = VK_IMAGE_LAYOUT_UNDEFINED);
@@ -33,7 +33,7 @@ namespace lime { namespace spoopy {
 
         private:
             void AddAttachment(uint32_t format, VkSampleCountFlagBits samples,
-                VkImageLayout finalLayout, VkImageLayout initialLayout);
+                VkImageLayout finalLayout, VkImageLayout initialLayout, bool hasStencil = false);
 
             VkDevice device;
             VkAttachmentReference depthReference;

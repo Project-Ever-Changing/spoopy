@@ -37,8 +37,8 @@ namespace lime { namespace spoopy {
     }
 
     void RenderPassVulkan::AddDepthAttachment(uint32_t location, VkImageLayout layout, uint32_t format,
-        VkSampleCountFlagBits samples, VkImageLayout finalLayout, VkImageLayout initialLayout) {
-        AddAttachment(format, samples, finalLayout, initialLayout);
+        VkSampleCountFlagBits samples, VkImageLayout finalLayout, VkImageLayout initialLayout, bool hasStencil) {
+        AddAttachment(format, samples, finalLayout, initialLayout, hasStencil);
 
         depthReference.attachment = location;
         depthReference.layout = layout;
@@ -58,14 +58,14 @@ namespace lime { namespace spoopy {
     }
 
     void RenderPassVulkan::AddAttachment(uint32_t format, VkSampleCountFlagBits samples,
-        VkImageLayout finalLayout, VkImageLayout initialLayout) {
+        VkImageLayout finalLayout, VkImageLayout initialLayout, bool hasStencil) {
         VkAttachmentDescription attachmentDescription = {};
         attachmentDescription.format = static_cast<VkFormat>(format);
         attachmentDescription.samples = samples;
         attachmentDescription.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
         attachmentDescription.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-        attachmentDescription.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-        attachmentDescription.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+        attachmentDescription.stencilLoadOp = hasStencil ? VK_ATTACHMENT_LOAD_OP_CLEAR : VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+        attachmentDescription.stencilStoreOp = hasStencil ? VK_ATTACHMENT_STORE_OP_STORE : VK_ATTACHMENT_STORE_OP_DONT_CARE;
         attachmentDescription.initialLayout = initialLayout;
         attachmentDescription.finalLayout = finalLayout;
 

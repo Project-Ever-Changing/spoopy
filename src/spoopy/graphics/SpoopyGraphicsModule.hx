@@ -17,11 +17,19 @@ class SpoopyGraphicsModule implements IModule {
     }
 
     @:noCompletion private function __createRenderPass(attributes:RenderContextAttributes):Void {
+        var renderPass = new SpoopyRenderPass();
+        renderPass.__hasImageLayout = true;
+        renderPass.addColorAttachment(SpoopyRenderPass.getFormatFromColorDepth(attributes.colorDepth));
 
+        if(attributes.hardware) {
+            if(attributes.depth) {
+                
+            }
+        }
     }
 
     @:noCompletion private function __onCreateWindow(window:Window):Void {
-        
+        __createRenderPass(window.__attributes.context);
     }
 
     @:noCompletion private function __onUpdate(deltaTime:Int):Void {
