@@ -19,6 +19,9 @@ class SpoopyRenderPass {
         __colorCount++;
     }
 
+    /*
+    * Depth attachments MUST BE added after color attachments.
+    */
     public function addDepthAttachment(format:SpoopyFormat):Void {
         __attachments.set(__colorCount + __depthCount, format);
         __depthCount++;
