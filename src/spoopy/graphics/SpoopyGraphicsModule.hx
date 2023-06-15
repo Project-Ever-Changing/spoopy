@@ -1,4 +1,4 @@
-package spoopy.app.graphics;
+package spoopy.graphics;
 
 import spoopy.backend.native.SpoopyNativeCFFI;
 import spoopy.graphics.renderer.SpoopyRenderPass;
