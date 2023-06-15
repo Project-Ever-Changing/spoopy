@@ -6,7 +6,7 @@ package spoopy.graphics;
 * https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkFormat.html
 */
 
-#if (haxe_ver >= 4.0) enum #else @:enum #end abstract SpoopyFormat(Int) from Int to Int {
+#if (haxe_ver >= 4.0) enum #else @:enum #end abstract SpoopyFormat(Int) from Int to Int from UInt to UInt {
     public var UNIDENTIFIED:Int = 0;
     public var R4G4_UNORM_PACK8:Int = 1;
     public var R4G4B4A4_UNORM_PACK16:Int = 2;

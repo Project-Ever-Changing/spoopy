@@ -1,16 +1,23 @@
 package spoopy.app.graphics;
 
 import spoopy.backend.native.SpoopyNativeCFFI;
+import spoopy.graphics.renderer.SpoopyRenderPass;
 
 import lime.app.IModule;
 import lime.app.Application;
 import lime.ui.Window;
+import lime.graphics.RenderContextAttributes;
 
+@:access(lime.ui.Window)
 class SpoopyGraphicsModule implements IModule {
     @:noCompletion private var __backend:BackendGraphicsModule;
 
     public function new() {
         __backend = new BackendGraphicsModule();
+    }
+
+    @:noCompletion private function __createRenderPass(attributes:RenderContextAttributes):Void {
+
     }
 
     @:noCompletion private function __onCreateWindow(window:Window):Void {
