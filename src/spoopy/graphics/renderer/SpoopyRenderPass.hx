@@ -3,7 +3,9 @@ package spoopy.graphics.renderer;
 import spoopy.backend.native.SpoopyNativePass;
 import spoopy.graphics.SpoopyFormat;
 
+#if lime
 import lime.graphics.PixelFormat;
+#end
 
 class SpoopyRenderPass {
     @:noCompletion private var __attachments:Map<Int, SpoopyFormat>;
@@ -39,7 +41,7 @@ class SpoopyRenderPass {
         }
     }
 
-    public static function getFormatFromPixelFormat(pixelFormat:PixelFormat):SpoopyFormat {
+    public static function getFormatFromPixelFormat(pixelFormat:Int):SpoopyFormat {
         #if lime
         switch(pixelFormat) {
             case PixelFormat.BGRA32:
