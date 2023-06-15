@@ -11,6 +11,7 @@ import lime.graphics.RenderContextAttributes;
 @:access(lime.ui.Window)
 class SpoopyGraphicsModule implements IModule {
     @:noCompletion private var __backend:BackendGraphicsModule;
+    @:noCompletion private var __createFirstWindow:Bool = false;
 
     public function new() {
         __backend = new BackendGraphicsModule();
@@ -32,11 +33,22 @@ class SpoopyGraphicsModule implements IModule {
     }
 
     @:noCompletion private function __onCreateWindow(window:Window):Void {
+        if(!__createFirstWindow) {
+            application.onUpdate.add(__onUpdate);
+            application.onExit.add(__onModuleExit, false, 0);
+
+            #if spoopy_debug
+            __backend.check();
+            #end
+
+            __createFirstWindow = true;
+        }
+
         __createRenderPass(window.__attributes.context);
     }
 
     @:noCompletion private function __onUpdate(deltaTime:Int):Void {
-        SpoopyNativeCFFI.spoopy_update_graphics_module();
+        __backend.update();
 
         // TODO: Add an event system that will have inputs/events.
     }
@@ -47,14 +59,15 @@ class SpoopyGraphicsModule implements IModule {
 
     @:noCompletion private function __registerLimeModule(application:Application):Void {
         application.onCreateWindow.add(__onCreateWindow);
-        application.onUpdate.add(__onUpdate);
-        application.onExit.add(__onModuleExit, false, 0);
     }
 
     @:noCompletion private function __unregisterLimeModule(application:Application):Void {
         application.onCreateWindow.remove(__onCreateWindow);
-        application.onUpdate.remove(__onUpdate);
-		application.onExit.remove(__onModuleExit);
+
+        if(__createFirstWindow) {
+            application.onUpdate.remove(__onUpdate);
+		    application.onExit.remove(__onModuleExit);
+        }
     }
 }
 

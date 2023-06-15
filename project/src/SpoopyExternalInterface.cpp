@@ -15,6 +15,7 @@ namespace lime { namespace spoopy {
 
     void spoopy_check_graphics_module() {
         if(GraphicsModule::GetCurrent() != nullptr) {
+            SPOOPY_LOG_SUCCESS("Graphics module is currently active!");
             return;
         }
 
