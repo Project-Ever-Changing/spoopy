@@ -10,6 +10,7 @@ import lime.graphics.RenderContextAttributes;
 
 @:access(lime.ui.Window)
 class SpoopyGraphicsModule implements IModule {
+    @:noCompletion private var __application:Application;
     @:noCompletion private var __backend:BackendGraphicsModule;
     @:noCompletion private var __createFirstWindow:Bool = false;
 
@@ -34,8 +35,8 @@ class SpoopyGraphicsModule implements IModule {
 
     @:noCompletion private function __onCreateWindow(window:Window):Void {
         if(!__createFirstWindow) {
-            application.onUpdate.add(__onUpdate);
-            application.onExit.add(__onModuleExit, false, 0);
+            __application.onUpdate.add(__onUpdate);
+            __application.onExit.add(__onModuleExit, false, 0);
 
             #if spoopy_debug
             __backend.check();
@@ -58,10 +59,14 @@ class SpoopyGraphicsModule implements IModule {
     }
 
     @:noCompletion private function __registerLimeModule(application:Application):Void {
+        __application = application;
+
         application.onCreateWindow.add(__onCreateWindow);
     }
 
     @:noCompletion private function __unregisterLimeModule(application:Application):Void {
+        __application = null;
+
         application.onCreateWindow.remove(__onCreateWindow);
 
         if(__createFirstWindow) {
