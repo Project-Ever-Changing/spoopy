@@ -71,6 +71,7 @@ namespace lime { namespace spoopy {
     }
 
     void GraphicsVulkan::Update() {
+        /*
         for(auto &context: contexts) {
             auto perSurfaceBuffer = context->GetSurfaceBuffer();
             auto acquireResult = context->AcquireNextImage(perSurfaceBuffer->presentCompletes[perSurfaceBuffer->currentFrame], perSurfaceBuffer->flightFences[perSurfaceBuffer->currentFrame]);
@@ -85,5 +86,6 @@ namespace lime { namespace spoopy {
                 return;
             }
         }
+         */
     }
 }}
