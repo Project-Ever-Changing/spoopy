@@ -7,8 +7,8 @@ class SpoopyNativePass {
         handle = SpoopyNativeCFFI.spoopy_create_render_pass();
     }
 
-    public function addColorAttachment(location:Int, format:Int) {
-        SpoopyNativeCFFI.spoopy_add_color_attachment(handle, location, format);
+    public function addColorAttachment(location:Int, format:Int, hasImageLayout:Bool = false) {
+        SpoopyNativeCFFI.spoopy_add_color_attachment(handle, location, format, hasImageLayout);
     }
 
     public function addDepthAttachment(location:Int, format:Int) {

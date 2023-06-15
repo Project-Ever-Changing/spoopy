@@ -8,6 +8,9 @@ import lime.graphics.PixelFormat;
 #end
 
 class SpoopyRenderPass {
+    @:allow(spoopy.graphics.SpoopyGraphicsModule) private var __hasImageLayout:Bool = false;
+
+
     @:noCompletion private var __attachments:Map<Int, SpoopyFormat>;
     @:noCompletion private var __backend:SpoopyRenderPass;
     @:noCompletion private var __colorCount:Int = 0;
