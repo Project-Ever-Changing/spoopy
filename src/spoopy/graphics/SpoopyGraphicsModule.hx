@@ -31,6 +31,8 @@ class SpoopyGraphicsModule implements IModule {
             var format:SpoopyFormat = attributes.stencil ? SpoopyFormat.D32_SFLOAT_S8_UINT : SpoopyFormat.D32_SFLOAT;
             renderPass.addDepthAttachment(format, attributes.stencil);
         }
+
+        renderPass.processAttachments();
     }
 
     @:noCompletion private function __onCreateWindow(window:Window):Void {
