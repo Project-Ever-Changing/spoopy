@@ -32,7 +32,4 @@ package spoopy.graphics;
     public var COMMAND_PREPROCESS_BIT_NV:Int = 0x00020000;
     public var TASK_SHADER_BIT_EXT:Int = 0x00080000;
     public var MESH_SHADER_BIT_EXT:Int = 0x00100000;
-    public var SHADING_RATE_IMAGE_BIT_NV:Int = 0x00400000;
-    public var RAY_TRACING_SHADER_BIT_NV:Int = 0x00200000;
-    public var ACCELERATION_STRUCTURE_BUILD_BIT_NV:Int = 0x02000000;
 }
