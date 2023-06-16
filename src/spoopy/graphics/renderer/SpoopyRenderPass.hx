@@ -40,6 +40,12 @@ class SpoopyRenderPass {
         for(i in __colorCount...(__colorCount + __depthCount)) {
             __backend.addDepthAttachment(i, __attachments.get(i), __stencilAttachments.get(i - __colorCount));
         }
+
+        __attachments.clear();
+        __stencilAttachments.clear();
+
+        __colorCount = 0;
+        __depthCount = 0;
     }
 
     public static function getFormatFromColorDepth(colorDepth:Int):SpoopyFormat {
