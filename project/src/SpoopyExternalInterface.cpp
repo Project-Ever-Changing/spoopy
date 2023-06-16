@@ -56,6 +56,25 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME4v(spoopy_add_depth_attachment);
 
+    void spoopy_add_subpass_dependency(value renderpass, bool has_external1, bool has_external2, int srcStageMask,
+        int dstStageMask, int srcAccessMask, int dstAccessMask, int dependencyFlags) {
+        RenderPassVulkan* renderPass = (RenderPassVulkan*)val_data(renderpass);
+
+        #ifdef SPOOPY_VULKAN
+        uint32_t _srcSubpass = has_external1 ? VK_SUBPASS_EXTERNAL : 0;
+        uint32_t _dstSubpass = has_external2 ? VK_SUBPASS_EXTERNAL : 0;
+        VkPipelineStageFlags _srcStageMask = (VkPipelineStageFlags)srcStageMask;
+        VkPipelineStageFlags _dstStageMask = (VkPipelineStageFlags)dstStageMask;
+        VkAccessFlags _srcAccessMask = (VkAccessFlags)srcAccessMask;
+        VkAccessFlags _dstAccessMask = (VkAccessFlags)dstAccessMask;
+        VkDependencyFlags _dependencyFlags = (VkDependencyFlags)dependencyFlags;
+
+        renderPass->AddSubpassDependency(_srcSubpass, _dstSubpass, _srcStageMask, _dstStageMask, _srcAccessMask,
+            _dstAccessMask, _dependencyFlags);
+        #endif
+    }
+    DEFINE_PRIME8v(spoopy_add_subpass_dependency);
+
     // Objects
 
     void spoopy_gc_render_pass(value handle) {

@@ -1,6 +1,8 @@
 package spoopy.graphics.renderer;
 
 import spoopy.graphics.SpoopyFormat;
+import spoopy.graphics.SpoopyAccessFlagBits;
+import spoopy.graphics.SpoopyPipelineStageFlagBits;
 
 class SpoopyRenderPass {
     @:allow(spoopy.graphics.SpoopyGraphicsModule) private var __hasImageLayout:Bool = false;
@@ -32,8 +34,10 @@ class SpoopyRenderPass {
         __depthCount++;
     }
 
-    public function addSubpassDependency(has_external1:Bool, has_external2:Bool):Void {
-
+    public function addSubpassDependency(has_external1:Bool, has_external2:Bool,
+    srcStageMask:SpoopyPipelineStageFlagBits, dstStageMask:SpoopyPipelineStageFlagBits,
+    srcAccessMask:SpoopyAccessFlagBits, dstAccessMask:SpoopyAccessFlagBits, dependencyFlags:Int):Void {
+        __backend.addSubpassDependency(has_external1, has_external2, srcStageMask, dstStageMask, srcAccessMask, dstAccessMask, dependencyFlags);
     }
 
     public function processAttachments():Void {
