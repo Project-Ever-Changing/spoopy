@@ -24,6 +24,7 @@ class SpoopyGraphicsModule implements IModule {
         renderPass.addColorAttachment(SpoopyRenderPass.getFormatFromColorDepth(attributes.colorDepth));
 
         if(!attributes.hardware) {
+            renderPass.processAttachments();
             return;
         }
 
