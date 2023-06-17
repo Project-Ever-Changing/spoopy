@@ -44,8 +44,8 @@ class SpoopyRenderPass {
         __backend.createSubpass();
     }
 
-    public function createRenderPass():Void {
-        __backend.createRenderPass();
+    public function createRenderpass():Void {
+        __backend.createRenderpass();
     }
 
     public function processAttachments():Void {

@@ -2,6 +2,8 @@ package spoopy.graphics;
 
 import spoopy.backend.native.SpoopyNativeCFFI;
 import spoopy.graphics.renderer.SpoopyRenderPass;
+import spoopy.graphics.SpoopyAccessFlagBits;
+import spoopy.graphics.SpoopyPipelineStageFlagBits;
 
 import lime.app.IModule;
 import lime.app.Application;
@@ -39,7 +41,7 @@ class SpoopyGraphicsModule implements IModule {
 
         renderPass.processAttachments();
         renderPass.createSubpass();
-        renderPass.createRenderPass();
+        renderPass.createRenderpass();
     }
 
     @:noCompletion private function __onCreateWindow(window:Window):Void {
