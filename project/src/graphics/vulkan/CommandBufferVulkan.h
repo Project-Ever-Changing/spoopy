@@ -18,7 +18,7 @@ namespace lime { namespace spoopy {
                 VkSubpassContents contentsFlag);
             void EndRenderPass();
 
-            void BindPipeline(const SpoopyPipelineState renderPipeline);
+            void BindPipeline(const VkPipeline renderPipeline);
             void SetBeginFlags(const VkCommandBufferUsageFlags usage);
             void SetBeginType(const VkStructureType type);
             void SubmitIdle(const VkQueue queue);

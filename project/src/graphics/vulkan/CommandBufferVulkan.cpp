@@ -49,7 +49,7 @@ namespace lime { namespace spoopy {
         running = false;
     }
 
-    void CommandBufferVulkan::BindPipeline(const SpoopyPipelineState renderPipeline) {
+    void CommandBufferVulkan::BindPipeline(const VkPipeline renderPipeline) {
         vkCmdBindPipeline(_commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, renderPipeline);
     }
 

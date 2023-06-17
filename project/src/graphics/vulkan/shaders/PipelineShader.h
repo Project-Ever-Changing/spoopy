@@ -18,6 +18,8 @@ namespace lime { namespace spoopy {
             void CreateTessellationEvaluationShader(Bytes bytes);
             void CreateShaderPipeline();
 
+            const std::vector<VkPipelineShaderStageCreateInfo> &GetStageInfos() const { return stageInfos; }
+
         private:
             VkDevice device;
 
