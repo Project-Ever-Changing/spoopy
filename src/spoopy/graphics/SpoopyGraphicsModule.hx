@@ -38,7 +38,7 @@ class SpoopyGraphicsModule implements IModule {
         }
 
         renderPass.processAttachments();
-        
+
     }
 
     @:noCompletion private function __onCreateWindow(window:Window):Void {
@@ -59,7 +59,7 @@ class SpoopyGraphicsModule implements IModule {
     @:noCompletion private function __onUpdate(deltaTime:Int):Void {
         __backend.update();
 
-        // TODO: Add an event system that will have inputs/events.
+        // TODO: Add an event system that will have graphic wise events.
     }
 
     @:noCompletion private function __onModuleExit(code:Int):Void {
