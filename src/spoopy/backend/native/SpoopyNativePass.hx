@@ -23,4 +23,12 @@ class SpoopyNativePass {
     srcAccessMask:SpoopyAccessFlagBits, dstAccessMask:SpoopyAccessFlagBits, dependencyFlags:Int):Void {
         SpoopyNativeCFFI.spoopy_add_subpass_dependency(handle, has_external1, has_external2, srcStageMask, dstStageMask, srcAccessMask, dstAccessMask, dependencyFlags);
     }
+
+    public function createSubpass():Void {
+        SpoopyNativeCFFI.spoopy_create_subpass(handle);
+    }
+
+    public function createRenderpass():Void {
+        SpoopyNativeCFFI.spoopy_create_renderpass(handle);
+    }
 }

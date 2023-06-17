@@ -40,6 +40,14 @@ class SpoopyRenderPass {
         __backend.addSubpassDependency(has_external1, has_external2, srcStageMask, dstStageMask, srcAccessMask, dstAccessMask, dependencyFlags);
     }
 
+    public function createSubpass():Void {
+        __backend.createSubpass();
+    }
+
+    public function createRenderPass():Void {
+        __backend.createRenderPass();
+    }
+
     public function processAttachments():Void {
         for(i in 0...__colorCount) {
             __backend.addColorAttachment(i, __attachments.get(i), __hasImageLayout);

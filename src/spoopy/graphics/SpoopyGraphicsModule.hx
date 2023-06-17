@@ -38,7 +38,8 @@ class SpoopyGraphicsModule implements IModule {
         }
 
         renderPass.processAttachments();
-
+        renderPass.createSubpass();
+        renderPass.createRenderPass();
     }
 
     @:noCompletion private function __onCreateWindow(window:Window):Void {

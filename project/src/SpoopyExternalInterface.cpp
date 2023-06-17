@@ -7,6 +7,7 @@
 #include "graphics/vulkan/RenderPassVulkan.h"
 
 typedef lime::spoopy::GraphicsVulkan GraphicsModule;
+typedef lime::spoopy::RenderPassVulkan RenderPass;
 #endif
 
 namespace lime { namespace spoopy {
@@ -29,7 +30,7 @@ namespace lime { namespace spoopy {
     DEFINE_PRIME0v(spoopy_update_graphics_module);
 
     void spoopy_add_color_attachment(value renderpass, int location, int format, bool hasImageLayout) {
-        RenderPassVulkan* _renderPass = (RenderPassVulkan*)val_data(renderpass);
+        RenderPass* _renderPass = (RenderPass*)val_data(renderpass);
 
         #ifdef SPOOPY_VULKAN
         VkSampleCountFlagBits samples = GraphicsModule::GetCurrent()->MultisamplingEnabled
@@ -43,7 +44,7 @@ namespace lime { namespace spoopy {
     DEFINE_PRIME4v(spoopy_add_color_attachment);
 
     void spoopy_add_depth_attachment(value renderpass, int location, int format, bool hasStencil) {
-        RenderPassVulkan* _renderPass = (RenderPassVulkan*)val_data(renderpass);
+        RenderPass* _renderPass = (RenderPass*)val_data(renderpass);
 
         #ifdef SPOOPY_VULKAN
         VkSampleCountFlagBits samples = GraphicsModule::GetCurrent()->MultisamplingEnabled
@@ -58,7 +59,7 @@ namespace lime { namespace spoopy {
 
     void spoopy_add_subpass_dependency(value renderpass, bool has_external1, bool has_external2, int srcStageMask,
         int dstStageMask, int srcAccessMask, int dstAccessMask, int dependencyFlags) {
-        RenderPassVulkan* _renderPass = (RenderPassVulkan*)val_data(renderpass);
+        RenderPass* _renderPass = (RenderPass*)val_data(renderpass);
 
         #ifdef SPOOPY_VULKAN
         uint32_t _srcSubpass = has_external1 ? VK_SUBPASS_EXTERNAL : 0;
@@ -75,15 +76,27 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME8v(spoopy_add_subpass_dependency);
 
+    void spoopy_create_subpass(value renderpass) {
+        RenderPass* _renderPass = (RenderPass*)val_data(renderpass);
+        _renderPass->CreateSubpass();
+    }
+    DEFINE_PRIME1v(spoopy_create_subpass);
+    
+    void spoopy_create_renderpass(value renderpass) {
+        RenderPass* _renderPass = (RenderPass*)val_data(renderpass);
+        _renderPass->CreateRenderPass();
+    }
+    DEFINE_PRIME1v(spoopy_create_renderpass);
+
     // Objects
 
     void spoopy_gc_render_pass(value handle) {
-        RenderPassVulkan* _renderPass = (RenderPassVulkan*)val_data(handle);
+        RenderPass* _renderPass = (RenderPass*)val_data(handle);
         delete _renderPass;
     }
 
     value spoopy_create_render_pass() {
-        RenderPassVulkan* _renderPass = new RenderPassVulkan(*GraphicsModule::GetCurrent()->GetLogicalDevice());
+        RenderPass* _renderPass = new RenderPass(*GraphicsModule::GetCurrent()->GetLogicalDevice());
         return CFFIPointer(_renderPass, spoopy_gc_render_pass);
     }
     DEFINE_PRIME0(spoopy_create_render_pass);
