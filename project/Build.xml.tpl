@@ -95,7 +95,8 @@
 		<compilerflag value="-DNO_GLSLANG_INCLUDED" />
 
 		<section if="SPOOPY_VULKAN">
-		    <file name="src/device/Capabilities.cpp" />
+		    <file name="src/graphics/vulkan/shaders/PipelineShader.cpp" />
+		    <file name="src/graphics/vulkan/shaders/Shader.cpp" />
 		    <file name="src/graphics/vulkan/images/Image2D.cpp" />
 		    <file name="src/graphics/vulkan/images/ImageDepth.cpp" />
 		    <file name="src/graphics/vulkan/images/Image.cpp" />
@@ -112,6 +113,7 @@
 			<file name="src/graphics/vulkan/FramebufferObjVk.cpp" />
 			<file name="src/helpers/SpoopyHelpersVulkan.cpp" />
 			<file name="src/helpers/VulkanAddons.cpp" />
+			<file name="src/device/Capabilities.cpp" />
 			<file name="src/device/Instance.cpp" />
 			<file name="src/device/PhysicalDevice.cpp" />
 			<file name="src/device/LogicalDevice.cpp" />
