@@ -43,7 +43,7 @@ class SpoopyNativeCFFI {
         return null;
     }
 
-    public static function spoopy_add_subpass_dependency(renderPass:Dynamic, srcSubpass:Int, dstSubpass:Int, srcStageMask:Int, dstStageMask:Int, srcAccessMask:Int, dstAccessMask:Int, dependencyFlags:Int):Void {
+    public static function spoopy_add_subpass_dependency(renderPass:Dynamic, srcSubpass:Bool, dstSubpass:Bool, srcStageMask:Int, dstStageMask:Int, srcAccessMask:Int, dstAccessMask:Int, dependencyFlags:Int):Void {
         return;
     }
 
