@@ -81,12 +81,13 @@ namespace lime { namespace spoopy {
         _renderPass->CreateSubpass();
     }
     DEFINE_PRIME1v(spoopy_create_subpass);
-    
+
     void spoopy_create_renderpass(value renderpass) {
         RenderPass* _renderPass = (RenderPass*)val_data(renderpass);
         _renderPass->CreateRenderPass();
     }
     DEFINE_PRIME1v(spoopy_create_renderpass);
+
 
     // Objects
 
