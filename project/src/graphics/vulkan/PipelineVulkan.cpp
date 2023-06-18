@@ -1,11 +1,10 @@
-#pragma once
-
 #include "shaders/Shader.h"
 #include "shaders/PipelineShader.h"
 #include "PipelineVulkan.h"
+#include "GraphicsVulkan.h"
 
 namespace lime { namespace spoopy {
-    PipelineVulkan::PipelineVulkan(int device): device(device) {
+    PipelineVulkan::PipelineVulkan(VkDevice device, bool pushDescriptors): device(device), pushDescriptors(pushDescriptors) {
         viewportAndScissorState = {};
         viewportAndScissorState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
     }
@@ -15,7 +14,8 @@ namespace lime { namespace spoopy {
         vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
     }
 
-    void PipelineVulkan::CreateGraphicsPipeline(std::unique_ptr<PipelineShader> pipeline, VkRenderPass renderPass) {
+    void PipelineVulkan::CreateGraphicsPipeline(std::unique_ptr<PipelineShader> pipeline, VkRenderPass renderPass,
+        VkPipelineCache pipelineCache) {
         VkPipelineRasterizationStateCreateInfo rasterizationState = {};
         rasterizationState.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
         rasterizationState.polygonMode = VK_POLYGON_MODE_FILL;
@@ -32,8 +32,8 @@ namespace lime { namespace spoopy {
         VkPipelineMultisampleStateCreateInfo multisampleState = {};
         multisampleState.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
         multisampleState.sampleShadingEnable = VK_FALSE;
-        multisampleState.rasterizationSamples = GraphicsModule::GetCurrent()->MultisamplingEnabled
-                                                ? GraphicsModule::GetCurrent()->GetPhysicalDevice()->GetMaxUsableSampleCount()
+        multisampleState.rasterizationSamples = GraphicsVulkan::GetCurrent()->MultisamplingEnabled
+                                                ? GraphicsVulkan::GetCurrent()->GetPhysicalDevice()->GetMaxUsableSampleCount()
                                                 : VK_SAMPLE_COUNT_1_BIT;
         multisampleState.pSampleMask = nullptr;
         multisampleState.minSampleShading = 1.0f;
@@ -50,6 +50,34 @@ namespace lime { namespace spoopy {
         pipelineInfo.pRasterizationState = &rasterizationState;
         pipelineInfo.pMultisampleState = &multisampleState;
         pipelineInfo.pDepthStencilState = &depthStencilState;
+        pipelineInfo.pColorBlendState = &colorBlendState;
+        pipelineInfo.pDynamicState = nullptr;
+        pipelineInfo.pTessellationState = &tessellationState;
+        pipelineInfo.layout = pipelineLayout;
+        pipelineInfo.renderPass = renderPass;
+        pipelineInfo.subpass = 0;
+        pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
+        pipelineInfo.basePipelineIndex = -1;
+        checkVulkan(vkCreateGraphicsPipelines(device, pipelineCache, 1, &pipelineInfo, nullptr, &this->pipeline));
+    }
+
+    void PipelineVulkan::CreatePipelineLayout(std::vector<VkDescriptorSetLayoutBinding> bindings) {
+        VkDescriptorSetLayoutCreateInfo layoutInfo = {};
+        layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
+        layoutInfo.flags = pushDescriptors ? VK_DESCRIPTOR_SET_LAYOUT_CREATE_PUSH_DESCRIPTOR_BIT_KHR : 0;
+        layoutInfo.pNext = nullptr;
+        layoutInfo.bindingCount = static_cast<uint32_t>(bindings.size());
+        layoutInfo.pBindings = bindings.data();
+        checkVulkan(vkCreateDescriptorSetLayout(device, &layoutInfo, nullptr, &descriptorSetLayout));
+
+        VkPipelineLayoutCreateInfo pipelineLayoutInfo = {};
+        pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+        pipelineLayoutInfo.pNext = nullptr;
+        pipelineLayoutInfo.setLayoutCount = 1;
+        pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout;
+        pipelineLayoutInfo.pushConstantRangeCount = static_cast<uint32_t>(pushConstantRanges.size());
+        pipelineLayoutInfo.pPushConstantRanges = pushConstantRanges.data();
+        checkVulkan(vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayout));
     }
 
     void PipelineVulkan::SetVertexInput(VertexShaderInput vertexInput) {
@@ -96,19 +124,80 @@ namespace lime { namespace spoopy {
         viewportAndScissorState.pViewports = &viewport;
     }
 
-    void PipelineVulkan::SetScissor(Rectangle* rect) {
+    void PipelineVulkan::SetScissor(Vector2T_u32 size) {
         VkRect2D scissor = {};
 
         scissor.offset = {
-            static_cast<uint32_t>(rect->x),
-            static_cast<uint32_t>(rect->y)
+            0,
+            0
         };
         scissor.extent = {
-            static_cast<uint32_t>(rect->width),
-            static_cast<uint32_t>(rect->height)
+            size.x,
+            size.y
         };
 
         viewportAndScissorState.scissorCount = 1;
         viewportAndScissorState.pScissors = &scissor;
+    }
+
+    void PipelineVulkan::SetTessellationState(uint32_t patchControlPoints) {
+        tessellationState = {};
+        tessellationState.sType = VK_STRUCTURE_TYPE_PIPELINE_TESSELLATION_STATE_CREATE_INFO;
+        tessellationState.flags = 0;
+        tessellationState.patchControlPoints = patchControlPoints;
+    }
+
+    void PipelineVulkan::SetPushConstantsRange(VkShaderStageFlags stageFlags, uint32_t size) {
+        VkPushConstantRange range = {};
+        range.stageFlags = stageFlags;
+        range.offset = 0;
+        range.size = size;
+        pushConstantRanges.push_back(range);
+    }
+
+    void PipelineVulkan::SetColorBlendAttachment(VkBlendFactor srcColorBlendFactor, VkBlendFactor dstColorBlendFactor,
+        VkBlendFactor srcAlphaBlendFactor, VkBlendFactor dstAlphaBlendFactor,
+        VkBlendOp colorBlendOp, VkBlendOp alphaBlendOp) {
+        colorBlendAttachmentStates.resize(colorBlendAttachments.size());
+
+        for(size_t i=0; i<colorBlendAttachments.size(); ++i) {
+            colorBlendAttachments[i].blendEnable = VK_FALSE;
+            colorBlendAttachments[i].srcColorBlendFactor = srcColorBlendFactor;
+            colorBlendAttachments[i].dstColorBlendFactor = dstColorBlendFactor;
+            colorBlendAttachments[i].colorBlendOp = colorBlendOp;
+            colorBlendAttachments[i].srcAlphaBlendFactor = srcAlphaBlendFactor;
+            colorBlendAttachments[i].dstAlphaBlendFactor = dstAlphaBlendFactor;
+            colorBlendAttachments[i].alphaBlendOp = alphaBlendOp;
+            colorBlendAttachments[i].colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+            colorBlendAttachmentStates[i] = colorBlendAttachments[i];
+        }
+
+        colorBlendState = {};
+        colorBlendState.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+        colorBlendState.logicOpEnable = VK_FALSE;
+        colorBlendState.attachmentCount = static_cast<uint32_t>(colorBlendAttachmentStates.size());
+        colorBlendState.pAttachments = colorBlendAttachmentStates.data();
+    }
+
+    void PipelineVulkan::SetColorBlendAttachment() {
+        colorBlendAttachmentStates.resize(colorBlendAttachments.size());
+
+        for(size_t i=0; i<colorBlendAttachments.size(); ++i) {
+            colorBlendAttachments[i].blendEnable = VK_FALSE;
+            colorBlendAttachmentStates[i] = colorBlendAttachments[i];
+        }
+
+        colorBlendState = {};
+        colorBlendState.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+        colorBlendState.logicOpEnable = VK_FALSE;
+        colorBlendState.attachmentCount = static_cast<uint32_t>(colorBlendAttachmentStates.size());
+        colorBlendState.pAttachments = colorBlendAttachmentStates.data();
+    }
+
+    void PipelineVulkan::AddColorBlendAttachment() {
+        VkPipelineColorBlendAttachmentState colorWriteMask = {};
+        colorWriteMask.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+        colorWriteMask.blendEnable = VK_FALSE;
+        colorBlendAttachments.push_back(colorWriteMask);
     }
 }}
