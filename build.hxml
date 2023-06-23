@@ -1,6 +1,8 @@
 -main RunScript
 -neko run.n
 
+-D lime-cffi
+
 -cp scripts
 -cp platforms
 

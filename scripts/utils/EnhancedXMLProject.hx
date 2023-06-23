@@ -1,6 +1,5 @@
 package utils;
 
-import lime.utils.AssetType;
 import hxp.*;
 import lime.tools.ProjectXMLParser;
 import lime.tools.Asset;
