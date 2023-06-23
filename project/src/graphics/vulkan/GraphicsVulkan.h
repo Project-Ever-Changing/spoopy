@@ -3,7 +3,6 @@
 #include "../../device/Instance.h"
 #include "../../device/LogicalDevice.h"
 #include "../../device/PhysicalDevice.h"
-#include "Stage.h"
 #include "ContextVulkan.h"
 
 #include <sdl_definitions_config.h>
@@ -36,8 +35,6 @@ namespace lime { namespace spoopy {
             std::unique_ptr<PhysicalDevice> physicalDevice;
             std::unique_ptr<LogicalDevice> logicalDevice;
             std::vector<std::unique_ptr<ContextVulkan>> contexts;
-
-            std::unique_ptr<Stage> drawStage;
 
             VkExtent2D displayExtent;
             VkPipelineCache pipelineCache;

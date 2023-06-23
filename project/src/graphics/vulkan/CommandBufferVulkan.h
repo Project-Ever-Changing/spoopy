@@ -28,6 +28,9 @@ namespace lime { namespace spoopy {
             VkQueueFlagBits GetQueueType() const { return _queueType; }
 
         private:
+            void BeginRenderPass(VkRenderPass renderPass, VkFramebuffer frameBuffer,
+                uint32_t width, uint32_t height, VkSubpassContents flags, std::vector<VkClearValue> clearValues);
+
             std::shared_ptr<CommandPoolVulkan> _commandPool;
 
             VkDevice _device = VK_NULL_HANDLE;

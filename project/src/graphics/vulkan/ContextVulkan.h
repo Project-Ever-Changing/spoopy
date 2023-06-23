@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CommandBufferVulkan.h"
+#include "ContextStage.h"
 
 #include <sdl_definitions_config.h>
 #include <core/Log.h>
@@ -52,5 +53,6 @@ namespace lime { namespace spoopy {
             std::unique_ptr<Surface> surface;
             std::unique_ptr<SwapchainVulkan> swapchain;
             std::unique_ptr<SurfaceBuffer> surfaceBuffer;
+            // std::unique_ptr<ContextStage> stage;
     };
 }}

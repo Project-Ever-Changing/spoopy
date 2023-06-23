@@ -95,17 +95,25 @@ namespace lime { namespace spoopy {
             clearValues[colorAttachmentCount].depthStencil = {1.0f, 0};
         }
 
+        BeginRenderPass(renderPass, frameBuffer, width, height, contentsFlag, clearValues);
+    }
+
+    void CommandBufferVulkan::BeginRenderPass(VkRenderPass renderPass, VkFramebuffer frameBuffer,
+        uint32_t width, uint32_t height, VkSubpassContents flags, std::vector<VkClearValue> clearValues) {
+        VkRect2D renderArea = {};
+        renderArea.offset = {0, 0};
+        renderArea.extent = {width, height};
+
         VkRenderPassBeginInfo renderPassBeginInfo = {};
         renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
         renderPassBeginInfo.pNext = nullptr;
         renderPassBeginInfo.renderPass = renderPass;
         renderPassBeginInfo.framebuffer = frameBuffer;
-        renderPassBeginInfo.renderArea.offset = {0, 0};
-        renderPassBeginInfo.renderArea.extent = {width, height};
-        renderPassBeginInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
+        renderPassBeginInfo.renderArea = renderArea;
         renderPassBeginInfo.pClearValues = clearValues.data();
+        renderPassBeginInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
 
-        vkCmdBeginRenderPass(_commandBuffer, &renderPassBeginInfo, contentsFlag);
+        vkCmdBeginRenderPass(_commandBuffer, &renderPassBeginInfo, flags);
     }
 
     void CommandBufferVulkan::EndRenderPass() {
