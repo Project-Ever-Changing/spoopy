@@ -9,15 +9,23 @@ import lime.app.IModule;
 import lime.app.Application;
 import lime.ui.Window;
 import lime.graphics.RenderContextAttributes;
+import lime.math.Matrix3;
 
 @:access(lime.ui.Window)
+@:access(spoopy.graphics.SpoopyWindowDisplay)
 class SpoopyGraphicsModule implements IModule {
     @:noCompletion private var __application:Application;
     @:noCompletion private var __backend:BackendGraphicsModule;
+    @:noCompletion private var __display:Map<Window, SpoopyWindowDisplay>;
     @:noCompletion private var __createFirstWindow:Bool = false;
 
     public function new() {
         __backend = new BackendGraphicsModule();
+        __display = new Map<Window, SpoopyWindowDisplay>();
+    }
+
+    public function getWindowDisplay(window:Window):SpoopyWindowDisplay {
+        return __display.get(window);
     }
 
     @:noCompletion private function __createRenderPass(attributes:RenderContextAttributes):Void {

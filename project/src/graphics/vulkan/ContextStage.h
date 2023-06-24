@@ -7,5 +7,8 @@ namespace lime { namespace spoopy {
             ~ContextStage();
 
             virtual void Update() = 0;
+
+        private:
+            RenderAreaVulkan renderArea;
     };
 }}

@@ -88,6 +88,10 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME1v(spoopy_create_renderpass);
 
+    void spoopy_create_context_stage(value context) {
+
+    }
+
 
     // Objects
 
