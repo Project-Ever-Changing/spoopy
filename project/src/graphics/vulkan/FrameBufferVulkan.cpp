@@ -1,14 +1,15 @@
 #include "FrameBufferVulkan.h"
 
 namespace lime { namespace spoopy {
-    FrameBufferVulkan::FrameBufferVulkan(VkDevice device, Vector2T_u32 size, uint32_t layers, VkImageView pAttachments, VkRenderPass renderPass)
+    FrameBufferVulkan::FrameBufferVulkan(VkDevice device, Vector2T_u32 extent, uint32_t layers, std::vector<VkImageView> pAttachments, VkRenderPass renderPass)
     : device(device) {
         VkFramebufferCreateInfo framebufferInfo = {};
         framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-        framebufferInfo.pAttachments = &pAttachments;
+        framebufferInfo.attachmentCount = static_cast<uint32_t>(pAttachments.size());
+        framebufferInfo.pAttachments = pAttachments.data();
         framebufferInfo.flags = 0;
-        framebufferInfo.width = size.x;
-        framebufferInfo.height = size.y;
+        framebufferInfo.width = extent.x;
+        framebufferInfo.height = extent.y;
         framebufferInfo.layers = layers;
         framebufferInfo.pNext = nullptr;
         framebufferInfo.renderPass = renderPass;

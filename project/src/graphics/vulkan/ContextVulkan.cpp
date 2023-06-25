@@ -2,6 +2,7 @@
 #include "../../device/PhysicalDevice.h"
 #include "../../device/LogicalDevice.h"
 #include "SwapchainVulkan.h"
+#include "ContextStage.h"
 #include "ContextVulkan.h"
 
 namespace lime { namespace spoopy {

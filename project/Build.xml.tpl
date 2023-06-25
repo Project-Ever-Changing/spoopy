@@ -95,6 +95,7 @@
 		<compilerflag value="-DNO_GLSLANG_INCLUDED" />
 
 		<section if="SPOOPY_VULKAN">
+		    <file name="src/graphics/vulkan/framebuffers/SCFrameBuffers.cpp" />
 		    <file name="src/graphics/vulkan/shaders/PipelineShader.cpp" />
 		    <file name="src/graphics/vulkan/shaders/Shader.cpp" />
 		    <file name="src/graphics/vulkan/images/Image2D.cpp" />
@@ -112,8 +113,6 @@
 			<file name="src/graphics/vulkan/BufferVulkan.cpp" />
 			<file name="src/graphics/vulkan/RenderPassVulkan.cpp" />
 			<file name="src/graphics/vulkan/FramebufferVulkan.cpp" />
-			<file name="src/graphics/vulkan/FramebufferObjVk.cpp" />
-			<file name="src/graphics/Viewport.cpp" />
 			<file name="src/helpers/SpoopyHelpersVulkan.cpp" />
 			<file name="src/helpers/VulkanAddons.cpp" />
 			<file name="src/device/Capabilities.cpp" />
@@ -125,6 +124,7 @@
 
         <file name="src/graphics/EmptyOpenGL.cpp" unless="LIME_OPENGL"/>
 
+        <file name="src/graphics/Viewport.cpp" />
 		<file name="src/shaders/CrossShader.cpp" />
 		<file name="src/helpers/SpoopyBytes.cpp" />
 	</files>

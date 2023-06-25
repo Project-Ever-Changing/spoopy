@@ -31,6 +31,8 @@ namespace lime { namespace spoopy {
             operator const VkRenderPass &() const { return renderpass; }
             const VkRenderPass &GetRenderpass() const { return renderpass; }
 
+            const bool HasDepthAttachment() const { return depthAttachmentCount > 0; }
+
         private:
             void AddAttachment(uint32_t format, VkSampleCountFlagBits samples,
                 VkImageLayout finalLayout, VkImageLayout initialLayout, bool hasStencil = false);

@@ -20,6 +20,7 @@ namespace lime { namespace spoopy {
 
             const VkExtent2D &GetExtent() const { return extent; }
             uint32_t GetImageCount() const { return imageCount; }
+            const VkImageView &GetImageView(uint32_t index) const { return imageViews[index]; }
             VkSurfaceTransformFlagsKHR GetPreTransform() const { return preTransform; }
             uint32_t GetActiveImageIndex() const { return activeImageIndex; }
 

@@ -1,7 +1,7 @@
 #pragma once
 
+#include "../../device/Surface.h"
 #include "CommandBufferVulkan.h"
-#include "ContextStage.h"
 
 #include <sdl_definitions_config.h>
 #include <core/Log.h>
@@ -10,10 +10,10 @@
 #include <vector>
 
 namespace lime { namespace spoopy {
-    class Surface;
     class SwapchainVulkan;
     class PhysicalDevice;
     class LogicalDevice;
+    class ContextStage;
 
     class ContextVulkan: public ContextBase {
         private:
@@ -42,6 +42,7 @@ namespace lime { namespace spoopy {
             void SetSurface(std::unique_ptr<Surface> surface);
             void SetVSYNC(uint8_t sync) { this->sync = sync; }
 
+            Surface* GetSurface() const { return surface.get(); }
             SurfaceBuffer* GetSurfaceBuffer() const { return surfaceBuffer.get(); }
             SwapchainVulkan* GetSwapchain() const { return swapchain.get(); }
 
