@@ -2,7 +2,13 @@ package spoopy.graphics;
 
 import lime.math.Rectangle;
 import lime.math.Matrix3;
+import lime.math.Vector2;
 import lime.ui.Window;
+
+/*
+* TODO: This class is a mess. It's a mess because I'm not sure how to handle DPI scaling.
+* I also have yet to implement viewport and scissor scaling, so this class is pretty much useless.
+*/
 
 class SpoopyWindowDisplay {
     public var displayWidth(default, null):Int = 0;
@@ -10,13 +16,12 @@ class SpoopyWindowDisplay {
 
     @:noCompletion private var __window:Window;
     @:noCompletion private var __displayMatrix:Matrix3;
-    @:noCompletion private var __scissorRect:Rectangle;
-    @:noCompletion private var __scissorOffsetX:Int = 0;
-    @:noCompletion private var __scissorOffsetY:Int = 0;
+    @:noCompletion private var __viewportRect:Rectangle;
 
     public function new(window:Window) {
         __window = window;
         __displayMatrix = new Matrix3();
+        __viewportRect = new Rectangle();
 
         var windowWidth = Std.int(__window.width * __window.scale);
 		var windowHeight = Std.int(__window.height * __window.scale);
@@ -36,8 +41,11 @@ class SpoopyWindowDisplay {
         __displayMatrix.scale(__window.scale, __window.scale);
         #end
 
-        __displayMatrix.setTo(0, 0, displayWidth, displayHeight);
-        __scissorRect = new Rectangle(0, 0, displayWidth, displayHeight);
-        __scissorRect.offset(__scissorOffsetX, __scissorOffsetY);
+        __viewportRect.setTo(
+            __displayMatrix.tx,
+            __displayMatrix.ty,
+            displayWidth * __displayMatrix.a + __displayMatrix.tx, // Matrix transformation X
+            displayHeight * __displayMatrix.d + __displayMatrix.ty // Matrix transformation Y
+        );
     }
 }

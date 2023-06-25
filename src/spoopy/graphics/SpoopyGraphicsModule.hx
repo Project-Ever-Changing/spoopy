@@ -24,10 +24,6 @@ class SpoopyGraphicsModule implements IModule {
         __display = new Map<Window, SpoopyWindowDisplay>();
     }
 
-    public function getWindowDisplay(window:Window):SpoopyWindowDisplay {
-        return __display.get(window);
-    }
-
     @:noCompletion private function __createRenderPass(attributes:RenderContextAttributes):Void {
         var renderPass = new SpoopyRenderPass();
         renderPass.__hasImageLayout = true;

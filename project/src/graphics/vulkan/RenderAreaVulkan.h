@@ -8,11 +8,11 @@ namespace lime { namespace spoopy {
             explicit RenderAreaVulkan(const Vector2T_u32 &extent = {}, const Vector2T_32 &offset = {}):
                 extent(extent), offset(offset) {};
 
-            bool operator==(const RenderArea &rhs) const {
+            bool operator==(const RenderAreaVulkan &rhs) const {
                 return extent == rhs.extent && offset == rhs.offset;
             }
 
-            bool operator!=(const RenderArea &rhs) const {
+            bool operator!=(const RenderAreaVulkan &rhs) const {
                 return !operator==(rhs);
             }
 
@@ -22,7 +22,7 @@ namespace lime { namespace spoopy {
             void SetExtent(const Vector2T_u32 &extent) { this->extent = extent; }
             void SetOffset(const Vector2T_32 &offset) { this->offset = offset; }
 
-            void UpdateAspectRatio() { aspectRatio = static_cast<float>(extent.x / extent.y) }
+            void UpdateAspectRatio() { aspectRatio = static_cast<float>(extent.x / extent.y); }
 
             float GetAspectRatio() const { return aspectRatio; }
 
