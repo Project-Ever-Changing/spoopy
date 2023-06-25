@@ -28,6 +28,18 @@ namespace lime { namespace spoopy {
         template<typename K> Vector2T<T> operator+(const Vector2T<K> &rhs) const {
             return Vector2T<T>(x + rhs.x, y + rhs.y);
         }
+
+        template<typename K> Vector2T<T> operator-(const Vector2T<K> &rhs) const {
+            return Vector2T<T>(x - rhs.x, y - rhs.y);
+        }
+
+        template<typename K> Vector2T<T> operator*(const Vector2T<K> &rhs) const {
+            return Vector2T<T>(x * rhs.x, y * rhs.y);
+        }
+
+        template<typename K> Vector2T<T> operator/(const Vector2T<K> &rhs) const {
+            return Vector2T<T>(x / rhs.x, y / rhs.y);
+        }
     };
 
     typedef Vector2T<int8_t> Vector2T_8;
