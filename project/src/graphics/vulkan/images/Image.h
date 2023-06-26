@@ -13,7 +13,7 @@
 namespace lime { namespace spoopy {
     class Image: public IDescriptor {
         public:
-            Image(LogicalDevice device, VkFilter filter, VkSamplerAddressMode addressMode, VkSampleCountFlagBits samples, VkImageLayout layout, VkImageUsageFlags usage,
+            Image(LogicalDevice &device, VkFilter filter, VkSamplerAddressMode addressMode, VkSampleCountFlagBits samples, VkImageLayout layout, VkImageUsageFlags usage,
             VkFormat format, uint32_t mipLevels, uint32_t arrayLayers, const VkExtent3D &extent);
 
             ~Image();
@@ -41,7 +41,7 @@ namespace lime { namespace spoopy {
             const VkSampler &GetSampler() const { return sampler; }
             const VkImageView &GetView() const { return view; }
 
-        static void CreateImage(PhysicalDevice physicalDevice, LogicalDevice device, VkImage &image, VkDeviceMemory &memory, const VkExtent3D &extent, VkFormat format, VkSampleCountFlagBits samples,
+        static void CreateImage(PhysicalDevice &physicalDevice, LogicalDevice &device, VkImage &image, VkDeviceMemory &memory, const VkExtent3D &extent, VkFormat format, VkSampleCountFlagBits samples,
             VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, uint32_t mipLevels, uint32_t arrayLayers, VkImageType type);
         static void CreateImageSampler(PhysicalDevice physicalDevice, LogicalDevice device, VkSampler &sampler, VkFilter filter, VkSamplerAddressMode addressMode, bool anisotropic, uint32_t mipLevels);
         static void CreateImageView(LogicalDevice device, const VkImage &image, VkImageView &imageView, VkImageViewType type, VkFormat format, VkImageAspectFlags imageAspect,

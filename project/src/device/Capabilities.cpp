@@ -4,7 +4,7 @@
 #include <memory>
 
 namespace lime { namespace spoopy {
-    uint32_t Capabilities::FindMemoryType(PhysicalDevice physicalDevice, uint32_t typeFilter, const VkMemoryPropertyFlags &requiredProperties) {
+    uint32_t Capabilities::FindMemoryType(PhysicalDevice &physicalDevice, uint32_t typeFilter, const VkMemoryPropertyFlags &requiredProperties) {
         auto memoryProperties = physicalDevice.GetMemoryProperties();
 
         for(uint32_t i = 0; i < memoryProperties.memoryTypeCount; i++) {
