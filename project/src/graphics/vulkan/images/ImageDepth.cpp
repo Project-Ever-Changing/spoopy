@@ -20,7 +20,6 @@ namespace lime { namespace spoopy {
         if(HasStencil(format)) {
             aspectMask |= VK_IMAGE_ASPECT_STENCIL_BIT;
         }
-         */
 
         CreateImage(physicalDevice, device, image, memory, this->extent, format, samples,
             VK_IMAGE_TILING_OPTIMAL, usage, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, 1, 1, VK_IMAGE_TYPE_2D);
