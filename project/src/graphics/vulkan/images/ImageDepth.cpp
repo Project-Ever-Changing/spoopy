@@ -6,11 +6,11 @@ namespace lime { namespace spoopy {
             VK_FORMAT_D16_UNORM
     };
 
-    ImageDepth::ImageDepth(PhysicalDevice physicalDevice, LogicalDevice device, const Vector2T_u32 &extent, VkSampleCountFlagBits samples):
+    ImageDepth::ImageDepth(PhysicalDevice physicalDevice, LogicalDevice device, const Vector2T_u32 &extent, VkSampleCountFlagBits samples)/*:
         Image(device, VK_FILTER_LINEAR, VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE, samples,
               VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
               FindSupportedFormat(physicalDevice, VULKAN_FORMATS, VK_IMAGE_TILING_OPTIMAL, VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT),
-              1, 1, {extent.x, extent.y, 1}) {
+              1, 1, {extent.x, extent.y, 1})*/ {
         /*
         if(format == VK_FORMAT_UNDEFINED) {
             throw std::runtime_error("Failed to find supported format for depth image!");
