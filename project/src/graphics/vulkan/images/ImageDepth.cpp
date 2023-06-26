@@ -11,6 +11,7 @@ namespace lime { namespace spoopy {
               VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
               FindSupportedFormat(physicalDevice, VULKAN_FORMATS, VK_IMAGE_TILING_OPTIMAL, VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT),
               1, 1, {extent.x, extent.y, 1}) {
+        /*
         if(format == VK_FORMAT_UNDEFINED) {
             throw std::runtime_error("Failed to find supported format for depth image!");
         }
@@ -26,5 +27,6 @@ namespace lime { namespace spoopy {
         CreateImageSampler(physicalDevice, device, sampler, filter, addressMode, false, 1);
         CreateImageView(device, image, view, VK_IMAGE_VIEW_TYPE_2D, format, VK_IMAGE_ASPECT_DEPTH_BIT, 1, 0, 1, 0);
         TransitionImageLayout(device, image, format, VK_IMAGE_LAYOUT_UNDEFINED, layout, aspectMask, 1, 0, 1, 0);
+         */
     }
 }}
