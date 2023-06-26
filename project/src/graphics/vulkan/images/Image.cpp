@@ -19,10 +19,12 @@ namespace lime { namespace spoopy {
     }
 
     Image::~Image() {
+        /*
         vkDestroyImageView(device, view, nullptr);
         vkDestroySampler(device, sampler, nullptr);
         vkDestroyImage(device, image, nullptr);
         vkFreeMemory(device, memory, nullptr);
+         */
     }
 
     Description Image::GetWriteDescriptor(uint32_t binding, VkDescriptorType descriptorType, Rectangle* rect) const {
