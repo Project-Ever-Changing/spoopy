@@ -44,7 +44,7 @@ namespace lime { namespace spoopy {
             depthImage = std::unique_ptr<ImageDepth>(new ImageDepth(*physicalDevice, *logicalDevice, renderArea.GetExtent(), samples));
         }
 
-        frameBuffers = std::unique_ptr<SCFrameBuffers>(new SCFrameBuffers(*logicalDevice, *swapchain, renderPass, depthImage.get(), renderArea.GetExtent()));
+        // frameBuffers = std::unique_ptr<SCFrameBuffers>(new SCFrameBuffers(*logicalDevice, *swapchain, renderPass, depthImage.get(), renderArea.GetExtent()));
         isDirty = false;
     }
 }}
