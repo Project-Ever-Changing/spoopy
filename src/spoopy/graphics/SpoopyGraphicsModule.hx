@@ -1,5 +1,6 @@
 package spoopy.graphics;
 
+import haxe.ds.ObjectMap;
 import spoopy.backend.native.SpoopyNativeCFFI;
 import spoopy.graphics.renderer.SpoopyRenderPass;
 import spoopy.graphics.SpoopyAccessFlagBits;
@@ -16,12 +17,12 @@ import lime.math.Matrix3;
 class SpoopyGraphicsModule implements IModule {
     @:noCompletion private var __application:Application;
     @:noCompletion private var __backend:BackendGraphicsModule;
-    @:noCompletion private var __display:Map<Window, SpoopyWindowDisplay>;
+    @:noCompletion private var __display:ObjectMap<Window, SpoopyWindowDisplay>;
     @:noCompletion private var __createFirstWindow:Bool = false;
 
     public function new() {
         __backend = new BackendGraphicsModule();
-        __display = new Map<Window, SpoopyWindowDisplay>();
+        __display = new ObjectMap<Window, SpoopyWindowDisplay>();
     }
 
     @:noCompletion private function __createRenderPass(attributes:RenderContextAttributes):Void {
