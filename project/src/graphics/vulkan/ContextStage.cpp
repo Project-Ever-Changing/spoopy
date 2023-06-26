@@ -40,16 +40,6 @@ namespace lime { namespace spoopy {
             ? physicalDevice->GetMaxUsableSampleCount()
             : VK_SAMPLE_COUNT_1_BIT;
 
-        if(physicalDevice == nullptr) {
-            SPOOPY_LOG_ERROR("Physical device is null! Something went wrong.")
-            return;
-        }
-
-        if(logicalDevice == nullptr) {
-            SPOOPY_LOG_ERROR("Logical device is null! Something went wrong.")
-            return;
-        }
-
         if(renderPass.HasDepthAttachment()) {
             depthImage = std::unique_ptr<ImageDepth>(new ImageDepth(*physicalDevice, *logicalDevice, renderArea.GetExtent(), samples));
         }

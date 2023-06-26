@@ -13,7 +13,7 @@
 namespace lime { namespace spoopy {
     class Image: public IDescriptor {
         public:
-            Image(LogicalDevice &device, VkFilter filter, VkSamplerAddressMode addressMode, VkSampleCountFlagBits samples, VkImageLayout layout, VkImageUsageFlags usage,
+            Image(const LogicalDevice &device, VkFilter filter, VkSamplerAddressMode addressMode, VkSampleCountFlagBits samples, VkImageLayout layout, VkImageUsageFlags usage,
             VkFormat format, uint32_t mipLevels, uint32_t arrayLayers, const VkExtent3D &extent);
 
             ~Image();
@@ -21,7 +21,7 @@ namespace lime { namespace spoopy {
             Description GetWriteDescriptor(uint32_t binding, VkDescriptorType descriptorType, Rectangle* rect) const;
 
             static VkDescriptorSetLayoutBinding GetDescriptorSetLayout(uint32_t binding, VkDescriptorType descriptorType, VkShaderStageFlags stage, uint32_t count);
-            static VkFormat FindSupportedFormat(PhysicalDevice physicalDevice, const std::vector<VkFormat> &candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
+            static VkFormat FindSupportedFormat(const PhysicalDevice &physicalDevice, const std::vector<VkFormat> &candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
             static uint32_t GetMipLevels(const VkExtent3D &extent);
 
             static bool HasDepth(VkFormat format);
@@ -41,16 +41,16 @@ namespace lime { namespace spoopy {
             const VkSampler &GetSampler() const { return sampler; }
             const VkImageView &GetView() const { return view; }
 
-        static void CreateImage(PhysicalDevice &physicalDevice, LogicalDevice &device, VkImage &image, VkDeviceMemory &memory, const VkExtent3D &extent, VkFormat format, VkSampleCountFlagBits samples,
+        static void CreateImage(const PhysicalDevice &physicalDevice, const LogicalDevice &device, VkImage &image, VkDeviceMemory &memory, const VkExtent3D &extent, VkFormat format, VkSampleCountFlagBits samples,
             VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, uint32_t mipLevels, uint32_t arrayLayers, VkImageType type);
-        static void CreateImageSampler(PhysicalDevice physicalDevice, LogicalDevice device, VkSampler &sampler, VkFilter filter, VkSamplerAddressMode addressMode, bool anisotropic, uint32_t mipLevels);
-        static void CreateImageView(LogicalDevice device, const VkImage &image, VkImageView &imageView, VkImageViewType type, VkFormat format, VkImageAspectFlags imageAspect,
+        static void CreateImageSampler(const PhysicalDevice &physicalDevice, const LogicalDevice &device, VkSampler &sampler, VkFilter filter, VkSamplerAddressMode addressMode, bool anisotropic, uint32_t mipLevels);
+        static void CreateImageView(const LogicalDevice &device, const VkImage &image, VkImageView &imageView, VkImageViewType type, VkFormat format, VkImageAspectFlags imageAspect,
             uint32_t mipLevels, uint32_t baseMipLevel, uint32_t layerCount, uint32_t baseArrayLayer);
-        static void TransitionImageLayout(LogicalDevice device, const VkImage &image, VkFormat format, VkImageLayout srcImageLayout, VkImageLayout dstImageLayout,
+        static void TransitionImageLayout(const LogicalDevice &device, const VkImage &image, VkFormat format, VkImageLayout srcImageLayout, VkImageLayout dstImageLayout,
             VkImageAspectFlags imageAspect, uint32_t mipLevels, uint32_t baseMipLevel, uint32_t layerCount, uint32_t baseArrayLayer);
-        static void CreateMipmaps(PhysicalDevice physicalDevice, LogicalDevice device, const VkImage &image, const VkExtent3D &extent, VkFormat format, VkImageLayout dstImageLayout,
+        static void CreateMipmaps(const PhysicalDevice &physicalDevice, const LogicalDevice &device, const VkImage &image, const VkExtent3D &extent, VkFormat format, VkImageLayout dstImageLayout,
             uint32_t mipLevels, uint32_t baseArrayLayer, uint32_t layerCount);
-        static void CopyBufferToImage(LogicalDevice device, const VkBuffer &buffer, const VkImage &image, const VkExtent3D &extent, uint32_t mipLevels, uint32_t baseArrayLayer, uint32_t layerCount);
+        static void CopyBufferToImage(const LogicalDevice &device, const VkBuffer &buffer, const VkImage &image, const VkExtent3D &extent, uint32_t mipLevels, uint32_t baseArrayLayer, uint32_t layerCount);
 
         protected:
             LogicalDevice device;

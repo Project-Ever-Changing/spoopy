@@ -4,7 +4,7 @@
 #include <assert.h>
 
 namespace lime { namespace spoopy {
-    Image::Image(LogicalDevice &device, VkFilter filter, VkSamplerAddressMode addressMode, VkSampleCountFlagBits samples, VkImageLayout layout, VkImageUsageFlags usage, VkFormat format, uint32_t mipLevels,
+    Image::Image(const LogicalDevice &device, VkFilter filter, VkSamplerAddressMode addressMode, VkSampleCountFlagBits samples, VkImageLayout layout, VkImageUsageFlags usage, VkFormat format, uint32_t mipLevels,
         uint32_t arrayLayers, const VkExtent3D &extent):
         device(device),
         filter(filter),
@@ -52,7 +52,7 @@ namespace lime { namespace spoopy {
         return descriptorSetLayoutBinding;
     }
 
-    VkFormat Image::FindSupportedFormat(PhysicalDevice physicalDevice, const std::vector<VkFormat> &candidates, VkImageTiling tiling, VkFormatFeatureFlags features) {
+    VkFormat Image::FindSupportedFormat(const PhysicalDevice &physicalDevice, const std::vector<VkFormat> &candidates, VkImageTiling tiling, VkFormatFeatureFlags features) {
         for(VkFormat format: candidates) {
             VkFormatProperties properties;
             vkGetPhysicalDeviceFormatProperties(physicalDevice, format, &properties);
@@ -85,7 +85,7 @@ namespace lime { namespace spoopy {
         return std::find(STENCIL_FORMATS.begin(), STENCIL_FORMATS.end(), format) != std::end(STENCIL_FORMATS);
     }
 
-    void Image::CreateImage(PhysicalDevice &physicalDevice, LogicalDevice &device, VkImage &image, VkDeviceMemory &memory, const VkExtent3D &extent, VkFormat format, VkSampleCountFlagBits samples,
+    void Image::CreateImage(const PhysicalDevice &physicalDevice, const LogicalDevice &device, VkImage &image, VkDeviceMemory &memory, const VkExtent3D &extent, VkFormat format, VkSampleCountFlagBits samples,
         VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, uint32_t mipLevels, uint32_t arrayLayers, VkImageType type) {
         VkImageCreateInfo imageInfo = {};
         imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
@@ -113,7 +113,7 @@ namespace lime { namespace spoopy {
         checkVulkan(vkBindImageMemory(device, image, memory, 0));
     }
 
-    void Image::CreateImageSampler(PhysicalDevice physicalDevice, LogicalDevice device, VkSampler &sampler, VkFilter filter, VkSamplerAddressMode addressMode, bool anisotropic, uint32_t mipLevels) {
+    void Image::CreateImageSampler(const PhysicalDevice &physicalDevice, const LogicalDevice &device, VkSampler &sampler, VkFilter filter, VkSamplerAddressMode addressMode, bool anisotropic, uint32_t mipLevels) {
         VkSamplerCreateInfo samplerInfo = {};
         samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
         samplerInfo.magFilter = filter;
@@ -140,7 +140,7 @@ namespace lime { namespace spoopy {
         checkVulkan(vkCreateSampler(device, &samplerInfo, nullptr, &sampler));
     }
 
-    void Image::CreateImageView(LogicalDevice device, const VkImage &image, VkImageView &imageView, VkImageViewType type, VkFormat format, VkImageAspectFlags imageAspect,
+    void Image::CreateImageView(const LogicalDevice &device, const VkImage &image, VkImageView &imageView, VkImageViewType type, VkFormat format, VkImageAspectFlags imageAspect,
         uint32_t mipLevels, uint32_t baseMipLevel, uint32_t layerCount, uint32_t baseArrayLayer) {
         VkImageViewCreateInfo imageViewInfo = {};
         imageViewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
@@ -156,7 +156,7 @@ namespace lime { namespace spoopy {
         checkVulkan(vkCreateImageView(device, &imageViewInfo, nullptr, &imageView));
     }
 
-    void Image::TransitionImageLayout(LogicalDevice device, const VkImage &image, VkFormat format, VkImageLayout srcImageLayout, VkImageLayout dstImageLayout,
+    void Image::TransitionImageLayout(const LogicalDevice &device, const VkImage &image, VkFormat format, VkImageLayout srcImageLayout, VkImageLayout dstImageLayout,
         VkImageAspectFlags imageAspect, uint32_t mipLevels, uint32_t baseMipLevel, uint32_t layerCount, uint32_t baseArrayLayer) {
         CommandBufferVulkan commandBuffer;
 
@@ -227,7 +227,7 @@ namespace lime { namespace spoopy {
         commandBuffer.SubmitIdle(device.GetQueue(commandBuffer.GetQueueType()));
     }
 
-    void Image::CreateMipmaps(PhysicalDevice physicalDevice, LogicalDevice device, const VkImage &image, const VkExtent3D &extent, VkFormat format, VkImageLayout dstImageLayout, uint32_t mipLevels,
+    void Image::CreateMipmaps(const PhysicalDevice &physicalDevice, const LogicalDevice &device, const VkImage &image, const VkExtent3D &extent, VkFormat format, VkImageLayout dstImageLayout, uint32_t mipLevels,
         uint32_t baseArrayLayer, uint32_t layerCount) {
         VkFormatProperties formatProperties;
         vkGetPhysicalDeviceFormatProperties(physicalDevice, format, &formatProperties);
@@ -303,7 +303,7 @@ namespace lime { namespace spoopy {
         commandBuffer.SubmitIdle(device.GetQueue(commandBuffer.GetQueueType()));
     }
 
-    void Image::CopyBufferToImage(LogicalDevice device, const VkBuffer &buffer, const VkImage &image, const VkExtent3D &extent, uint32_t mipLevels, uint32_t baseArrayLayer, uint32_t layerCount) {
+    void Image::CopyBufferToImage(const LogicalDevice &device, const VkBuffer &buffer, const VkImage &image, const VkExtent3D &extent, uint32_t mipLevels, uint32_t baseArrayLayer, uint32_t layerCount) {
         CommandBufferVulkan commandBuffer;
 
         VkBufferImageCopy region = {};
