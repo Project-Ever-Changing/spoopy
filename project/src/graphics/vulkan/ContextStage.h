@@ -10,7 +10,7 @@
 namespace lime { namespace spoopy {
     class ImageDepth;
     class RenderPassVulkan;
-    class FrameBufferVulkan;
+    class SCFrameBuffers;
     class ContextVulkan;
 
     class ContextStage {
@@ -28,6 +28,7 @@ namespace lime { namespace spoopy {
             const ContextVulkan& context;
 
             std::unique_ptr<ImageDepth> depthImage;
+            std::unique_ptr<SCFrameBuffers> frameBuffers;
 
             bool isDirty = false;
     };

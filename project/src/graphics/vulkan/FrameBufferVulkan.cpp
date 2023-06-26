@@ -1,7 +1,7 @@
 #include "FrameBufferVulkan.h"
 
 namespace lime { namespace spoopy {
-    FrameBufferVulkan::FrameBufferVulkan(VkDevice device, Vector2T_u32 extent, uint32_t layers, std::vector<VkImageView> pAttachments, VkRenderPass renderPass)
+    FrameBufferVulkan::FrameBufferVulkan(const VkDevice &device, const Vector2T_u32 &extent, uint32_t layers, std::vector<VkImageView> pAttachments, const VkRenderPass &renderPass)
     : device(device) {
         VkFramebufferCreateInfo framebufferInfo = {};
         framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;

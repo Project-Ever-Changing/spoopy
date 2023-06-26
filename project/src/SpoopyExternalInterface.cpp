@@ -1,13 +1,16 @@
 #include <system/CFFI.h>
 #include <system/CFFIPointer.h>
+#include <SDLWindow.h>
 //#include <shaders/CrossShader.h>
 
 #ifdef SPOOPY_VULKAN
 #include "graphics/vulkan/GraphicsVulkan.h"
 #include "graphics/vulkan/RenderPassVulkan.h"
+#include "graphics/vulkan/ContextVulkan.h"
 
 typedef lime::spoopy::GraphicsVulkan GraphicsModule;
 typedef lime::spoopy::RenderPassVulkan RenderPass;
+typedef lime::spoopy::ContextVulkan Context;
 #endif
 
 namespace lime { namespace spoopy {
@@ -88,9 +91,19 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME1v(spoopy_create_renderpass);
 
-    void spoopy_create_context_stage(value context) {
+    void spoopy_create_context_stage(value window_handle, value viewport) {
+        Window* window = (Window*)val_data(window_handle);
+        SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
+        Context* context = static_cast<Context*>(sdlWindow->context);
 
+        if(context == nullptr) {
+            SPOOPY_LOG_ERROR("Window has no context!");
+            return;
+        }
+
+        context->stage = std::unique_ptr<ContextStage>(new ContextStage(*context, Viewport(viewport)));
     }
+    DEFINE_PRIME2v(spoopy_create_context_stage);
 
 
     // Objects

@@ -9,6 +9,8 @@
 #include <vector>
 
 namespace lime { namespace spoopy {
+    class RenderPassVulkan;
+
     class GraphicsVulkan {
         public:
             friend class GraphicsHandler;
@@ -16,6 +18,7 @@ namespace lime { namespace spoopy {
             GraphicsVulkan(SDL_Window* m_window);
             ~GraphicsVulkan();
 
+            void Reset(const RenderPassVulkan &renderPass);
             void Update();
 
             static GraphicsVulkan *GetCurrent() { return Main; }
@@ -26,7 +29,6 @@ namespace lime { namespace spoopy {
             const VkPipelineCache &GetPipelineCache() const { return pipelineCache; }
 
         private:
-            void Reset();
             void RecreateSwapchains();
 
             static GraphicsVulkan* Main;
@@ -38,5 +40,7 @@ namespace lime { namespace spoopy {
 
             VkExtent2D displayExtent;
             VkPipelineCache pipelineCache;
+
+            bool startRender = false;
     };
 }}

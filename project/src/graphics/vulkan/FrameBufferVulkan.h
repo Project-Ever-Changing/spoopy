@@ -14,8 +14,8 @@
 namespace lime { namespace spoopy {
     class FrameBufferVulkan {
         public:
-            explicit FrameBufferVulkan(VkDevice device, Vector2T_u32 extent, uint32_t layers, std::vector<VkImageView> pAttachments,
-                VkRenderPass renderPass);
+            explicit FrameBufferVulkan(const VkDevice &device, const Vector2T_u32 &extent, uint32_t layers, std::vector<VkImageView> pAttachments,
+                const VkRenderPass &renderPass);
             ~FrameBufferVulkan();
 
             operator const VkFramebuffer &() const { return framebuffer; }

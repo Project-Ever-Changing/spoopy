@@ -1,3 +1,4 @@
+#include "RenderPassVulkan.h"
 #include "ContextVulkan.h"
 #include "GraphicsVulkan.h"
 
@@ -21,7 +22,7 @@ namespace lime { namespace spoopy {
         displayExtent = {static_cast<uint32_t>(width), static_cast<uint32_t>(height)};
     }
 
-    void GraphicsVulkan::Reset() {
+    void GraphicsVulkan::Reset(const RenderPassVulkan &renderPass) {
         RecreateSwapchains();
 
         for(auto &context: contexts) {
@@ -30,6 +31,8 @@ namespace lime { namespace spoopy {
             if(perSurfaceBuffer->flightFences.size() != context->GetImageCount()) {
                 context->RecreateCommandBuffers(*logicalDevice);
             }
+
+            context->stage->Build(renderPass);
         }
     }
 

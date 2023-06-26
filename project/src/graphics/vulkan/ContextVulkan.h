@@ -2,6 +2,7 @@
 
 #include "../../device/Surface.h"
 #include "CommandBufferVulkan.h"
+#include "ContextStage.h"
 
 #include <sdl_definitions_config.h>
 #include <core/Log.h>
@@ -13,7 +14,6 @@ namespace lime { namespace spoopy {
     class SwapchainVulkan;
     class PhysicalDevice;
     class LogicalDevice;
-    class ContextStage;
 
     class ContextVulkan: public ContextBase {
         private:
@@ -48,12 +48,13 @@ namespace lime { namespace spoopy {
 
             void DestroySwapchain();
 
+            std::unique_ptr<ContextStage> stage;
+
         private:
             uint8_t sync = 0;
 
             std::unique_ptr<Surface> surface;
             std::unique_ptr<SwapchainVulkan> swapchain;
             std::unique_ptr<SurfaceBuffer> surfaceBuffer;
-            // std::unique_ptr<ContextStage> stage;
     };
 }}

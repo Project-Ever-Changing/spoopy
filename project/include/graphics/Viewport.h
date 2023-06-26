@@ -5,7 +5,10 @@
 
 namespace lime { namespace spoopy {
     struct Viewport {
+        Viewport(value rect);
         Viewport(const Rectangle &rect);
+
+        void SetTo(const Rectangle &rect);
 
         Vector2T_u32 extent;
         Vector2T_32 offset;

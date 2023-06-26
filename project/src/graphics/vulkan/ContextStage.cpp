@@ -1,3 +1,4 @@
+#include "framebuffers/SCFrameBuffers.h"
 #include "images/ImageDepth.h"
 #include "GraphicsVulkan.h"
 #include "RenderPassVulkan.h"
@@ -33,6 +34,7 @@ namespace lime { namespace spoopy {
         auto physicalDevice = GraphicsVulkan::GetCurrent()->GetPhysicalDevice();
         auto logicalDevice = GraphicsVulkan::GetCurrent()->GetLogicalDevice();
         auto surface = context.GetSurface();
+        auto swapchain = context.GetSwapchain();
 
         VkSampleCountFlagBits samples = GraphicsVulkan::GetCurrent()->MultisamplingEnabled
             ? physicalDevice->GetMaxUsableSampleCount()
@@ -42,6 +44,7 @@ namespace lime { namespace spoopy {
             depthImage = std::unique_ptr<ImageDepth>(new ImageDepth(*physicalDevice, *logicalDevice, renderArea.GetExtent(), samples));
         }
 
-
+        frameBuffers = std::unique_ptr<SCFrameBuffers>(new SCFrameBuffers(*logicalDevice, *swapchain, renderPass, depthImage.get(), renderArea.GetExtent()));
+        isDirty = false;
     }
 }}
