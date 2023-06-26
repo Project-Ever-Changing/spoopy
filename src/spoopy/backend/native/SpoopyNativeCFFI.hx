@@ -25,7 +25,9 @@ class SpoopyNativeCFFI {
     public static var spoopy_add_depth_attachment = new cpp.Callable<cpp.Object->Int->Int->Bool->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_add_depth_attachment", "oiibv", false));
     public static var spoopy_create_subpass = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_create_subpass", "ov", false));
     public static var spoopy_create_renderpass = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_create_renderpass", "ov", false));
+    public static var spoopy_check_context = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_check_context", "ov", false));
     public static var spoopy_create_context_stage = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_create_context_stage", "oov", false));
+    public static var spoopy_build_context_stage = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_build_context_stage", "oov", false));
     #elseif (neko || cppia)
     public static var spoopy_check_graphics_module = CFFI.load("lime", "spoopy_check_graphics_module", 0);
     public static var spoopy_update_graphics_module = CFFI.load("lime", "spoopy_update_graphics_module", 0);
@@ -35,7 +37,9 @@ class SpoopyNativeCFFI {
     public static var spoopy_add_depth_attachment = CFFI.load("lime", "spoopy_add_depth_attachment", 4);
     public static var spoopy_create_subpass = CFFI.load("lime", "spoopy_create_subpass", 1);
     public static var spoopy_create_renderpass = CFFI.load("lime", "spoopy_create_renderpass", 1);
+    public static var spoopy_check_context = CFFI.load("lime", "spoopy_check_context", 1);
     public static var spoopy_create_context_stage = CFFI.load("lime", "spoopy_create_context_stage", 2);
+    public static var spoopy_build_context_stage = CFFI.load("lime", "spoopy_build_context_stage", 2);
     #else
     public static function spoopy_check_graphics_module():Void {
         return;
@@ -69,7 +73,15 @@ class SpoopyNativeCFFI {
         return;
     }
 
+    public static function spoopy_check_context(context:Dynamic):Void {
+        return;
+    }
+
     public static function spoopy_create_context_stage(context:Dynamic, viewport:Dynamic):Void {
+        return;
+    }
+
+    public static function spoopy_build_context_stage(context:Dynamic, renderPass:Dynamic):Void {
         return;
     }
     #end

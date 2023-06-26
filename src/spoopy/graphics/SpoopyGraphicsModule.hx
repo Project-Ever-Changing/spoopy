@@ -25,7 +25,7 @@ class SpoopyGraphicsModule implements IModule {
         __display = new ObjectMap<Window, SpoopyWindowDisplay>();
     }
 
-    @:noCompletion private function __createRenderPass(attributes:RenderContextAttributes):Void {
+    @:noCompletion private function __createRenderPass(window:Window, attributes:RenderContextAttributes):Void {
         var renderPass = new SpoopyRenderPass();
         renderPass.__hasImageLayout = true;
         renderPass.addColorAttachment(SpoopyRenderPass.getFormatFromColorDepth(attributes.colorDepth));
@@ -47,6 +47,8 @@ class SpoopyGraphicsModule implements IModule {
         renderPass.processAttachments();
         renderPass.createSubpass();
         renderPass.createRenderpass();
+
+        __backend.buildRenderPass(window, renderPass);
     }
 
     @:noCompletion private function __onCreateWindow(window:Window):Void {
@@ -61,10 +63,14 @@ class SpoopyGraphicsModule implements IModule {
             __createFirstWindow = true;
         }
 
-        __createRenderPass(window.__attributes.context);
+        #if spoopy_debug
+        __backend.checkContext(window);
+        #end
 
         __display.set(window, new SpoopyWindowDisplay(window));
         __backend.createContextStage(window, __display.get(window).__viewportRect);
+
+        __createRenderPass(window, window.__attributes.context);
     }
 
     @:noCompletion private function __onUpdate(deltaTime:Int):Void {

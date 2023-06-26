@@ -91,19 +91,36 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME1v(spoopy_create_renderpass);
 
-    void spoopy_create_context_stage(value window_handle, value viewport) {
+    void spoopy_check_context(value window_handle) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
         Context* context = static_cast<Context*>(sdlWindow->context);
 
-        if(context == nullptr) {
-            SPOOPY_LOG_ERROR("Window has no context!");
+        if(context != nullptr) {
+            SPOOPY_LOG_SUCCESS("Window has a context!");
             return;
         }
 
+        SPOOPY_LOG_ERROR("Window has no context!");
+    }
+    DEFINE_PRIME1v(spoopy_check_context);
+
+    void spoopy_create_context_stage(value window_handle, value viewport) {
+        Window* window = (Window*)val_data(window_handle);
+        SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
+        Context* context = static_cast<Context*>(sdlWindow->context);
         context->stage = std::unique_ptr<ContextStage>(new ContextStage(*context, Viewport(viewport)));
     }
     DEFINE_PRIME2v(spoopy_create_context_stage);
+
+    void spoopy_build_context_stage(value window_handle, value renderpass_handle) {
+        Window* window = (Window*)val_data(window_handle);
+        SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
+        Context* context = static_cast<Context*>(sdlWindow->context);
+        RenderPass* renderPass = (RenderPass*)val_data(renderpass_handle);
+        context->stage->Build(*renderPass);
+    }
+    DEFINE_PRIME2v(spoopy_build_context_stage);
 
 
     // Objects
