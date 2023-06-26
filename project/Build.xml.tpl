@@ -125,7 +125,6 @@
         <file name="src/graphics/EmptyOpenGL.cpp" unless="LIME_OPENGL"/>
 
         <file name="src/graphics/Viewport.cpp" />
-		<file name="src/shaders/CrossShader.cpp" />
 		<file name="src/helpers/SpoopyBytes.cpp" />
 	</files>
 
