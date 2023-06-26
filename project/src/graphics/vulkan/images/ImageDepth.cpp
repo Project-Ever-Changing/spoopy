@@ -11,6 +11,7 @@ namespace lime { namespace spoopy {
               VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
               FindSupportedFormat(physicalDevice, VULKAN_FORMATS, VK_IMAGE_TILING_OPTIMAL, VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT),
               1, 1, {extent.x, extent.y, 1}) {
+        /*
         if(format == VK_FORMAT_UNDEFINED) {
             throw std::runtime_error("Failed to find supported format for depth image!");
         }
@@ -20,6 +21,7 @@ namespace lime { namespace spoopy {
         if(HasStencil(format)) {
             aspectMask |= VK_IMAGE_ASPECT_STENCIL_BIT;
         }
+         */
 
         //CreateImage(physicalDevice, device, image, memory, this->extent, format, samples,
         //    VK_IMAGE_TILING_OPTIMAL, usage, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, 1, 1, VK_IMAGE_TYPE_2D);
