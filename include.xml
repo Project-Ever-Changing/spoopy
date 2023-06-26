@@ -4,17 +4,17 @@
 	
 	<source path="src-openfl" unless="openfl" />
 
-	<undefined name="lime-opengl" unless="spoopy_vulkan" />
+	<undefined name="lime-opengl" if="spoopy_vulkan" />
 
     <set name="spoopy" />
 	<set name="expect-lime-version" value="7.7.0" />
 	<set name="expect-lime-version" value="${lime-version}" if="lime-version" />
+	<set name="spoopy_dpi_aware" if="openfl_dpi_aware" optional="true" />
 	<set name="native" if="cpp || neko" />
 
 	<haxedef name="native" if="cpp || neko" />
 
 	<haxelib name="lime" unless="create" />
-	<haxelib name="hscript" unless="create || coverage2" optional="true" />
 
 	<log warn="Spoopy Engine expects Haxe 4.0.0 or greater, but version ${haxe} is being used!" if="${${haxe} < 4.0.0}" unless="display" />
 
