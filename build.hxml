@@ -1,6 +1,7 @@
 -main RunScript
 -neko run.n
 
+-D lime
 -D disable-cffi
 
 -cp scripts
