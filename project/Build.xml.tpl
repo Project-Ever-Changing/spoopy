@@ -10,7 +10,6 @@
 
 	<set name="SPOOPY_HASHLINK" value="1" if="hashlink" />
 	<set name="SPOOPY_SDL" value="1" />
-	<set name="SPOOPY_SPIRV_CROSS" value="1" />
 	<set name="SPOOPY_ROCKET" value="1" />
 	<set name="SPOOPY_SDL_SUPPORT_RENDERER" value="1" />
 	<set name="SPOOPY_SDL_ANGLE" value="1" if="windows SPOOPY_SDL_ANGLE" unless="static_link" />
@@ -32,6 +31,7 @@
 	<set name="LIME_METAL" value="1" if="SPOOPY_METAL" />
 	<set name="LIME_ENABLE_GL_CONTEXT" value="1" unless="SPOOPY_METAL || SPOOPY_VULKAN" />
 	<set name="LIME_OPENGL" value="1" unless="SPOOPY_METAL || SPOOPY_VULKAN" />
+	<set name="SPOOPY_SPIRV_CROSS" value="1" unless="SPOOPY_OPENGL || SPOOPY_VULKAN" />
 
 	<section if="mac">
 		<setenv name="MACOSX_DEPLOYMENT_TARGET" value="10.9" if="HXCPP_CPP11 || HXCPP_CPP14" />
