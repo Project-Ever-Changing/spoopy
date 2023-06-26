@@ -46,8 +46,6 @@ class SpoopyGraphicsModule implements IModule {
         renderPass.processAttachments();
         renderPass.createSubpass();
         renderPass.createRenderpass();
-
-        __backend.createContextStage(window, __display.get(window).__viewportRect);
     }
 
     @:noCompletion private function __onCreateWindow(window:Window):Void {
@@ -63,6 +61,8 @@ class SpoopyGraphicsModule implements IModule {
         }
 
         __createRenderPass(window.__attributes.context);
+
+        __backend.createContextStage(window, __display.get(window).__viewportRect);
     }
 
     @:noCompletion private function __onUpdate(deltaTime:Int):Void {
