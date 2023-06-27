@@ -1,3 +1,4 @@
+#include "../graphics/vulkan/CommandPoolVulkan.h"
 #include "LogicalDevice.h"
 #include "PhysicalDevice.h"
 #include "Instance.h"
@@ -158,6 +159,8 @@ namespace lime { namespace spoopy {
         vkGetDeviceQueue(logicalDevice, presentFamily, 0, &presentQueue);
         vkGetDeviceQueue(logicalDevice, computeFamily, 0, &computeQueue);
         vkGetDeviceQueue(logicalDevice, transferFamily, 0, &transferQueue);
+
+        graphicsCommandPools.emplace(std::this_thread::get_id(), std::make_shared<CommandPoolVulkan>(*this, graphicsFamily));
     }
 
     VkQueue LogicalDevice::GetQueue(const VkQueueFlagBits queueFamilyIndex) const {
@@ -171,6 +174,14 @@ namespace lime { namespace spoopy {
             default:
                 SPOOPY_LOG_ERROR("Invalid queue family index!");
                 return VK_NULL_HANDLE;
+        }
+    }
+
+    const std::shared_ptr<CommandPoolVulkan> &LogicalDevice::GetGraphicsCommandPool(const std::thread::id &threadId) {
+        try {
+            return graphicsCommandPools.at(threadId);
+        }catch(const std::out_of_range& e) {
+            throw std::runtime_error("No graphics command pool for thread!");
         }
     }
 }}

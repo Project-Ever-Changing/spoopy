@@ -9,7 +9,8 @@ namespace lime { namespace spoopy {
         _device(*GraphicsVulkan::GetCurrent()->GetLogicalDevice()),
         _queueType(queueType),
         _usageFlags(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT),
-        _sType(VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO) {
+        _sType(VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO),
+        _commandPool(GraphicsVulkan::GetCurrent()->GetGraphicsCommandPool()) {
 
         VkCommandBufferAllocateInfo commandBufferAllocateInfo = {};
         commandBufferAllocateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;

@@ -28,6 +28,8 @@ namespace lime { namespace spoopy {
             const LogicalDevice *GetLogicalDevice() const { return logicalDevice.get(); }
             const VkPipelineCache &GetPipelineCache() const { return pipelineCache; }
 
+        const std::shared_ptr<CommandPoolVulkan> &GetGraphicsCommandPool() { return logicalDevice->GetGraphicsCommandPool(); }
+
         private:
             void RecreateSwapchains();
 

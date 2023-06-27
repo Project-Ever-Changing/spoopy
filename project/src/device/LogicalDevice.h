@@ -2,10 +2,13 @@
 
 #include <spoopy.h>
 
+#include <thread>
 #include <memory>
+#include <map>
 #include <vector>
 
 namespace lime { namespace spoopy {
+    class CommandPoolVulkan;
     class PhysicalDevice;
     class Instance;
 
@@ -29,6 +32,8 @@ namespace lime { namespace spoopy {
             uint32_t GetComputeFamily() const { return computeFamily; }
             uint32_t GetTransferFamily() const { return transferFamily; }
 
+            const std::shared_ptr<CommandPoolVulkan> &GetGraphicsCommandPool(const std::thread::id &threadId = std::this_thread::get_id());
+
             static const std::vector<const char *> Extensions;
 
         private:
@@ -51,5 +56,7 @@ namespace lime { namespace spoopy {
             VkQueue presentQueue = VK_NULL_HANDLE;
             VkQueue computeQueue = VK_NULL_HANDLE;
             VkQueue transferQueue = VK_NULL_HANDLE;
+
+            std::map<std::thread::id, std::shared_ptr<CommandPoolVulkan>> graphicsCommandPools;
     };
 }}
