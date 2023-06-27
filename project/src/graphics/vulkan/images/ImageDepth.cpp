@@ -23,7 +23,7 @@ namespace lime { namespace spoopy {
 
         CreateImage(physicalDevice, device, image, memory, this->extent, format, samples,
             VK_IMAGE_TILING_OPTIMAL, usage, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, 1, 1, VK_IMAGE_TYPE_2D);
-        //CreateImageSampler(physicalDevice, device, sampler, filter, addressMode, false, 1);
+        CreateImageSampler(physicalDevice, device, sampler, filter, addressMode, false, 1);
         //CreateImageView(device, image, view, VK_IMAGE_VIEW_TYPE_2D, format, VK_IMAGE_ASPECT_DEPTH_BIT, 1, 0, 1, 0);
         //TransitionImageLayout(device, image, format, VK_IMAGE_LAYOUT_UNDEFINED, layout, aspectMask, 1, 0, 1, 0);
     }
