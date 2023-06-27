@@ -44,14 +44,14 @@ namespace lime { namespace spoopy {
             return 1;
         }
 
-        /*
+        SPOOPY_LOG_INFO("Testing if this is looped.");
+
         context->CreateSurface(
             *GraphicsVulkan::Main->instance,
             *GraphicsVulkan::Main->physicalDevice,
             *GraphicsVulkan::Main->logicalDevice,
             m_window
         );
-         */
 
         return 0;
     }
