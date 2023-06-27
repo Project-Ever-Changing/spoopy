@@ -2,7 +2,7 @@
 #include "images/ImageDepth.h"
 #include "GraphicsVulkan.h"
 #include "RenderPassVulkan.h"
-#include "ContextVulkan.h"
+#include "../../../include/graphics/Context.h"
 #include "ContextStage.h"
 
 namespace lime { namespace spoopy {

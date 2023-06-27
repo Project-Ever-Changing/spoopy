@@ -1,21 +1,25 @@
 #pragma once
 
-#include "../../device/Surface.h"
-#include "CommandBufferVulkan.h"
-#include "ContextStage.h"
+#ifdef LIME_VULKAN
+#include <spoopy.h>
+#endif
 
-#include <sdl_definitions_config.h>
 #include <core/Log.h>
 
 #include <memory>
 #include <vector>
 
 namespace lime { namespace spoopy {
+    #ifdef LIME_VULKAN
+
     class SwapchainVulkan;
     class PhysicalDevice;
     class LogicalDevice;
+    class CommandBufferVulkan;
+    class ContextStage;
+    class Surface;
 
-    class ContextVulkan: public ContextBase {
+    class ContextVulkan {
         private:
             struct SurfaceBuffer {
                 std::vector<VkSemaphore> presentCompletes;
@@ -57,4 +61,6 @@ namespace lime { namespace spoopy {
             std::unique_ptr<SwapchainVulkan> swapchain;
             std::unique_ptr<SurfaceBuffer> surfaceBuffer;
     };
+
+    #endif
 }}

@@ -1,4 +1,4 @@
-#include "ContextVulkan.h"
+#include "../../../include/graphics/Context.h"
 #include "../../device/Surface.h"
 #include "SwapchainVulkan.h"
 #include "GraphicsVulkan.h"
@@ -6,19 +6,19 @@
 #include <sdl_definitions_config.h>
 
 namespace lime { namespace spoopy {
-    ContextBase* GraphicsHandler::CreateContext(SDL_Window* m_window) {
+    std::unique_ptr<ContextBase> GraphicsHandler::CreateContext(SDL_Window* m_window) {
         if(!GraphicsVulkan::Main) {
             GraphicsVulkan::Main = new GraphicsVulkan(m_window);
         }
 
-        auto context = new ContextVulkan();
-        GraphicsVulkan::Main->contexts.push_back(std::unique_ptr<ContextVulkan>(context));
+        auto context = std::shared_ptr<ContextVulkan>(new ContextVulkan());
+        GraphicsVulkan::Main->contexts.push_back(context);
         return context;
     }
 
-    void GraphicsHandler::DestroyContext(ContextBase* context) {
+    void GraphicsHandler::DestroyContext(const SDL_Context &context) {
         auto element = std::find_if(GraphicsVulkan::Main->contexts.begin(), GraphicsVulkan::Main->contexts.end(),
-        [context](const std::unique_ptr<ContextVulkan>& contextPtr){
+        [context](const std::shared_ptr<ContextVulkan>& contextPtr){
             return contextPtr.get() == context;
         });
 
@@ -35,10 +35,10 @@ namespace lime { namespace spoopy {
         }
     }
 
-    int GraphicsHandler::MakeCurrent(SDL_Window* m_window, ContextBase* context) {
+    int GraphicsHandler::MakeCurrent(SDL_Window* m_window, const SDL_Context &context) {
         auto vkContext = static_cast<ContextVulkan*>(context);
         auto element = std::find_if(GraphicsVulkan::Main->contexts.begin(), GraphicsVulkan::Main->contexts.end(),
-        [vkContext](const std::unique_ptr<ContextVulkan>& contextPtr){
+        [vkContext](const std::shared_ptr<ContextVulkan>& contextPtr){
             return contextPtr.get() == vkContext;
         });
 

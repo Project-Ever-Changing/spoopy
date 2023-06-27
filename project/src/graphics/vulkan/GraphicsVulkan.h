@@ -3,7 +3,7 @@
 #include "../../device/Instance.h"
 #include "../../device/LogicalDevice.h"
 #include "../../device/PhysicalDevice.h"
-#include "ContextVulkan.h"
+#include "../../../include/graphics/Context.h"
 
 #include <sdl_definitions_config.h>
 #include <vector>
@@ -36,7 +36,7 @@ namespace lime { namespace spoopy {
             std::unique_ptr<Instance> instance;
             std::unique_ptr<PhysicalDevice> physicalDevice;
             std::unique_ptr<LogicalDevice> logicalDevice;
-            std::vector<std::unique_ptr<ContextVulkan>> contexts;
+            std::vector<std::shared_ptr<ContextVulkan>> contexts;
 
             VkExtent2D displayExtent;
             VkPipelineCache pipelineCache;

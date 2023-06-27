@@ -1,16 +1,16 @@
 #include <system/CFFI.h>
 #include <system/CFFIPointer.h>
+#include <sdl_definitions_config.h>
 #include <SDLWindow.h>
-//#include <shaders/CrossShader.h>
 
 #ifdef SPOOPY_VULKAN
 #include "graphics/vulkan/GraphicsVulkan.h"
+#include "graphics/vulkan/ContextStage.h"
 #include "graphics/vulkan/RenderPassVulkan.h"
-#include "graphics/vulkan/ContextVulkan.h"
+
 
 typedef lime::spoopy::GraphicsVulkan GraphicsModule;
 typedef lime::spoopy::RenderPassVulkan RenderPass;
-typedef lime::spoopy::ContextVulkan Context;
 #endif
 
 namespace lime { namespace spoopy {
@@ -94,7 +94,7 @@ namespace lime { namespace spoopy {
     void spoopy_check_context(value window_handle) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
-        Context* context = static_cast<Context*>(sdlWindow->context);
+        SDL_Context context = sdlWindow->context;
 
         if(context != nullptr) {
             SPOOPY_LOG_SUCCESS("Window has a context!");
@@ -108,7 +108,7 @@ namespace lime { namespace spoopy {
     void spoopy_create_context_stage(value window_handle, value viewport) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
-        Context* context = static_cast<Context*>(sdlWindow->context);
+        SDL_Context context = sdlWindow->context;
         context->stage = std::unique_ptr<ContextStage>(new ContextStage(*context, Viewport(viewport)));
     }
     DEFINE_PRIME2v(spoopy_create_context_stage);
@@ -116,7 +116,7 @@ namespace lime { namespace spoopy {
     void spoopy_build_context_stage(value window_handle, value renderpass_handle) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
-        Context* context = static_cast<Context*>(sdlWindow->context);
+        SDL_Context context = sdlWindow->context;
         RenderPass* renderPass = (RenderPass*)val_data(renderpass_handle);
         context->stage->Build(*renderPass);
     }

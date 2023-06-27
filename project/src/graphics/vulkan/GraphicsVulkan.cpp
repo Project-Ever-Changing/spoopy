@@ -1,5 +1,5 @@
 #include "RenderPassVulkan.h"
-#include "ContextVulkan.h"
+#include "../../../include/graphics/Context.h"
 #include "GraphicsVulkan.h"
 
 namespace lime { namespace spoopy {
