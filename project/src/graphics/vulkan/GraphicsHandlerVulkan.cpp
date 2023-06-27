@@ -35,7 +35,7 @@ namespace lime { namespace spoopy {
 
     int GraphicsHandler::MakeCurrent(SDL_Window* m_window, const SDL_Context &context) { // 2
         auto element = std::find_if(GraphicsVulkan::Main->contexts.begin(), GraphicsVulkan::Main->contexts.end(),
-        [context](const SDL_Context &contextPtr){
+        [context](const SDL_Context &contextPtr) {
             return contextPtr.get() == context.get();
         });
 
@@ -44,12 +44,14 @@ namespace lime { namespace spoopy {
             return 1;
         }
 
+        /*
         context->CreateSurface(
             *GraphicsVulkan::Main->instance,
             *GraphicsVulkan::Main->physicalDevice,
             *GraphicsVulkan::Main->logicalDevice,
             m_window
         );
+         */
 
         return 0;
     }
