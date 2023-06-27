@@ -145,6 +145,8 @@
 				<vflag name="-framework" value="Metal" />
 				<vflag name="-framework" value="MetalKit" />
 				<vflag name="-framework" value="QuartzCore" />
+
+				<!--<vflag name="-arch" value="arm64" />-->
 			</section>
 
 			<section if="ios">
