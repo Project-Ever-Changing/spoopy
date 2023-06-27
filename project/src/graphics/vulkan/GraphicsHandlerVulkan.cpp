@@ -6,9 +6,9 @@
 #include <sdl_definitions_config.h>
 
 namespace lime { namespace spoopy {
-    std::unique_ptr<ContextBase> GraphicsHandler::CreateContext(SDL_Window* m_window) {
+    SDL_Context GraphicsHandler::CreateContext(SDL_Window* m_window) {
         if(!GraphicsVulkan::Main) {
-            GraphicsVulkan::Main = new GraphicsVulkan(m_window);
+            GraphicsVulkan::Main = std::unique_ptr<GraphicsVulkan>(new GraphicsVulkan(m_window));
         }
 
         auto context = std::shared_ptr<ContextVulkan>(new ContextVulkan());
@@ -18,8 +18,8 @@ namespace lime { namespace spoopy {
 
     void GraphicsHandler::DestroyContext(const SDL_Context &context) {
         auto element = std::find_if(GraphicsVulkan::Main->contexts.begin(), GraphicsVulkan::Main->contexts.end(),
-        [context](const std::shared_ptr<ContextVulkan>& contextPtr){
-            return contextPtr.get() == context;
+        [context](const SDL_Context &contextPtr){
+            return contextPtr.get() == context.get();
         });
 
         if(element == GraphicsVulkan::Main->contexts.end()) {
@@ -30,16 +30,14 @@ namespace lime { namespace spoopy {
         GraphicsVulkan::Main->contexts.erase(element);
 
         if(GraphicsVulkan::Main->contexts.empty()) {
-            delete GraphicsVulkan::Main;
-            GraphicsVulkan::Main = nullptr;
+            GraphicsVulkan::Main.reset();
         }
     }
 
     int GraphicsHandler::MakeCurrent(SDL_Window* m_window, const SDL_Context &context) {
-        auto vkContext = static_cast<ContextVulkan*>(context);
         auto element = std::find_if(GraphicsVulkan::Main->contexts.begin(), GraphicsVulkan::Main->contexts.end(),
-        [vkContext](const std::shared_ptr<ContextVulkan>& contextPtr){
-            return contextPtr.get() == vkContext;
+        [context](const std::shared_ptr<ContextVulkan>& contextPtr){
+            return contextPtr.get() == context.get();
         });
 
         if(element == GraphicsVulkan::Main->contexts.end()) {
@@ -54,7 +52,7 @@ namespace lime { namespace spoopy {
                 m_window
         ));
 
-        vkContext->SetSurface(std::move(surface));
+        context->SetSurface(std::move(surface));
         return 0;
     }
 

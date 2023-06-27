@@ -1,9 +1,12 @@
 #include "RenderPassVulkan.h"
-#include "../../../include/graphics/Context.h"
+#include "CommandBufferVulkan.h"
+#include "ContextStage.h"
 #include "GraphicsVulkan.h"
 
+#include <graphics/Context.h>
+
 namespace lime { namespace spoopy {
-    GraphicsVulkan* GraphicsVulkan::Main = nullptr;
+    std::unique_ptr<GraphicsVulkan> GraphicsVulkan::Main = nullptr;
     bool GraphicsVulkan::MultisamplingEnabled = true;
 
 
@@ -11,7 +14,7 @@ namespace lime { namespace spoopy {
         instance(std::unique_ptr<Instance>(new Instance(m_window))),
         physicalDevice(std::unique_ptr<PhysicalDevice>(new PhysicalDevice(*instance))),
         logicalDevice(std::unique_ptr<LogicalDevice>(new LogicalDevice(*instance, *physicalDevice))),
-        contexts(std::vector<std::unique_ptr<ContextVulkan>>()) {
+        contexts(std::vector<std::shared_ptr<ContextVulkan>>()) {
 
         VkPipelineCacheCreateInfo pipelineCacheCreateInfo = {};
         pipelineCacheCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;

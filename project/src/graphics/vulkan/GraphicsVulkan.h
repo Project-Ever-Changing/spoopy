@@ -21,7 +21,7 @@ namespace lime { namespace spoopy {
             void Reset(const RenderPassVulkan &renderPass);
             void Update();
 
-            static GraphicsVulkan *GetCurrent() { return Main; }
+            static GraphicsVulkan *GetCurrent() { return Main.get(); }
             static bool MultisamplingEnabled;
 
             const PhysicalDevice *GetPhysicalDevice() const { return physicalDevice.get(); }
@@ -31,7 +31,7 @@ namespace lime { namespace spoopy {
         private:
             void RecreateSwapchains();
 
-            static GraphicsVulkan* Main;
+            static std::unique_ptr<GraphicsVulkan> Main;
 
             std::unique_ptr<Instance> instance;
             std::unique_ptr<PhysicalDevice> physicalDevice;
