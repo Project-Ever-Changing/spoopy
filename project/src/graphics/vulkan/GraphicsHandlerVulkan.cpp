@@ -55,14 +55,12 @@ namespace lime { namespace spoopy {
     }
 
     int GraphicsHandler::SwapInterval(int vsync) {
-        /*
         auto& contexts = GraphicsVulkan::Main->contexts;
 
         for(size_t i=0; i<contexts.size(); ++i) {
             auto& context = contexts[i];
             context->SetVSYNC(vsync);
         }
-         */
 
         return 0;
     }
