@@ -15,6 +15,8 @@ namespace lime { namespace spoopy {
         GraphicsVulkan::Main->contexts.push_back(context);
         return context;
          */
+
+        return nullptr;
     }
 
     void GraphicsHandler::DestroyContext(const SDL_Context &context) {
