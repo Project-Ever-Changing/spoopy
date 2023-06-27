@@ -109,7 +109,7 @@ namespace lime { namespace spoopy {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
         SDL_Context context = sdlWindow->context;
-        context->stage = std::unique_ptr<ContextStage>(new ContextStage(*context, Viewport(viewport)));
+        context->stage = std::make_unique<ContextStage>(*context, Viewport(viewport));
     }
     DEFINE_PRIME2v(spoopy_create_context_stage);
 

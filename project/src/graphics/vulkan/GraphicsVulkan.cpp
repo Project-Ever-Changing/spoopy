@@ -11,9 +11,9 @@ namespace lime { namespace spoopy {
 
 
     GraphicsVulkan::GraphicsVulkan(SDL_Window* m_window):
-        instance(std::unique_ptr<Instance>(new Instance(m_window))),
-        physicalDevice(std::unique_ptr<PhysicalDevice>(new PhysicalDevice(*instance))),
-        logicalDevice(std::unique_ptr<LogicalDevice>(new LogicalDevice(*instance, *physicalDevice))),
+        instance(std::make_unique<Instance>(m_window)),
+        physicalDevice(std::make_unique<PhysicalDevice>(*instance)),
+        logicalDevice(std::make_unique<LogicalDevice>(*instance, *physicalDevice)),
         contexts(std::vector<std::shared_ptr<ContextVulkan>>()) {
 
         VkPipelineCacheCreateInfo pipelineCacheCreateInfo = {};

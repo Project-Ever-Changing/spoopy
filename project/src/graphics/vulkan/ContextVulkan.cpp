@@ -19,8 +19,8 @@ namespace lime { namespace spoopy {
 
     void ContextVulkan::RecreateSwapchain(const PhysicalDevice &physicalDevice, const LogicalDevice &logicalDevice,
         const VkExtent2D &extent, const SwapchainVulkan *oldSwapchain) {
-        swapchain = std::unique_ptr<SwapchainVulkan>(new SwapchainVulkan(physicalDevice, *surface, logicalDevice, extent, oldSwapchain, sync));
-        surfaceBuffer = std::unique_ptr<SurfaceBuffer>(new SurfaceBuffer());
+        swapchain = std::make_unique<SwapchainVulkan>(physicalDevice, *surface, logicalDevice, extent, oldSwapchain, sync);
+        surfaceBuffer = std::make_unique<SurfaceBuffer>();
 
         RecreateCommandBuffers(logicalDevice);
     }
@@ -49,16 +49,12 @@ namespace lime { namespace spoopy {
             vkCreateSemaphore(logicalDevice, &semaphoreCreateInfo, nullptr, &surfaceBuffer->renderCompletes[i]);
             vkCreateFence(logicalDevice, &fenceCreateInfo, nullptr, &surfaceBuffer->flightFences[i]);
 
-            surfaceBuffer->commandBuffers[i] = std::unique_ptr<CommandBufferVulkan>(new CommandBufferVulkan(false));
+            surfaceBuffer->commandBuffers[i] = std::make_unique<CommandBufferVulkan>(false);
         }
     }
 
     void ContextVulkan::DestroySwapchain() {
         swapchain.reset();
-    }
-
-    void ContextVulkan::SetSurface(std::unique_ptr<Surface> surface) {
-        this->surface = std::move(surface);
     }
 
     VkResult ContextVulkan::AcquireNextImage(const VkSemaphore &presentCompleteSemaphore, VkFence fence) {

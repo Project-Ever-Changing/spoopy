@@ -41,10 +41,10 @@ namespace lime { namespace spoopy {
             : VK_SAMPLE_COUNT_1_BIT;
 
         if(renderPass.HasDepthAttachment()) {
-            depthImage = std::unique_ptr<ImageDepth>(new ImageDepth(*physicalDevice, *logicalDevice, renderArea.GetExtent(), samples));
+            depthImage = std::make_unique<ImageDepth>(*physicalDevice, *logicalDevice, renderArea.GetExtent(), samples);
         }
 
-        // frameBuffers = std::unique_ptr<SCFrameBuffers>(new SCFrameBuffers(*logicalDevice, *swapchain, renderPass, depthImage.get(), renderArea.GetExtent()));
+        // frameBuffers = std::make_unique<SCFrameBuffers>(*logicalDevice, *swapchain, renderPass, depthImage.get(), renderArea.GetExtent());
         isDirty = false;
     }
 }}

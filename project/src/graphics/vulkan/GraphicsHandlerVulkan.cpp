@@ -1,4 +1,3 @@
-#include "../../../include/graphics/Context.h"
 #include "../../device/Surface.h"
 #include "SwapchainVulkan.h"
 #include "GraphicsVulkan.h"
@@ -8,10 +7,10 @@
 namespace lime { namespace spoopy {
     SDL_Context GraphicsHandler::CreateContext(SDL_Window* m_window) {
         if(!GraphicsVulkan::Main) {
-            GraphicsVulkan::Main = std::unique_ptr<GraphicsVulkan>(new GraphicsVulkan(m_window));
+            GraphicsVulkan::Main = std::make_unique<GraphicsVulkan>(m_window);
         }
 
-        auto context = std::shared_ptr<ContextVulkan>(new ContextVulkan());
+        auto context = std::make_shared<ContextVulkan>();
         GraphicsVulkan::Main->contexts.push_back(context);
         return context;
     }
@@ -36,7 +35,7 @@ namespace lime { namespace spoopy {
 
     int GraphicsHandler::MakeCurrent(SDL_Window* m_window, const SDL_Context &context) {
         auto element = std::find_if(GraphicsVulkan::Main->contexts.begin(), GraphicsVulkan::Main->contexts.end(),
-        [context](const std::shared_ptr<ContextVulkan>& contextPtr){
+        [context](const SDL_Context &contextPtr){
             return contextPtr.get() == context.get();
         });
 
@@ -45,14 +44,13 @@ namespace lime { namespace spoopy {
             return 1;
         }
 
-        std::unique_ptr<Surface> surface = std::unique_ptr<Surface>(new Surface(
-                *GraphicsVulkan::Main->instance,
-                *GraphicsVulkan::Main->physicalDevice,
-                *GraphicsVulkan::Main->logicalDevice,
-                m_window
-        ));
+        context->CreateSurface(
+            *GraphicsVulkan::Main->instance,
+            *GraphicsVulkan::Main->physicalDevice,
+            *GraphicsVulkan::Main->logicalDevice,
+            m_window
+        );
 
-        context->SetSurface(std::move(surface));
         return 0;
     }
 

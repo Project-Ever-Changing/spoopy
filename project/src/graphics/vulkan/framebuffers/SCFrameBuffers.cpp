@@ -17,7 +17,7 @@ namespace lime { namespace spoopy {
                 attachments.emplace_back(depthImage->GetView());
             }
 
-            frameBuffers[i] = std::unique_ptr<FrameBufferVulkan>(new FrameBufferVulkan(device, extent, 1, attachments, renderPass.GetRenderpass()));
+            frameBuffers[i] = std::make_unique<FrameBufferVulkan>(device, extent, 1, attachments, renderPass.GetRenderpass());
         }
     }
 

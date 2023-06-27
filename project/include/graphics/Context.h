@@ -1,12 +1,10 @@
 #pragma once
 
-#ifdef LIME_VULKAN
-#include <spoopy.h>
-#endif
-
 #include <core/Log.h>
+#include <spoopy.h>
 
 #include <memory>
+#include <utility>
 #include <vector>
 
 namespace lime { namespace spoopy {
@@ -43,7 +41,7 @@ namespace lime { namespace spoopy {
 
             uint32_t GetImageCount() const;
 
-            void SetSurface(std::unique_ptr<Surface> surface);
+            template<typename... Args> void CreateSurface(Args&&... args) { this->surface = std::make_unique<Surface>(std::forward<Args>(args)...); }
             void SetVSYNC(uint8_t sync) { this->sync = sync; }
 
             Surface* GetSurface() const { return surface.get(); }
