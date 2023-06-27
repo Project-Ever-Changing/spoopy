@@ -223,8 +223,8 @@ namespace lime { namespace spoopy {
                 break;
         }
 
-        //vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, 0, 0, nullptr, 0, nullptr, 1, &barrier);
-        //commandBuffer.SubmitIdle(device.GetQueue(commandBuffer.GetQueueType()));
+        vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, 0, 0, nullptr, 0, nullptr, 1, &barrier);
+        commandBuffer.SubmitIdle(device.GetQueue(commandBuffer.GetQueueType()));
     }
 
     void Image::CreateMipmaps(const PhysicalDevice &physicalDevice, const LogicalDevice &device, const VkImage &image, const VkExtent3D &extent, VkFormat format, VkImageLayout dstImageLayout, uint32_t mipLevels,
