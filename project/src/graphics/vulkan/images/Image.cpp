@@ -158,7 +158,7 @@ namespace lime { namespace spoopy {
 
     void Image::TransitionImageLayout(const LogicalDevice &device, const VkImage &image, VkFormat format, VkImageLayout srcImageLayout, VkImageLayout dstImageLayout,
         VkImageAspectFlags imageAspect, uint32_t mipLevels, uint32_t baseMipLevel, uint32_t layerCount, uint32_t baseArrayLayer) {
-        CommandBufferVulkan commandBuffer;
+        // CommandBufferVulkan commandBuffer;
 
         VkImageMemoryBarrier barrier = {};
         barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
@@ -223,8 +223,8 @@ namespace lime { namespace spoopy {
                 break;
         }
 
-        vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, 0, 0, nullptr, 0, nullptr, 1, &barrier);
-        commandBuffer.SubmitIdle(device.GetQueue(commandBuffer.GetQueueType()));
+        //vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, 0, 0, nullptr, 0, nullptr, 1, &barrier);
+        //commandBuffer.SubmitIdle(device.GetQueue(commandBuffer.GetQueueType()));
     }
 
     void Image::CreateMipmaps(const PhysicalDevice &physicalDevice, const LogicalDevice &device, const VkImage &image, const VkExtent3D &extent, VkFormat format, VkImageLayout dstImageLayout, uint32_t mipLevels,
