@@ -23,8 +23,6 @@ namespace lime { namespace spoopy {
             SPOOPY_LOG_ERROR("Invalid value for VSYNC: Accepted values are 0 (for immediate mode) or 1 (for FIFO mode).");
         }
 
-        SPOOPY_LOG_INFO("1");
-
         auto surfaceFormat = surface.GetFormat();
         auto surfaceCapabilities = surface.GetCapabilities();
         auto graphicsFamily = logicalDevice.GetGraphicsFamily();

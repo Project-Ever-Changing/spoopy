@@ -32,6 +32,12 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME0v(spoopy_update_graphics_module);
 
+    void spoopy_reset_graphics_module(value renderpass_handle) {
+        RenderPass* renderPass = (RenderPass*)val_data(renderpass_handle);
+        GraphicsModule::GetCurrent()->Reset(*renderPass);
+    }
+    DEFINE_PRIME1v(spoopy_reset_graphics_module);
+
     void spoopy_add_color_attachment(value renderpass, int location, int format, bool hasImageLayout) {
         RenderPass* _renderPass = (RenderPass*)val_data(renderpass);
 
@@ -112,15 +118,6 @@ namespace lime { namespace spoopy {
         context->stage = std::make_unique<ContextStage>(*context, Viewport(viewport));
     }
     DEFINE_PRIME2v(spoopy_create_context_stage);
-
-    void spoopy_build_context_stage(value window_handle, value renderpass_handle) {
-        Window* window = (Window*)val_data(window_handle);
-        SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
-        SDL_Context context = sdlWindow->context;
-        RenderPass* renderPass = (RenderPass*)val_data(renderpass_handle);
-        context->stage->Build(*renderPass);
-    }
-    DEFINE_PRIME2v(spoopy_build_context_stage);
 
 
     // Objects

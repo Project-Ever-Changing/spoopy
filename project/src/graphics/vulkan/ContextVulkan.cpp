@@ -68,6 +68,7 @@ namespace lime { namespace spoopy {
 
     uint32_t ContextVulkan::GetImageCount() const {
         if(!swapchain) {
+            SPOOPY_LOG_WARN("Attempted to get image count without a swapchain!");
             return 0;
         }
 

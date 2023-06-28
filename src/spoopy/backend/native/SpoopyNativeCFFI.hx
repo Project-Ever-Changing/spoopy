@@ -19,6 +19,7 @@ class SpoopyNativeCFFI {
     #if (cpp && !cppia)
     public static var spoopy_check_graphics_module = new cpp.Callable<Void->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_check_graphics_module", "v", false));
     public static var spoopy_update_graphics_module = new cpp.Callable<Void->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_update_graphics_module", "v", false));
+    public static var spoopy_reset_graphics_module = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_reset_graphics_module", "ov", false));
     public static var spoopy_create_render_pass = new cpp.Callable<Void->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_render_pass", "o", false));
     public static var spoopy_add_subpass_dependency = new cpp.Callable<cpp.Object->Bool->Bool->Int->Int->Int->Int->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_add_subpass_dependency", "obbiiiiiv", false));
     public static var spoopy_add_color_attachment = new cpp.Callable<cpp.Object->Int->Int->Bool->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_add_color_attachment", "oiibv", false));
@@ -27,10 +28,10 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_renderpass = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_create_renderpass", "ov", false));
     public static var spoopy_check_context = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_check_context", "ov", false));
     public static var spoopy_create_context_stage = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_create_context_stage", "oov", false));
-    public static var spoopy_build_context_stage = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_build_context_stage", "oov", false));
     #elseif (neko || cppia)
     public static var spoopy_check_graphics_module = CFFI.load("lime", "spoopy_check_graphics_module", 0);
     public static var spoopy_update_graphics_module = CFFI.load("lime", "spoopy_update_graphics_module", 0);
+    public static var spoopy_reset_graphics_module = CFFI.load("lime", "spoopy_reset_graphics_module", 1);
     public static var spoopy_create_render_pass = CFFI.load("lime", "spoopy_create_render_pass", 0);
     public static var spoopy_add_subpass_dependency = CFFI.load("lime", "spoopy_add_subpass_dependency", 8);
     public static var spoopy_add_color_attachment = CFFI.load("lime", "spoopy_add_color_attachment", 4);
@@ -46,6 +47,10 @@ class SpoopyNativeCFFI {
     }
 
     public static function spoopy_update_graphics_module():Void {
+        return;
+    }
+
+    public static function spoopy_reset_graphics_module(renderPass:Dynamic):Void {
         return;
     }
 
