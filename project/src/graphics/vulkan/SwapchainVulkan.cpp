@@ -23,6 +23,8 @@ namespace lime { namespace spoopy {
             SPOOPY_LOG_ERROR("Invalid value for VSYNC: Accepted values are 0 (for immediate mode) or 1 (for FIFO mode).");
         }
 
+        SPOOPY_LOG_INFO("1");
+
         auto surfaceFormat = surface.GetFormat();
         auto surfaceCapabilities = surface.GetCapabilities();
         auto graphicsFamily = logicalDevice.GetGraphicsFamily();
@@ -74,8 +76,6 @@ namespace lime { namespace spoopy {
             swapchainCreateInfo.queueFamilyIndexCount = static_cast<uint32_t>(queueFamily.size());
             swapchainCreateInfo.pQueueFamilyIndices = queueFamily.data();
         }
-
-        SPOOPY_LOG_INFO("1");
 
         checkVulkan(vkCreateSwapchainKHR(logicalDevice, &swapchainCreateInfo, nullptr, &swapchain));
         checkVulkan(vkGetSwapchainImagesKHR(logicalDevice, swapchain, &imageCount, nullptr));
