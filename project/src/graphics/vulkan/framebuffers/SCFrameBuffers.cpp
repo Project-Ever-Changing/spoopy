@@ -13,11 +13,13 @@ namespace lime { namespace spoopy {
                 swapchain.GetImageView(i)
             };
 
+            /*
             if(depthImage != nullptr) {
                 attachments.emplace_back(depthImage->GetView());
             }
 
-            // frameBuffers[i] = std::make_unique<FrameBufferVulkan>(device, extent, 1, attachments, renderPass.GetRenderpass());
+            frameBuffers[i] = std::make_unique<FrameBufferVulkan>(device, extent, 1, attachments, renderPass.GetRenderpass());
+             */
         }
     }
 
