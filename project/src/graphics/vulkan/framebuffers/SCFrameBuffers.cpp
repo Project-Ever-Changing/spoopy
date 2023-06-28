@@ -19,8 +19,8 @@ namespace lime { namespace spoopy {
             }
 
             frameBuffers[i] = std::make_unique<FrameBufferVulkan>(device, extent, 1, attachments, renderPass.GetRenderpass());
-            */
         }
+         */
     }
 
     SCFrameBuffers::~SCFrameBuffers() {
