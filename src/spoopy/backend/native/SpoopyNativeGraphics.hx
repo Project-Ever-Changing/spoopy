@@ -16,10 +16,6 @@ class SpoopyNativeGraphics {
         SpoopyNativeCFFI.spoopy_check_graphics_module();
     }
 
-    public function update():Void {
-        SpoopyNativeCFFI.spoopy_update_graphics_module();
-    }
-
     public function reset(renderPass:SpoopyRenderPass):Void {
         SpoopyNativeCFFI.spoopy_reset_graphics_module(renderPass.__backend.handle);
     }

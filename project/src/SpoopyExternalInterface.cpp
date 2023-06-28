@@ -27,10 +27,15 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME0v(spoopy_check_graphics_module);
 
-    void spoopy_update_graphics_module() {
-        GraphicsModule::GetCurrent()->Update();
+    /*
+     * If I name it spoopy_acquire_next_image_graphics_module, it will be too long.
+     */
+    void spoopy_acquire_image_graphics_module(value window_handle) {
+        Window* window = (Window*)val_data(window_handle);
+        SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
+        GraphicsModule::GetCurrent()->AcquireNextImage(sdlWindow->context);
     }
-    DEFINE_PRIME0v(spoopy_update_graphics_module);
+    DEFINE_PRIME1v(spoopy_acquire_image_graphics_module);
 
     void spoopy_reset_graphics_module(value renderpass_handle) {
         RenderPass* renderPass = (RenderPass*)val_data(renderpass_handle);

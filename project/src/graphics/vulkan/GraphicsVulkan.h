@@ -19,7 +19,7 @@ namespace lime { namespace spoopy {
             ~GraphicsVulkan();
 
             void Reset(const RenderPassVulkan &renderPass);
-            void Update();
+            void AcquireNextImage(const SDL_Context &context);
 
             static GraphicsVulkan *GetCurrent() { return Main.get(); }
             static bool MultisamplingEnabled;

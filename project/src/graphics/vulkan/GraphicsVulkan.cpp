@@ -76,22 +76,18 @@ namespace lime { namespace spoopy {
         SPOOPY_LOG_INFO("GraphicsVulkan destroyed!");
     }
 
-    void GraphicsVulkan::Update() {
-        /*
-        for(auto &context: contexts) {
-            auto perSurfaceBuffer = context->GetSurfaceBuffer();
-            auto acquireResult = context->AcquireNextImage(perSurfaceBuffer->presentCompletes[perSurfaceBuffer->currentFrame], perSurfaceBuffer->flightFences[perSurfaceBuffer->currentFrame]);
+    void GraphicsVulkan::AcquireNextImage(const SDL_Context &context) {
+        auto perSurfaceBuffer = context->GetSurfaceBuffer();
+        auto acquireResult = context->AcquireNextImage(perSurfaceBuffer->presentCompletes[perSurfaceBuffer->currentFrame], perSurfaceBuffer->flightFences[perSurfaceBuffer->currentFrame]);
 
-            if(acquireResult == VK_ERROR_OUT_OF_DATE_KHR) {
-                RecreateSwapchains();
-                return;
-            }
-
-            if(acquireResult != VK_SUCCESS && acquireResult != VK_SUBOPTIMAL_KHR) {
-                SPOOPY_LOG_ERROR("Failed to acquire next image!");
-                return;
-            }
+        if(acquireResult == VK_ERROR_OUT_OF_DATE_KHR) {
+            RecreateSwapchains();
+            return;
         }
-         */
+
+        if(acquireResult != VK_SUCCESS && acquireResult != VK_SUBOPTIMAL_KHR) {
+            SPOOPY_LOG_ERROR("Failed to acquire next image!");
+            return;
+        }
     }
 }}
