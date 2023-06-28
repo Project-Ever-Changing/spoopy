@@ -20,15 +20,15 @@ class SpoopyNativeGraphics {
         SpoopyNativeCFFI.spoopy_update_graphics_module();
     }
 
+    public function reset(renderPass:SpoopyRenderPass):Void {
+        SpoopyNativeCFFI.spoopy_reset_graphics_module(renderPass.__backend.handle);
+    }
+
     public function checkContext(window:Window):Void {
         SpoopyNativeCFFI.spoopy_check_context(window.__backend.handle);
     }
 
     public function createContextStage(window:Window, viewport:Rectangle):Void {
         SpoopyNativeCFFI.spoopy_create_context_stage(window.__backend.handle, viewport);
-    }
-
-    public function buildContextStage(window:Window, renderpass:SpoopyRenderPass):Void {
-        SpoopyNativeCFFI.spoopy_build_context_stage(window.__backend.handle, renderpass.__backend.handle);
     }
 }

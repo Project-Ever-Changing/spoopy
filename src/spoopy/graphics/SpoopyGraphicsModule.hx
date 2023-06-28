@@ -48,7 +48,7 @@ class SpoopyGraphicsModule implements IModule {
         renderPass.createSubpass();
         renderPass.createRenderpass();
 
-        __backend.buildContextStage(window, renderPass);
+        __backend.reset(renderPass);
     }
 
     @:noCompletion private function __onCreateWindow(window:Window):Void {
