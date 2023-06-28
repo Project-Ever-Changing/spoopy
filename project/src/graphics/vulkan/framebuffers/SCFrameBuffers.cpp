@@ -9,9 +9,11 @@ namespace lime { namespace spoopy {
         frameBuffers.resize(swapchain.GetImageCount());
 
         for(size_t i=0; i<frameBuffers.size(); i++) {
+            /*
             std::vector<VkImageView> attachments = {
                 swapchain.GetImageView(i)
             };
+             */
 
             /*
             if(depthImage != nullptr) {
