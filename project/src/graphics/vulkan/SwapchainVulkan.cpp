@@ -83,7 +83,7 @@ namespace lime { namespace spoopy {
 
         checkVulkan(vkGetSwapchainImagesKHR(logicalDevice, swapchain, &imageCount, images.data()));
 
-        for(int32_t i=0; i<imageCount; ++i) {
+        for(int32_t i=0; i<imageCount; i++) {
             Image::CreateImageView(logicalDevice, images.at(i), imageViews.at(i), VK_IMAGE_VIEW_TYPE_2D, surfaceFormat.format, VK_IMAGE_ASPECT_COLOR_BIT, 1, 0, 1, 0);
         }
 
