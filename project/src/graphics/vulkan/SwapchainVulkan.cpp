@@ -75,6 +75,8 @@ namespace lime { namespace spoopy {
             swapchainCreateInfo.pQueueFamilyIndices = queueFamily.data();
         }
 
+        SPOOPY_LOG_INFO("1");
+
         checkVulkan(vkCreateSwapchainKHR(logicalDevice, &swapchainCreateInfo, nullptr, &swapchain));
         checkVulkan(vkGetSwapchainImagesKHR(logicalDevice, swapchain, &imageCount, nullptr));
 
@@ -86,8 +88,6 @@ namespace lime { namespace spoopy {
         for(int32_t i=0; i<imageCount; i++) {
             Image::CreateImageView(logicalDevice, images.at(i), imageViews.at(i), VK_IMAGE_VIEW_TYPE_2D, surfaceFormat.format, VK_IMAGE_ASPECT_COLOR_BIT, 1, 0, 1, 0);
         }
-
-        SPOOPY_LOG_INFO("1");
 
         VkFenceCreateInfo fenceCreateInfo = {};
         fenceCreateInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
