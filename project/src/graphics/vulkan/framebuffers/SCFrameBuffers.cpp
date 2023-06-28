@@ -8,6 +8,7 @@ namespace lime { namespace spoopy {
         const ImageDepth* depthImage, const Vector2T_u32 &extent) {
         frameBuffers.resize(swapchain.GetImageCount());
 
+        /*
         for(size_t i=0; i<frameBuffers.size(); i++) {
             std::vector<VkImageView> attachments = {
                 swapchain.GetImageView(i)
@@ -19,6 +20,7 @@ namespace lime { namespace spoopy {
 
             frameBuffers[i] = std::make_unique<FrameBufferVulkan>(device, extent, 1, attachments, renderPass.GetRenderpass());
         }
+         */
     }
 
     SCFrameBuffers::~SCFrameBuffers() {
