@@ -20,8 +20,8 @@ class SpoopyNativeGraphics {
         SpoopyNativeCFFI.spoopy_acquire_image_graphics_module(window.__backend.handle);
     }
 
-    public function record(renderPass:SpoopyRenderPass, viewport:Rectangle):Void {
-        SpoopyNativeCFFI.spoopy_record_graphics_module(renderPass.__backend.handle, viewport);
+    public function record(window:Window, renderPass:SpoopyRenderPass, viewport:Rectangle):Void {
+        SpoopyNativeCFFI.spoopy_record_graphics_module(window.__backend.handle, renderPass.__backend.handle, viewport);
     }
 
     public function reset(renderPass:SpoopyRenderPass):Void {

@@ -37,12 +37,15 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME1v(spoopy_acquire_image_graphics_module);
 
-    void spoopy_record_graphics_module(value renderpass_handle, value viewport_handle) {
+    void spoopy_record_graphics_module(value window_handle, value renderpass_handle, value viewport_handle) {
+        Window* window = (Window*)val_data(window_handle);
+        SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
         RenderPass* renderPass = (RenderPass*)val_data(renderpass_handle);
         Viewport* viewport = (Viewport*)val_data(viewport_handle);
-        GraphicsModule::GetCurrent()->Record(*renderPass, *viewport);
+
+        GraphicsModule::GetCurrent()->Record(sdlWindow->context, *renderPass, *viewport);
     }
-    DEFINE_PRIME2v(spoopy_record_graphics_module);
+    DEFINE_PRIME3v(spoopy_record_graphics_module);
 
     void spoopy_reset_graphics_module(value renderpass_handle) {
         RenderPass* renderPass = (RenderPass*)val_data(renderpass_handle);

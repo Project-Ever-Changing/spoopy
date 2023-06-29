@@ -24,7 +24,7 @@ namespace lime { namespace spoopy {
             void Reset(const RenderPassVulkan &renderPass);
             void AcquireNextImage(const SDL_Context &context);
             void ResetPresent(const Viewport &viewport, const SDL_Context &context, const RenderPassVulkan &renderPass);
-            void Record(const RenderPassVulkan &renderPass, const Viewport &viewport);
+            void Record(const SDL_Context &context, const RenderPassVulkan &renderPass, const Viewport &viewport);
 
             static GraphicsVulkan *GetCurrent() { return Main.get(); }
             static bool MultisamplingEnabled;

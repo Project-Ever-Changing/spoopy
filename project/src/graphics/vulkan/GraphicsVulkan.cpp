@@ -108,7 +108,7 @@ namespace lime { namespace spoopy {
         context->stage->Build(renderPass);
     }
 
-    void GraphicsVulkan::Record(const RenderPassVulkan &renderPass, const Viewport &viewport) {
+    void GraphicsVulkan::Record(const SDL_Context &context, const RenderPassVulkan &renderPass, const Viewport &viewport) {
         for(size_t i=0; i<contexts.size(); i++) {
             auto &stage = contexts[i]->stage;
             stage->Update();
