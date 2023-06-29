@@ -25,11 +25,11 @@ namespace lime { namespace spoopy {
         swapchain = std::make_unique<SwapchainVulkan>(physicalDevice, *surface, logicalDevice, extent, oldSwapchain, sync);
         surfaceBuffer = std::make_unique<SurfaceBuffer>();
 
-        RecreateCommandBuffers(logicalDevice);
+        // RecreateCommandBuffers(logicalDevice);
     }
 
     void ContextVulkan::RecreateCommandBuffers(const LogicalDevice &logicalDevice) {
-        for(std::size_t i=0; i<surfaceBuffer->flightFences.size(); ++i) {
+        for(std::size_t i=0; i<surfaceBuffer->flightFences.size(); i++) {
             vkDestroyFence(logicalDevice, surfaceBuffer->flightFences[i], nullptr);
             vkDestroySemaphore(logicalDevice, surfaceBuffer->renderCompletes[i], nullptr);
             vkDestroySemaphore(logicalDevice, surfaceBuffer->presentCompletes[i], nullptr);
@@ -47,7 +47,7 @@ namespace lime { namespace spoopy {
         fenceCreateInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
         fenceCreateInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
 
-        for(std::size_t i=0; i<swapchain->GetImageCount(); ++i) {
+        for(std::size_t i=0; i<swapchain->GetImageCount(); i++) {
             vkCreateSemaphore(logicalDevice, &semaphoreCreateInfo, nullptr, &surfaceBuffer->presentCompletes[i]);
             vkCreateSemaphore(logicalDevice, &semaphoreCreateInfo, nullptr, &surfaceBuffer->renderCompletes[i]);
             vkCreateFence(logicalDevice, &fenceCreateInfo, nullptr, &surfaceBuffer->flightFences[i]);
