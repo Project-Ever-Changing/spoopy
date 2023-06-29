@@ -82,7 +82,7 @@ namespace lime { namespace spoopy {
         auto perSurfaceBuffer = context->GetSurfaceBuffer();
         auto acquireResult = context->AcquireNextImage(perSurfaceBuffer->presentCompletes[perSurfaceBuffer->currentFrame], perSurfaceBuffer->flightFences[perSurfaceBuffer->currentFrame]);
 
-        /*
+
         if(acquireResult == VK_ERROR_OUT_OF_DATE_KHR) {
             RecreateSwapchain(context);
             return;
@@ -92,7 +92,6 @@ namespace lime { namespace spoopy {
             SPOOPY_LOG_ERROR("Failed to acquire next image!");
             return;
         }
-         */
     }
 
     void GraphicsVulkan::ResetPresent(const Viewport &viewport, const SDL_Context &context, const RenderPassVulkan &renderPass) {
