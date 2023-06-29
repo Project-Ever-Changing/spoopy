@@ -156,7 +156,6 @@ namespace lime { namespace spoopy {
                 perSurfaceBuffer->flightFences[perSurfaceBuffer->currentFrame]);
 
             auto presentQueue = logicalDevice->GetPresentQueue();
-
             auto presentResult = swapchain->QueuePresent(presentQueue, perSurfaceBuffer->renderCompletes[perSurfaceBuffer->currentFrame]);
 
             if(presentResult == VK_ERROR_OUT_OF_DATE_KHR || presentResult == VK_SUBOPTIMAL_KHR) {
