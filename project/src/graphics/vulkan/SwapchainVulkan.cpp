@@ -145,7 +145,5 @@ namespace lime { namespace spoopy {
         }
 
         vkDestroyFence(logicalDevice, fenceImage, nullptr);
-
-        SPOOPY_LOG_INFO("Destroying swapchain.");
     }
 }}
