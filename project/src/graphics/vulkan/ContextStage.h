@@ -19,7 +19,13 @@ namespace lime { namespace spoopy {
             ~ContextStage();
 
             virtual void Build(const RenderPassVulkan &renderPass);
+            virtual void UpdateViewport(const Viewport &viewport) { this->viewport = viewport; }
             virtual void Update();
+
+            const VkFramebuffer &GetActiveFramebuffer(uint32_t activeSwapchainImage) const;
+            const RenderAreaVulkan &GetRenderArea() const { return renderArea; }
+
+            bool IsDirty() const { return isDirty; }
 
         private:
             Viewport viewport;

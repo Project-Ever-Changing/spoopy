@@ -50,19 +50,47 @@ namespace lime { namespace spoopy {
         running = false;
     }
 
-    void CommandBufferVulkan::BindPipeline(const VkPipeline renderPipeline) {
+    void CommandBufferVulkan::BindPipeline(const VkPipeline &renderPipeline) {
         vkCmdBindPipeline(_commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, renderPipeline);
     }
 
-    void CommandBufferVulkan::SetBeginFlags(const VkCommandBufferUsageFlags usage) {
+    void CommandBufferVulkan::SetBeginFlags(const VkCommandBufferUsageFlags &usage) {
         _usageFlags = usage;
     }
 
-    void CommandBufferVulkan::SetBeginType(const VkStructureType type) {
+    void CommandBufferVulkan::SetBeginType(const VkStructureType &type) {
         _sType = type;
     }
 
-    void CommandBufferVulkan::SubmitIdle(const VkQueue queue) {
+    void CommandBufferVulkan::Submit(const VkSemaphore &waitSemaphore, const VkSemaphore &signalSemaphore, VkFence fence) {
+        auto queue = _device.GetQueue(_queueType);
+
+        VkSubmitInfo submitInfo = {};
+        submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+        submitInfo.waitSemaphoreCount = 1;
+        submitInfo.pCommandBuffers = &_commandBuffer;
+
+        if(waitSemaphore != VK_NULL_HANDLE) {
+            static VkPipelineStageFlags submitPipelineStages = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+
+            submitInfo.pWaitSemaphores = &waitSemaphore;
+            submitInfo.pWaitDstStageMask = &submitPipelineStages;
+            submitInfo.waitSemaphoreCount = 1;
+        }
+
+        if(signalSemaphore != VK_NULL_HANDLE) {
+            submitInfo.pSignalSemaphores = &signalSemaphore;
+            submitInfo.signalSemaphoreCount = 1;
+        }
+
+        if(fence != VK_NULL_HANDLE) {
+            checkVulkan(vkResetFences(_device, 1, &fence));
+        }
+
+        checkVulkan(vkQueueSubmit(queue, 1, &submitInfo, fence));
+    }
+
+    void CommandBufferVulkan::SubmitIdle(const VkQueue &queue) {
         if (running) {
             EndRecord();
         }
@@ -83,8 +111,8 @@ namespace lime { namespace spoopy {
         vkDestroyFence(_device, fence, nullptr);
     }
 
-    void CommandBufferVulkan::BeginRenderPass(VkRenderPass renderPass, VkFramebuffer frameBuffer,
-        uint32_t width, uint32_t height, uint32_t colorAttachmentCount, int depthAttachment,
+    void CommandBufferVulkan::BeginRenderPass(const VkRenderPass &renderPass, const VkFramebuffer &frameBuffer,
+        uint32_t width, uint32_t height, uint32_t colorAttachmentCount, uint32_t depthAttachment,
         VkSubpassContents contentsFlag) {
         std::vector<VkClearValue> clearValues(colorAttachmentCount + depthAttachment);
 
@@ -99,11 +127,16 @@ namespace lime { namespace spoopy {
         BeginRenderPass(renderPass, frameBuffer, width, height, contentsFlag, clearValues);
     }
 
-    void CommandBufferVulkan::BeginRenderPass(VkRenderPass renderPass, VkFramebuffer frameBuffer,
+    void CommandBufferVulkan::BeginRenderPass(const VkRenderPass &renderPass, const VkFramebuffer &frameBuffer,
         uint32_t width, uint32_t height, VkSubpassContents flags, std::vector<VkClearValue> clearValues) {
         VkRect2D renderArea = {};
         renderArea.offset = {0, 0};
         renderArea.extent = {width, height};
+
+        VkRect2D scissor = {};
+        scissor.offset = renderArea.offset;
+        scissor.extent = renderArea.extent;
+        vkCmdSetScissor(_commandBuffer, 0, 1, &scissor);
 
         VkRenderPassBeginInfo renderPassBeginInfo = {};
         renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;

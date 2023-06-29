@@ -24,6 +24,9 @@ namespace lime { namespace spoopy {
                 const ImageDepth* depthImage, const Vector2T_u32 &extent);
             ~SCFrameBuffers();
 
+            const FrameBufferVulkan &GetFrameBuffer(uint32_t index) const { return *frameBuffers.at(index).get(); }
+            const std::size_t GetFrameBufferCount() const { return frameBuffers.size(); }
+
         private:
             std::vector<std::unique_ptr<FrameBufferVulkan>> frameBuffers;
     };

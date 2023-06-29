@@ -31,6 +31,8 @@ namespace lime { namespace spoopy {
             operator const VkRenderPass &() const { return renderpass; }
             const VkRenderPass &GetRenderpass() const { return renderpass; }
 
+            const uint32_t GetColorAttachmentCount() const { return colorAttachmentCount; }
+            const uint32_t GetDepthAttachmentCount() const { return depthAttachmentCount; }
             const bool HasDepthAttachment() const { return depthAttachmentCount > 0; }
 
         private:
@@ -45,6 +47,7 @@ namespace lime { namespace spoopy {
             std::vector<VkSubpassDescription> subpassDescriptions;
 
             VkRenderPass renderpass = VK_NULL_HANDLE;
-            uint8_t depthAttachmentCount = 0;
+            uint32_t colorAttachmentCount = 0;
+            uint32_t depthAttachmentCount = 0;
     };
 }}

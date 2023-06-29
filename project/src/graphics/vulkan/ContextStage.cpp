@@ -47,4 +47,12 @@ namespace lime { namespace spoopy {
         frameBuffers = std::make_unique<SCFrameBuffers>(*logicalDevice, *swapchain, renderPass, depthImage.get(), renderArea.GetExtent());
         isDirty = false;
     }
+
+    const VkFramebuffer &ContextStage::GetActiveFramebuffer(uint32_t activeSwapchainImage) const {
+        if(activeSwapchainImage > frameBuffers->GetFrameBufferCount()) {
+            return frameBuffers->GetFrameBuffer(0);
+        }
+
+        return frameBuffers->GetFrameBuffer(activeSwapchainImage);
+    }
 }}

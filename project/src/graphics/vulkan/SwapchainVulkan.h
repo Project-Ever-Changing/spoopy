@@ -24,6 +24,10 @@ namespace lime { namespace spoopy {
             VkSurfaceTransformFlagsKHR GetPreTransform() const { return preTransform; }
             uint32_t GetActiveImageIndex() const { return activeImageIndex; }
 
+            VkResult QueuePresent(const VkQueue &presentQueue, const VkSemaphore &waitSemaphore = VK_NULL_HANDLE);
+
+            bool IsSameExtent(const VkExtent2D &extent) const { return this->extent.width == extent.width && this->extent.height == extent.height; }
+
         private:
             int8_t SetVSYNC(uint8_t vsync);
 

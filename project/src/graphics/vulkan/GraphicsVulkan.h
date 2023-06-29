@@ -5,6 +5,9 @@
 #include "../../device/PhysicalDevice.h"
 #include "../../../include/graphics/Context.h"
 
+#include <graphics/Viewport.h>
+#include <math/Vector2T.h>
+
 #include <sdl_definitions_config.h>
 #include <vector>
 
@@ -20,6 +23,8 @@ namespace lime { namespace spoopy {
 
             void Reset(const RenderPassVulkan &renderPass);
             void AcquireNextImage(const SDL_Context &context);
+            void ResetPresent(const Viewport &viewport, const SDL_Context &context, const RenderPassVulkan &renderPass);
+            void Record(const RenderPassVulkan &renderPass, const Viewport &viewport);
 
             static GraphicsVulkan *GetCurrent() { return Main.get(); }
             static bool MultisamplingEnabled;
@@ -28,9 +33,10 @@ namespace lime { namespace spoopy {
             const LogicalDevice *GetLogicalDevice() const { return logicalDevice.get(); }
             const VkPipelineCache &GetPipelineCache() const { return pipelineCache; }
 
-        const std::shared_ptr<CommandPoolVulkan> &GetGraphicsCommandPool() { return logicalDevice->GetGraphicsCommandPool(); }
+            const std::shared_ptr<CommandPoolVulkan> &GetGraphicsCommandPool() { return logicalDevice->GetGraphicsCommandPool(); }
 
         private:
+            void RecreateSwapchain(const SDL_Context &context);
             void RecreateSwapchains();
 
             static std::unique_ptr<GraphicsVulkan> Main;

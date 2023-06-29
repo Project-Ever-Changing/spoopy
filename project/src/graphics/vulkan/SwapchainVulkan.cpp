@@ -126,6 +126,17 @@ namespace lime { namespace spoopy {
         return acquireResult;
     }
 
+    VkResult SwapchainVulkan::QueuePresent(const VkQueue &presentQueue, const VkSemaphore &waitSemaphore) {
+        VkPresentInfoKHR presentInfo = {};
+        presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+        presentInfo.waitSemaphoreCount = 1;
+        presentInfo.pWaitSemaphores = &waitSemaphore;
+        presentInfo.swapchainCount = 1;
+        presentInfo.pSwapchains = &swapchain;
+        presentInfo.pImageIndices = &activeImageIndex;
+        return vkQueuePresentKHR(presentQueue, &presentInfo);
+    }
+
     SwapchainVulkan::~SwapchainVulkan() {
         vkDestroySwapchainKHR(logicalDevice, swapchain, nullptr);
 
