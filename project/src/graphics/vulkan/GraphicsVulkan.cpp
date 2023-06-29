@@ -94,9 +94,9 @@ namespace lime { namespace spoopy {
     }
 
     void GraphicsVulkan::ResetPresent(const Viewport &viewport, const SDL_Context &context, const RenderPassVulkan &renderPass) {
-        auto graphicsQueue = logicalDevice->GetGraphicsQueue();
-        auto perSurfaceBuffer = context->GetSurfaceBuffer();
-        auto swapchain = context->GetSwapchain();
+        const auto &graphicsQueue = logicalDevice->GetGraphicsQueue();
+        const auto &perSurfaceBuffer = context->GetSurfaceBuffer();
+        const auto &swapchain = context->GetSwapchain();
 
         checkVulkan(vkQueueWaitIdle(graphicsQueue));
 

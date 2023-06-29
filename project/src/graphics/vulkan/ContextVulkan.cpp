@@ -19,6 +19,9 @@ namespace lime { namespace spoopy {
 
     void ContextVulkan::RecreateSwapchain(const PhysicalDevice &physicalDevice, const LogicalDevice &logicalDevice,
         const VkExtent2D &extent, const SwapchainVulkan *oldSwapchain) {
+        swapchain.reset();
+        surfaceBuffer.reset();
+
         swapchain = std::make_unique<SwapchainVulkan>(physicalDevice, *surface, logicalDevice, extent, oldSwapchain, sync);
         surfaceBuffer = std::make_unique<SurfaceBuffer>();
 
