@@ -1,10 +1,6 @@
 package spoopy.graphics;
 
 import haxe.ds.ObjectMap;
-import spoopy.backend.native.SpoopyNativeCFFI;
-import spoopy.graphics.renderer.SpoopyRenderPass;
-import spoopy.graphics.SpoopyAccessFlagBits;
-import spoopy.graphics.SpoopyPipelineStageFlagBits;
 
 import lime.app.IModule;
 import lime.app.Application;
@@ -12,7 +8,6 @@ import lime.ui.Window;
 import lime.graphics.RenderContextAttributes;
 import lime.math.Matrix3;
 
-@:access(lime.ui.Window)
 @:access(spoopy.graphics.SpoopyWindowDisplay)
 class SpoopyGraphicsModule implements IModule {
     @:noCompletion private var __application:Application;
@@ -23,32 +18,6 @@ class SpoopyGraphicsModule implements IModule {
     public function new() {
         __backend = new BackendGraphicsModule();
         __display = new ObjectMap<Window, SpoopyWindowDisplay>();
-    }
-
-    @:noCompletion private function __createRenderPass(window:Window, attributes:RenderContextAttributes):Void {
-        var renderPass = new SpoopyRenderPass();
-        renderPass.__hasImageLayout = true;
-        renderPass.addColorAttachment(SpoopyRenderPass.getFormatFromColorDepth(attributes.colorDepth));
-
-        // Subpass dependency for color attachment
-        renderPass.addSubpassDependency(true, false, COLOR_ATTACHMENT_OUTPUT_BIT, COLOR_ATTACHMENT_OUTPUT_BIT,
-            MEMORY_READ_BIT, COLOR_ATTACHMENT_READ_BIT | COLOR_ATTACHMENT_WRITE_BIT, 0);
-
-        if(attributes.hardware) {
-            if(attributes.depth) {
-                var format:SpoopyFormat = attributes.stencil ? SpoopyFormat.D32_SFLOAT_S8_UINT : SpoopyFormat.D32_SFLOAT;
-                renderPass.addDepthAttachment(format, attributes.stencil);
-
-                renderPass.addSubpassDependency(true, false, LATE_FRAGMENT_TESTS_BIT, LATE_FRAGMENT_TESTS_BIT,
-                    MEMORY_READ_BIT, DEPTH_STENCIL_ATTACHMENT_READ_BIT | DEPTH_STENCIL_ATTACHMENT_WRITE_BIT, 0);
-            }
-        }
-
-        renderPass.processAttachments();
-        renderPass.createSubpass();
-        renderPass.createRenderpass();
-
-        __backend.reset(renderPass);
     }
 
     @:noCompletion private function __onCreateWindow(window:Window):Void {
@@ -67,15 +36,18 @@ class SpoopyGraphicsModule implements IModule {
         __backend.checkContext(window);
         #end
 
-        __display.set(window, new SpoopyWindowDisplay(window));
-        __backend.createContextStage(window, __display.get(window).__viewportRect);
+        var display = new SpoopyWindowDisplay(window);
 
-        __createRenderPass(window, window.__attributes.context);
+        __display.set(window, display);
+        __backend.createContextStage(window, display);
+        display.createRenderPass();
+        __backend.reset(display.__renderPass);
     }
 
     @:noCompletion private function __onUpdate(deltaTime:Int):Void {
         for(window in __application.windows) {
-            // __backend.acquireNextImage(window);
+            __backend.acquireNextImage(window);
+            __backend.record(window, __display.get(window).__renderPass);
         }
 
         // TODO: Add an event system that will have graphic wise events.
