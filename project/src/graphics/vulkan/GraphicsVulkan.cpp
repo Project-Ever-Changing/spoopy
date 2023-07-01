@@ -125,6 +125,8 @@ namespace lime { namespace spoopy {
         const auto &perSurfaceBuffer = context->GetSurfaceBuffer();
         auto &commandBuffer = perSurfaceBuffer->commandBuffers[swapchain->GetActiveImageIndex()];
 
+        SPOOPY_LOG_INFO("Recording command buffer...");
+
         if(!commandBuffer->IsRunning()) {
             commandBuffer->SetBeginFlags(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
             commandBuffer->BeginRecord();
