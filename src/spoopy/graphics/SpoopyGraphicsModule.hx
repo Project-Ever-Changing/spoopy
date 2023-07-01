@@ -39,7 +39,7 @@ class SpoopyGraphicsModule implements IModule {
         var display = new SpoopyWindowDisplay(window);
 
         __display.set(window, display);
-        __backend.createContextStage(window, display);
+        __backend.createContextStage(window, display.__viewportRect);
         display.createRenderPass();
         __backend.reset(display.__renderPass);
     }
