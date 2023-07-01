@@ -16,6 +16,7 @@ import lime.ui.Window;
 */
 
 @:access(lime.ui.Window)
+@:access(spoopy.graphics.renderer.SpoopyRenderPass)
 class SpoopyWindowDisplay {
     public var displayWidth(default, null):Int = 0;
     public var displayHeight(default, null):Int = 0;
@@ -61,7 +62,7 @@ class SpoopyWindowDisplay {
             return;
         }
 
-        var attributes = window.__attributes.context;
+        var attributes = __window.__attributes.context;
 
         __renderPass = new SpoopyRenderPass();
         __renderPass.__hasImageLayout = true;
