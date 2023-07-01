@@ -125,8 +125,6 @@ namespace lime { namespace spoopy {
         const auto &perSurfaceBuffer = context->GetSurfaceBuffer();
         auto &commandBuffer = perSurfaceBuffer->commandBuffers[swapchain->GetActiveImageIndex()];
 
-        SPOOPY_LOG_INFO("Recording command buffer...");
-
         if(!commandBuffer->IsRunning()) {
             commandBuffer->SetBeginFlags(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
             commandBuffer->BeginRecord();
@@ -140,6 +138,8 @@ namespace lime { namespace spoopy {
         vkViewport.minDepth = 0.0f;
         vkViewport.maxDepth = 1.0f;
         vkCmdSetViewport(*commandBuffer, 0, 1, &vkViewport);
+
+        SPOOPY_LOG_INFO("Recording command buffer...");
 
         commandBuffer->BeginRenderPass(renderPass, stage->GetActiveFramebuffer(swapchain->GetActiveImageIndex()),
             stage->GetRenderArea().GetExtent().x, stage->GetRenderArea().GetExtent().y, renderPass.GetColorAttachmentCount(),
