@@ -47,7 +47,7 @@ class SpoopyGraphicsModule implements IModule {
     @:noCompletion private function __onUpdate(deltaTime:Int):Void {
         for(window in __application.windows) {
             __backend.acquireNextImage(window);
-            __backend.record(window, __display.get(window).__renderPass, __display.get(window).__viewportRect);
+            // __backend.record(window, __display.get(window).__renderPass, __display.get(window).__viewportRect);
         }
 
         // TODO: Add an event system that will have graphic wise events.
