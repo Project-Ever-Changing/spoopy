@@ -110,63 +110,61 @@ namespace lime { namespace spoopy {
     }
 
     void GraphicsVulkan::Record(const SDL_Context &context, const RenderPassVulkan &renderPass, const Viewport &viewport) {
-        for(size_t i=0; i<contexts.size(); i++) {
-            auto &stage = contexts[i]->stage;
-            stage->Update();
+        auto &stage = context->stage;
+        stage->Update();
 
 
-            // Begin Render Pass
+        // Begin Render Pass
 
-            if(stage->IsDirty()) {
-                ResetPresent(viewport, contexts[i], renderPass);
-                return;
-            }
-
-            const auto &swapchain = contexts[i]->GetSwapchain();
-            const auto &perSurfaceBuffer = contexts[i]->GetSurfaceBuffer();
-            auto &commandBuffer = perSurfaceBuffer->commandBuffers[swapchain->GetActiveImageIndex()];
-
-            if(!commandBuffer->IsRunning()) {
-                commandBuffer->SetBeginFlags(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
-                commandBuffer->BeginRecord();
-            }
-
-            VkViewport vkViewport = {};
-            vkViewport.x = static_cast<float>(viewport.offset.x);
-            vkViewport.y = static_cast<float>(viewport.offset.y);
-            vkViewport.width = static_cast<float>(viewport.extent.x);
-            vkViewport.height = static_cast<float>(viewport.extent.y);
-            vkViewport.minDepth = 0.0f;
-            vkViewport.maxDepth = 1.0f;
-            vkCmdSetViewport(*commandBuffer, 0, 1, &vkViewport);
-
-            commandBuffer->BeginRenderPass(renderPass, stage->GetActiveFramebuffer(swapchain->GetActiveImageIndex()),
-                stage->GetRenderArea().GetExtent().x, stage->GetRenderArea().GetExtent().y, renderPass.GetColorAttachmentCount(),
-                renderPass.GetDepthAttachmentCount(), VK_SUBPASS_CONTENTS_INLINE);
-
-
-            // End Render Pass
-
-            commandBuffer->EndRenderPass();
-            commandBuffer->EndRecord();
-
-
-            // Submit
-
-            commandBuffer->Submit(perSurfaceBuffer->presentCompletes[perSurfaceBuffer->currentFrame], perSurfaceBuffer->renderCompletes[perSurfaceBuffer->currentFrame],
-                perSurfaceBuffer->flightFences[perSurfaceBuffer->currentFrame]);
-
-            auto presentQueue = logicalDevice->GetPresentQueue();
-            auto presentResult = swapchain->QueuePresent(presentQueue, perSurfaceBuffer->renderCompletes[perSurfaceBuffer->currentFrame]);
-
-            if(presentResult == VK_ERROR_OUT_OF_DATE_KHR || presentResult == VK_SUBOPTIMAL_KHR) {
-                RecreateSwapchain(contexts[i]);
-            }else if(presentResult != VK_SUCCESS) {
-                checkVulkan(presentResult);
-                SPOOPY_LOG_ERROR("Failed to present swapchain image!");
-            }
-
-            perSurfaceBuffer->currentFrame = (perSurfaceBuffer->currentFrame + 1) % swapchain->GetImageCount();
+        if(stage->IsDirty()) {
+            ResetPresent(viewport, context, renderPass);
+            return;
         }
+
+        const auto &swapchain = context->GetSwapchain();
+        const auto &perSurfaceBuffer = context->GetSurfaceBuffer();
+        auto &commandBuffer = perSurfaceBuffer->commandBuffers[swapchain->GetActiveImageIndex()];
+
+        if(!commandBuffer->IsRunning()) {
+            commandBuffer->SetBeginFlags(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
+            commandBuffer->BeginRecord();
+        }
+
+        VkViewport vkViewport = {};
+        vkViewport.x = static_cast<float>(viewport.offset.x);
+        vkViewport.y = static_cast<float>(viewport.offset.y);
+        vkViewport.width = static_cast<float>(viewport.extent.x);
+        vkViewport.height = static_cast<float>(viewport.extent.y);
+        vkViewport.minDepth = 0.0f;
+        vkViewport.maxDepth = 1.0f;
+        vkCmdSetViewport(*commandBuffer, 0, 1, &vkViewport);
+
+        commandBuffer->BeginRenderPass(renderPass, stage->GetActiveFramebuffer(swapchain->GetActiveImageIndex()),
+            stage->GetRenderArea().GetExtent().x, stage->GetRenderArea().GetExtent().y, renderPass.GetColorAttachmentCount(),
+            renderPass.GetDepthAttachmentCount(), VK_SUBPASS_CONTENTS_INLINE);
+
+
+        // End Render Pass
+
+        commandBuffer->EndRenderPass();
+        commandBuffer->EndRecord();
+
+
+        // Submit
+
+        commandBuffer->Submit(perSurfaceBuffer->presentCompletes[perSurfaceBuffer->currentFrame], perSurfaceBuffer->renderCompletes[perSurfaceBuffer->currentFrame],
+            perSurfaceBuffer->flightFences[perSurfaceBuffer->currentFrame]);
+
+        auto presentQueue = logicalDevice->GetPresentQueue();
+        auto presentResult = swapchain->QueuePresent(presentQueue, perSurfaceBuffer->renderCompletes[perSurfaceBuffer->currentFrame]);
+
+        if(presentResult == VK_ERROR_OUT_OF_DATE_KHR || presentResult == VK_SUBOPTIMAL_KHR) {
+            RecreateSwapchain(context);
+        }else if(presentResult != VK_SUCCESS) {
+            checkVulkan(presentResult);
+            SPOOPY_LOG_ERROR("Failed to present swapchain image!");
+        }
+
+        perSurfaceBuffer->currentFrame = (perSurfaceBuffer->currentFrame + 1) % swapchain->GetImageCount();
     }
 }}
