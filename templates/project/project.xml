@@ -7,7 +7,7 @@
 
     <!-- _____________________________ Window Settings _____________________________ -->
 
-	<!--These window settings apply to all targets-->
+	<!-- These window settings apply to all targets -->
 	<window width="1280" height="720" fps="120" background="#000000" hardware="true" vsync="false" />
 	
     <!-- _____________________________ Path Settings _____________________________ -->
