@@ -130,6 +130,8 @@ namespace lime { namespace spoopy {
             commandBuffer->BeginRecord();
         }
 
+        SPOOPY_LOG_INFO("1");
+
         VkViewport vkViewport = {};
         vkViewport.x = static_cast<float>(viewport.offset.x);
         vkViewport.y = static_cast<float>(viewport.offset.y);
@@ -139,7 +141,7 @@ namespace lime { namespace spoopy {
         vkViewport.maxDepth = 1.0f;
         vkCmdSetViewport(*commandBuffer, 0, 1, &vkViewport);
 
-        SPOOPY_LOG_INFO("Recording command buffer...");
+        SPOOPY_LOG_INFO("2");
 
         commandBuffer->BeginRenderPass(renderPass, stage->GetActiveFramebuffer(swapchain->GetActiveImageIndex()),
             stage->GetRenderArea().GetExtent().x, stage->GetRenderArea().GetExtent().y, renderPass.GetColorAttachmentCount(),
@@ -150,6 +152,8 @@ namespace lime { namespace spoopy {
 
         commandBuffer->EndRenderPass();
         commandBuffer->EndRecord();
+
+        SPOOPY_LOG_INFO("3");
 
 
         // Submit
@@ -166,6 +170,8 @@ namespace lime { namespace spoopy {
             checkVulkan(presentResult);
             SPOOPY_LOG_ERROR("Failed to present swapchain image!");
         }
+
+        SPOOPY_LOG_INFO("4");
 
         perSurfaceBuffer->currentFrame = (perSurfaceBuffer->currentFrame + 1) % swapchain->GetImageCount();
     }
