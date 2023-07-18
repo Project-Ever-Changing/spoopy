@@ -8,7 +8,8 @@
 namespace lime { namespace spoopy {
     ContextStage::ContextStage(const ContextVulkan &context, const Viewport &viewport):
         context(context),
-        viewport(viewport) {
+        viewport(viewport),
+        isDirty(true) {
         // Empty for now.
     }
 
@@ -18,7 +19,7 @@ namespace lime { namespace spoopy {
 
     void ContextStage::SetViewport(const Viewport &viewport) {
         if(this->viewport.offset != viewport.offset || this->viewport.extent != viewport.extent) {
-            this->viewport = viewport;
+            this->viewport.SetTo(viewport);
             isDirty = true;
         }
     }

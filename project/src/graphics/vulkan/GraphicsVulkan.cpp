@@ -164,6 +164,6 @@ namespace lime { namespace spoopy {
 
     void GraphicsVulkan::ChangeSize(const SDL_Context &context, const Viewport &viewport) {
         auto &stage = context->stage;
-        // stage->SetViewport(viewport);
+        stage->SetViewport(viewport);
     }
 }}
