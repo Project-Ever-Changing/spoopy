@@ -406,6 +406,6 @@ class RunScript {
             }
         }
 
-        return null;
+        return false;
     }
 }
