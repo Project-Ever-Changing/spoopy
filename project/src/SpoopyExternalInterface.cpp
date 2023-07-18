@@ -28,7 +28,7 @@ namespace lime { namespace spoopy {
     DEFINE_PRIME0v(spoopy_check_graphics_module);
 
     /*
-     * If I name it spoopy_acquire_next_image_graphics_module, it will be too long.
+     * If I name it `spoopy_acquire_next_image_graphics_module`, it will be too long.
      */
     void spoopy_acquire_image_graphics_module(value window_handle) {
         Window* window = (Window*)val_data(window_handle);
@@ -37,14 +37,22 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME1v(spoopy_acquire_image_graphics_module);
 
-    void spoopy_record_graphics_module(value window_handle, value renderpass_handle, value viewport) {
+    void spoopy_record_graphics_module(value window_handle, value renderpass_handle) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
         RenderPass* renderPass = (RenderPass*)val_data(renderpass_handle);
 
-        GraphicsModule::GetCurrent()->Record(sdlWindow->context, *renderPass, Viewport(viewport));
+        GraphicsModule::GetCurrent()->Record(sdlWindow->context, *renderPass);
     }
-    DEFINE_PRIME3v(spoopy_record_graphics_module);
+    DEFINE_PRIME2v(spoopy_record_graphics_module);
+
+    void spoopy_resize_graphics_context(value window_handle, value viewport) {
+        Window* window = (Window*)val_data(window_handle);
+        SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
+
+        GraphicsModule::GetCurrent()->ChangeSize(sdlWindow->context, Viewport(viewport));
+    }
+    DEFINE_PRIME2v(spoopy_resize_graphics_context);
 
     void spoopy_reset_graphics_module(value renderpass_handle) {
         RenderPass* renderPass = (RenderPass*)val_data(renderpass_handle);

@@ -94,7 +94,7 @@ namespace lime { namespace spoopy {
         }
     }
 
-    void GraphicsVulkan::ResetPresent(const Viewport &viewport, const SDL_Context &context, const RenderPassVulkan &renderPass) {
+    void GraphicsVulkan::ResetPresent(const SDL_Context &context, const RenderPassVulkan &renderPass) {
         const auto &graphicsQueue = logicalDevice->GetGraphicsQueue();
         const auto &perSurfaceBuffer = context->GetSurfaceBuffer();
         const auto &swapchain = context->GetSwapchain();
@@ -102,24 +102,23 @@ namespace lime { namespace spoopy {
         checkVulkan(vkQueueWaitIdle(graphicsQueue));
 
         if(perSurfaceBuffer->framebufferResized || !swapchain->IsSameExtent(displayExtent)) {
-            context->stage->UpdateViewport(viewport);
             RecreateSwapchain(context);
         }
 
         context->stage->Build(renderPass);
     }
 
-    void GraphicsVulkan::Record(const SDL_Context &context, const RenderPassVulkan &renderPass, const Viewport &viewport) {
+    void GraphicsVulkan::Record(const SDL_Context &context, const RenderPassVulkan &renderPass) {
         auto &stage = context->stage;
-        stage->Update();
+        bool dirty = false;
+
+        if(stage->IsDirty()) {
+            ResetPresent(context, renderPass);
+            dirty = true;
+        }
 
 
         // Begin Render Pass
-
-        if(stage->IsDirty()) {
-            ResetPresent(viewport, context, renderPass);
-            return;
-        }
 
         const auto &swapchain = context->GetSwapchain();
         const auto &perSurfaceBuffer = context->GetSurfaceBuffer();
@@ -130,18 +129,13 @@ namespace lime { namespace spoopy {
             commandBuffer->BeginRecord();
         }
 
-        VkViewport vkViewport = {};
-        vkViewport.x = static_cast<float>(viewport.offset.x);
-        vkViewport.y = static_cast<float>(viewport.offset.y);
-        vkViewport.width = static_cast<float>(viewport.extent.x);
-        vkViewport.height = static_cast<float>(viewport.extent.y);
-        vkViewport.minDepth = 0.0f;
-        vkViewport.maxDepth = 1.0f;
-        vkCmdSetViewport(*commandBuffer, 0, 1, &vkViewport);
-
         commandBuffer->BeginRenderPass(renderPass, stage->GetActiveFramebuffer(swapchain->GetActiveImageIndex()),
             stage->GetRenderArea().GetExtent().x, stage->GetRenderArea().GetExtent().y, renderPass.GetColorAttachmentCount(),
             renderPass.GetDepthAttachmentCount(), VK_SUBPASS_CONTENTS_INLINE);
+
+        if(dirty) {
+            stage->UpdateViewport(*commandBuffer);
+        }
 
 
         // End Render Pass
@@ -166,5 +160,10 @@ namespace lime { namespace spoopy {
         }
 
         perSurfaceBuffer->currentFrame = (perSurfaceBuffer->currentFrame + 1) % swapchain->GetImageCount();
+    }
+
+    void GraphicsVulkan::ChangeSize(const SDL_Context &context, const Viewport &viewport) {
+        auto &stage = context->stage;
+        context->stage->SetViewport(viewport);
     }
 }}

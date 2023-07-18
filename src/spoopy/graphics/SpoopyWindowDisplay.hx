@@ -30,14 +30,16 @@ class SpoopyWindowDisplay {
         __window = window;
         __displayMatrix = new Matrix3();
         __viewportRect = new Rectangle();
+    }
 
+    public function resize():Void {
         var windowWidth = Std.int(__window.width * __window.scale);
 		var windowHeight = Std.int(__window.height * __window.scale);
 
-        setViewport(windowWidth, windowHeight);
+        __setViewport(windowWidth, windowHeight);
     }
 
-    public function setViewport(width:Int, height:Int):Void {
+    @:noCompletion private function __setViewport(width:Int, height:Int):Void {
         displayWidth = width;
         displayHeight = height;
 

@@ -13,7 +13,11 @@ class SpoopyGraphicsModule implements IModule {
     @:noCompletion private var __application:Application;
     @:noCompletion private var __backend:BackendGraphicsModule;
     @:noCompletion private var __display:ObjectMap<Window, SpoopyWindowDisplay>;
+    @:noCompletion private var __rendering:Bool = false;
+
+    #if spoopy_debug
     @:noCompletion private var __createFirstWindow:Bool = false;
+    #end
 
     public function new() {
         __backend = new BackendGraphicsModule();
@@ -21,22 +25,18 @@ class SpoopyGraphicsModule implements IModule {
     }
 
     @:noCompletion private function __onCreateWindow(window:Window):Void {
+        #if spoopy_debug
         if(!__createFirstWindow) {
-            __application.onUpdate.add(__onUpdate);
-            __application.onExit.add(__onModuleExit, false, 0);
-
-            #if spoopy_debug
             __backend.check();
-            #end
-
             __createFirstWindow = true;
         }
 
-        #if spoopy_debug
         __backend.checkContext(window);
         #end
 
         var display = new SpoopyWindowDisplay(window);
+
+        __windowResize(display);
 
         __display.set(window, display);
         __backend.createContextStage(window, display.__viewportRect);
@@ -44,12 +44,39 @@ class SpoopyGraphicsModule implements IModule {
         __backend.reset(display.__renderPass);
     }
 
-    @:noCompletion private function __onUpdate(deltaTime:Int):Void {
-        for(window in __application.windows) {
-            __backend.acquireNextImage(window);
-            __backend.record(window, __display.get(window).__renderPass, __display.get(window).__viewportRect);
+    @:noCompletion private function __windowResize(display:SpoopyWindowDisplay):Void {
+        display.resize();
+        __backend.resize(display.__window, display.__viewportRect);
+
+        //TODO: Maybe have an event system for this?
+    }
+
+    @:noCompletion private function __onWindowRender(context:RenderContext):Void { // The `RenderContext` is practically useless.
+        if(__rendering) return;
+        __rendering = true;
+
+        __backend.acquireNextImage(context.window);
+        __backend.record(context.window, __display.get(context.window).__renderPass);
+
+        __rendering = false;
+    }
+
+    @:noCompletion private function __onWindowResize(window:Window):Void {
+        if(window == null) {
+            return;
         }
 
+        __windowResize(__display.get(window));
+    }
+
+    @:noCompletion private function __onWindowCreate(window:Window):Void {
+        window.onRender.add(__onWindowRender);
+        window.onResize.add(__onWindowResize);
+
+        __onCreateWindow(window);
+    }
+
+    @:noCompletion private function __onUpdate(deltaTime:Int):Void {
         // TODO: Add an event system that will have graphic wise events.
     }
 
@@ -61,17 +88,16 @@ class SpoopyGraphicsModule implements IModule {
         __application = application;
 
         application.onCreateWindow.add(__onCreateWindow);
+        application.onUpdate.add(__onUpdate);
+        application.onExit.add(__onModuleExit, false, 0);
     }
 
     @:noCompletion private function __unregisterLimeModule(application:Application):Void {
         __application = null;
 
         application.onCreateWindow.remove(__onCreateWindow);
-
-        if(__createFirstWindow) {
-            application.onUpdate.remove(__onUpdate);
-		    application.onExit.remove(__onModuleExit);
-        }
+        application.onUpdate.remove(__onUpdate);
+        application.onExit.remove(__onModuleExit);
     }
 }
 
