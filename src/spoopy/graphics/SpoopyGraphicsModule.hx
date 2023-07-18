@@ -62,7 +62,7 @@ class SpoopyGraphicsModule implements IModule {
         __rendering = false;
     }
 
-    @:noCompletion private function __onWindowResize(window:Window):Void {
+    @:noCompletion private function __onWindowResize(window:Window, width:Int, height:Int):Void {
         if(window == null) {
             return;
         }
@@ -71,8 +71,6 @@ class SpoopyGraphicsModule implements IModule {
     }
 
     @:noCompletion private function __onWindowCreate(window:Window):Void {
-        if(this.window != window) return;
-
         window.onRender.add(__onWindowRender);
         window.onResize.add(__onWindowResize.bind(window));
 
