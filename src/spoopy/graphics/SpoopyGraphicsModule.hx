@@ -39,6 +39,8 @@ class SpoopyGraphicsModule implements IModule {
 
         __windowResize(display);
 
+        trace("s2");
+
         __display.set(window, display);
         __backend.createContextStage(window, display.__viewportRect);
         display.createRenderPass();
