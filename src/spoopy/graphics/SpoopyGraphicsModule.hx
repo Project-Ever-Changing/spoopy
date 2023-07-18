@@ -6,6 +6,7 @@ import lime.app.IModule;
 import lime.app.Application;
 import lime.ui.Window;
 import lime.graphics.RenderContextAttributes;
+import lime.graphics.RenderContext;
 import lime.math.Matrix3;
 
 @:access(spoopy.graphics.SpoopyWindowDisplay)
