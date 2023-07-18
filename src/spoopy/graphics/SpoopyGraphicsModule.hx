@@ -34,12 +34,13 @@ class SpoopyGraphicsModule implements IModule {
 
         __backend.checkContext(window);
         #end
+        trace("s1");
 
         var display = new SpoopyWindowDisplay(window);
 
-        __windowResize(display);
-
         trace("s2");
+
+        __windowResize(display);
 
         __display.set(window, display);
         __backend.createContextStage(window, display.__viewportRect);
