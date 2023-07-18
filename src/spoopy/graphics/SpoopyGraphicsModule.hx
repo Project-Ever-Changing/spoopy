@@ -71,6 +71,8 @@ class SpoopyGraphicsModule implements IModule {
     }
 
     @:noCompletion private function __onWindowCreate(window:Window):Void {
+        if(this.window != window) return;
+
         window.onRender.add(__onWindowRender);
         window.onResize.add(__onWindowResize.bind(window));
 
