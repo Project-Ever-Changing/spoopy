@@ -1,5 +1,5 @@
 -main RunScript
--hl run.hl
+-neko run.n
 
 -D lime
 -D disable-cffi
