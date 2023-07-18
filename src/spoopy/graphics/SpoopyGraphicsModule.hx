@@ -34,11 +34,8 @@ class SpoopyGraphicsModule implements IModule {
 
         __backend.checkContext(window);
         #end
-        trace("s1");
 
         var display = new SpoopyWindowDisplay(window);
-
-        trace("s2");
 
         __windowResize(display);
 
@@ -52,7 +49,7 @@ class SpoopyGraphicsModule implements IModule {
 
     @:noCompletion private function __windowResize(display:SpoopyWindowDisplay):Void {
         display.resize();
-        __backend.resize(display.__window, display.__viewportRect);
+        // __backend.resize(display.__window, display.__viewportRect);
 
         //TODO: Maybe have an event system for this?
     }
