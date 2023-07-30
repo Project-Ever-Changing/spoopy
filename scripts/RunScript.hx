@@ -169,6 +169,10 @@ class RunScript {
             FileSystem.createDirectory(Sys.getCwd() + "ndll");
         }
 
+        if(args.indexOf("--debug") > 0) {
+            build_args.push("-DSPOOPY_DEBUG");
+        }
+
         build_args.push(getXMLArgs(args, "-include_example"));
 
         buildScript(build_args);

@@ -82,6 +82,11 @@
 		    <compilerflag value="-Ilib/rocket/" />
 		</section>
 
+		<section if="SPOOPY_DEBUG">
+		    <compilerflag value="-DSPOOPY_DEBUG" />
+		    <compilerflag value="-DSPOOPY_DEBUG_MESSENGER" />
+		</section>
+
 		<file name="src/SpoopyExternalInterface.cpp" />
 
 		<compilerflag value="-I${LIME_INCLUDE_PATH}" />
