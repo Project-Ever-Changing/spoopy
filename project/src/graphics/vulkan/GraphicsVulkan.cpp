@@ -109,7 +109,6 @@ namespace lime { namespace spoopy {
     }
 
     void GraphicsVulkan::Record(const SDL_Context &context, const RenderPassVulkan &renderPass) {
-        /*
         auto &stage = context->stage;
         bool dirty = false;
 
@@ -161,7 +160,6 @@ namespace lime { namespace spoopy {
         }
 
         perSurfaceBuffer->currentFrame = (perSurfaceBuffer->currentFrame + 1) % swapchain->GetImageCount();
-         */
     }
 
     void GraphicsVulkan::ChangeSize(const SDL_Context &context, const Viewport &viewport) {
