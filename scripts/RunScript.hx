@@ -274,6 +274,8 @@ class RunScript {
     static inline function buildScript(have_API:Array<String>):Void {
         var cleanG_API:Array<String> = [];
 
+        trace(FileSystem.exists("project/obj"));
+
         if(FileSystem.exists("project/obj")) {
             PathUtils.deleteDirRecursively("project/obj");
             FileSystem.deleteDirectory("project/obj");
@@ -293,7 +295,6 @@ class RunScript {
             var find:String = "";
 
             do {
-                trace("ndll-" + api);
                 find = PathUtils.recursivelyFindFile("ndll-" + api, "lime.ndll.hash");
 
                 if(find != "") {
