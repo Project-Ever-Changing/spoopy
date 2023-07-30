@@ -78,6 +78,20 @@ namespace lime { namespace spoopy {
         contexts.clear();
     }
 
+    void GraphicsVulkan::ResetPresent(const SDL_Context &context, const RenderPassVulkan &renderPass) {
+        const auto &graphicsQueue = logicalDevice->GetGraphicsQueue();
+        const auto &perSurfaceBuffer = context->GetSurfaceBuffer();
+        const auto &swapchain = context->GetSwapchain();
+
+        checkVulkan(vkQueueWaitIdle(graphicsQueue));
+
+        if(perSurfaceBuffer->framebufferResized || !swapchain->IsSameExtent(displayExtent)) {
+            RecreateSwapchain(context);
+        }
+
+        context->stage->Build(renderPass);
+    }
+
     void GraphicsVulkan::AcquireNextImage(const SDL_Context &context) {
         auto perSurfaceBuffer = context->GetSurfaceBuffer();
         auto acquireResult = context->AcquireNextImage(perSurfaceBuffer->presentCompletes[perSurfaceBuffer->currentFrame], perSurfaceBuffer->flightFences[perSurfaceBuffer->currentFrame]);
@@ -94,21 +108,8 @@ namespace lime { namespace spoopy {
         }
     }
 
-    void GraphicsVulkan::ResetPresent(const SDL_Context &context, const RenderPassVulkan &renderPass) {
-        const auto &graphicsQueue = logicalDevice->GetGraphicsQueue();
-        const auto &perSurfaceBuffer = context->GetSurfaceBuffer();
-        const auto &swapchain = context->GetSwapchain();
-
-        checkVulkan(vkQueueWaitIdle(graphicsQueue));
-
-        if(perSurfaceBuffer->framebufferResized || !swapchain->IsSameExtent(displayExtent)) {
-            RecreateSwapchain(context);
-        }
-
-        context->stage->Build(renderPass);
-    }
-
     void GraphicsVulkan::Record(const SDL_Context &context, const RenderPassVulkan &renderPass) {
+        /*
         auto &stage = context->stage;
         bool dirty = false;
 
@@ -160,6 +161,7 @@ namespace lime { namespace spoopy {
         }
 
         perSurfaceBuffer->currentFrame = (perSurfaceBuffer->currentFrame + 1) % swapchain->GetImageCount();
+         */
     }
 
     void GraphicsVulkan::ChangeSize(const SDL_Context &context, const Viewport &viewport) {
