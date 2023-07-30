@@ -184,15 +184,15 @@ namespace lime { namespace spoopy {
                 std::vector<const char*> extensions(extensionCount);
                 SDL_Vulkan_GetInstanceExtensions(m_window, &extensionCount, extensions.data());
 
-                if(enableValidationLayers) {
-                    extensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
-                    extensions.emplace_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
-                }
-
                 extensions.emplace_back("VK_KHR_portability_enumeration");
         #else
                 std::vector<const char*> extensions;
         #endif
+
+        if(enableValidationLayers) {
+            extensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+            extensions.emplace_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
+        }
 
         extensions.emplace_back("VK_KHR_get_physical_device_properties2");
         return extensions;
