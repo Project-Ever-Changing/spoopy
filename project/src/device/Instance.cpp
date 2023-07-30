@@ -200,7 +200,7 @@ namespace lime { namespace spoopy {
         auto isExtensionSupported = [&](const char* extensionName) { // I got lazy so I'm using a lambda.
             bool supported = false;
 
-            for(const auto& extension : availableExtensions) {
+            for(const auto& extension: availableExtensions) {
                 if (strcmp(extension.extensionName, extensionName) == 0) {
                     supported = true;
                     break;
@@ -209,7 +209,7 @@ namespace lime { namespace spoopy {
 
             if(supported) {
                 for (const auto &extension: extensions) {
-                    if (strcmp(extension.extensionName, extensionName) == 0) { // Check if it's already in.
+                    if (strcmp(extension, extensionName) == 0) { // Check if it's already in.
                         supported = false;
                         break;
                     }
