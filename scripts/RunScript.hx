@@ -6,6 +6,7 @@ import lime.tools.HXProject;
 import lime.tools.PlatformTarget;
 import lime.tools.CommandHelper;
 import lime.tools.CLICommand;
+import lime.utils.Log;
 import sys.io.File;
 import sys.FileSystem;
 import massive.sys.io.FileSys;
@@ -170,6 +171,7 @@ class RunScript {
         }
 
         if(args.indexOf("--debug") > 0) {
+            Log.info("Backend bebug mode is now enabled.");
             build_args.push("-DSPOOPY_DEBUG");
         }
 
