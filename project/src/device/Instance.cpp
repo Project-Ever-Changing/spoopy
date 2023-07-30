@@ -197,7 +197,7 @@ namespace lime { namespace spoopy {
             extensions.emplace_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
         }
 
-        auto isExtensionSupported = [&](const char* extensionName) {
+        auto isExtensionSupported = [&](const char* extensionName) { // I got lazy so I'm using a lambda.
             bool supported = false;
 
             for(const auto& extension : availableExtensions) {
