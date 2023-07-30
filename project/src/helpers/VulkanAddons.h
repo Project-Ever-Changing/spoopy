@@ -10,6 +10,10 @@
 #define VK_API_VERSION_1_1 VK_MAKE_VERSION(1, 1, 0)
 #endif
 
+#ifndef VK_API_VERSION_1_3_2
+#define VK_API_VERSION_1_3_2 VK_MAKE_VERSION(1, 3, 2)
+#endif
+
 #define SPOOPY_DEBUG_MESSENGER VK_HEADER_VERSION >= 121
 
 namespace lime { namespace spoopy {

@@ -4,7 +4,7 @@
 #include "Instance.h"
 
 namespace lime { namespace spoopy {
-    const std::vector<const char*> LogicalDevice::Extensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
+    const std::vector<const char*> LogicalDevice::Extensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME, "VK_KHR_portability_subset",};
 
     LogicalDevice::LogicalDevice(const Instance &instance, const PhysicalDevice &physicalDevice)
         : instance(instance), physicalDevice(physicalDevice) {

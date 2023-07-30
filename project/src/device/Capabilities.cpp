@@ -15,4 +15,19 @@ namespace lime { namespace spoopy {
 
         throw std::runtime_error("Failed to find suitable memory type!");
     }
+
+    bool Capabilities::IsAvailableExtension(const char* extensionName) {
+        uint32_t availableExtensionCount = 0;
+        vkEnumerateInstanceExtensionProperties(nullptr, &availableExtensionCount, nullptr);
+        std::vector<VkExtensionProperties> availableExtensions(availableExtensionCount);
+        vkEnumerateInstanceExtensionProperties(nullptr, &availableExtensionCount, availableExtensions.data());
+
+        for(const auto& extension: availableExtensions) {
+            if(strcmp(extension.extensionName, extensionName) == 0) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }}

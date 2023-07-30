@@ -1,4 +1,5 @@
 #include "Instance.h"
+#include "Capabilities.h"
 
 #include <sstream>
 #include <string>
@@ -206,17 +207,15 @@ namespace lime { namespace spoopy {
             return false;
         };
 
-        if (isExtensionSupported("VK_KHR_get_physical_device_properties2")) {
+        if (Capabilities::IsAvailableExtension("VK_KHR_get_physical_device_properties2")) {
             extensions.emplace_back("VK_KHR_get_physical_device_properties2");
         }
 
-        if (isExtensionSupported("VK_KHR_portability_subset")) {
-            extensions.emplace_back("VK_KHR_portability_subset");
-        }
-
-        if (isExtensionSupported("VK_KHR_portability_enumeration")) {
+        #ifdef VK_API_VERSION_1_3_2
+        if (Capabilities::IsAvailableExtension("VK_KHR_portability_enumeration")) {
             extensions.emplace_back("VK_KHR_portability_enumeration");
         }
+        #endif
 
         return extensions;
     }
