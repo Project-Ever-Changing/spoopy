@@ -82,7 +82,7 @@ namespace lime { namespace spoopy {
         ? GraphicsModule::GetCurrent()->GetPhysicalDevice()->GetMaxUsableSampleCount()
         : VK_SAMPLE_COUNT_1_BIT;
 
-        _renderPass->AddDepthAttachment(location, VK_IMAGE_LAYOUT_UNDEFINED, format, samples,
+        _renderPass->AddDepthAttachment(location, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, format, samples,
             VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, VK_IMAGE_LAYOUT_UNDEFINED, hasStencil);
         #endif
     }
