@@ -9,7 +9,7 @@
 
 namespace lime { namespace spoopy {
     #if VK_HEADER_VERSION > 101
-        const std::vector<const char*> Instance::ValidationLayers = {"VK_LAYER_KHRONOS_validation", "VK_KHR_portability_subset", "VK_KHR_portability_enumeration"};
+        const std::vector<const char*> Instance::ValidationLayers = {"VK_LAYER_KHRONOS_validation"};
     #else
         const std::vector<const char*> Instance::ValidationLayers = {"VK_LAYER_LUNARG_standard_validation", "VK_KHR_portability_subset"};
     #endif
@@ -178,13 +178,16 @@ namespace lime { namespace spoopy {
     }
 
     std::vector<const char *> Instance::GetExtensions() const {
+        uint32_t availableExtensionCount = 0;
+        vkEnumerateInstanceExtensionProperties(nullptr, &availableExtensionCount, nullptr);
+        std::vector<VkExtensionProperties> availableExtensions(availableExtensionCount);
+        vkEnumerateInstanceExtensionProperties(nullptr, &availableExtensionCount, availableExtensions.data());
+
         #ifdef SPOOPY_SDL
                 unsigned int extensionCount = 0;
                 SDL_Vulkan_GetInstanceExtensions(m_window, &extensionCount, nullptr);
                 std::vector<const char*> extensions(extensionCount);
                 SDL_Vulkan_GetInstanceExtensions(m_window, &extensionCount, extensions.data());
-
-                extensions.emplace_back("VK_KHR_portability_enumeration");
         #else
                 std::vector<const char*> extensions;
         #endif
@@ -194,7 +197,27 @@ namespace lime { namespace spoopy {
             extensions.emplace_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
         }
 
-        extensions.emplace_back("VK_KHR_get_physical_device_properties2");
+        auto isExtensionSupported = [&](const char* extensionName) {
+            for (const auto& extension : availableExtensions) {
+                if (strcmp(extension.extensionName, extensionName) == 0) {
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        if (isExtensionSupported("VK_KHR_get_physical_device_properties2")) {
+            extensions.emplace_back("VK_KHR_get_physical_device_properties2");
+        }
+
+        if (isExtensionSupported("VK_KHR_portability_subset")) {
+            extensions.emplace_back("VK_KHR_portability_subset");
+        }
+
+        if (isExtensionSupported("VK_KHR_portability_enumeration")) {
+            extensions.emplace_back("VK_KHR_portability_enumeration");
+        }
+
         return extensions;
     }
 }}
