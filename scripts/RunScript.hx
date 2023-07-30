@@ -283,10 +283,11 @@ class RunScript {
             cleanG_API.push(have_API[i].split("_")[1].toLowerCase());
         }
 
-        for(api in cleanG_API) {
+        for(i in 0...cleanG_API.length) {
+            var api:String = cleanG_API[i];
+
             if(!FileSystem.exists("ndll-" + api)) {
                 cleanG_API.remove(api);
-                trace("ndll-" + api);
             }
         }
 
