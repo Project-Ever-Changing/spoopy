@@ -293,6 +293,7 @@ class RunScript {
             var find:String = "";
 
             do {
+                trace("ndll-" + api);
                 find = PathUtils.recursivelyFindFile("ndll-" + api, "lime.ndll.hash");
 
                 if(find != "") {
