@@ -198,12 +198,12 @@ class RunScript {
         if(args.indexOf("-git") > 0) {
             Sys.command("git", ["submodule", "update", "--init", "--remote"]);
         }
-
-        if(!(args.indexOf("--soft") > 0)) {
-            destroyCMD(args);
-        }
         
         if(args.indexOf("-ndll") > 0) {
+            if(!(args.indexOf("--soft") > 0)) {
+                destroyCMD(args);
+            }
+
             buildCMD(args);
         }
     }
