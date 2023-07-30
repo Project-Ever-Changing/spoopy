@@ -84,7 +84,6 @@
 
 		<section if="SPOOPY_DEBUG">
 		    <compilerflag value="-DSPOOPY_DEBUG" />
-		    <compilerflag value="-DSPOOPY_DEBUG_MESSENGER" />
 		</section>
 
 		<file name="src/SpoopyExternalInterface.cpp" />
