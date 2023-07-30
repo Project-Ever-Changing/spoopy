@@ -11,7 +11,7 @@ namespace lime { namespace spoopy {
     #if VK_HEADER_VERSION > 101
         const std::vector<const char*> Instance::ValidationLayers = {"VK_LAYER_KHRONOS_validation"};
     #else
-        const std::vector<const char*> Instance::ValidationLayers = {"VK_LAYER_LUNARG_standard_validation", "VK_KHR_portability_subset"};
+        const std::vector<const char*> Instance::ValidationLayers = {"VK_LAYER_LUNARG_standard_validation"};
     #endif
 
     #if SPOOPY_DEBUG_MESSENGER
