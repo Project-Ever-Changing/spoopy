@@ -194,6 +194,7 @@ namespace lime { namespace spoopy {
                 std::vector<const char*> extensions;
         #endif
 
+        extensions.emplace_back("VK_KHR_get_physical_device_properties2");
         return extensions;
     }
 }}
