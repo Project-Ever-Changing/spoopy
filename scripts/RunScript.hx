@@ -277,14 +277,17 @@ class RunScript {
         }
 
         var find:String = "";
+        var ndll_api:String = api.split("_")[1].toLowerCase();
 
-        do {
-            find = PathUtils.recursivelyFindFile("ndll-" + api, "lime.ndll.hash");
+        if(FileSystem.exists("ndll-" + ndll_api)) {
+            do {
+                find = PathUtils.recursivelyFindFile("ndll-" + ndll_api, "lime.ndll.hash");
 
-            if(find != "") {
-                FileSystem.deleteFile(find);
-            }
-        }while(find != "");
+                if(find != "") {
+                    FileSystem.deleteFile(find);
+                }
+            }while(find != "");
+        }
 
         var total_args:Array<String> = args.concat([api]);
 
