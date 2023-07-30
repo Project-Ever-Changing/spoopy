@@ -286,6 +286,7 @@ class RunScript {
         for(api in cleanG_API) {
             if(!FileSystem.exists("ndll-" + api)) {
                 cleanG_API.remove(api);
+                trace("ndll-" + api);
             }
         }
 
