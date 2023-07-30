@@ -198,12 +198,25 @@ namespace lime { namespace spoopy {
         }
 
         auto isExtensionSupported = [&](const char* extensionName) {
-            for (const auto& extension : availableExtensions) {
+            bool supported = false;
+
+            for(const auto& extension : availableExtensions) {
                 if (strcmp(extension.extensionName, extensionName) == 0) {
-                    return true;
+                    supported = true;
+                    break;
                 }
             }
-            return false;
+
+            if(supported) {
+                for (const auto &extension: extensions) {
+                    if (strcmp(extension.extensionName, extensionName) == 0) { // Check if it's already in.
+                        supported = false;
+                        break;
+                    }
+                }
+            }
+
+            return supported;
         };
 
         if (isExtensionSupported("VK_KHR_get_physical_device_properties2")) {
