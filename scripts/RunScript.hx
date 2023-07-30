@@ -206,9 +206,7 @@ class RunScript {
         }
         
         if(args.indexOf("-ndll") > 0) {
-            if(!(args.indexOf("--soft") > 0)) {
-                destroyCMD(args);
-            }
+            destroyCMD(args);
 
             buildCMD(args);
         }
