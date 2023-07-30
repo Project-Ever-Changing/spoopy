@@ -198,25 +198,12 @@ namespace lime { namespace spoopy {
         }
 
         auto isExtensionSupported = [&](const char* extensionName) { // I got lazy so I'm using a lambda.
-            bool supported = false;
-
             for(const auto& extension: availableExtensions) {
-                if (strcmp(extension.extensionName, extensionName) == 0) {
-                    supported = true;
-                    break;
+                if(strcmp(extension.extensionName, extensionName) == 0) {
+                    return true;
                 }
             }
-
-            if(supported) {
-                for (const auto &extension: extensions) {
-                    if (strcmp(extension, extensionName) == 0) { // Check if it's already in.
-                        supported = false;
-                        break;
-                    }
-                }
-            }
-
-            return supported;
+            return false;
         };
 
         if (isExtensionSupported("VK_KHR_get_physical_device_properties2")) {
