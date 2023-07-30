@@ -165,7 +165,6 @@ class RunScript {
             }
 
             have_API = "-DSPOOPY_VULKAN";
-            build_args.push(have_API);
         }else if(!FileSystem.exists(Sys.getCwd() + "ndll")) {
             FileSystem.createDirectory(Sys.getCwd() + "ndll");
         }
@@ -175,9 +174,9 @@ class RunScript {
             build_args.push("-DSPOOPY_DEBUG");
         }
 
-        build_args.push(getXMLArgs(args, "-include_example"));
+        build_args.push("-DSPOOPY_EMPTY");
 
-        buildScript(build_args);
+        buildScript(have_API, build_args);
     }
 
     static inline function lsCMD(args:Array<String>):Void {
@@ -271,54 +270,26 @@ class RunScript {
     /*
     * Tools pretty much.
     */
-    static inline function buildScript(have_API:Array<String>):Void {
-        var cleanG_API:Array<String> = [];
-
+    static inline function buildScript(api:String, args:Array<String>):Void {
         if(FileSystem.exists("project/obj")) {
             PathUtils.deleteDirRecursively("project/obj");
             FileSystem.deleteDirectory("project/obj");
         }
 
-        for(i in 0...have_API.length) {
-            cleanG_API.push(have_API[i].split("_")[1].toLowerCase());
-        }
+        var find:String = "";
 
-        for(api in cleanG_API) {
-            if(!FileSystem.exists("ndll-" + api)) {
-                cleanG_API.remove(api);
+        do {
+            find = PathUtils.recursivelyFindFile("ndll-" + api, "lime.ndll.hash");
+
+            if(find != "") {
+                FileSystem.deleteFile(find);
             }
+        }while(find != "");
 
-            trace("ndll-" + api);
-        }
-
-        for(api in cleanG_API) {
-            var find:String = "";
-
-            do {
-                trace("ndll-" + api);
-                find = PathUtils.recursivelyFindFile("ndll-" + api, "lime.ndll.hash");
-
-                if(find != "") {
-                    FileSystem.deleteFile(find);
-                }
-            }while(find != "");
-        }
+        var total_args:Array<String> = args.concat([api]);
 
         Sys.setCwd("project");
-        Sys.command("haxelib", ["run", "hxcpp", "Build.xml.tpl"].concat(have_API));
-    }
-
-    static inline function getXMLArgs(args:Array<String>, lookingFor:String):String {
-        if(args.indexOf(lookingFor) > 0) {
-            switch(lookingFor) {
-                case "-include_example":
-                    return "-DSPOOPY_INCLUDE_EXAMPLE";
-                default:
-                    return "-DSPOOPY_EMPTY";
-            }
-        }
-
-        return "-DSPOOPY_EMPTY";
+        Sys.command("haxelib", ["run", "hxcpp", "Build.xml.tpl"].concat(total_args));
     }
 
     static inline function processCWD():Void {

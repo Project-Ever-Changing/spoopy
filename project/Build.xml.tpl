@@ -97,7 +97,6 @@
 		<compilerflag value="-DLIME_VULKAN" if="SPOOPY_VULKAN" />
 		<compilerflag value="-DSPOOPY_INCLUDE_EXAMPLE" if="SPOOPY_INCLUDE_EXAMPLE" />
 		<compilerflag value="-DUSE_CUSTOM_SDL_DEFINITIONS" if="USE_CUSTOM_SDL_DEFINITIONS"/>
-		<compilerflag value="-DNO_GLSLANG_INCLUDED" />
 
 		<section if="SPOOPY_VULKAN">
 		    <file name="src/graphics/vulkan/framebuffers/SCFrameBuffers.cpp" />
