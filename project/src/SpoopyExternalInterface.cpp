@@ -69,6 +69,8 @@ namespace lime { namespace spoopy {
         : VK_SAMPLE_COUNT_1_BIT;
         VkImageLayout layout = hasImageLayout ? VK_IMAGE_LAYOUT_PRESENT_SRC_KHR : VK_IMAGE_LAYOUT_GENERAL;
 
+        SPOOPY_LOG_INFO(std::to_string(samples));
+
         _renderPass->AddColorAttachment(location, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, format, samples, layout);
         #endif
     }
