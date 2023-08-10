@@ -18,13 +18,13 @@ namespace lime { namespace spoopy {
         vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &surfaceFormatCount, surfaceFormats.data());
 
         if(surfaceFormatCount == 1 && surfaceFormats[0].format == VK_FORMAT_UNDEFINED) {
-            format.format = VK_FORMAT_R8G8B8A8_UNORM;
+            format.format = VK_FORMAT_B8G8R8A8_UNORM;
             format.colorSpace = surfaceFormats[0].colorSpace;
         }else {
             bool found_B8G8R8A8_UNORM = false;
 
             for(auto &surfaceFormat: surfaceFormats) {
-                if(surfaceFormat.format == VK_FORMAT_R8G8B8A8_UNORM) {
+                if(surfaceFormat.format == VK_FORMAT_B8G8R8A8_UNORM) {
                     format.format = surfaceFormat.format;
                     format.colorSpace = surfaceFormat.colorSpace;
                     found_B8G8R8A8_UNORM = true;

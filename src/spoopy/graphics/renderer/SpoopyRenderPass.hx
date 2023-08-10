@@ -66,18 +66,14 @@ class SpoopyRenderPass {
 
     public static function getFormatFromColorDepth(colorDepth:Int):SpoopyFormat {
         switch (colorDepth) {
-            case 16:
-                return R5G6B5_UNORM_PACK16; // Assumes RGB565
-            case 24:
-                return R8G8B8_UNORM;
-            case 32:
-                return R8G8B8A8_UNORM;
-            case 64:
-                return R16G16B16A16_UNORM; // Assumes RGBA
-            case 128:
-                return R32G32B32A32_SFLOAT; // Assumes RGBA
-            default:
+            case 8:
                 return R8_UNORM;
+            case 16:
+                return B5G6R5_UNORM_PACK16; // Assumes B5G6R5
+            case 24:
+                return B8G8R8_UNORM;
+            default:
+                return B8G8R8A8_UNORM;
         }
     }
 }
