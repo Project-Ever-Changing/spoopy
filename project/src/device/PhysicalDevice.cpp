@@ -88,6 +88,8 @@ namespace lime { namespace spoopy {
         if (counts & VK_SAMPLE_COUNT_4_BIT) { return VK_SAMPLE_COUNT_4_BIT; }
         if (counts & VK_SAMPLE_COUNT_2_BIT) { return VK_SAMPLE_COUNT_2_BIT; }
 
+        SPOOPY_LOG_INFO("No multisampling available!");
+
         return VK_SAMPLE_COUNT_1_BIT;
     }
 }}
