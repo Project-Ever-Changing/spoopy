@@ -128,7 +128,6 @@
         <file name="src/graphics/EmptyOpenGL.cpp" unless="LIME_OPENGL"/>
 
         <file name="src/graphics/Viewport.cpp" />
-		<file name="src/helpers/SpoopyBytes.cpp" />
 	</files>
 
 	<include name="volk.xml.tpl" if="SPOOPY_VOLK" />
