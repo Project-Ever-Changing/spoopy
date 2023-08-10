@@ -81,7 +81,7 @@ namespace lime { namespace spoopy {
 
         auto counts = std::min(physicalDeviceProperties.limits.framebufferColorSampleCounts, physicalDeviceProperties.limits.framebufferDepthSampleCounts);
 
-        SPOOPY_LOG_INFO(std::string(counts));
+        SPOOPY_LOG_INFO(std::to_string(counts));
 
         if (counts & VK_SAMPLE_COUNT_64_BIT) { return VK_SAMPLE_COUNT_64_BIT; }
         if (counts & VK_SAMPLE_COUNT_32_BIT) { return VK_SAMPLE_COUNT_32_BIT; }
