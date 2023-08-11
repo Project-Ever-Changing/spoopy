@@ -19,13 +19,13 @@ namespace lime { namespace spoopy {
 
     void ContextVulkan::RecreateSwapchain(const PhysicalDevice &physicalDevice, const LogicalDevice &logicalDevice,
         const VkExtent2D &extent, const SwapchainVulkan *oldSwapchain) {
-        swapchain.reset();
-        surfaceBuffer.reset();
+        auto newSwapchain = std::make_unique<SwapchainVulkan>(physicalDevice, *surface, logicalDevice, extent, oldSwapchain, sync);
+        auto newSurfaceBuffer = std::make_unique<SurfaceBuffer>();
 
-        swapchain = std::make_unique<SwapchainVulkan>(physicalDevice, *surface, logicalDevice, extent, oldSwapchain, sync);
-        surfaceBuffer = std::make_unique<SurfaceBuffer>();
+        swapchain = std::move(newSwapchain);
+        surfaceBuffer = std::move(newSurfaceBuffer);
 
-        // RecreateCommandBuffers(logicalDevice);
+        RecreateCommandBuffers(logicalDevice);
     }
 
     void ContextVulkan::RecreateCommandBuffers(const LogicalDevice &logicalDevice) {
