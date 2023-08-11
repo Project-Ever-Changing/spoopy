@@ -32,8 +32,8 @@ namespace lime { namespace spoopy {
             const VkRenderPass &GetRenderpass() const { return renderpass; }
 
             const uint32_t GetColorAttachmentCount() const { return colorAttachmentCount; }
-            const uint32_t GetDepthAttachmentCount() const { return depthAttachmentCount; }
-            const bool HasDepthAttachment() const { return attachmentDescriptions.size() > 0; }
+            const uint32_t GetDepthAttachmentCount() const { return depthAttachmentsDescriptions.size(); }
+            const bool HasDepthAttachment() const { return depthAttachmentsDescriptions.size() > 0; }
             const VkAttachmentDescription &GetAttachmentDescriptions() const { return attachmentDescriptions.front(); }
 
         private:
