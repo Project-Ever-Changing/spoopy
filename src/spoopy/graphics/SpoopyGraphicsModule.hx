@@ -21,7 +21,7 @@ class SpoopyGraphicsModule implements IModule {
     #end
 
     public function new() {
-        //__backend = new BackendGraphicsModule();
+        __backend = new BackendGraphicsModule();
         __display = new ObjectMap<Window, SpoopyWindowDisplay>();
     }
 
