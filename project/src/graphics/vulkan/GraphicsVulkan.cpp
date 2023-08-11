@@ -163,9 +163,9 @@ namespace lime { namespace spoopy {
     }
 
     void GraphicsVulkan::ChangeSize(const SDL_Context &context, const Viewport &viewport) {
-        SPOOPY_LOG_INFO("here");
-
         auto &stage = context->stage;
         stage->SetViewport(viewport);
+
+        SPOOPY_LOG_INFO("here");
     }
 }}
