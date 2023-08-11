@@ -36,7 +36,7 @@ namespace lime { namespace spoopy {
                 context->RecreateCommandBuffers(*logicalDevice);
             }
 
-            context->stage->Build(renderPass);
+            //context->stage->Build(renderPass);
         }
     }
 
