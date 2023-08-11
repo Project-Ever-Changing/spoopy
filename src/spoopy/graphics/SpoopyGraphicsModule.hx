@@ -57,7 +57,7 @@ class SpoopyGraphicsModule implements IModule {
         __rendering = true;
 
         __backend.acquireNextImage(context.window);
-        __backend.record(context.window, __display.get(context.window).__renderPass);
+        //__backend.record(context.window, __display.get(context.window).__renderPass);
 
         __rendering = false;
     }
