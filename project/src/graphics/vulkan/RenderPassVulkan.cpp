@@ -20,8 +20,6 @@ namespace lime { namespace spoopy {
     }
 
     void RenderPassVulkan::CreateSubpass() {
-        SPOOPY_LOG_INFO("here");
-
         VkSubpassDescription subpass = {};
         subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
         subpass.flags = 0;
@@ -36,6 +34,8 @@ namespace lime { namespace spoopy {
 
         colorReferences.clear();
         subpassDescriptions.push_back(subpass);
+
+        SPOOPY_LOG_INFO("here");
     }
 
     void RenderPassVulkan::AddDepthAttachment(uint32_t location, VkImageLayout layout, uint32_t format,
