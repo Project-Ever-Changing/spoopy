@@ -17,6 +17,8 @@ namespace lime { namespace spoopy {
         renderPassInfo.dependencyCount = static_cast<uint32_t>(subpassDependencies.size());
 
         checkVulkan(vkCreateRenderPass(device, &renderPassInfo, nullptr, &renderpass));
+
+        SPOOPY_LOG_INFO("here");
     }
 
     void RenderPassVulkan::CreateSubpass() {
@@ -34,8 +36,6 @@ namespace lime { namespace spoopy {
 
         colorReferences.clear();
         subpassDescriptions.push_back(subpass);
-
-        SPOOPY_LOG_INFO("here");
     }
 
     void RenderPassVulkan::AddDepthAttachment(uint32_t location, VkImageLayout layout, uint32_t format,
