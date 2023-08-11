@@ -27,9 +27,8 @@ namespace lime { namespace spoopy {
     }
 
     void GraphicsVulkan::Reset(const RenderPassVulkan &renderPass) {
-        //RecreateSwapchains();
+        RecreateSwapchains();
 
-        /*
         for(auto &context: contexts) {
             auto perSurfaceBuffer = context->GetSurfaceBuffer();
 
@@ -37,9 +36,8 @@ namespace lime { namespace spoopy {
                 context->RecreateCommandBuffers(*logicalDevice);
             }
 
-            //context->stage->Build(renderPass);
+            context->stage->Build(renderPass);
         }
-         */
     }
 
     void GraphicsVulkan::RecreateSwapchain(const SDL_Context &context) {
@@ -48,7 +46,7 @@ namespace lime { namespace spoopy {
     }
 
     void GraphicsVulkan::RecreateSwapchains() {
-        checkVulkan(vkDeviceWaitIdle(*logicalDevice));
+        // checkVulkan(vkDeviceWaitIdle(*logicalDevice));
 
         for(auto &context: contexts) {
             context->RecreateSwapchain(*physicalDevice, *logicalDevice, displayExtent, context->GetSwapchain());
