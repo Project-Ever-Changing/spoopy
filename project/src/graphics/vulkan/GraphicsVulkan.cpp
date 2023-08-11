@@ -49,7 +49,7 @@ namespace lime { namespace spoopy {
         checkVulkan(vkDeviceWaitIdle(*logicalDevice));
 
         for(auto &context: contexts) {
-            //context->RecreateSwapchain(*physicalDevice, *logicalDevice, displayExtent, context->GetSwapchain());
+            context->RecreateSwapchain(*physicalDevice, *logicalDevice, displayExtent, context->GetSwapchain());
         }
     }
 

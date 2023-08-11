@@ -33,12 +33,16 @@ namespace lime { namespace spoopy {
             vkDestroyFence(logicalDevice, surfaceBuffer->flightFences[i], nullptr);
             vkDestroySemaphore(logicalDevice, surfaceBuffer->renderCompletes[i], nullptr);
             vkDestroySemaphore(logicalDevice, surfaceBuffer->presentCompletes[i], nullptr);
+
+            surfaceBuffer->commandBuffers[i].reset();
         }
 
-        surfaceBuffer->flightFences.resize(swapchain->GetImageCount());
-        surfaceBuffer->renderCompletes.resize(swapchain->GetImageCount());
-        surfaceBuffer->presentCompletes.resize(swapchain->GetImageCount());
-        surfaceBuffer->commandBuffers.resize(swapchain->GetImageCount());
+        const std::size_t imageCount = swapchain->GetImageCount();
+
+        surfaceBuffer->flightFences.resize(imageCount);
+        surfaceBuffer->renderCompletes.resize(imageCount);
+        surfaceBuffer->presentCompletes.resize(imageCount);
+        surfaceBuffer->commandBuffers.resize(imageCount);
 
         VkSemaphoreCreateInfo semaphoreCreateInfo = {};
         semaphoreCreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
@@ -48,9 +52,9 @@ namespace lime { namespace spoopy {
         fenceCreateInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
 
         for(std::size_t i=0; i<swapchain->GetImageCount(); i++) {
-            vkCreateSemaphore(logicalDevice, &semaphoreCreateInfo, nullptr, &surfaceBuffer->presentCompletes[i]);
-            vkCreateSemaphore(logicalDevice, &semaphoreCreateInfo, nullptr, &surfaceBuffer->renderCompletes[i]);
-            vkCreateFence(logicalDevice, &fenceCreateInfo, nullptr, &surfaceBuffer->flightFences[i]);
+            checkVulkan(vkCreateSemaphore(logicalDevice, &semaphoreCreateInfo, nullptr, &surfaceBuffer->presentCompletes[i]));
+            checkVulkan(vkCreateSemaphore(logicalDevice, &semaphoreCreateInfo, nullptr, &surfaceBuffer->renderCompletes[i]));
+            checkVulkan(vkCreateFence(logicalDevice, &fenceCreateInfo, nullptr, &surfaceBuffer->flightFences[i]));
 
             surfaceBuffer->commandBuffers[i] = std::make_unique<CommandBufferVulkan>(false);
         }
