@@ -29,17 +29,17 @@ namespace lime { namespace spoopy {
     void GraphicsVulkan::Reset(const RenderPassVulkan &renderPass) {
         RecreateSwapchains();
 
+        /*
         for(auto &context: contexts) {
             auto perSurfaceBuffer = context->GetSurfaceBuffer();
 
-            /*
             if(perSurfaceBuffer->flightFences.size() != context->GetImageCount()) {
                 context->RecreateCommandBuffers(*logicalDevice);
             }
-             */
 
             //context->stage->Build(renderPass);
         }
+         */
     }
 
     void GraphicsVulkan::RecreateSwapchain(const SDL_Context &context) {
