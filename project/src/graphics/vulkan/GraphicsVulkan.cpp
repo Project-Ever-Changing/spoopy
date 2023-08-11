@@ -46,10 +46,10 @@ namespace lime { namespace spoopy {
     }
 
     void GraphicsVulkan::RecreateSwapchains() {
-        // checkVulkan(vkDeviceWaitIdle(*logicalDevice));
+        checkVulkan(vkDeviceWaitIdle(*logicalDevice));
 
         for(auto &context: contexts) {
-            context->RecreateSwapchain(*physicalDevice, *logicalDevice, displayExtent, context->GetSwapchain());
+            //context->RecreateSwapchain(*physicalDevice, *logicalDevice, displayExtent, context->GetSwapchain());
         }
     }
 
