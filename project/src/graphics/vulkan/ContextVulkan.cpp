@@ -22,8 +22,6 @@ namespace lime { namespace spoopy {
         swapchain.reset();
         surfaceBuffer.reset();
 
-        std::cout << "After reset swapchain" << std::endl;
-
         swapchain = std::make_unique<SwapchainVulkan>(physicalDevice, *surface, logicalDevice, extent, oldSwapchain, sync);
         surfaceBuffer = std::make_unique<SurfaceBuffer>();
 
