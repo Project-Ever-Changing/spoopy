@@ -98,6 +98,10 @@
 		<compilerflag value="-DUSE_CUSTOM_SDL_DEFINITIONS" if="USE_CUSTOM_SDL_DEFINITIONS"/>
 
 		<section if="SPOOPY_VULKAN">
+		    <compilerflag value="-Iref/vk" />
+
+		    <file name="ref/vk/vk_mem_alloc.cpp" />
+
 		    <file name="src/graphics/vulkan/framebuffers/SCFrameBuffers.cpp" />
 		    <file name="src/graphics/vulkan/shaders/PipelineShader.cpp" />
 		    <file name="src/graphics/vulkan/shaders/Shader.cpp" />
