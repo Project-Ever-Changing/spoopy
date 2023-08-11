@@ -21,7 +21,7 @@ class SpoopyGraphicsModule implements IModule {
     #end
 
     public function new() {
-        __backend = new BackendGraphicsModule();
+        //__backend = new BackendGraphicsModule();
         __display = new ObjectMap<Window, SpoopyWindowDisplay>();
     }
 
@@ -32,22 +32,22 @@ class SpoopyGraphicsModule implements IModule {
             __createFirstWindow = true;
         }
 
-        __backend.checkContext(window);
+        //__backend.checkContext(window);
         #end
 
         var display = new SpoopyWindowDisplay(window);
 
-        __backend.createContextStage(window, display.__viewportRect);
+        //__backend.createContextStage(window, display.__viewportRect);
         __windowResize(display);
 
         __display.set(window, display);
         display.createRenderPass();
-        __backend.reset(display.__renderPass);
+        //__backend.reset(display.__renderPass);
     }
 
     @:noCompletion private function __windowResize(display:SpoopyWindowDisplay):Void {
         display.resize();
-        __backend.resize(display.__window, display.__viewportRect);
+        //__backend.resize(display.__window, display.__viewportRect);
 
         //TODO: Maybe have an event system for this?
     }
