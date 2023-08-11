@@ -32,9 +32,11 @@ namespace lime { namespace spoopy {
         for(auto &context: contexts) {
             auto perSurfaceBuffer = context->GetSurfaceBuffer();
 
+            /*
             if(perSurfaceBuffer->flightFences.size() != context->GetImageCount()) {
                 context->RecreateCommandBuffers(*logicalDevice);
             }
+             */
 
             //context->stage->Build(renderPass);
         }
