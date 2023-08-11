@@ -44,7 +44,6 @@ namespace lime { namespace spoopy {
         depthReference.layout = layout;
 
         depthAttachmentsDescriptions.push_back(attachmentDescriptions.back());
-        depthAttachmentCount++;
     }
 
     void RenderPassVulkan::AddColorAttachment(uint32_t location, VkImageLayout layout, uint32_t format,
