@@ -47,7 +47,7 @@ class SpoopyGraphicsModule implements IModule {
 
     @:noCompletion private function __windowResize(display:SpoopyWindowDisplay):Void {
         display.resize();
-        //__backend.resize(display.__window, display.__viewportRect);
+        __backend.resize(display.__window, display.__viewportRect);
 
         //TODO: Maybe have an event system for this?
     }
