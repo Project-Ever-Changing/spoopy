@@ -8,6 +8,8 @@
 #include <volk.h>
 #endif
 
+#include <vk_mem_alloc.h>
+
 #if __cplusplus == 201103L
 
 #include <memory>
