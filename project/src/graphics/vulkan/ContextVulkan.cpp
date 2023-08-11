@@ -52,9 +52,9 @@ namespace lime { namespace spoopy {
         fenceCreateInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
 
         for(std::size_t i=0; i<swapchain->GetImageCount(); i++) {
-            checkVulkan(vkCreateSemaphore(logicalDevice, &semaphoreCreateInfo, nullptr, &surfaceBuffer->presentCompletes[i]));
-            checkVulkan(vkCreateSemaphore(logicalDevice, &semaphoreCreateInfo, nullptr, &surfaceBuffer->renderCompletes[i]));
-            checkVulkan(vkCreateFence(logicalDevice, &fenceCreateInfo, nullptr, &surfaceBuffer->flightFences[i]));
+            vkCreateSemaphore(logicalDevice, &semaphoreCreateInfo, nullptr, &surfaceBuffer->presentCompletes[i]);
+            vkCreateSemaphore(logicalDevice, &semaphoreCreateInfo, nullptr, &surfaceBuffer->renderCompletes[i]);
+            vkCreateFence(logicalDevice, &fenceCreateInfo, nullptr, &surfaceBuffer->flightFences[i]);
 
             surfaceBuffer->commandBuffers[i] = std::make_unique<CommandBufferVulkan>(false);
         }
