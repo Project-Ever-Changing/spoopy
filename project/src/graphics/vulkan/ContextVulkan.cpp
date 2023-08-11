@@ -19,8 +19,8 @@ namespace lime { namespace spoopy {
 
     void ContextVulkan::RecreateSwapchain(const PhysicalDevice &physicalDevice, const LogicalDevice &logicalDevice,
         const VkExtent2D &extent, const SwapchainVulkan *oldSwapchain) {
-        swapchain.reset();
-        surfaceBuffer.reset();
+        //swapchain.reset();
+        //surfaceBuffer.reset();
 
         std::cout << "After reset swapchain" << std::endl;
 
