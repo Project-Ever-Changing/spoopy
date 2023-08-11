@@ -17,8 +17,6 @@ namespace lime { namespace spoopy {
         renderPassInfo.dependencyCount = static_cast<uint32_t>(subpassDependencies.size());
 
         checkVulkan(vkCreateRenderPass(device, &renderPassInfo, nullptr, &renderpass));
-
-        SPOOPY_LOG_INFO("here");
     }
 
     void RenderPassVulkan::CreateSubpass() {

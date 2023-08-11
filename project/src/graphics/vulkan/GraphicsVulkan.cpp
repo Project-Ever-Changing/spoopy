@@ -29,6 +29,8 @@ namespace lime { namespace spoopy {
     void GraphicsVulkan::Reset(const RenderPassVulkan &renderPass) {
         RecreateSwapchains();
 
+        SPOOPY_LOG_INFO("here1");
+
         for(auto &context: contexts) {
             auto perSurfaceBuffer = context->GetSurfaceBuffer();
 
@@ -37,6 +39,8 @@ namespace lime { namespace spoopy {
             }
 
             context->stage->Build(renderPass);
+
+            SPOOPY_LOG_INFO("here2");
         }
     }
 
