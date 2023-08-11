@@ -7,6 +7,8 @@ import spoopy.graphics.SpoopyPipelineStageFlagBits;
 class SpoopyRenderPass {
     @:allow(spoopy.graphics.SpoopyGraphicsModule) private var __hasImageLayout:Bool = false;
 
+    @:noCompletion #if haxe4 final #else @:final var #end __sampled:Bool;
+
 
     @:noCompletion private var __attachments:Map<Int, SpoopyFormat>;
     @:noCompletion private var __stencilAttachments:Map<Int, Bool>;
@@ -14,10 +16,16 @@ class SpoopyRenderPass {
     @:noCompletion private var __colorCount:Int = 0;
     @:noCompletion private var __depthCount:Int = 0;
 
-    public function new() {
+    public function new(sampled:Bool = false) {
         __attachments = new Map<Int, SpoopyFormat>();
         __stencilAttachments = new Map<Int, Bool>();
         __backend = new SpoopyBackendPass();
+
+        __sampled = sampled;
+    }
+
+    public function getSampled():Bool {
+        return __sampled;
     }
 
     public function addColorAttachment(format:SpoopyFormat):Void {
@@ -50,11 +58,11 @@ class SpoopyRenderPass {
 
     public function processAttachments():Void {
         for(i in 0...__colorCount) {
-            __backend.addColorAttachment(i, __attachments.get(i), __hasImageLayout);
+            __backend.addColorAttachment(i, __attachments.get(i), __hasImageLayout, __sampled);
         }
 
         for(i in __colorCount...(__colorCount + __depthCount)) {
-            __backend.addDepthAttachment(i, __attachments.get(i), __stencilAttachments.get(i - __colorCount));
+            __backend.addDepthAttachment(i, __attachments.get(i), __stencilAttachments.get(i - __colorCount), __sampled);
         }
 
         __attachments.clear();

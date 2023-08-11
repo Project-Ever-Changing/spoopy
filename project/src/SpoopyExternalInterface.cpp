@@ -60,27 +60,25 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME1v(spoopy_reset_graphics_module);
 
-    void spoopy_add_color_attachment(value renderpass, int location, int format, bool hasImageLayout) {
+    void spoopy_add_color_attachment(value renderpass, int location, int format, bool hasImageLayout, bool sampled) {
         RenderPass* _renderPass = (RenderPass*)val_data(renderpass);
 
         #ifdef SPOOPY_VULKAN
-        VkSampleCountFlagBits samples = GraphicsModule::GetCurrent()->MultisamplingEnabled
+        VkSampleCountFlagBits samples = (GraphicsModule::GetCurrent()->MultisamplingEnabled && sampled)
         ? GraphicsModule::GetCurrent()->GetPhysicalDevice()->GetMaxUsableSampleCount()
         : VK_SAMPLE_COUNT_1_BIT;
         VkImageLayout layout = hasImageLayout ? VK_IMAGE_LAYOUT_PRESENT_SRC_KHR : VK_IMAGE_LAYOUT_GENERAL;
 
-        SPOOPY_LOG_INFO(std::to_string(samples));
-
         _renderPass->AddColorAttachment(location, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, format, samples, layout);
         #endif
     }
-    DEFINE_PRIME4v(spoopy_add_color_attachment);
+    DEFINE_PRIME5v(spoopy_add_color_attachment);
 
-    void spoopy_add_depth_attachment(value renderpass, int location, int format, bool hasStencil) {
+    void spoopy_add_depth_attachment(value renderpass, int location, int format, bool hasStencil, bool sampled) {
         RenderPass* _renderPass = (RenderPass*)val_data(renderpass);
 
         #ifdef SPOOPY_VULKAN
-        VkSampleCountFlagBits samples = GraphicsModule::GetCurrent()->MultisamplingEnabled
+        VkSampleCountFlagBits samples = (GraphicsModule::GetCurrent()->MultisamplingEnabled && sampled)
         ? GraphicsModule::GetCurrent()->GetPhysicalDevice()->GetMaxUsableSampleCount()
         : VK_SAMPLE_COUNT_1_BIT;
 
@@ -88,7 +86,7 @@ namespace lime { namespace spoopy {
             VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, VK_IMAGE_LAYOUT_UNDEFINED, hasStencil);
         #endif
     }
-    DEFINE_PRIME4v(spoopy_add_depth_attachment);
+    DEFINE_PRIME5v(spoopy_add_depth_attachment);
 
     void spoopy_add_subpass_dependency(value renderpass, bool has_external1, bool has_external2, int srcStageMask,
         int dstStageMask, int srcAccessMask, int dstAccessMask, int dependencyFlags) {

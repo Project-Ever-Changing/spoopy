@@ -55,8 +55,6 @@ namespace lime { namespace spoopy {
             ? physicalDevice->GetMaxUsableSampleCount()
             : VK_SAMPLE_COUNT_1_BIT;
 
-        SPOOPY_LOG_INFO(std::to_string(samples));
-
         if(renderPass.HasDepthAttachment()) {
             depthImage = std::make_unique<ImageDepth>(*physicalDevice, *logicalDevice, renderArea.GetExtent(), samples);
         }
