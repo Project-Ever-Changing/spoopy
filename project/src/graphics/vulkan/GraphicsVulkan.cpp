@@ -27,7 +27,7 @@ namespace lime { namespace spoopy {
     }
 
     void GraphicsVulkan::Reset(const RenderPassVulkan &renderPass) {
-        RecreateSwapchains();
+        //RecreateSwapchains();
 
         /*
         for(auto &context: contexts) {
