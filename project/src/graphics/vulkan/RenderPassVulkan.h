@@ -34,6 +34,7 @@ namespace lime { namespace spoopy {
             const uint32_t GetColorAttachmentCount() const { return colorAttachmentCount; }
             const uint32_t GetDepthAttachmentCount() const { return depthAttachmentCount; }
             const bool HasDepthAttachment() const { return depthAttachmentCount > 0; }
+            const VkAttachmentDescription &GetAttachmentDescriptions() const { return attachmentDescriptions.front(); }
 
         private:
             void AddAttachment(uint32_t format, VkSampleCountFlagBits samples,
@@ -43,6 +44,7 @@ namespace lime { namespace spoopy {
             VkAttachmentReference depthReference;
             std::vector<VkAttachmentReference> colorReferences;
             std::vector<VkAttachmentDescription> attachmentDescriptions;
+            std::vector<VkAttachmentDescription> depthAttachmentsDescriptions;
             std::vector<VkSubpassDependency> subpassDependencies;
             std::vector<VkSubpassDescription> subpassDescriptions;
 

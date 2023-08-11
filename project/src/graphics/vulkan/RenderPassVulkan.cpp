@@ -43,6 +43,7 @@ namespace lime { namespace spoopy {
         depthReference.attachment = location;
         depthReference.layout = layout;
 
+        depthAttachmentsDescriptions.push_back(attachmentDescriptions.back());
         depthAttachmentCount++;
     }
 

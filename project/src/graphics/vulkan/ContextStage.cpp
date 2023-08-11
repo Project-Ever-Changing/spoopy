@@ -51,12 +51,8 @@ namespace lime { namespace spoopy {
         auto surface = context.GetSurface();
         auto swapchain = context.GetSwapchain();
 
-        VkSampleCountFlagBits samples = GraphicsVulkan::GetCurrent()->MultisamplingEnabled
-            ? physicalDevice->GetMaxUsableSampleCount()
-            : VK_SAMPLE_COUNT_1_BIT;
-
         if(renderPass.HasDepthAttachment()) {
-            depthImage = std::make_unique<ImageDepth>(*physicalDevice, *logicalDevice, renderArea.GetExtent(), samples);
+            depthImage = std::make_unique<ImageDepth>(*physicalDevice, *logicalDevice, renderArea.GetExtent(), renderPass.GetAttachmentDescriptions().samples);
         }
 
         frameBuffers = std::make_unique<SCFrameBuffers>(*logicalDevice, *swapchain, renderPass, depthImage.get(), renderArea.GetExtent());
