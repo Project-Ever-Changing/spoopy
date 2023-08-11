@@ -79,8 +79,6 @@ namespace lime { namespace spoopy {
     }
 
     void GraphicsVulkan::ResetPresent(const SDL_Context &context, const RenderPassVulkan &renderPass) {
-        SPOOPY_LOG_INFO("here");
-
         const auto &graphicsQueue = logicalDevice->GetGraphicsQueue();
         const auto &perSurfaceBuffer = context->GetSurfaceBuffer();
         const auto &swapchain = context->GetSwapchain();
@@ -165,6 +163,8 @@ namespace lime { namespace spoopy {
     }
 
     void GraphicsVulkan::ChangeSize(const SDL_Context &context, const Viewport &viewport) {
+        SPOOPY_LOG_INFO("here");
+
         auto &stage = context->stage;
         stage->SetViewport(viewport);
     }
