@@ -32,7 +32,7 @@ class SpoopyGraphicsModule implements IModule {
             __createFirstWindow = true;
         }
 
-        //__backend.checkContext(window);
+        __backend.checkContext(window);
         #end
 
         var display = new SpoopyWindowDisplay(window);
