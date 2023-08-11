@@ -42,7 +42,7 @@ class SpoopyGraphicsModule implements IModule {
 
         __display.set(window, display);
         display.createRenderPass();
-        __backend.reset(display.__renderPass);
+        //__backend.reset(display.__renderPass);
     }
 
     @:noCompletion private function __windowResize(display:SpoopyWindowDisplay):Void {
@@ -56,8 +56,8 @@ class SpoopyGraphicsModule implements IModule {
         if(__rendering) return;
         __rendering = true;
 
-        __backend.acquireNextImage(context.window);
-        __backend.record(context.window, __display.get(context.window).__renderPass);
+        //__backend.acquireNextImage(context.window);
+        //__backend.record(context.window, __display.get(context.window).__renderPass);
 
         __rendering = false;
     }
