@@ -90,6 +90,8 @@ namespace lime { namespace spoopy {
         }
 
         context->stage->Build(renderPass);
+
+        SPOOPY_LOG_INFO("here");
     }
 
     void GraphicsVulkan::AcquireNextImage(const SDL_Context &context) {
