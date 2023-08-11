@@ -156,6 +156,8 @@
 				<vflag name="-framework" value="MetalKit" />
 				<vflag name="-framework" value="QuartzCore" />
 			</section>
+
+			<flag value="-g" if="SPOOPY_DEBUG"/>
 		</section>
 	</target>
 
