@@ -1,4 +1,5 @@
 #include "shaders/Shader.h"
+
 #include "shaders/PipelineShader.h"
 #include "PipelineVulkan.h"
 #include "GraphicsVulkan.h"
@@ -14,11 +15,28 @@ namespace lime { namespace spoopy {
         vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
     }
 
+    void PipelineVulkan::SetInputAssembly(VkPrimitiveTopology topology) {
+        inputAssemblyState = {};
+        inputAssemblyState.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
+        inputAssemblyState.topology = topology;
+        inputAssemblyState.primitiveRestartEnable = VK_FALSE;
+    }
+
+    void PipelineVulkan::SetVertexInput(VertexShaderInput vertexInput) {
+        vertexInputState = {};
+        vertexInputState.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+        vertexInputState.pNext = nullptr;
+        vertexInputState.pVertexBindingDescriptions = vertexInput.GetBindingDescriptions().data();
+        vertexInputState.vertexBindingDescriptionCount = vertexInput.GetBindingDescriptions().size();
+        vertexInputState.pVertexAttributeDescriptions = vertexInput.GetAttributeDescriptions().data();
+        vertexInputState.vertexAttributeDescriptionCount = vertexInput.GetAttributeDescriptions().size();
+    }
+
     void PipelineVulkan::CreateGraphicsPipeline(std::unique_ptr<PipelineShader> pipeline, VkRenderPass renderPass,
-        VkPipelineCache pipelineCache) {
+        VkPipelineCache pipelineCache, bool wireframe) {
         VkPipelineRasterizationStateCreateInfo rasterizationState = {};
         rasterizationState.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
-        rasterizationState.polygonMode = VK_POLYGON_MODE_FILL;
+        rasterizationState.polygonMode = wireframe ? VK_POLYGON_MODE_LINE : VK_POLYGON_MODE_FILL;
         rasterizationState.cullMode = cullMode;
         rasterizationState.frontFace = frontFace;
         rasterizationState.depthClampEnable = VK_FALSE;
@@ -59,42 +77,6 @@ namespace lime { namespace spoopy {
         pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
         pipelineInfo.basePipelineIndex = -1;
         checkVulkan(vkCreateGraphicsPipelines(device, pipelineCache, 1, &pipelineInfo, nullptr, &this->pipeline));
-    }
-
-    void PipelineVulkan::CreatePipelineLayout(std::vector<VkDescriptorSetLayoutBinding> bindings) {
-        VkDescriptorSetLayoutCreateInfo layoutInfo = {};
-        layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-        layoutInfo.flags = pushDescriptors ? VK_DESCRIPTOR_SET_LAYOUT_CREATE_PUSH_DESCRIPTOR_BIT_KHR : 0;
-        layoutInfo.pNext = nullptr;
-        layoutInfo.bindingCount = static_cast<uint32_t>(bindings.size());
-        layoutInfo.pBindings = bindings.data();
-        checkVulkan(vkCreateDescriptorSetLayout(device, &layoutInfo, nullptr, &descriptorSetLayout));
-
-        VkPipelineLayoutCreateInfo pipelineLayoutInfo = {};
-        pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-        pipelineLayoutInfo.pNext = nullptr;
-        pipelineLayoutInfo.setLayoutCount = 1;
-        pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout;
-        pipelineLayoutInfo.pushConstantRangeCount = static_cast<uint32_t>(pushConstantRanges.size());
-        pipelineLayoutInfo.pPushConstantRanges = pushConstantRanges.data();
-        checkVulkan(vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayout));
-    }
-
-    void PipelineVulkan::SetVertexInput(VertexShaderInput vertexInput) {
-        vertexInputState = {};
-        vertexInputState.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-        vertexInputState.pNext = nullptr;
-        vertexInputState.pVertexBindingDescriptions = vertexInput.GetBindingDescriptions().data();
-        vertexInputState.vertexBindingDescriptionCount = vertexInput.GetBindingDescriptions().size();
-        vertexInputState.pVertexAttributeDescriptions = vertexInput.GetAttributeDescriptions().data();
-        vertexInputState.vertexAttributeDescriptionCount = vertexInput.GetAttributeDescriptions().size();
-    }
-
-    void PipelineVulkan::SetInputAssembly(VkPrimitiveTopology topology) {
-        inputAssemblyState = {};
-        inputAssemblyState.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
-        inputAssemblyState.topology = topology;
-        inputAssemblyState.primitiveRestartEnable = VK_FALSE;
     }
 
     void PipelineVulkan::SetDepthStencilState(bool depthTestEnable) {

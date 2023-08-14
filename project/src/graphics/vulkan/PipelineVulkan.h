@@ -20,8 +20,7 @@ namespace lime { namespace spoopy {
             ~PipelineVulkan();
 
             void CreateGraphicsPipeline(std::unique_ptr<PipelineShader> pipeline, VkRenderPass renderPass,
-                VkPipelineCache pipelineCache);
-            void CreatePipelineLayout(std::vector<VkDescriptorSetLayoutBinding> bindings);
+                VkPipelineCache pipelineCache, bool wireframe);
 
             void SetVertexInput(VertexShaderInput vertexInput);
             void SetInputAssembly(VkPrimitiveTopology topology);
