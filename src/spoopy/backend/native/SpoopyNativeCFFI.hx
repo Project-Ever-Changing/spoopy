@@ -30,6 +30,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_renderpass = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_create_renderpass", "ov", false));
     public static var spoopy_check_context = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_check_context", "ov", false));
     public static var spoopy_create_context_stage = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_create_context_stage", "oov", false));
+    public static var spoopy_create_memory_reader = new cpp.Callable<String->Int->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_memory_reader", "sio", false));
     #elseif (neko || cppia)
     public static var spoopy_check_graphics_module = CFFI.load("lime", "spoopy_check_graphics_module", 0);
     public static var spoopy_acquire_image_graphics_module = CFFI.load("lime", "spoopy_acquire_image_graphics_module", 1);
@@ -44,7 +45,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_renderpass = CFFI.load("lime", "spoopy_create_renderpass", 1);
     public static var spoopy_check_context = CFFI.load("lime", "spoopy_check_context", 1);
     public static var spoopy_create_context_stage = CFFI.load("lime", "spoopy_create_context_stage", 2);
-    public static var spoopy_build_context_stage = CFFI.load("lime", "spoopy_build_context_stage", 2);
+    public static var spoopy_create_memory_reader = CFFI.load("lime", "spoopy_create_memory_reader", 2);
     #else
     public static function spoopy_check_graphics_module():Void {
         return;
@@ -98,8 +99,8 @@ class SpoopyNativeCFFI {
         return;
     }
 
-    public static function spoopy_build_context_stage(context:Dynamic, renderPass:Dynamic):Void {
-        return;
+    public static function spoopy_create_memory_reader(data:String, size:Int):Dynamic {
+        return null;
     }
     #end
 }

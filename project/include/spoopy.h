@@ -19,6 +19,10 @@ namespace std {
     template<typename T, typename... Args> std::unique_ptr<T> make_unique(Args&&... args) {
         return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
     }
+
+    enum class byte : unsigned char {}; // Introduced in C++17
 }
 
 #endif
+
+#define SPOOPY_VS_MAX_INPUT_ELEMENTS 16

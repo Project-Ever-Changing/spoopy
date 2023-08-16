@@ -1,5 +1,6 @@
 #include <system/CFFI.h>
 #include <system/CFFIPointer.h>
+#include <utils/MemoryReader.h>
 #include <sdl_definitions_config.h>
 #include <SDLWindow.h>
 
@@ -7,10 +8,12 @@
 #include "graphics/vulkan/GraphicsVulkan.h"
 #include "graphics/vulkan/ContextStage.h"
 #include "graphics/vulkan/RenderPassVulkan.h"
+#include "graphics/vulkan/PipelineVulkan.h"
 
 
 typedef lime::spoopy::GraphicsVulkan GraphicsModule;
 typedef lime::spoopy::RenderPassVulkan RenderPass;
+typedef lime::spoopy::PipelineVulkan Pipeline;
 #endif
 
 namespace lime { namespace spoopy {
@@ -149,11 +152,36 @@ namespace lime { namespace spoopy {
         delete _renderPass;
     }
 
+    void spoopy_gc_pipeline(value handle) {
+        Pipeline* _pipeline = (Pipeline*)val_data(handle);
+        delete _pipeline;
+    }
+
+    void spoopy_gc_memory_reader(value handle) {
+        MemoryReader* _memoryReader = (MemoryReader*)val_data(handle);
+        delete _memoryReader;
+    }
+
     value spoopy_create_render_pass() {
         RenderPass* _renderPass = new RenderPass(*GraphicsModule::GetCurrent()->GetLogicalDevice());
         return CFFIPointer(_renderPass, spoopy_gc_render_pass);
     }
     DEFINE_PRIME0(spoopy_create_render_pass);
+
+    /*
+     * This is a interesting way of doing things,
+     * making HxString as a container of bytes.
+     */
+    value spoopy_create_memory_reader(HxString data, int size) {
+        MemoryReader* _memoryReader = new MemoryReader((std::byte*)data.c_str(), (uint32_t)size);
+        return CFFIPointer(_memoryReader, spoopy_gc_memory_reader);
+    }
+
+    value spoopy_create_pipeline() {
+        Pipeline *_pipeline = new Pipeline(*GraphicsModule::GetCurrent()->GetLogicalDevice());
+        return CFFIPointer(_pipeline, spoopy_gc_pipeline);
+    }
+    DEFINE_PRIME0(spoopy_create_pipeline);
 
     #endif
 }}

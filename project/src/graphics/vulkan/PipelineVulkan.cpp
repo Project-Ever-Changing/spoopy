@@ -22,14 +22,14 @@ namespace lime { namespace spoopy {
         inputAssemblyState.primitiveRestartEnable = VK_FALSE;
     }
 
-    void PipelineVulkan::SetVertexInput(VertexShaderInput vertexInput) {
+    void PipelineVulkan::SetVertexInput() {
         vertexInputState = {};
         vertexInputState.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
         vertexInputState.pNext = nullptr;
-        vertexInputState.pVertexBindingDescriptions = vertexInput.GetBindingDescriptions().data();
-        vertexInputState.vertexBindingDescriptionCount = vertexInput.GetBindingDescriptions().size();
-        vertexInputState.pVertexAttributeDescriptions = vertexInput.GetAttributeDescriptions().data();
-        vertexInputState.vertexAttributeDescriptionCount = vertexInput.GetAttributeDescriptions().size();
+        vertexInputState.flags = 0;
+
+        VkVertexInputBindingDescription binding = {};
+        VkVertexInputAttributeDescription attribute = {};
     }
 
     void PipelineVulkan::CreateGraphicsPipeline(std::unique_ptr<PipelineShader> pipeline, VkRenderPass renderPass,

@@ -22,7 +22,7 @@ namespace lime { namespace spoopy {
             void CreateGraphicsPipeline(std::unique_ptr<PipelineShader> pipeline, VkRenderPass renderPass,
                 VkPipelineCache pipelineCache, bool wireframe);
 
-            void SetVertexInput(VertexShaderInput vertexInput);
+            void SetVertexInput();
             void SetInputAssembly(VkPrimitiveTopology topology);
             void SetDepthStencilState(bool depthTestEnable);
             void SetViewport(Rectangle* rect);
