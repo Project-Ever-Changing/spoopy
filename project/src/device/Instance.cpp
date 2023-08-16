@@ -66,7 +66,7 @@ namespace lime { namespace spoopy {
     }
 
     void Instance::CreateInstance() {
-        #ifndef SPOOPY_SWITCH
+        #if !defined(SPOOPY_SWITCH)
         checkVulkan(volkInitialize());
         #endif
 
@@ -126,9 +126,9 @@ namespace lime { namespace spoopy {
             return;
         }
 
-        #if VOLK_HEADER_VERSION >= 131
+        #if VOLK_HEADER_VERSION >= 131 && !defined(SPOOPY_SWITCH)
             volkLoadInstanceOnly(instance);
-        #else
+        #elif !defined(SPOOPY_SWITCH)
             volkLoadInstance(instance);
         #endif
     }
