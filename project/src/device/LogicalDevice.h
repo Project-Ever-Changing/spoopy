@@ -1,5 +1,6 @@
 #pragma once
 
+#include <graphics/Limits.h>
 #include <spoopy.h>
 
 #include <thread>
@@ -39,9 +40,12 @@ namespace lime { namespace spoopy {
         private:
             void CreateQueueIndices();
             void CreateLogicalDevice();
+            void RegisterDeviceLimits();
 
             const Instance &instance;
             const PhysicalDevice &physicalDevice;
+
+            Limits limits = {};
 
             VkDevice logicalDevice = VK_NULL_HANDLE;
             VkPhysicalDeviceFeatures enabledFeatures = {};

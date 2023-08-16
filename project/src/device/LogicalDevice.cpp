@@ -10,6 +10,7 @@ namespace lime { namespace spoopy {
         : instance(instance), physicalDevice(physicalDevice) {
         CreateQueueIndices();
         CreateLogicalDevice();
+        RegisterDeviceLimits();
     }
 
     LogicalDevice::~LogicalDevice() {
@@ -161,6 +162,33 @@ namespace lime { namespace spoopy {
         vkGetDeviceQueue(logicalDevice, transferFamily, 0, &transferQueue);
 
         graphicsCommandPools.emplace(std::this_thread::get_id(), std::make_shared<CommandPoolVulkan>(*this, graphicsFamily));
+    }
+
+    void LogicalDevice::RegisterDeviceLimits() {
+        VkPhysicalDeviceLimits physicalDeviceLimits = physicalDevice.GetProperties().limits;
+        limits.HasComputeShaders = physicalDeviceLimits.maxComputeWorkGroupCount[0] >= 65535 && physicalDeviceLimits.maxComputeWorkGroupCount[1] >= 65535;
+
+        #if defined(HX_MACOS) || defined(HX_IOS)
+        limits.HasTessellationShaders = false;
+        #else
+        limits.HasTessellationShaders = !!physicalDevice.GetFeatures().tessellationShader && physicalDeviceLimits.maxBoundDescriptorSets >= 4;
+        #endif
+
+        /*
+         * I assume Metal 3's mesh shaders will be supported on macOS and iOS, which would allow
+         * MoltenVK to support geometry shaders on these platforms. This might be wishful thinking though.
+         */
+        limits.HasGeometryShaders = !!physicalDevice.GetFeatures().geometryShader;
+
+        limits.HasIndirectDrawing = physicalDeviceLimits.maxDrawIndirectCount >= 1;
+        limits.HasMultisampleDepthAsSampler = !!physicalDevice.GetFeatures().sampleRateShading;
+        limits.MaxTexture1DSize = physicalDeviceLimits.maxImageDimension1D;
+        limits.MaxTexture2DSize = physicalDeviceLimits.maxImageDimension2D;
+        limits.MaxTexture3DSize = physicalDeviceLimits.maxImageDimension3D;
+        limits.MaxTexture1DArraySize = physicalDeviceLimits.maxImageArrayLayers;
+        limits.MaxTexture2DArraySize = physicalDeviceLimits.maxImageArrayLayers;
+        limits.MaxTextureCubeSize = physicalDeviceLimits.maxImageDimensionCube;
+        limits.MaxAnisotropy = physicalDeviceLimits.maxSamplerAnisotropy;
     }
 
     VkQueue LogicalDevice::GetQueue(const VkQueueFlagBits queueFamilyIndex) const {
