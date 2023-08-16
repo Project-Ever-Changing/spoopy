@@ -8,8 +8,6 @@ namespace lime { namespace spoopy {
 
     LogicalDevice::LogicalDevice(const Instance &instance, const PhysicalDevice &physicalDevice)
         : instance(instance), physicalDevice(physicalDevice) {
-        shaderAPI = ShaderAPI::Vulkan;
-
         CreateQueueIndices();
         CreateLogicalDevice();
     }
