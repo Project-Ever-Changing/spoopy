@@ -1,5 +1,6 @@
 #pragma once
 
+#include <graphics/ShaderAPI.h>
 #include <spoopy.h>
 
 #include <thread>
@@ -35,6 +36,12 @@ namespace lime { namespace spoopy {
             const std::shared_ptr<CommandPoolVulkan> &GetGraphicsCommandPool(const std::thread::id &threadId = std::this_thread::get_id());
 
             static const std::vector<const char *> Extensions;
+
+        public:
+            inline ShaderAPI GetShaderAPI() const { return shaderAPI; }
+
+        private:
+            ShaderAPI shaderAPI;
 
         private:
             void CreateQueueIndices();
