@@ -66,7 +66,9 @@ namespace lime { namespace spoopy {
     }
 
     void Instance::CreateInstance() {
+        #ifndef SPOOPY_SWITCH
         checkVulkan(volkInitialize());
+        #endif
 
         VkApplicationInfo applicationInfo = {};
         applicationInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -107,7 +109,22 @@ namespace lime { namespace spoopy {
             instanceCreateInfo.ppEnabledLayerNames = ValidationLayers.data();
         }
 
-        checkVulkan(vkCreateInstance(&instanceCreateInfo, nullptr, &instance));
+        VkResult result = vkCreateInstance(&instanceCreateInfo, nullptr, &instance);
+
+        if(result == VK_ERROR_INCOMPATIBLE_DRIVER) {
+            #if defined(__APPLE__)
+                SPOOPY_LOG_ERROR("Cannot find Metal driver, please make sure MoltenVK is installed!");
+            #else
+                SPOOPY_LOG_ERROR("Cannot find a compatible Vulkan installable client driver (ICD)!");
+            #endif
+
+            return;
+        }
+
+        if(result != VK_SUCCESS) {
+            checkVulkan(result);
+            return;
+        }
 
         #if VOLK_HEADER_VERSION >= 131
             volkLoadInstanceOnly(instance);
