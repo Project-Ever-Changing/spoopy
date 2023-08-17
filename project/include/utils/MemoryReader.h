@@ -4,19 +4,17 @@
 #include <spoopy.h>
 
 namespace lime { namespace spoopy {
-    class MemoryReader {
-        private:
-            const std::byte* data;
-            const std::byte* position;
-            uint32_t length;
+    struct MemoryReader {
+        MemoryReader();
+        MemoryReader(const std::byte* data, uint32_t length);
+        MemoryReader(value readStream);
+        ~MemoryReader();
 
-        public:
-            MemoryReader();
-            MemoryReader(const std::byte* data, uint32_t length);
-            MemoryReader(value readStream);
-            ~MemoryReader();
+        void SetData(const std::byte* data, uint32_t length);
+        void Close();
 
-            void SetData(const std::byte* data, uint32_t length);
-            void Close();
+        const std::byte* data;
+        const std::byte* position;
+        uint32_t length;
     };
 }}

@@ -1,5 +1,3 @@
-#pragma once
-
 #include <utils/MemoryReader.h>
 
 namespace lime { namespace spoopy {

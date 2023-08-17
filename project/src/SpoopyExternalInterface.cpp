@@ -183,5 +183,23 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME0(spoopy_create_pipeline);
 
+    int spoopy_get_memory_length(value memory_reader) {
+        MemoryReader* _memoryReader = (MemoryReader*)val_data(memory_reader);
+        return _memoryReader->length;
+    }
+    DEFINE_PRIME1(spoopy_get_memory_length);
+
+    HxString spoopy_get_memory_data(value memory_reader) {
+        MemoryReader* _memoryReader = (MemoryReader*)val_data(memory_reader);
+        return HxString((char*)_memoryReader->data);
+    }
+    DEFINE_PRIME1(spoopy_get_memory_data);
+
+    HxString spoopy_get_memory_position(value memory_reader) {
+        MemoryReader* _memoryReader = (MemoryReader*)val_data(memory_reader);
+        return HxString((char*)_memoryReader->position);
+    }
+    DEFINE_PRIME1(spoopy_get_memory_position);
+
     #endif
 }}
