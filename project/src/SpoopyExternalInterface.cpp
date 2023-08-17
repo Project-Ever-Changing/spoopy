@@ -195,9 +195,9 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME1(spoopy_get_memory_data);
 
-    HxString spoopy_get_memory_position(value memory_reader) {
+    int spoopy_get_memory_position(value memory_reader) {
         MemoryReader* _memoryReader = (MemoryReader*)val_data(memory_reader);
-        return HxString((char*)_memoryReader->position);
+        return _memoryReader->GetPosition();
     }
     DEFINE_PRIME1(spoopy_get_memory_position);
 

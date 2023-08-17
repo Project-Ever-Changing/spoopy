@@ -4,7 +4,7 @@ class SpoopyNativeReader {
     public var handle:Dynamic;
 
     public var data(get, never):String;
-    public var position(get, never):String;
+    public var position(get, never):Int;
     public var length(get, never):Int;
 
     public function new(data:String, length:Int) {
@@ -15,7 +15,7 @@ class SpoopyNativeReader {
         return SpoopyNativeCFFI.spoopy_get_memory_data(handle);
     }
 
-    @:noCompletion private function get_position():String {
+    @:noCompletion private function get_position():Int {
         return SpoopyNativeCFFI.spoopy_get_memory_position(handle);
     }
 

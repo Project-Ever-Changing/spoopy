@@ -25,4 +25,16 @@ namespace lime { namespace spoopy {
         this->position = data;
         this->length = length;
     }
+
+    uint32_t MemoryReader::GetPosition() const {
+        return static_cast<uint32_t>(position - data);
+    }
+
+    void MemoryReader::ReadBytes(std::byte* buffer, uint32_t bytes) {
+        if(bytes > 0) {
+            SP_ASSERT(buffer && length - GetPosition() >= bytes);
+            memcpy(buffer, position, static_cast<size_t>(bytes));
+            position += bytes;
+        }
+    }
 }}

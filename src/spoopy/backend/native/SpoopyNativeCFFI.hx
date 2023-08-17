@@ -33,7 +33,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_memory_reader = new cpp.Callable<String->Int->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_memory_reader", "sio", false));
     public static var spoopy_get_memory_length = new cpp.Callable<cpp.Object->Int>(cpp.Prime._loadPrime("lime", "spoopy_get_memory_length", "oi", false));
     public static var spoopy_get_memory_data = new cpp.Callable<cpp.Object->String>(cpp.Prime._loadPrime("lime", "spoopy_get_memory_data", "os", false));
-    public static var spoopy_get_memory_position = new cpp.Callable<cpp.Object->String>(cpp.Prime._loadPrime("lime", "spoopy_get_memory_position", "os", false));
+    public static var spoopy_get_memory_position = new cpp.Callable<cpp.Object->Int>(cpp.Prime._loadPrime("lime", "spoopy_get_memory_position", "oi", false));
     #elseif (neko || cppia)
     public static var spoopy_check_graphics_module = CFFI.load("lime", "spoopy_check_graphics_module", 0);
     public static var spoopy_acquire_image_graphics_module = CFFI.load("lime", "spoopy_acquire_image_graphics_module", 1);
@@ -117,8 +117,8 @@ class SpoopyNativeCFFI {
         return "";
     }
 
-    public static function spoopy_get_memory_position(memory:Dynamic):String {
-        return "";
+    public static function spoopy_get_memory_position(memory:Dynamic):Int {
+        return 0;
     }
     #end
 }

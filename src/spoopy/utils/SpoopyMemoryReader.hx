@@ -2,7 +2,7 @@ package spoopy.utils;
 
 class SpoopyMemoryReader {
     public var data(get, never):String;
-    public var position(get, never):String;
+    public var position(get, never):Int;
     public var length(get, never):Int;
 
     @:noCompletion private var __backend:BackendMemoryReader;
@@ -15,7 +15,7 @@ class SpoopyMemoryReader {
         return __backend.data;
     }
 
-    public function get_position():String {
+    public function get_position():Int {
         return __backend.position;
     }
 
