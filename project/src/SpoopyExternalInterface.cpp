@@ -183,6 +183,12 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME0(spoopy_create_pipeline);
 
+    void spoopy_pipeline_set_input_assembly(value pipeline, int topology) {
+        Pipeline* _pipeline = (Pipeline*)val_data(pipeline);
+        _pipeline->SetInputAssembly((PrimTopologyType)topology);
+    }
+    DEFINE_PRIME2v(spoopy_pipeline_set_input_assembly);
+
     int spoopy_get_memory_length(value memory_reader) {
         MemoryReader* _memoryReader = (MemoryReader*)val_data(memory_reader);
         return _memoryReader->length;

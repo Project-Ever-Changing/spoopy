@@ -34,6 +34,8 @@ class SpoopyNativeCFFI {
     public static var spoopy_get_memory_length = new cpp.Callable<cpp.Object->Int>(cpp.Prime._loadPrime("lime", "spoopy_get_memory_length", "oi", false));
     public static var spoopy_get_memory_data = new cpp.Callable<cpp.Object->String>(cpp.Prime._loadPrime("lime", "spoopy_get_memory_data", "os", false));
     public static var spoopy_get_memory_position = new cpp.Callable<cpp.Object->Int>(cpp.Prime._loadPrime("lime", "spoopy_get_memory_position", "oi", false));
+    public static var spoopy_create_pipeline = new cpp.Callable<Void->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_pipeline", "o", false));
+    public static var spoopy_pipeline_set_input_assembly = new cpp.Callable<cpp.Object->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_pipeline_set_input_assembly", "oiv", false));
     #elseif (neko || cppia)
     public static var spoopy_check_graphics_module = CFFI.load("lime", "spoopy_check_graphics_module", 0);
     public static var spoopy_acquire_image_graphics_module = CFFI.load("lime", "spoopy_acquire_image_graphics_module", 1);
@@ -52,6 +54,8 @@ class SpoopyNativeCFFI {
     public static var spoopy_get_memory_length = CFFI.load("lime", "spoopy_get_memory_length", 1);
     public static var spoopy_get_memory_data = CFFI.load("lime", "spoopy_get_memory_data", 1);
     public static var spoopy_get_memory_position = CFFI.load("lime", "spoopy_get_memory_position", 1);
+    public static var spoopy_create_pipeline = CFFI.load("lime", "spoopy_create_pipeline", 0);
+    public static var spoopy_pipeline_set_input_assembly = CFFI.load("lime", "spoopy_pipeline_set_input_assembly", 2);
     #else
     public static function spoopy_check_graphics_module():Void {
         return;
@@ -119,6 +123,14 @@ class SpoopyNativeCFFI {
 
     public static function spoopy_get_memory_position(memory:Dynamic):Int {
         return 0;
+    }
+
+    public static function spoopy_create_pipeline():Dynamic {
+        return null;
+    }
+
+    public static function spoopy_pipeline_set_input_assembly(pipeline:Dynamic, topology:Int):Void {
+        return;
     }
     #end
 }
