@@ -2,6 +2,7 @@
 
 #include <system/CFFI.h>
 #include <spoopy_assert.h>
+#include <spoopy_byte.h>
 #include <spoopy.h>
 
 namespace lime { namespace spoopy {

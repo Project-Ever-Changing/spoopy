@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../../helpers/SpoopyHelpersVulkan.h"
-#include "shaders/VertexShaderInput.h"
 
 #include <math/Rectangle.h>
 #include <math/Vector2T.h>
@@ -13,6 +12,7 @@
 namespace lime { namespace spoopy {
     class Shader;
     class PipelineShader;
+    class MemoryReader;
 
     class PipelineVulkan {
         public:
@@ -22,7 +22,7 @@ namespace lime { namespace spoopy {
             void CreateGraphicsPipeline(std::unique_ptr<PipelineShader> pipeline, VkRenderPass renderPass,
                 VkPipelineCache pipelineCache, bool wireframe);
 
-            void SetVertexInput();
+            void SetVertexInput(MemoryReader& stream);
             void SetInputAssembly(VkPrimitiveTopology topology);
             void SetDepthStencilState(bool depthTestEnable);
             void SetViewport(Rectangle* rect);
@@ -67,7 +67,6 @@ namespace lime { namespace spoopy {
             VkPipelineDepthStencilStateCreateInfo depthStencilState;
             VkPipelineColorBlendStateCreateInfo colorBlendState;
             VkPipelineTessellationStateCreateInfo tessellationState;
-            VertexShaderInput vertexInput;
             VkViewport viewport;
             VkRect2D scissor;
 

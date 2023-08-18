@@ -63,4 +63,13 @@ namespace lime { namespace spoopy {
                 return "Unknown Vulkan error";
         }
     }
+
+    VkFormat getFormatVk(const PixelFormat format) {
+        switch(format) {
+            case PixelFormat::RGBA32: return VK_FORMAT_R8G8B8A8_UNORM;
+            case PixelFormat::BGRA32: return VK_FORMAT_B8G8R8A8_UNORM;
+            case PixelFormat::ARGB32: return VK_FORMAT_R8G8B8A8_UNORM;
+            default: return VK_FORMAT_UNDEFINED;
+        }
+    }
 }}

@@ -4,6 +4,10 @@
 #include "PipelineVulkan.h"
 #include "GraphicsVulkan.h"
 
+#include <utils/MemoryReader.h>
+
+#include <algorithm>
+
 namespace lime { namespace spoopy {
     PipelineVulkan::PipelineVulkan(VkDevice device, bool pushDescriptors): device(device), pushDescriptors(pushDescriptors) {
         viewportAndScissorState = {};
@@ -22,14 +26,75 @@ namespace lime { namespace spoopy {
         inputAssemblyState.primitiveRestartEnable = VK_FALSE;
     }
 
-    void PipelineVulkan::SetVertexInput() {
+    void PipelineVulkan::SetVertexInput(MemoryReader& stream) {
         vertexInputState = {};
         vertexInputState.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
         vertexInputState.pNext = nullptr;
         vertexInputState.flags = 0;
 
-        VkVertexInputBindingDescription binding = {};
-        VkVertexInputAttributeDescription attribute = {};
+        VkVertexInputBindingDescription bindings[SPOOPY_VS_MAX_INPUT_ELEMENTS];
+        VkVertexInputAttributeDescription attributes[SPOOPY_VS_MAX_INPUT_ELEMENTS];
+
+        for(uint32_t i=0; i<SPOOPY_VS_MAX_INPUT_ELEMENTS; i++) {
+            bindings[i].binding = i;
+            bindings[i].stride = 0;
+            bindings[i].inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+        }
+
+        std::byte inputLayoutSize;
+        stream.ReadBytes(&inputLayoutSize, sizeof(std::byte));
+        SP_ASSERT(inputLayoutSize <= SPOOPY_VS_MAX_INPUT_ELEMENTS);
+
+        uint32_t attributesCount = std::to_integer<uint32_t>(inputLayoutSize);
+        uint32_t bindingsCount = 0;
+        uint32_t offset = 0;
+
+        /*
+         * Assume that the following structs represent the description of each vertex attribute.
+         */
+        struct VADP {
+            std::byte type;
+            std::byte index;
+            std::byte format;
+            std::byte inputSlot;
+            uint32_t alignedByteOffset;
+            std::byte inputSlotClass;
+            uint32_t instanceDataStepRate;
+        };
+
+        VADP descriptions[attributesCount];
+
+        /*
+         * Reading the vertex descriptions from the stream.
+         */
+        for(uint32_t i=0; i<attributesCount; i++) {
+            stream.ReadBytes(reinterpret_cast<std::byte*>(&descriptions[i]), sizeof(VADP));
+            uint32_t bindingSlot = std::to_integer<uint32_t>(descriptions[i].inputSlot);
+
+            if(descriptions[i].alignedByteOffset != SPOOPY_INPUT_LAYOUT_ELEMENT_ALIGN) {
+                offset = descriptions[i].alignedByteOffset;
+            }
+
+            auto& vertexBindingDescription = bindings[bindingSlot];
+            vertexBindingDescription.binding = bindingSlot;
+            vertexBindingDescription.stride = std::max(vertexBindingDescription.stride, (uint32_t)(offset + 32));
+            vertexBindingDescription.inputRate = descriptions[i].inputSlotClass == 0 ? VK_VERTEX_INPUT_RATE_VERTEX : VK_VERTEX_INPUT_RATE_INSTANCE;
+            SP_ASSERT(descriptions[i].instanceDataStepRate == 0 || descriptions[i].instanceDataStepRate == 1);
+
+            auto& vertexAttributeDescription = attributes[i];
+            vertexAttributeDescription.location = i;
+            vertexAttributeDescription.binding = bindingSlot;
+            vertexAttributeDescription.format = getFormatVk((PixelFormat)descriptions[i].format);
+            vertexAttributeDescription.offset = offset;
+
+            bindingsCount = std::max(bindingsCount, bindingSlot + 1);
+            offset += 32;
+        }
+
+        vertexInputState.vertexBindingDescriptionCount = bindingsCount;
+        vertexInputState.pVertexBindingDescriptions = bindings;
+        vertexInputState.vertexAttributeDescriptionCount = attributesCount;
+        vertexInputState.pVertexAttributeDescriptions = attributes;
     }
 
     void PipelineVulkan::CreateGraphicsPipeline(std::unique_ptr<PipelineShader> pipeline, VkRenderPass renderPass,

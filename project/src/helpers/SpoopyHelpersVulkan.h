@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <core/Log.h>
+#include <graphics/PixelFormat.h>
 #include <spoopy.h>
 
 #ifdef SPOOPY_SDL
@@ -11,6 +12,7 @@
 #endif
 
 namespace lime { namespace spoopy {
-    void checkVulkan(VkResult result);
-    std::string stringifyResultVk(VkResult result);
+    void checkVulkan(const VkResult result);
+    std::string stringifyResultVk(const VkResult result);
+    VkFormat getFormatVk(const PixelFormat format);
 }}
