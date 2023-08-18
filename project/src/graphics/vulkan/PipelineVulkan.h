@@ -2,6 +2,7 @@
 
 #include "../../helpers/SpoopyHelpersVulkan.h"
 
+#include <graphics/Enums.h>
 #include <math/Rectangle.h>
 #include <math/Vector2T.h>
 
@@ -23,7 +24,7 @@ namespace lime { namespace spoopy {
                 VkPipelineCache pipelineCache, bool wireframe);
 
             void SetVertexInput(MemoryReader& stream);
-            void SetInputAssembly(VkPrimitiveTopology topology);
+            void SetInputAssembly(const PrimTopologyType& topology);
             void SetDepthStencilState(bool depthTestEnable);
             void SetViewport(Rectangle* rect);
             void SetScissor(Vector2T_u32 size);

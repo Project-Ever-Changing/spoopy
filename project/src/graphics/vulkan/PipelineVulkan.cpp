@@ -19,11 +19,25 @@ namespace lime { namespace spoopy {
         vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
     }
 
-    void PipelineVulkan::SetInputAssembly(VkPrimitiveTopology topology) {
+    void PipelineVulkan::SetInputAssembly(const PrimTopologyType& topology) {
         inputAssemblyState = {};
         inputAssemblyState.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
-        inputAssemblyState.topology = topology;
         inputAssemblyState.primitiveRestartEnable = VK_FALSE;
+
+        switch(topology) {
+            case PrimTopologyType::PointList:
+                inputAssemblyState.topology = VK_PRIMITIVE_TOPOLOGY_POINT_LIST;
+                break;
+            case PrimTopologyType::LineList:
+                inputAssemblyState.topology = VK_PRIMITIVE_TOPOLOGY_LINE_LIST;
+                break;
+            case PrimTopologyType::TriangleList:
+                inputAssemblyState.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+                break;
+            case PrimTopologyType::PatchList:
+                inputAssemblyState.topology = VK_PRIMITIVE_TOPOLOGY_PATCH_LIST;
+                break;
+        }
     }
 
     void PipelineVulkan::SetVertexInput(MemoryReader& stream) {
