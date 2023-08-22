@@ -189,6 +189,13 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME2v(spoopy_pipeline_set_input_assembly);
 
+    void spoopy_pipeline_set_vertex_input(value pipeline, value memory_reader) {
+        MemoryReader* _memoryReader = (MemoryReader*)val_data(memory_reader);
+        Pipeline* _pipeline = (Pipeline*)val_data(pipeline);
+
+        _pipeline->SetVertexInput(*_memoryReader);
+    }
+
     int spoopy_get_memory_length(value memory_reader) {
         MemoryReader* _memoryReader = (MemoryReader*)val_data(memory_reader);
         return _memoryReader->length;

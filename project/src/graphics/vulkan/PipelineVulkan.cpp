@@ -37,6 +37,8 @@ namespace lime { namespace spoopy {
             case PrimTopologyType::PatchList:
                 inputAssemblyState.topology = VK_PRIMITIVE_TOPOLOGY_PATCH_LIST;
                 break;
+            default:
+                break;
         }
     }
 
