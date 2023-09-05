@@ -16,3 +16,6 @@
 [submodule "project/lib/rocket"]
 	path = project/lib/rocket
 	url = https://github.com/tripleslash/rocket
+[submodule "project/lib/hxcpp"]
+	path = project/lib/hxcpp
+	url = https://github.com/HaxeFoundation/hxcpp
