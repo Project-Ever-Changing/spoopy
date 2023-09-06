@@ -21,25 +21,35 @@ class SpoopyStateManager {
     }
 
     public function switchState(next:SpoopyState):Void {
-        /* TODO: The SpoopyStateManager should be able to flush the modules when switching states. */
+        if(__currentState == next || __queueState == next) {
+            return;
+        }
+
+        __queueState = next;
+    }
+
+    public function update():Void {
+        if(__queueState != null) {
+            processSwitchState();
+        }
+    }
+
+    private function processSwitchState():Void {
+        if(__queueState == __currentState) {
+            __queueState = null;
+            return;
+        }
 
         // Make sure to destroy the current state.
         if(__currentState != null) {
             __currentState.destroy();
         }
 
-        flush();
-
-        __currentState = next;
+        __currentState = __queueState;
         __currentState.addManager(this);
-    }
+        __currentState.create();
 
-    public function transitionedOut():Bool {
-        return true;
-    }
-
-    private function flush():Void {
-        /* TODO: Flush out Vulkan buffers and the descriptor pool that is attached to the current state. */
+        __queueState = null;
     }
 
     @:noCompletion private function get_currentState():SpoopyState {
