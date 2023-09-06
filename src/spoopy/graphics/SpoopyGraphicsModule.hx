@@ -9,11 +9,17 @@ import lime.graphics.RenderContextAttributes;
 import lime.graphics.RenderContext;
 import lime.math.Matrix3;
 
+/*
+* Handles the creation of the window and the rendering of the window.
+* As well as the overall graphics of the application.
+*/
+
 @:access(spoopy.graphics.SpoopyWindowDisplay)
 class SpoopyGraphicsModule implements IModule {
     @:noCompletion private var __application:Application;
     @:noCompletion private var __backend:BackendGraphicsModule;
     @:noCompletion private var __display:ObjectMap<Window, SpoopyWindowDisplay>;
+    @:noCompletion private var __stateManager:SpoopyStateManager;
     @:noCompletion private var __rendering:Bool = false;
 
     #if spoopy_debug

@@ -9,6 +9,7 @@
     <set name="mac" value="1" if="macos" />
 
 	<set name="SPOOPY_HASHLINK" value="1" if="hashlink" />
+	<set name="SPOOPY_HXCPP" value="1" />
 	<set name="SPOOPY_SDL" value="1" />
 	<set name="SPOOPY_ROCKET" value="1" />
 	<set name="SPOOPY_SDL_SUPPORT_RENDERER" value="1" />
@@ -61,6 +62,11 @@
 		<compilerflag value="-DLIME_ENABLE_GL_CONTEXT" if="LIME_ENABLE_GL_CONTEXT" />
 		<compilerflag value="-DLIME_OPENGL_FLAG" if="LIME_OPENGL_FLAG" />
 		<compilerflag value="-DLIME_METAL" if="LIME_METAL" />
+
+		<section if="SPOOPY_HXCPP">
+		    <compilerflag value="-DSPOOPY_HXCPP" />
+		    <compilerflag value="-Ilib/hxcpp/include/" />
+		</section>
 
 		<section if="SPOOPY_VOLK">
 			<compilerflag value="-DSPOOPY_VOLK" />
