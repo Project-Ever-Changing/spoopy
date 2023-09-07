@@ -3,8 +3,8 @@ package spoopy.utils;
 import lime.utils.Log;
 
 class SpoopyLogger {
-    public static inline function info(msg:String):Void {
-        msg = "\033[0m" + msg;
+    public static inline function info(msg:Dynamic):Void {
+        var Smsg = "\033[0m" + Std.string(msg);
 
         #if js
         untyped #if haxe4 js.Syntax.code #else __js__ #end (typeOfOutput("[INFO]") + msg);
@@ -13,8 +13,8 @@ class SpoopyLogger {
         #end
     }
 
-    public static inline function warn(msg:String):Void {
-        var msg = "\033[1m\033[33m" + msg + "\033[0m";
+    public static inline function warn(msg:Dynamic):Void {
+        var Smsg = "\033[1m\033[33m" + Std.string(msg) + "\033[0m";
 
         #if js
         untyped #if haxe4 js.Syntax.code #else __js__ #end (msg);
