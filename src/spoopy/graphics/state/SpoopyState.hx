@@ -1,10 +1,13 @@
 package spoopy.graphics.state;
 
 import spoopy.utils.SpoopyDestroyable;
+import spoopy.graphics.renderer.SpoopyRenderPass;
 
 @:allow(spoopy.graphics.state.SpoopyStateManager)
 class SpoopyState implements ISpoopyDestroyable {
     public var manager(default, null):SpoopyStateManager;
+
+    @:noCompletion private var __renderPass:SpoopyRenderPass;
 
     public function new() {
 
@@ -18,6 +21,7 @@ class SpoopyState implements ISpoopyDestroyable {
     public function destroy():Void {
         flush();
 
+        __renderPass = null;
         manager = null;
     }
 

@@ -21,7 +21,6 @@ class SpoopyGraphicsModule implements IModule {
     @:noCompletion private var __application:Application;
     @:noCompletion private var __backend:BackendGraphicsModule;
     @:noCompletion private var __display:ObjectMap<Window, SpoopyWindowDisplay>;
-    @:noCompletion private var __stateManager:SpoopyStateManager;
     @:noCompletion private var __rendering:Bool = false;
 
     #if spoopy_debug

@@ -59,7 +59,7 @@ class SpoopyWindowDisplay {
         );
     }
 
-    public function createRenderPass():Void {
+    private inline function createRenderPass():Void {
         if(__renderPass != null) {
             return;
         }
