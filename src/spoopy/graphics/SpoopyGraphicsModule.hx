@@ -9,6 +9,8 @@ import lime.graphics.RenderContextAttributes;
 import lime.graphics.RenderContext;
 import lime.math.Matrix3;
 
+import spoopy.graphics.state.SpoopyStateManager;
+
 /*
 * Handles the creation of the window and the rendering of the window.
 * As well as the overall graphics of the application.
