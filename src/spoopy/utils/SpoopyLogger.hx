@@ -17,9 +17,29 @@ class SpoopyLogger {
         var smsg = "\033[1m\033[33m" + Std.string(msg) + "\033[0m";
 
         #if js
-        untyped #if haxe4 js.Syntax.code #else __js__ #end (smsg);
+        untyped #if haxe4 js.Syntax.code #else __js__ #end (typeOfOutput("[WARN]") + smsg);
         #else
         Log.println(typeOfOutput("[WARN]") + smsg);
+        #end
+    }
+
+    public static inline function error(msg:Dynamic):Void {
+        var smsg = "\033[1m\033[31m" + Std.string(msg) + "\033[0m";
+
+        #if js
+        untyped #if haxe4 js.Syntax.code #else __js__ #end (typeOfOutput("[ERROR]") + smsg);
+        #else
+        Log.println(typeOfOutput("[ERROR]") + smsg);
+        #end
+    }
+
+    public static inline function success(msg:Dynamic):Void {
+        var smsg = "\033[1m\033[32m" + Std.string(msg) + "\033[0m";
+
+        #if js
+        untyped #if haxe4 js.Syntax.code #else __js__ #end (typeOfOutput("[ERROR]") + smsg);
+        #else
+        Log.println(typeOfOutput("[ERROR]") + smsg);
         #end
     }
 
