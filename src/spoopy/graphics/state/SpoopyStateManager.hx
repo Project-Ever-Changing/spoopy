@@ -1,5 +1,7 @@
 package spoopy.graphics.state;
 
+import spoopy.utils.SpoopyLogger;
+
 class SpoopyStateManager {
     public var currentState(get, never):SpoopyState;
 
@@ -53,10 +55,9 @@ class SpoopyStateManager {
     }
 
     @:noCompletion private function get_currentState():SpoopyState {
-        /*
-        * TODO: Output a warning if the __currentState is null.
-        * But first, I need a good frontend logger.
-        */
+        if(__currentState == null) {
+            SpoopyLogger.warn("Current state is null! Try calling `switchState` first.");
+        }
 
         return __currentState;
     }
