@@ -176,6 +176,7 @@ namespace lime { namespace spoopy {
         MemoryReader* _memoryReader = new MemoryReader((std::byte*)data.c_str(), (uint32_t)size);
         return CFFIPointer(_memoryReader, spoopy_gc_memory_reader);
     }
+    DEFINE_PRIME2(spoopy_create_memory_reader);
 
     value spoopy_create_pipeline() {
         Pipeline *_pipeline = new Pipeline(*GraphicsModule::GetCurrent()->GetLogicalDevice());
