@@ -1,5 +1,6 @@
 package spoopy.graphics;
 
+import spoopy.utils.SpoopyLogger;
 import haxe.ds.ObjectMap;
 
 import lime.app.IModule;
@@ -28,10 +29,16 @@ class SpoopyGraphicsModule implements IModule {
 
     public function new(window:Window) {
         __backend = new BackendGraphicsModule();
+
+        if(window == null) {
+            SpoopyLogger.error("The window is null! Unable to create a graphics module.");
+            return;
+        }
+
         __onWindowAdded(window);
     }
 
-    @:noCompletion private function __onCreateWindow(window:Window):Void {
+    @:noCompletion private function __onAddedWindow(window:Window):Void {
         #if spoopy_debug
         if(!__createFirstWindow) {
             __backend.check();
@@ -79,7 +86,7 @@ class SpoopyGraphicsModule implements IModule {
         window.onRender.add(__onWindowRender);
         window.onResize.add(__onWindowResize.bind(window));
 
-        __onCreateWindow(window);
+        __onAddedWindow(window);
     }
 
     @:noCompletion private function __registerLimeModule(application:Application):Void {
