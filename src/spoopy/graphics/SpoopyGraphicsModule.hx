@@ -69,7 +69,7 @@ class SpoopyGraphicsModule implements IModule {
         if(__rendering) return;
         __rendering = true;
 
-        trace(context);
+        trace(context.window);
 
         __backend.acquireNextImage(context.window);
         __backend.record(context.window, __display.__renderPass);
