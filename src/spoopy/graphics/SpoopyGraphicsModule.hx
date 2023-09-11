@@ -69,8 +69,6 @@ class SpoopyGraphicsModule implements IModule {
         if(__rendering) return;
         __rendering = true;
 
-        trace(__display);
-
         __backend.acquireNextImage(context.window);
         __backend.record(context.window, __display.__renderPass);
 
@@ -86,10 +84,10 @@ class SpoopyGraphicsModule implements IModule {
     }
 
     @:noCompletion private function __onWindowAdded(window:Window):Void {
+        __onAddedWindow(window);
+
         window.onRender.add(__onWindowRender);
         window.onResize.add(__onWindowResize.bind(window));
-
-        __onAddedWindow(window);
     }
 
     @:noCompletion private function __registerLimeModule(application:Application):Void {
