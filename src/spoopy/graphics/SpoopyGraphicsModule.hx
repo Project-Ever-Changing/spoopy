@@ -49,12 +49,12 @@ class SpoopyGraphicsModule implements IModule {
         __backend.checkContext(window);
         #end
 
-        var display = new SpoopyWindowDisplay(window);
+        __display = new SpoopyWindowDisplay(window);
 
         __backend.createContextStage(window, display.__viewportRect);
         __windowResize(display);
 
-        display.createRenderPass();
+        __display.createRenderPass();
         __backend.reset(display.__renderPass);
     }
 
@@ -84,10 +84,10 @@ class SpoopyGraphicsModule implements IModule {
     }
 
     @:noCompletion private function __onWindowAdded(window:Window):Void {
-        __onAddedWindow(window);
-
         window.onRender.add(__onWindowRender);
         window.onResize.add(__onWindowResize.bind(window));
+
+        __onAddedWindow(window);
     }
 
     @:noCompletion private function __registerLimeModule(application:Application):Void {
