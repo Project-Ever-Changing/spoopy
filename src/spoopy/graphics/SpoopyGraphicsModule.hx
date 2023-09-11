@@ -18,18 +18,17 @@ import spoopy.graphics.state.SpoopyStateManager;
 
 @:access(spoopy.graphics.SpoopyWindowDisplay)
 class SpoopyGraphicsModule implements IModule {
-    @:noCompletion private var __application:Application;
     @:noCompletion private var __backend:BackendGraphicsModule;
-    @:noCompletion private var __display:ObjectMap<Window, SpoopyWindowDisplay>;
+    @:noCompletion private var __display:SpoopyWindowDisplay;
     @:noCompletion private var __rendering:Bool = false;
 
     #if spoopy_debug
     @:noCompletion private var __createFirstWindow:Bool = false;
     #end
 
-    public function new() {
+    public function new(window:Window) {
         __backend = new BackendGraphicsModule();
-        __display = new ObjectMap<Window, SpoopyWindowDisplay>();
+        __onWindowAdded(window);
     }
 
     @:noCompletion private function __onCreateWindow(window:Window):Void {
@@ -47,7 +46,6 @@ class SpoopyGraphicsModule implements IModule {
         __backend.createContextStage(window, display.__viewportRect);
         __windowResize(display);
 
-        __display.set(window, display);
         display.createRenderPass();
         __backend.reset(display.__renderPass);
     }
@@ -77,35 +75,11 @@ class SpoopyGraphicsModule implements IModule {
         __windowResize(__display.get(window));
     }
 
-    @:noCompletion private function __onWindowCreate(window:Window):Void {
+    @:noCompletion private function __onWindowAdded(window:Window):Void {
         window.onRender.add(__onWindowRender);
         window.onResize.add(__onWindowResize.bind(window));
 
         __onCreateWindow(window);
-    }
-
-    @:noCompletion private function __onUpdate(deltaTime:Int):Void {
-        // TODO: Add an event system that will have graphic wise events.
-    }
-
-    @:noCompletion private function __onModuleExit(code:Int):Void {
-        // TODO: Dispatch anything in the future.
-    }
-
-    @:noCompletion private function __registerLimeModule(application:Application):Void {
-        __application = application;
-
-        application.onCreateWindow.add(__onCreateWindow);
-        application.onUpdate.add(__onUpdate);
-        application.onExit.add(__onModuleExit, false, 0);
-    }
-
-    @:noCompletion private function __unregisterLimeModule(application:Application):Void {
-        __application = null;
-
-        application.onCreateWindow.remove(__onCreateWindow);
-        application.onUpdate.remove(__onUpdate);
-        application.onExit.remove(__onModuleExit);
     }
 }
 
