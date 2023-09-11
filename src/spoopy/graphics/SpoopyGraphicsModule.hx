@@ -1,5 +1,6 @@
 package spoopy.graphics;
 
+import haxe.macro.Context;
 import spoopy.utils.SpoopyLogger;
 import haxe.ds.ObjectMap;
 
@@ -67,6 +68,8 @@ class SpoopyGraphicsModule implements IModule {
     @:noCompletion private function __onWindowRender(context:RenderContext):Void { // The `RenderContext` is practically useless.
         if(__rendering) return;
         __rendering = true;
+
+        trace(context);
 
         __backend.acquireNextImage(context.window);
         __backend.record(context.window, __display.__renderPass);
