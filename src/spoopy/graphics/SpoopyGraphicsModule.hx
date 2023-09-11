@@ -62,7 +62,7 @@ class SpoopyGraphicsModule implements IModule {
         __rendering = true;
 
         __backend.acquireNextImage(context.window);
-        __backend.record(context.window, __display.get(context.window).__renderPass);
+        __backend.record(context.window, __display.__renderPass);
 
         __rendering = false;
     }
@@ -72,7 +72,7 @@ class SpoopyGraphicsModule implements IModule {
             return;
         }
 
-        __windowResize(__display.get(window));
+        __windowResize(__display);
     }
 
     @:noCompletion private function __onWindowAdded(window:Window):Void {
