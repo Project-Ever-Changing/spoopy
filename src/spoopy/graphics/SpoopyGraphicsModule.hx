@@ -81,6 +81,14 @@ class SpoopyGraphicsModule implements IModule {
 
         __onCreateWindow(window);
     }
+
+    @:noCompletion private function __registerLimeModule(application:Application):Void {
+        // TODO: Maybe have an event system for this?
+    }
+
+    @:noCompletion private function __unregisterLimeModule(application:Application):Void {
+        // TODO: For anything on the `__unregisterLimeModule` method, maybe this could be a flush algorithm.
+    }
 }
 
 #if spoopy_vulkan
