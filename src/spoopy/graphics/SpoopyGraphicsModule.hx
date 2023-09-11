@@ -51,11 +51,11 @@ class SpoopyGraphicsModule implements IModule {
 
         __display = new SpoopyWindowDisplay(window);
 
-        __backend.createContextStage(window, display.__viewportRect);
-        __windowResize(display);
+        __backend.createContextStage(window, __display.__viewportRect);
+        __windowResize(__display);
 
         __display.createRenderPass();
-        __backend.reset(display.__renderPass);
+        __backend.reset(__display.__renderPass);
     }
 
     @:noCompletion private function __windowResize(display:SpoopyWindowDisplay):Void {
