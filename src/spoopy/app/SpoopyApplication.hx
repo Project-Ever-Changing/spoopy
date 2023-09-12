@@ -60,10 +60,10 @@ class SpoopyApplication extends Application {
 				#end
             }
 
-            if(__window == window && windowModules.exists(__window)) {
-                var getModule = windowModules.get(__window);
+            if(windowModules.exists(window)) {
+                var getModule = windowModules.get(window);
                 getModule.__unregisterWindowModule(window);
-                windowModules.remove(__window);
+                windowModules.remove(window);
                 getModule = null;
             }
         }
