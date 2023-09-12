@@ -15,22 +15,22 @@ class SpoopyApplication extends Application {
     /*
     * The maximum number of vertex layouts that can be defined.
     */
-    public static var SPOOPY_CONFIG_MAX_VERTEX_LAYOUTS:UInt = 64;
+    public static var SPOOPY_CONFIG_MAX_VERTEX_LAYOUTS(default, null):UInt = 64;
 
     /*
     * This configuration parameter sets the maximum number of buffers that can be used in the graphics rendering pipeline.
     */
-    public static var SPOOPY_CONFIG_MAX_LAYOUTS:UInt = (4<<10);
+    public static var SPOOPY_CONFIG_MAX_LAYOUTS(default, null):UInt = (4<<10);
 
     /*
     * This configuration parameter sets the maximum number of textures that can be used in the graphics rendering pipeline.
     */
-    public static var SPOOPY_CONFIG_MAX_UNIFORM_BUFFERS:UInt = 0x8;
+    public static var SPOOPY_CONFIG_MAX_UNIFORM_BUFFERS(default, null):UInt = 0x8;
 
     /*
     * Defines the maximum number of frames that can be in flight at once.
     */
-    public static var SPOOPY_CONFIG_MAX_FRAME_LATENCY:UInt = 3;
+    public static var SPOOPY_CONFIG_MAX_FRAME_LATENCY(default, null):UInt = 3;
     
     /*
 	* A list of active Window module instances associated with this Application.
