@@ -30,13 +30,6 @@ class SpoopyGraphicsModule implements IWindowModule {
 
     public function new(window:Window) {
         __backend = new BackendGraphicsModule();
-
-        if(window == null) {
-            SpoopyLogger.error("The window is null! Unable to create a graphics module.");
-            return;
-        }
-
-        __onWindowAdded(window);
     }
 
     @:noCompletion private function __onAddedWindow(window:Window):Void {
@@ -84,6 +77,11 @@ class SpoopyGraphicsModule implements IWindowModule {
     }
 
     @:noCompletion private function __registerWindowModule(window:Window):Void {
+        if(window == null) {
+            SpoopyLogger.error("The window is null! Unable to create a graphics module.");
+            return;
+        }
+
         window.onRender.add(__onWindowRender);
         window.onResize.add(__onWindowResize.bind(window));
 
