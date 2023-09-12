@@ -21,6 +21,7 @@ import spoopy.graphics.state.SpoopyStateManager;
 @:access(spoopy.graphics.SpoopyWindowDisplay)
 class SpoopyGraphicsModule implements IWindowModule {
     @:noCompletion private var __backend:BackendGraphicsModule;
+    // @:noCompletion private var __stateManager:SpoopyStateManager;
     @:noCompletion private var __display:SpoopyWindowDisplay;
     @:noCompletion private var __rendering:Bool = false;
 
@@ -30,6 +31,7 @@ class SpoopyGraphicsModule implements IWindowModule {
 
     public function new() {
         __backend = new BackendGraphicsModule();
+        // __stateManager = new SpoopyStateManager();
     }
 
     @:noCompletion private function __onAddedWindow(window:Window):Void {
