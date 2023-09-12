@@ -1,10 +1,10 @@
 package spoopy.graphics;
 
+import spoopy.window.IWindowModule;
 import haxe.macro.Context;
 import spoopy.utils.SpoopyLogger;
 import haxe.ds.ObjectMap;
 
-import lime.app.IModule;
 import lime.app.Application;
 import lime.ui.Window;
 import lime.graphics.RenderContextAttributes;
@@ -19,7 +19,7 @@ import spoopy.graphics.state.SpoopyStateManager;
 */
 
 @:access(spoopy.graphics.SpoopyWindowDisplay)
-class SpoopyGraphicsModule implements IModule {
+class SpoopyGraphicsModule implements IWindowModule {
     @:noCompletion private var __backend:BackendGraphicsModule;
     @:noCompletion private var __display:SpoopyWindowDisplay;
     @:noCompletion private var __rendering:Bool = false;
@@ -83,19 +83,15 @@ class SpoopyGraphicsModule implements IModule {
         __windowResize(__display);
     }
 
-    @:noCompletion private function __onWindowAdded(window:Window):Void {
+    @:noCompletion private function __registerWindowModule(window:Window):Void {
         window.onRender.add(__onWindowRender);
         window.onResize.add(__onWindowResize.bind(window));
 
         __onAddedWindow(window);
     }
 
-    @:noCompletion private function __registerLimeModule(application:Application):Void {
-        // TODO: Maybe have an event system for this?
-    }
-
-    @:noCompletion private function __unregisterLimeModule(application:Application):Void {
-        // TODO: For anything on the `__unregisterLimeModule` method, maybe this could be a flush algorithm.
+    @:noCompletion private function __unregisterWindowModule(window:Window):Void {
+        __display = null;
     }
 }
 
