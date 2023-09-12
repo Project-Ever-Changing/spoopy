@@ -28,7 +28,7 @@ class SpoopyGraphicsModule implements IWindowModule {
     @:noCompletion private var __createFirstWindow:Bool = false;
     #end
 
-    public function new(window:Window) {
+    public function new() {
         __backend = new BackendGraphicsModule();
     }
 
