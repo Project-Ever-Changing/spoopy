@@ -4,7 +4,7 @@
 #include "ContextStage.h"
 #include "GraphicsVulkan.h"
 
-#include <graphics/Context.h>
+#include <graphics/ContextLayer.h>
 
 namespace lime { namespace spoopy {
     std::unique_ptr<GraphicsVulkan> GraphicsVulkan::Main = nullptr;
