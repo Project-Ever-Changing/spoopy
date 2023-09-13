@@ -22,7 +22,7 @@ namespace lime { namespace spoopy {
         checkVulkan(vkCreatePipelineCache(*logicalDevice, &pipelineCacheCreateInfo, nullptr, &pipelineCache));
 
         int width, height;
-        SDL_GetWindowSize(m_window, &width, &height);
+        GetWindowSize(m_window, &width, &height);
         displayExtent = {static_cast<uint32_t>(width), static_cast<uint32_t>(height)};
     }
 
@@ -40,7 +40,7 @@ namespace lime { namespace spoopy {
         }
     }
 
-    void GraphicsVulkan::RecreateSwapchain(const SDL_Context &context) {
+    void GraphicsVulkan::RecreateSwapchain(const Context &context) {
         checkVulkan(vkDeviceWaitIdle(*logicalDevice));
         context->RecreateSwapchain(*physicalDevice, *logicalDevice, displayExtent, context->GetSwapchain());
     }
@@ -78,7 +78,7 @@ namespace lime { namespace spoopy {
         contexts.clear();
     }
 
-    void GraphicsVulkan::ResetPresent(const SDL_Context &context, const RenderPassVulkan &renderPass) {
+    void GraphicsVulkan::ResetPresent(const Context &context, const RenderPassVulkan &renderPass) {
         const auto &graphicsQueue = logicalDevice->GetGraphicsQueue();
         const auto &perSurfaceBuffer = context->GetSurfaceBuffer();
         const auto &swapchain = context->GetSwapchain();
@@ -92,7 +92,7 @@ namespace lime { namespace spoopy {
         context->stage->Build(renderPass);
     }
 
-    void GraphicsVulkan::AcquireNextImage(const SDL_Context &context) {
+    void GraphicsVulkan::AcquireNextImage(const Context &context) {
         auto perSurfaceBuffer = context->GetSurfaceBuffer();
         auto acquireResult = context->AcquireNextImage(perSurfaceBuffer->presentCompletes[perSurfaceBuffer->currentFrame], perSurfaceBuffer->flightFences[perSurfaceBuffer->currentFrame]);
 
@@ -108,7 +108,7 @@ namespace lime { namespace spoopy {
         }
     }
 
-    void GraphicsVulkan::Record(const SDL_Context &context, const RenderPassVulkan &renderPass) {
+    void GraphicsVulkan::Record(const Context &context, const RenderPassVulkan &renderPass) {
         auto &stage = context->stage;
         bool dirty = false;
 
@@ -162,7 +162,7 @@ namespace lime { namespace spoopy {
         perSurfaceBuffer->currentFrame = (perSurfaceBuffer->currentFrame + 1) % swapchain->GetImageCount();
     }
 
-    void GraphicsVulkan::ChangeSize(const SDL_Context &context, const Viewport &viewport) {
+    void GraphicsVulkan::ChangeSize(const Context &context, const Viewport &viewport) {
         auto &stage = context->stage;
         stage->SetViewport(viewport);
     }

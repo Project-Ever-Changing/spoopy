@@ -22,10 +22,10 @@ namespace lime { namespace spoopy {
             ~GraphicsVulkan();
 
             void Reset(const RenderPassVulkan &renderPass);
-            void AcquireNextImage(const SDL_Context &context);
-            void ResetPresent(const SDL_Context &context, const RenderPassVulkan &renderPass);
-            void Record(const SDL_Context &context, const RenderPassVulkan &renderPass);
-            void ChangeSize(const SDL_Context &context, const Viewport &viewport);
+            void AcquireNextImage(const Context &context);
+            void ResetPresent(const Context &context, const RenderPassVulkan &renderPass);
+            void Record(const Context &context, const RenderPassVulkan &renderPass);
+            void ChangeSize(const Context &context, const Viewport &viewport);
 
             static GraphicsVulkan *GetCurrent() { return Main.get(); }
             static bool MultisamplingEnabled;
@@ -37,7 +37,7 @@ namespace lime { namespace spoopy {
             const std::shared_ptr<CommandPoolVulkan> &GetGraphicsCommandPool() { return logicalDevice->GetGraphicsCommandPool(); }
 
         private:
-            void RecreateSwapchain(const SDL_Context &context);
+            void RecreateSwapchain(const Context &context);
             void RecreateSwapchains();
 
             static std::unique_ptr<GraphicsVulkan> Main;

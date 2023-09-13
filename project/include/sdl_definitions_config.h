@@ -22,9 +22,9 @@
 
 namespace lime { namespace spoopy {
     struct GraphicsHandler {
-        static SDL_Context CreateContext(SDL_Window* m_window);
-        static void DestroyContext(const SDL_Context &context);
-        static int MakeCurrent(SDL_Window* m_window, const SDL_Context &context);
+        static Context CreateContext(SDL_Window* m_window);
+        static void DestroyContext(const Context &context);
+        static int MakeCurrent(SDL_Window* m_window, const Context &context);
         static int SwapInterval(int vsync);
     };
 }}
