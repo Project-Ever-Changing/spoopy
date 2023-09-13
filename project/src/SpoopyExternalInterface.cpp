@@ -125,7 +125,7 @@ namespace lime { namespace spoopy {
     void spoopy_check_context(value window_handle) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
-        SDL_Context context = sdlWindow->context;
+        Context context = sdlWindow->context;
 
         if(context != nullptr) {
             SPOOPY_LOG_SUCCESS("Window has a context!");
@@ -139,7 +139,7 @@ namespace lime { namespace spoopy {
     void spoopy_create_context_stage(value window_handle, value viewport) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
-        SDL_Context context = sdlWindow->context;
+        Context context = sdlWindow->context;
         context->stage = std::make_unique<ContextStage>(*context, Viewport(viewport));
     }
     DEFINE_PRIME2v(spoopy_create_context_stage);
