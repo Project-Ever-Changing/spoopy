@@ -6,7 +6,7 @@
 #include "ContextStage.h"
 #include "../../../include/graphics/ContextLayer.h"
 
-#include <graphics/Context.h>
+#include <graphics/ContextLayer.h>
 
 namespace lime { namespace spoopy {
     ContextVulkan::ContextVulkan() {
