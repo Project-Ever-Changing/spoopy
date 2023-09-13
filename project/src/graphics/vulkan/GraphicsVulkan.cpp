@@ -11,7 +11,7 @@ namespace lime { namespace spoopy {
     bool GraphicsVulkan::MultisamplingEnabled = true;
 
 
-    GraphicsVulkan::GraphicsVulkan(SDL_Window* m_window):
+    GraphicsVulkan::GraphicsVulkan(Window* m_window):
         instance(std::make_unique<Instance>(m_window)),
         physicalDevice(std::make_unique<PhysicalDevice>(*instance)),
         logicalDevice(std::make_unique<LogicalDevice>(*instance, *physicalDevice)),
@@ -22,7 +22,7 @@ namespace lime { namespace spoopy {
         checkVulkan(vkCreatePipelineCache(*logicalDevice, &pipelineCacheCreateInfo, nullptr, &pipelineCache));
 
         int width, height;
-        GetWindowSize(m_window, &width, &height);
+        SDL_GetWindowSize(m_window, &width, &height);
         displayExtent = {static_cast<uint32_t>(width), static_cast<uint32_t>(height)};
     }
 
