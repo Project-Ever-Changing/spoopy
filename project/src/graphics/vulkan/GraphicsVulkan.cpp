@@ -11,7 +11,7 @@ namespace lime { namespace spoopy {
     bool GraphicsVulkan::MultisamplingEnabled = true;
 
 
-    GraphicsVulkan::GraphicsVulkan(Window* m_window):
+    GraphicsVulkan::GraphicsVulkan(SDL_Window* m_window):
         instance(std::make_unique<Instance>(m_window)),
         physicalDevice(std::make_unique<PhysicalDevice>(*instance)),
         logicalDevice(std::make_unique<LogicalDevice>(*instance, *physicalDevice)),
