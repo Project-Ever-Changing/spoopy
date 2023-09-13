@@ -18,8 +18,6 @@ typedef CFFIPointer = Dynamic;
 class SpoopyNativeCFFI {
     #if (cpp && !cppia)
     public static var spoopy_check_graphics_module = new cpp.Callable<Void->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_check_graphics_module", "v", false));
-    public static var spoopy_acquire_image_graphics_module = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_acquire_image_graphics_module", "ov", false));
-    public static var spoopy_record_graphics_module = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_record_graphics_module", "oov", false));
     public static var spoopy_resize_graphics_context = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_resize_graphics_context", "oov", false));
     public static var spoopy_reset_graphics_module = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_reset_graphics_module", "ov", false));
     public static var spoopy_create_render_pass = new cpp.Callable<Void->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_render_pass", "o", false));
@@ -39,8 +37,6 @@ class SpoopyNativeCFFI {
     public static var spoopy_pipeline_set_vertex_input = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_pipeline_set_vertex_input", "oov", false));
     #elseif (neko || cppia)
     public static var spoopy_check_graphics_module = CFFI.load("lime", "spoopy_check_graphics_module", 0);
-    public static var spoopy_acquire_image_graphics_module = CFFI.load("lime", "spoopy_acquire_image_graphics_module", 1);
-    public static var spoopy_record_graphics_module = CFFI.load("lime", "spoopy_record_graphics_module", 2);
     public static var spoopy_resize_graphics_context = CFFI.load("lime", "spoopy_resize_graphics_context", 2);
     public static var spoopy_reset_graphics_module = CFFI.load("lime", "spoopy_reset_graphics_module", 1);
     public static var spoopy_create_render_pass = CFFI.load("lime", "spoopy_create_render_pass", 0);
@@ -60,14 +56,6 @@ class SpoopyNativeCFFI {
     public static var spoopy_pipeline_set_vertex_input = CFFI.load("lime", "spoopy_pipeline_set_vertex_input", 2);
     #else
     public static function spoopy_check_graphics_module():Void {
-        return;
-    }
-
-    public static function spoopy_acquire_image_graphics_module(window:Dynamic):Void {
-        return;
-    }
-
-    public static function spoopy_record_graphics_module(window:Dynamic, renderpass:Dynamic):Void {
         return;
     }
 
