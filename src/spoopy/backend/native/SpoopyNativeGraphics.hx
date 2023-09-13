@@ -17,11 +17,11 @@ class SpoopyNativeGraphics {
     }
 
     public function acquireNextImage(window:Window):Void {
-        SpoopyNativeCFFI.spoopy_acquire_image_graphics_module(window.__backend.handle);
+        // SpoopyNativeCFFI.spoopy_acquire_image_graphics_module(window.__backend.handle);
     }
 
     public function record(window:Window, renderPass:SpoopyRenderPass):Void {
-        SpoopyNativeCFFI.spoopy_record_graphics_module(window.__backend.handle, renderPass.__backend.handle);
+        // SpoopyNativeCFFI.spoopy_record_graphics_module(window.__backend.handle, renderPass.__backend.handle);
     }
 
     public function resize(window:Window, viewport:Rectangle):Void {
