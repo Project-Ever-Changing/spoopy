@@ -8,14 +8,14 @@
 #include <memory>
 
 #ifdef LIME_VULKAN
-    #define SDL_Context std::shared_ptr<lime::spoopy::ContextVulkan>
+    #define Context std::shared_ptr<lime::spoopy::ContextVulkan>
 
-    #define SDL_CreateContext lime::spoopy::GraphicsHandler::CreateContext
-    #define SDL_DeleteContext lime::spoopy::GraphicsHandler::DestroyContext
-    #define SDL_MakeCurrent lime::spoopy::GraphicsHandler::MakeCurrent
-    #define SDL_SetSwapInterval lime::spoopy::GraphicsHandler::SwapInterval
+    #define CreateContext lime::spoopy::GraphicsHandler::CreateContext
+    #define DeleteContext lime::spoopy::GraphicsHandler::DestroyContext
+    #define MakeCurrent lime::spoopy::GraphicsHandler::MakeCurrent
+    #define SetSwapInterval lime::spoopy::GraphicsHandler::SwapInterval
 
-    #define SDL_SwapWindow EMPTY
+    #define SwapWindow EMPTY
 #endif
 
 #ifndef LIME_OPENGL
