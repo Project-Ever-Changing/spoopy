@@ -4,7 +4,7 @@
 #include "CommandBufferVulkan.h"
 #include "SwapchainVulkan.h"
 #include "ContextStage.h"
-#include "../../../include/graphics/Context.h"
+#include "../../../include/graphics/ContextLayer.h"
 
 #include <graphics/Context.h>
 
