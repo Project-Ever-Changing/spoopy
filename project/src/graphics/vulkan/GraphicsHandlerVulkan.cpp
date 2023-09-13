@@ -5,7 +5,7 @@
 #include <sdl_definitions_config.h>
 
 namespace lime { namespace spoopy {
-    Context GraphicsHandler::CreateContext(SDL_Window* m_window) {
+    Context GraphicsHandler::Handler_CreateContext(SDL_Window* m_window) {
         if(!GraphicsVulkan::Main) {
             GraphicsVulkan::Main = std::make_unique<GraphicsVulkan>(m_window);
         }
@@ -15,7 +15,7 @@ namespace lime { namespace spoopy {
         return context;
     }
 
-    void GraphicsHandler::DestroyContext(const Context &context) {
+    void GraphicsHandler::Handler_DestroyContext(const Context &context) {
         auto element = std::find_if(GraphicsVulkan::Main->contexts.begin(), GraphicsVulkan::Main->contexts.end(),
         [context](const Context &contextPtr){
             return contextPtr.get() == context.get();
@@ -33,7 +33,7 @@ namespace lime { namespace spoopy {
         }
     }
 
-    int GraphicsHandler::MakeCurrent(SDL_Window* m_window, const Context &context) {
+    int GraphicsHandler::Handler_MakeCurrent(SDL_Window* m_window, const Context &context) {
         auto element = std::find_if(GraphicsVulkan::Main->contexts.begin(), GraphicsVulkan::Main->contexts.end(),
         [context](const Context &contextPtr) {
             return contextPtr.get() == context.get();
@@ -54,7 +54,7 @@ namespace lime { namespace spoopy {
         return 0;
     }
 
-    int GraphicsHandler::SwapInterval(int vsync) {
+    int GraphicsHandler::Handler_SwapInterval(int vsync) {
         auto& contexts = GraphicsVulkan::Main->contexts;
 
         for(size_t i=0; i<contexts.size(); ++i) {
