@@ -67,6 +67,7 @@ namespace lime { namespace spoopy {
 
     void LogicalDevice::CreateLogicalDevice() {
         std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
+        queueCreateInfos.reserve(3);
         float queuePriority = 1.0f;
 
         if(supportedQueues & VK_QUEUE_GRAPHICS_BIT) {
