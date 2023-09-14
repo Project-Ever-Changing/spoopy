@@ -3,6 +3,8 @@
 #include "PhysicalDevice.h"
 #include "Instance.h"
 
+#include <spoopy_assert.h>
+
 namespace lime { namespace spoopy {
     const std::vector<const char*> LogicalDevice::Extensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME, "VK_KHR_portability_subset",};
 
@@ -21,6 +23,9 @@ namespace lime { namespace spoopy {
     void LogicalDevice::CreateQueueIndices() {
         uint32_t deviceQueueFamilyPropertyCount;
         vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &deviceQueueFamilyPropertyCount, nullptr);
+
+        SP_ASSERT(deviceQueueFamilyPropertyCount >= 1);
+
         std::vector<VkQueueFamilyProperties> deviceQueueFamilyProperties(deviceQueueFamilyPropertyCount);
         vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &deviceQueueFamilyPropertyCount, deviceQueueFamilyProperties.data());
 
