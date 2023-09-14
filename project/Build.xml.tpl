@@ -63,11 +63,6 @@
 		<compilerflag value="-DLIME_OPENGL_FLAG" if="LIME_OPENGL_FLAG" />
 		<compilerflag value="-DLIME_METAL" if="LIME_METAL" />
 
-		<section if="SPOOPY_HXCPP">
-		    <compilerflag value="-DSPOOPY_HXCPP" />
-		    <compilerflag value="-Ilib/hxcpp/include/" />
-		</section>
-
 		<section if="SPOOPY_VOLK">
 			<compilerflag value="-DSPOOPY_VOLK" />
 			<!--<compilerflag value="-DLIME_VOLK" />-->
