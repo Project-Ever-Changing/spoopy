@@ -29,7 +29,7 @@ class SpoopyNativeGraphics {
     }
 
     public function reset(renderPass:SpoopyRenderPass):Void {
-        SpoopyNativeCFFI.spoopy_reset_graphics_module(renderPass.__backend.handle);
+        //SpoopyNativeCFFI.spoopy_reset_graphics_module(renderPass.__backend.handle);
     }
 
     public function checkContext(window:Window):Void {
