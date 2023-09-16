@@ -33,7 +33,7 @@ namespace lime { namespace spoopy {
         queueCreateInfos.reserve(3);
 
         // Allocating to the heap to check if the queue is valid for each family was probably not the best idea.
-        int32_t graphicsFamily, presentFamily, computeFamily, transferFamily = -1;
+        int32_t graphicsFamily = -1, presentFamily = -1, computeFamily = -1, transferFamily = -1;
 
         for(uint32_t i=0; i<deviceQueueFamilyPropertyCount; i++) { // Also check if queue is valid for each family. That's all.
             const VkQueueFamilyProperties& curProps = deviceQueueFamilyProperties[i];
@@ -66,6 +66,8 @@ namespace lime { namespace spoopy {
                 queueCreateInfo.queueCount = curProps.queueCount;
                 queueCreateInfo.pQueuePriorities = queuePriority;
                 queueCreateInfos.emplace_back(queueCreateInfo);
+
+                SPOOPY_LOG_INFO("Found queue family");
             }
         }
 
