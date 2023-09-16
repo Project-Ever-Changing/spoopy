@@ -25,8 +25,11 @@ namespace lime { namespace spoopy {
         displayExtent = {static_cast<uint32_t>(width), static_cast<uint32_t>(height)};
     }
 
+    /*
+     * TODO: This has been a bit of a mess, I need to find another way to handle RenderPasses.
+     */
     void GraphicsVulkan::Reset(const RenderPassVulkan &renderPass) {
-        RecreateSwapchains();
+        // RecreateSwapchains();
     }
 
     void GraphicsVulkan::RecreateSwapchain(const Context &context) {
