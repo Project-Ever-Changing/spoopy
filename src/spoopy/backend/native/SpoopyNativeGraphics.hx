@@ -25,7 +25,7 @@ class SpoopyNativeGraphics {
     }
 
     public function resize(window:Window, viewport:Rectangle):Void {
-        //SpoopyNativeCFFI.spoopy_resize_graphics_context(window.__backend.handle, viewport);
+        SpoopyNativeCFFI.spoopy_resize_graphics_context(window.__backend.handle, viewport);
     }
 
     public function reset(renderPass:SpoopyRenderPass):Void {
