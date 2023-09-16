@@ -5,12 +5,11 @@
 #include <vector>
 
 namespace lime { namespace spoopy {
-    CommandBufferVulkan::CommandBufferVulkan(bool begin, VkQueueFlagBits queueType, VkCommandBufferLevel bufferLevel):
-        _device(*GraphicsVulkan::GetCurrent()->GetLogicalDevice()),
-        _queueType(queueType),
-        _usageFlags(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT),
-        _sType(VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO),
-        _commandPool(GraphicsVulkan::GetCurrent()->GetGraphicsCommandPool()) {
+    CommandBufferVulkan::CommandBufferVulkan(CommandPoolVulkan* pool, bool begin, VkCommandBufferLevel bufferLevel):
+            _device(*GraphicsVulkan::GetCurrent()->GetLogicalDevice()),
+            _usageFlags(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT),
+            _sType(VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO),
+            _commandPool(pool) {
 
         VkCommandBufferAllocateInfo commandBufferAllocateInfo = {};
         commandBufferAllocateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -62,6 +61,10 @@ namespace lime { namespace spoopy {
         _sType = type;
     }
 
+    /*
+     * I'm deciding if having the command buffer be responsible for submitting itself is a good idea.
+     * I'm leaning towards no based on spoopy's unique design, but I'm not sure yet.
+     *
     void CommandBufferVulkan::Submit(const VkSemaphore &waitSemaphore, const VkSemaphore &signalSemaphore, VkFence fence) {
         auto queue = _device.GetQueue(_queueType);
 
@@ -89,6 +92,7 @@ namespace lime { namespace spoopy {
 
         checkVulkan(vkQueueSubmit(queue, 1, &submitInfo, fence));
     }
+     */
 
     void CommandBufferVulkan::SubmitIdle(const VkQueue &queue) {
         if (running) {
@@ -112,8 +116,8 @@ namespace lime { namespace spoopy {
     }
 
     void CommandBufferVulkan::BeginRenderPass(const VkRenderPass &renderPass, const VkFramebuffer &frameBuffer,
-        uint32_t width, uint32_t height, uint32_t colorAttachmentCount, uint32_t depthAttachment,
-        VkSubpassContents contentsFlag) {
+                                              uint32_t width, uint32_t height, uint32_t colorAttachmentCount, uint32_t depthAttachment,
+                                              VkSubpassContents contentsFlag) {
         std::vector<VkClearValue> clearValues(colorAttachmentCount + depthAttachment);
 
         for(uint32_t i=0; i<colorAttachmentCount; ++i) {
@@ -128,7 +132,7 @@ namespace lime { namespace spoopy {
     }
 
     void CommandBufferVulkan::BeginRenderPass(const VkRenderPass &renderPass, const VkFramebuffer &frameBuffer,
-        uint32_t width, uint32_t height, VkSubpassContents flags, std::vector<VkClearValue> clearValues) {
+                                              uint32_t width, uint32_t height, VkSubpassContents flags, std::vector<VkClearValue> clearValues) {
         VkRect2D renderArea = {};
         renderArea.offset = {0, 0};
         renderArea.extent = {width, height};

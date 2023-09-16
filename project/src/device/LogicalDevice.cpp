@@ -1,16 +1,16 @@
-#include "../graphics/vulkan/CommandPoolVulkan.h"
+#include "../graphics/vulkan/QueueVulkan.h"
 #include "LogicalDevice.h"
 #include "PhysicalDevice.h"
+#include "Surface.h"
 #include "Instance.h"
 
 #include <spoopy_assert.h>
 
 namespace lime { namespace spoopy {
-    const std::vector<const char*> LogicalDevice::Extensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME, "VK_KHR_portability_subset",};
+    const std::vector<const char*> LogicalDevice::Extensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME, "VK_KHR_portability_subset"};
 
     LogicalDevice::LogicalDevice(const Instance &instance, const PhysicalDevice &physicalDevice)
         : instance(instance), physicalDevice(physicalDevice) {
-        CreateQueueIndices();
         CreateLogicalDevice();
         RegisterDeviceLimits();
     }
@@ -20,7 +20,7 @@ namespace lime { namespace spoopy {
         vkDestroyDevice(logicalDevice, nullptr);
     }
 
-    void LogicalDevice::CreateQueueIndices() {
+    void LogicalDevice::CreateLogicalDevice() {
         uint32_t deviceQueueFamilyPropertyCount;
         vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &deviceQueueFamilyPropertyCount, nullptr);
 
@@ -29,84 +29,50 @@ namespace lime { namespace spoopy {
         std::vector<VkQueueFamilyProperties> deviceQueueFamilyProperties(deviceQueueFamilyPropertyCount);
         vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &deviceQueueFamilyPropertyCount, deviceQueueFamilyProperties.data());
 
-        std::unique_ptr<uint32_t> graphicsFamily, presentFamily, computeFamily, transferFamily;
-
-        for(uint32_t i=0; i<deviceQueueFamilyPropertyCount; i++) {
-            if (deviceQueueFamilyProperties[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) {
-                graphicsFamily.reset(new uint32_t(i));
-                this->graphicsFamily = i;
-                supportedQueues |= VK_QUEUE_GRAPHICS_BIT;
-            }
-
-            /*
-            VkBool32 presentSupport = false;
-            vkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice, i, instance.GetSurface(), &presentSupport);
-            */
-
-            if(deviceQueueFamilyProperties[i].queueCount > 0) {
-                presentFamily.reset(new uint32_t(i));
-                this->presentFamily = i;
-            }
-
-            if(deviceQueueFamilyProperties[i].queueFlags & VK_QUEUE_COMPUTE_BIT) {
-                computeFamily.reset(new uint32_t(i));
-                this->computeFamily = i;
-                supportedQueues |= VK_QUEUE_COMPUTE_BIT;
-            }
-
-            if(deviceQueueFamilyProperties[i].queueFlags & VK_QUEUE_TRANSFER_BIT) {
-                transferFamily.reset(new uint32_t(i));
-                this->transferFamily = i;
-                supportedQueues |= VK_QUEUE_TRANSFER_BIT;
-            }
-
-            if(graphicsFamily && presentFamily && computeFamily && transferFamily) {
-                break;
-            }
-        }
-
-        if(!graphicsFamily) {
-            SPOOPY_LOG_ERROR("Failed to find graphics family!");
-        }
-    }
-
-    void LogicalDevice::CreateLogicalDevice() {
         std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
         queueCreateInfos.reserve(3);
-        float queuePriority = 1.0f;
 
-        if(supportedQueues & VK_QUEUE_GRAPHICS_BIT) {
-            VkDeviceQueueCreateInfo graphicsQueueCreateInfo = {};
-            graphicsQueueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-            graphicsQueueCreateInfo.queueFamilyIndex = graphicsFamily;
-            graphicsQueueCreateInfo.queueCount = 1;
-            graphicsQueueCreateInfo.pQueuePriorities = &queuePriority;
-            queueCreateInfos.emplace_back(graphicsQueueCreateInfo);
-        } else {
-            graphicsFamily = 0;
+        // Allocating to the heap to check if the queue is valid for each family was probably not the best idea.
+        int32_t graphicsFamily, presentFamily, computeFamily, transferFamily = -1;
+
+        for(uint32_t i=0; i<deviceQueueFamilyPropertyCount; i++) { // Also check if queue is valid for each family. That's all.
+            const VkQueueFamilyProperties& curProps = deviceQueueFamilyProperties[i];
+            bool isValid = false;
+
+            if ((curProps.queueFlags & VK_QUEUE_GRAPHICS_BIT) == VK_QUEUE_GRAPHICS_BIT
+                && (graphicsFamily == -1)) {
+                graphicsFamily = i;
+                isValid = true;
+            }
+
+            if((curProps.queueFlags & VK_QUEUE_COMPUTE_BIT) == VK_QUEUE_COMPUTE_BIT) {
+                computeFamily = i;
+                isValid = true;
+            }
+
+            if((curProps.queueFlags & VK_QUEUE_TRANSFER_BIT) == VK_QUEUE_TRANSFER_BIT
+               && (transferFamily == -1 && (curProps.queueFlags & VK_QUEUE_GRAPHICS_BIT) != VK_QUEUE_GRAPHICS_BIT && (curProps.queueFlags & VK_QUEUE_COMPUTE_BIT) != VK_QUEUE_COMPUTE_BIT)) {
+                transferFamily = i;
+                isValid = true;
+            }
+
+            if(isValid) {
+                SP_ASSERT(queueCreateInfos.size() < 3);
+                float queuePriority[1] = { 1.0f };
+
+                VkDeviceQueueCreateInfo queueCreateInfo = {};
+                queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+                queueCreateInfo.queueFamilyIndex = i;
+                queueCreateInfo.queueCount = curProps.queueCount;
+                queueCreateInfo.pQueuePriorities = queuePriority;
+                queueCreateInfos.emplace_back(queueCreateInfo);
+            }
         }
 
-        if(supportedQueues & VK_QUEUE_COMPUTE_BIT && computeFamily != graphicsFamily) {
-            VkDeviceQueueCreateInfo computeQueueCreateInfo = {};
-            computeQueueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-            computeQueueCreateInfo.queueFamilyIndex = computeFamily;
-            computeQueueCreateInfo.queueCount = 1;
-            computeQueueCreateInfo.pQueuePriorities = &queuePriority;
-            queueCreateInfos.emplace_back(computeQueueCreateInfo);
-        }else {
-            computeFamily = graphicsFamily;
-        }
-
-        if(supportedQueues & VK_QUEUE_TRANSFER_BIT && transferFamily != graphicsFamily && transferFamily != computeFamily) {
-            VkDeviceQueueCreateInfo transferQueueCreateInfo = {};
-            transferQueueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-            transferQueueCreateInfo.queueFamilyIndex = transferFamily;
-            transferQueueCreateInfo.queueCount = 1;
-            transferQueueCreateInfo.pQueuePriorities = &queuePriority;
-            queueCreateInfos.emplace_back(transferQueueCreateInfo);
-        }else {
-            transferFamily = graphicsFamily;
-        }
+        VkDeviceCreateInfo deviceCreateInfo = {};
+        deviceCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+        deviceCreateInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
+        deviceCreateInfo.pQueueCreateInfos = queueCreateInfos.data();
 
         auto physicalDeviceFeatures = physicalDevice.GetFeatures();
 
@@ -145,11 +111,6 @@ namespace lime { namespace spoopy {
             enabledFeatures.textureCompressionETC2 = VK_TRUE;
         }
 
-        VkDeviceCreateInfo deviceCreateInfo = {};
-        deviceCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-        deviceCreateInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
-        deviceCreateInfo.pQueueCreateInfos = queueCreateInfos.data();
-
         if(instance.GetEnableValidationLayers()) {
             deviceCreateInfo.enabledLayerCount = static_cast<uint32_t>(Instance::ValidationLayers.size());
             deviceCreateInfo.ppEnabledLayerNames = Instance::ValidationLayers.data();
@@ -160,14 +121,19 @@ namespace lime { namespace spoopy {
         deviceCreateInfo.pEnabledFeatures = &enabledFeatures;
 
         checkVulkan(vkCreateDevice(physicalDevice, &deviceCreateInfo, nullptr, &logicalDevice));
+
+        #ifndef SPOOPY_SWITCH
         volkLoadDevice(logicalDevice);
+        #endif
 
-        vkGetDeviceQueue(logicalDevice, graphicsFamily, 0, &graphicsQueue);
-        vkGetDeviceQueue(logicalDevice, presentFamily, 0, &presentQueue);
-        vkGetDeviceQueue(logicalDevice, computeFamily, 0, &computeQueue);
-        vkGetDeviceQueue(logicalDevice, transferFamily, 0, &transferQueue);
+        if(graphicsFamily == -1) {
+            SPOOPY_LOG_ERROR("No graphics queue found for Vulkan!");
+            return;
+        }
 
-        graphicsCommandPools.emplace(std::this_thread::get_id(), std::make_shared<CommandPoolVulkan>(*this, graphicsFamily));
+        queues[P_Graphics] = std::make_shared<QueueVulkan>(*this, graphicsFamily);
+        queues[P_Compute] = computeFamily != 1 ? std::make_shared<QueueVulkan>(*this, computeFamily) : queues[P_Graphics];
+        queues[P_Transfer] = transferFamily != -1 ? std::make_shared<QueueVulkan>(*this, transferFamily) : queues[P_Graphics];
     }
 
     void LogicalDevice::RegisterDeviceLimits() {
@@ -197,25 +163,25 @@ namespace lime { namespace spoopy {
         limits.MaxAnisotropy = physicalDeviceLimits.maxSamplerAnisotropy;
     }
 
-    VkQueue LogicalDevice::GetQueue(const VkQueueFlagBits queueFamilyIndex) const {
-        switch(queueFamilyIndex) {
-            case VK_QUEUE_GRAPHICS_BIT:
-                return graphicsQueue;
-            case VK_QUEUE_COMPUTE_BIT:
-                return computeQueue;
-            case VK_QUEUE_TRANSFER_BIT:
-                return transferQueue;
-            default:
-                SPOOPY_LOG_ERROR("Invalid queue family index!");
-                return VK_NULL_HANDLE;
+    void LogicalDevice::SetupPresentQueue(const Surface &surface) {
+        if(queues[P_Present]) {
+            return;
         }
-    }
 
-    const std::shared_ptr<CommandPoolVulkan> &LogicalDevice::GetGraphicsCommandPool(const std::thread::id &threadId) {
-        try {
-            return graphicsCommandPools.at(threadId);
-        }catch(const std::out_of_range& e) {
-            throw std::runtime_error("No graphics command pool for thread!");
+        const auto supportsPresent = [surface](VkPhysicalDevice physicalDevice, QueueVulkan* queue) {
+            VkBool32 supportsPresent = VK_FALSE;
+            const uint32_t queueFamilyIndex = queue->GetFamilyIndex();
+            checkVulkan(vkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice, queueFamilyIndex, surface, &supportsPresent));
+            return supportsPresent == VK_TRUE;
+        };
+
+        bool graphics = supportsPresent(physicalDevice, queues[P_Graphics].get());
+
+        if(!graphics) {
+            SPOOPY_LOG_ERROR("No graphics queue found for Vulkan!");
+            return;
         }
+
+        queues[P_Present] = queues[P_Graphics];
     }
 }}

@@ -1,5 +1,3 @@
-#include "framebuffers/SCFrameBuffers.h"
-#include "images/ImageDepth.h"
 #include "GraphicsVulkan.h"
 #include "RenderPassVulkan.h"
 #include "../../../include/graphics/ContextLayer.h"
@@ -41,29 +39,5 @@ namespace lime { namespace spoopy {
 
         renderArea.UpdateAspectRatio();
         renderArea.SetExtent(renderArea.GetExtent() + renderArea.GetOffset());
-    }
-
-    void ContextStage::Build(const RenderPassVulkan &renderPass) {
-        Update();
-
-        auto physicalDevice = GraphicsVulkan::GetCurrent()->GetPhysicalDevice();
-        auto logicalDevice = GraphicsVulkan::GetCurrent()->GetLogicalDevice();
-        auto surface = context.GetSurface();
-        auto swapchain = context.GetSwapchain();
-
-        if(renderPass.HasDepthAttachment()) {
-            depthImage = std::make_unique<ImageDepth>(*physicalDevice, *logicalDevice, renderArea.GetExtent(), renderPass.GetAttachmentDescriptions().samples);
-        }
-
-        frameBuffers = std::make_unique<SCFrameBuffers>(*logicalDevice, *swapchain, renderPass, depthImage.get(), renderArea.GetExtent());
-        isDirty = false;
-    }
-
-    const VkFramebuffer &ContextStage::GetActiveFramebuffer(uint32_t activeSwapchainImage) const {
-        if(activeSwapchainImage > frameBuffers->GetFrameBufferCount()) {
-            return frameBuffers->GetFrameBuffer(0);
-        }
-
-        return frameBuffers->GetFrameBuffer(activeSwapchainImage);
     }
 }}

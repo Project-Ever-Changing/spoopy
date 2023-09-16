@@ -25,8 +25,6 @@ namespace lime { namespace spoopy {
 
         auto surfaceFormat = surface.GetFormat();
         auto surfaceCapabilities = surface.GetCapabilities();
-        auto graphicsFamily = logicalDevice.GetGraphicsFamily();
-        auto presentFamily = logicalDevice.GetPresentFamily();
 
         auto desiredImageCount = surfaceCapabilities.minImageCount + 1;
 
@@ -66,13 +64,6 @@ namespace lime { namespace spoopy {
 
         if(oldSwapchain) {
             swapchainCreateInfo.oldSwapchain = oldSwapchain->swapchain;
-        }
-
-        if(graphicsFamily != presentFamily) {
-            std::array<uint32_t, 2> queueFamily = {graphicsFamily, presentFamily};
-            swapchainCreateInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
-            swapchainCreateInfo.queueFamilyIndexCount = static_cast<uint32_t>(queueFamily.size());
-            swapchainCreateInfo.pQueueFamilyIndices = queueFamily.data();
         }
 
         checkVulkan(vkCreateSwapchainKHR(logicalDevice, &swapchainCreateInfo, nullptr, &swapchain));

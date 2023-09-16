@@ -4,7 +4,7 @@
 #include "PhysicalDevice.h"
 
 namespace lime { namespace spoopy {
-    Surface::Surface(const Instance &instance, const PhysicalDevice &physicalDevice, const LogicalDevice &logicalDevice, SDL_Window* window):
+    Surface::Surface(const Instance &instance, const PhysicalDevice &physicalDevice, LogicalDevice &logicalDevice, SDL_Window* window):
     instance(instance),
     physicalDevice(physicalDevice),
     logicalDevice(logicalDevice),
@@ -37,12 +37,7 @@ namespace lime { namespace spoopy {
                 format.colorSpace = surfaceFormats[0].colorSpace;
             }
 
-            VkBool32 presentSupport;
-            vkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice, logicalDevice.GetPresentFamily(), surface, &presentSupport);
-
-            if(!presentSupport) {
-                throw std::runtime_error("Present queue family does not have presentation support!");
-            }
+            logicalDevice.SetupPresentQueue(*this);
         }
     }
 

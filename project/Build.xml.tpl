@@ -102,12 +102,8 @@
 		    <compilerflag value="-Iref/vk" />
 
 		    <file name="ref/vk/vk_mem_alloc.cpp" />
-
-		    <file name="src/graphics/vulkan/framebuffers/SCFrameBuffers.cpp" />
 		    <file name="src/graphics/vulkan/shaders/PipelineShader.cpp" />
 		    <file name="src/graphics/vulkan/shaders/Shader.cpp" />
-		    <file name="src/graphics/vulkan/images/Image2D.cpp" />
-		    <file name="src/graphics/vulkan/images/ImageDepth.cpp" />
 		    <file name="src/graphics/vulkan/images/Image.cpp" />
 		    <file name="src/graphics/vulkan/descriptors/Description.cpp" />
 		    <file name="src/graphics/vulkan/PipelineVulkan.cpp" />
@@ -116,11 +112,11 @@
 			<file name="src/graphics/vulkan/GraphicsHandlerVulkan.cpp" />
 			<file name="src/graphics/vulkan/GraphicsVulkan.cpp" />
 			<file name="src/graphics/vulkan/SwapchainVulkan.cpp" />
-			<file name="src/graphics/vulkan/CommandBufferVulkan.cpp" />
 			<file name="src/graphics/vulkan/CommandPoolVulkan.cpp" />
-			<file name="src/graphics/vulkan/BufferVulkan.cpp" />
 			<file name="src/graphics/vulkan/RenderPassVulkan.cpp" />
 			<file name="src/graphics/vulkan/FramebufferVulkan.cpp" />
+			<file name="src/graphics/vulkan/QueueVulkan.cpp" />
+			<file name="src/graphics/vulkan/CommandBufferVulkan.cpp" />
 			<file name="src/helpers/SpoopyHelpersVulkan.cpp" />
 			<file name="src/helpers/VulkanAddons.cpp" />
 			<file name="src/device/Capabilities.cpp" />

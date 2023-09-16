@@ -86,7 +86,7 @@ namespace lime { namespace spoopy {
     }
 
     void Image::CreateImage(const PhysicalDevice &physicalDevice, const LogicalDevice &device, VkImage &image, VkDeviceMemory &memory, const VkExtent3D &extent, VkFormat format, VkSampleCountFlagBits samples,
-        VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, uint32_t mipLevels, uint32_t arrayLayers, VkImageType type) {
+                            VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, uint32_t mipLevels, uint32_t arrayLayers, VkImageType type) {
         VkImageCreateInfo imageInfo = {};
         imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
         imageInfo.imageType = type;
@@ -141,7 +141,7 @@ namespace lime { namespace spoopy {
     }
 
     void Image::CreateImageView(const LogicalDevice &device, const VkImage &image, VkImageView &imageView, VkImageViewType type, VkFormat format, VkImageAspectFlags imageAspect,
-    uint32_t mipLevels, uint32_t baseMipLevel, uint32_t layerCount, uint32_t baseArrayLayer) {
+                                uint32_t mipLevels, uint32_t baseMipLevel, uint32_t layerCount, uint32_t baseArrayLayer) {
         VkImageViewCreateInfo imageViewInfo = {};
         imageViewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
         imageViewInfo.image = image;
@@ -154,169 +154,5 @@ namespace lime { namespace spoopy {
         imageViewInfo.subresourceRange.baseArrayLayer = baseArrayLayer;
         imageViewInfo.subresourceRange.layerCount = layerCount;
         checkVulkan(vkCreateImageView(device, &imageViewInfo, nullptr, &imageView));
-    }
-
-    void Image::TransitionImageLayout(const LogicalDevice &device, const VkImage &image, VkFormat format, VkImageLayout srcImageLayout, VkImageLayout dstImageLayout,
-        VkImageAspectFlags imageAspect, uint32_t mipLevels, uint32_t baseMipLevel, uint32_t layerCount, uint32_t baseArrayLayer) {
-        CommandBufferVulkan commandBuffer;
-
-        VkImageMemoryBarrier barrier = {};
-        barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
-        barrier.oldLayout = srcImageLayout;
-        barrier.newLayout = dstImageLayout;
-        barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-        barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-        barrier.image = image;
-        barrier.subresourceRange.aspectMask = imageAspect;
-        barrier.subresourceRange.baseMipLevel = baseMipLevel;
-        barrier.subresourceRange.levelCount = mipLevels;
-        barrier.subresourceRange.baseArrayLayer = baseArrayLayer;
-        barrier.subresourceRange.layerCount = layerCount;
-
-        VkPipelineStageFlags srcStageMask = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
-        VkPipelineStageFlags dstStageMask = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
-
-        switch (srcImageLayout) {
-            case VK_IMAGE_LAYOUT_UNDEFINED:
-                srcStageMask = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
-                break;
-            case VK_IMAGE_LAYOUT_PREINITIALIZED:
-                srcStageMask = VK_PIPELINE_STAGE_HOST_BIT;
-                break;
-            case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
-                srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-                break;
-            case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
-                srcStageMask = VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT;
-                break;
-            case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
-                srcStageMask = VK_PIPELINE_STAGE_TRANSFER_BIT;
-                break;
-            case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
-                srcStageMask = VK_PIPELINE_STAGE_TRANSFER_BIT;
-                break;
-            case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
-                srcStageMask = VK_PIPELINE_STAGE_VERTEX_SHADER_BIT | VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
-                break;
-            default:
-                break;
-        }
-
-        switch (dstImageLayout) {
-            case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
-                dstStageMask = VK_PIPELINE_STAGE_TRANSFER_BIT;
-                break;
-            case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
-                dstStageMask = VK_PIPELINE_STAGE_TRANSFER_BIT;
-                break;
-            case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
-                dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-                break;
-            case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
-                dstStageMask = VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT;
-                break;
-            case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
-                dstStageMask = VK_PIPELINE_STAGE_VERTEX_SHADER_BIT | VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
-                break;
-            default:
-                break;
-        }
-
-        vkCmdPipelineBarrier(commandBuffer, srcStageMask, dstStageMask, 0, 0, nullptr, 0, nullptr, 1, &barrier);
-        commandBuffer.SubmitIdle(device.GetQueue(commandBuffer.GetQueueType()));
-    }
-
-    void Image::CreateMipmaps(const PhysicalDevice &physicalDevice, const LogicalDevice &device, const VkImage &image, const VkExtent3D &extent, VkFormat format, VkImageLayout dstImageLayout, uint32_t mipLevels,
-        uint32_t baseArrayLayer, uint32_t layerCount) {
-        VkFormatProperties formatProperties;
-        vkGetPhysicalDeviceFormatProperties(physicalDevice, format, &formatProperties);
-
-        assert(formatProperties.optimalTilingFeatures & VK_FORMAT_FEATURE_BLIT_SRC_BIT);
-        assert(formatProperties.optimalTilingFeatures & VK_FORMAT_FEATURE_BLIT_DST_BIT);
-
-        CommandBufferVulkan commandBuffer;
-
-        for(uint32_t i=1; i<mipLevels; i++) {
-            VkImageMemoryBarrier barrier = {};
-            barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
-            barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
-            barrier.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
-            barrier.oldLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
-            barrier.newLayout = VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL;
-            barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-            barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-            barrier.image = image;
-            barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-            barrier.subresourceRange.baseMipLevel = i-1;
-            barrier.subresourceRange.levelCount = 1;
-            barrier.subresourceRange.baseArrayLayer = baseArrayLayer;
-            barrier.subresourceRange.layerCount = layerCount;
-            vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT, 0, 0, nullptr, 0, nullptr, 1, &barrier);
-
-            VkImageBlit blit = {};
-            blit.srcOffsets[1] = {int32_t(extent.width >> (i - 1)), int32_t(extent.height >> (i - 1)), 1};
-            blit.srcSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-            blit.srcSubresource.mipLevel = i-1;
-            blit.srcSubresource.baseArrayLayer = baseArrayLayer;
-            blit.srcSubresource.layerCount = layerCount;
-            blit.dstOffsets[1] = {int32_t(extent.width >> i), int32_t(extent.height >> i), 1};
-            blit.dstSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-            blit.dstSubresource.mipLevel = i;
-            blit.dstSubresource.baseArrayLayer = baseArrayLayer;
-            blit.dstSubresource.layerCount = layerCount;
-            vkCmdBlitImage(commandBuffer, image, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL, image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &blit, VK_FILTER_LINEAR);
-
-            VkImageMemoryBarrier barrier1 = {};
-            barrier1.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
-            barrier1.srcAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
-            barrier1.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
-            barrier1.oldLayout = VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL;
-            barrier1.newLayout = dstImageLayout;
-            barrier1.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-            barrier1.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-            barrier1.image = image;
-            barrier1.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-            barrier1.subresourceRange.baseMipLevel = i-1;
-            barrier1.subresourceRange.levelCount = 1;
-            barrier1.subresourceRange.baseArrayLayer = baseArrayLayer;
-            barrier1.subresourceRange.layerCount = layerCount;
-            vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, 0, 0, nullptr, 0, nullptr, 1, &barrier1);
-        }
-
-        VkImageMemoryBarrier barrier = {};
-        barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
-        barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
-        barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
-        barrier.oldLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
-        barrier.newLayout = dstImageLayout;
-        barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-        barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-        barrier.image = image;
-        barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-        barrier.subresourceRange.baseMipLevel = mipLevels-1;
-        barrier.subresourceRange.levelCount = 1;
-        barrier.subresourceRange.baseArrayLayer = baseArrayLayer;
-        barrier.subresourceRange.layerCount = layerCount;
-        vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, 0, 0, nullptr, 0, nullptr, 1, &barrier);
-
-        commandBuffer.SubmitIdle(device.GetQueue(commandBuffer.GetQueueType()));
-    }
-
-    void Image::CopyBufferToImage(const LogicalDevice &device, const VkBuffer &buffer, const VkImage &image, const VkExtent3D &extent, uint32_t mipLevels, uint32_t baseArrayLayer, uint32_t layerCount) {
-        CommandBufferVulkan commandBuffer;
-
-        VkBufferImageCopy region = {};
-        region.bufferOffset = 0;
-        region.bufferRowLength = 0;
-        region.bufferImageHeight = 0;
-        region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-        region.imageSubresource.baseArrayLayer = baseArrayLayer;
-        region.imageSubresource.layerCount = layerCount;
-        region.imageSubresource.mipLevel = 0;
-        region.imageOffset = {0, 0, 0};
-        region.imageExtent = extent;
-
-        vkCmdCopyBufferToImage(commandBuffer, buffer, image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &region);
-        commandBuffer.SubmitIdle(device.GetQueue(commandBuffer.GetQueueType()));
     }
 }}

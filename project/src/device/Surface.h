@@ -9,7 +9,7 @@ namespace lime { namespace spoopy {
 
     class Surface {
         public:
-            Surface(const Instance &instance, const PhysicalDevice &physicalDevice, const LogicalDevice &logicalDevice, SDL_Window* window);
+            Surface(const Instance &instance, const PhysicalDevice &physicalDevice, LogicalDevice &logicalDevice, SDL_Window* window);
             ~Surface();
 
             operator const VkSurfaceKHR &() const { return surface; }
@@ -22,7 +22,7 @@ namespace lime { namespace spoopy {
 
             const Instance &instance;
             const PhysicalDevice &physicalDevice;
-            const LogicalDevice &logicalDevice;
+            LogicalDevice &logicalDevice;
 
             SDL_Window* window;
 

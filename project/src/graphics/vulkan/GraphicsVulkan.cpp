@@ -1,5 +1,4 @@
 #include "RenderPassVulkan.h"
-#include "CommandBufferVulkan.h"
 #include "SwapchainVulkan.h"
 #include "ContextStage.h"
 #include "GraphicsVulkan.h"
@@ -44,9 +43,6 @@ namespace lime { namespace spoopy {
     }
 
     GraphicsVulkan::~GraphicsVulkan() {
-        auto graphicsQueue = logicalDevice->GetGraphicsQueue();
-        checkVulkan(vkQueueWaitIdle(graphicsQueue));
-
         for(auto &context: contexts) {
             context->DestroySwapchain();
         }
