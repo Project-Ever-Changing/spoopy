@@ -42,7 +42,7 @@ class SpoopyGraphicsModule implements IWindowModule {
         __backend.checkContext(window);
         #end
 
-        __context = new SpoopyWindowDisplay(window);
+        __context = new SpoopyWindowContext(window);
 
         __backend.createContextStage(window, __context.__viewportRect);
         __windowResize(__context);
