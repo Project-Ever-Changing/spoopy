@@ -132,7 +132,7 @@ namespace lime { namespace spoopy {
         }
 
         queues[P_Graphics] = std::make_shared<QueueVulkan>(*this, graphicsFamily);
-        queues[P_Compute] = computeFamily != 1 ? std::make_shared<QueueVulkan>(*this, computeFamily) : queues[P_Graphics];
+        queues[P_Compute] = computeFamily != -1 ? std::make_shared<QueueVulkan>(*this, computeFamily) : queues[P_Graphics];
         queues[P_Transfer] = transferFamily != -1 ? std::make_shared<QueueVulkan>(*this, transferFamily) : queues[P_Graphics];
     }
 
