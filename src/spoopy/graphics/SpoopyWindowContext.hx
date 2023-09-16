@@ -17,12 +17,13 @@ import lime.ui.Window;
 
 @:access(lime.ui.Window)
 @:access(spoopy.graphics.renderer.SpoopyRenderPass)
-class SpoopyWindowDisplay {
+class SpoopyWindowContext {
     public var displayWidth(default, null):Int = 0;
     public var displayHeight(default, null):Int = 0;
 
     @:noCompletion private var __window:Window;
     @:noCompletion private var __renderPass:SpoopyRenderPass;
+    // @:noCompletion private var __stateManager:SpoopyStateManager;
     @:noCompletion private var __displayMatrix:Matrix3;
     @:noCompletion private var __viewportRect:Rectangle;
 
@@ -30,6 +31,8 @@ class SpoopyWindowDisplay {
         __window = window;
         __displayMatrix = new Matrix3();
         __viewportRect = new Rectangle();
+
+        // __stateManager = new SpoopyStateManager();
     }
 
     public function resize():Void {

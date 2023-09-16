@@ -18,11 +18,10 @@ import spoopy.graphics.state.SpoopyStateManager;
 * As well as the overall graphics of the application.
 */
 
-@:access(spoopy.graphics.SpoopyWindowDisplay)
+@:access(spoopy.graphics.SpoopyWindowContext)
 class SpoopyGraphicsModule implements IWindowModule {
     @:noCompletion private var __backend:BackendGraphicsModule;
-    // @:noCompletion private var __stateManager:SpoopyStateManager;
-    @:noCompletion private var __display:SpoopyWindowDisplay;
+    @:noCompletion private var __context:SpoopyWindowContext;
     @:noCompletion private var __rendering:Bool = false;
 
     #if spoopy_debug
@@ -31,7 +30,6 @@ class SpoopyGraphicsModule implements IWindowModule {
 
     public function new() {
         __backend = new BackendGraphicsModule();
-        // __stateManager = new SpoopyStateManager();
     }
 
     @:noCompletion private function __onAddedWindow(window:Window):Void {
@@ -44,17 +42,16 @@ class SpoopyGraphicsModule implements IWindowModule {
         __backend.checkContext(window);
         #end
 
-        __display = new SpoopyWindowDisplay(window);
+        __context = new SpoopyWindowDisplay(window);
 
-        __backend.createContextStage(window, __display.__viewportRect);
-        __windowResize(__display);
+        __backend.createContextStage(window, __context.__viewportRect);
+        __windowResize(__context);
 
-        __display.createRenderPass();
-        __backend.reset(__display.__renderPass);
+        __context.createRenderPass();
     }
 
-    @:noCompletion private function __windowResize(display:SpoopyWindowDisplay):Void {
-        display.resize();
+    @:noCompletion private function __windowResize(context:SpoopyWindowContext):Void {
+        context.resize();
         __backend.resize(display.__window, display.__viewportRect);
 
         //TODO: Maybe have an event system for this?
@@ -64,8 +61,6 @@ class SpoopyGraphicsModule implements IWindowModule {
         if(__rendering) return;
         __rendering = true;
 
-        __backend.acquireNextImage(context.window);
-        __backend.record(context.window, __display.__renderPass);
 
         __rendering = false;
     }
@@ -75,7 +70,7 @@ class SpoopyGraphicsModule implements IWindowModule {
             return;
         }
 
-        __windowResize(__display);
+        __windowResize(__context);
     }
 
     @:noCompletion private function __registerWindowModule(window:Window):Void {
@@ -91,7 +86,7 @@ class SpoopyGraphicsModule implements IWindowModule {
     }
 
     @:noCompletion private function __unregisterWindowModule(window:Window):Void {
-        __display = null;
+        __context = null;
     }
 }
 

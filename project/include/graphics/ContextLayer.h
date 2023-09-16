@@ -14,6 +14,7 @@ namespace lime { namespace spoopy {
     class PhysicalDevice;
     class LogicalDevice;
     class CommandBufferVulkan;
+    class QueueVulkan;
     class ContextStage;
     class Surface;
 
@@ -21,7 +22,7 @@ namespace lime { namespace spoopy {
         public:
             friend class GraphicsHandler;
 
-            ContextVulkan();
+            ContextVulkan(const std::shared_ptr<QueueVulkan> &queue);
             ~ContextVulkan();
 
             void RecreateSwapchain(const PhysicalDevice &physicalDevice, const LogicalDevice &logicalDevice, const VkExtent2D &extent, const SwapchainVulkan* oldSwapchain);
@@ -44,6 +45,7 @@ namespace lime { namespace spoopy {
 
             std::unique_ptr<Surface> surface;
             std::unique_ptr<SwapchainVulkan> swapchain;
+            std::shared_ptr<QueueVulkan> queue;
     };
 
     #endif

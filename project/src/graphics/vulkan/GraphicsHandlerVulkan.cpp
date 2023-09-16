@@ -10,7 +10,7 @@ namespace lime { namespace spoopy {
             GraphicsVulkan::Main = std::make_unique<GraphicsVulkan>(m_window);
         }
 
-        auto context = std::make_shared<ContextVulkan>();
+        auto context = std::shared_ptr<ContextVulkan>(GraphicsVulkan::Main->logicalDevice->CreateContextVulkan());
         GraphicsVulkan::Main->contexts.push_back(context);
         return context;
     }

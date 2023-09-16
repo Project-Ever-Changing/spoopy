@@ -16,20 +16,8 @@ class SpoopyNativeGraphics {
         SpoopyNativeCFFI.spoopy_check_graphics_module();
     }
 
-    public function acquireNextImage(window:Window):Void {
-        // SpoopyNativeCFFI.spoopy_acquire_image_graphics_module(window.__backend.handle);
-    }
-
-    public function record(window:Window, renderPass:SpoopyRenderPass):Void {
-        // SpoopyNativeCFFI.spoopy_record_graphics_module(window.__backend.handle, renderPass.__backend.handle);
-    }
-
     public function resize(window:Window, viewport:Rectangle):Void {
         SpoopyNativeCFFI.spoopy_resize_graphics_context(window.__backend.handle, viewport);
-    }
-
-    public function reset(renderPass:SpoopyRenderPass):Void {
-        SpoopyNativeCFFI.spoopy_reset_graphics_module(renderPass.__backend.handle);
     }
 
     public function checkContext(window:Window):Void {

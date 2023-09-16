@@ -1,5 +1,6 @@
 #pragma once
 
+#include <graphics/ContextLayer.h>
 #include <graphics/Limits.h>
 #include <spoopy.h>
 
@@ -27,11 +28,16 @@ namespace lime { namespace spoopy {
             const VkDevice &GetLogicalDevice() const { return logicalDevice; }
             const VkPhysicalDeviceFeatures &GetEnabledFeatures() const { return enabledFeatures; }
 
+            // TODO: Maybe expand a pon this? I mean, it's the reason why I switched it to be in logical device.
+            ContextVulkan* CreateContextVulkan() {return new ContextVulkan(queues[0]);}
+
             static const std::vector<const char *> Extensions;
 
             void SetupPresentQueue(const Surface &surface);
 
         private:
+            friend class GraphicsVulkan;
+
             void CreateLogicalDevice();
             void RegisterDeviceLimits();
 

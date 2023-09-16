@@ -8,7 +8,7 @@
 #include <graphics/ContextLayer.h>
 
 namespace lime { namespace spoopy {
-    ContextVulkan::ContextVulkan() {
+    ContextVulkan::ContextVulkan(const std::shared_ptr<QueueVulkan> &queue): queue(queue) {
 
     }
 
