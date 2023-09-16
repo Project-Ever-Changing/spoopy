@@ -35,6 +35,7 @@ namespace lime { namespace spoopy {
 
             Surface* GetSurface() const { return surface.get(); }
             SwapchainVulkan* GetSwapchain() const { return swapchain.get(); }
+            std::shared_ptr<QueueVulkan> GetQueue() const { return queue; }
 
             void DestroySwapchain();
 

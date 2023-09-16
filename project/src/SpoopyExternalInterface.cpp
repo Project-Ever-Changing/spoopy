@@ -9,11 +9,16 @@
 #include "graphics/vulkan/ContextStage.h"
 #include "graphics/vulkan/RenderPassVulkan.h"
 #include "graphics/vulkan/PipelineVulkan.h"
+#include "graphics/vulkan/CommandPoolVulkan.h"
+#include "graphics/vulkan/CommandBufferVulkan.h"
+#include "graphics/vulkan/QueueVulkan.h"
 
 
 typedef lime::spoopy::GraphicsVulkan GraphicsModule;
 typedef lime::spoopy::RenderPassVulkan RenderPass;
 typedef lime::spoopy::PipelineVulkan Pipeline;
+typedef lime::spoopy::CommandPoolVulkan CommandPool;
+typedef lime::spoopy::CommandBufferVulkan CommandBuffer;
 #endif
 
 namespace lime { namespace spoopy {
@@ -37,12 +42,6 @@ namespace lime { namespace spoopy {
         GraphicsModule::GetCurrent()->ChangeSize(sdlWindow->context, Viewport(viewport));
     }
     DEFINE_PRIME2v(spoopy_resize_graphics_context);
-
-    void spoopy_reset_graphics_module(value renderpass_handle) {
-        RenderPass* renderPass = (RenderPass*)val_data(renderpass_handle);
-        GraphicsModule::GetCurrent()->Reset(*renderPass);
-    }
-    DEFINE_PRIME1v(spoopy_reset_graphics_module);
 
     void spoopy_add_color_attachment(value renderpass, int location, int format, bool hasImageLayout, bool sampled) {
         RenderPass* _renderPass = (RenderPass*)val_data(renderpass);
@@ -138,6 +137,16 @@ namespace lime { namespace spoopy {
         delete _pipeline;
     }
 
+    void spoopy_gc_command_pool(value handle) {
+        CommandPool* _commandPool = (CommandPool*)val_data(handle);
+        delete _commandPool;
+    }
+
+    void spoopy_gc_command_buffer(value handle) {
+        CommandBuffer* _commandBuffer = (CommandBuffer*)val_data(handle);
+        delete _commandBuffer;
+    }
+
     void spoopy_gc_memory_reader(value handle) {
         MemoryReader* _memoryReader = (MemoryReader*)val_data(handle);
         delete _memoryReader;
@@ -164,6 +173,23 @@ namespace lime { namespace spoopy {
         return CFFIPointer(_pipeline, spoopy_gc_pipeline);
     }
     DEFINE_PRIME0(spoopy_create_pipeline);
+
+    value spoopy_create_command_pool(value window_handle) {
+        Window* window = (Window*)val_data(window_handle);
+        SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
+        Context context = sdlWindow->context;
+
+        CommandPool* _commandPool = new CommandPool(*GraphicsModule::GetCurrent()->GetLogicalDevice(), context->GetQueue()->GetFamilyIndex());
+        return CFFIPointer(_commandPool, spoopy_gc_command_pool);
+    }
+    DEFINE_PRIME1(spoopy_create_command_pool);
+
+    value spoopy_create_command_buffer(value command_pool) {
+        CommandPool* _commandPool = (CommandPool*)val_data(command_pool);
+        CommandBuffer* _commandBuffer = new CommandBuffer(_commandPool, false);
+        return CFFIPointer(_commandBuffer, spoopy_gc_command_buffer);
+    }
+    DEFINE_PRIME1(spoopy_create_command_buffer);
 
     void spoopy_pipeline_set_input_assembly(value pipeline, int topology) {
         Pipeline* _pipeline = (Pipeline*)val_data(pipeline);
