@@ -1,10 +1,11 @@
 package spoopy.graphics.commands;
 
+import spoopy.utils.SpoopyDestroyable;
 import spoopy.graphics.SpoopyWindowContext;
 import spoopy.utils.SpoopyLogger;
 
 @:allow(spoopy.graphics.SpoopyWindowContext)
-class SpoopyCommandManager {
+class SpoopyCommandManager implements ISpoopyDestroyable {
     public var pool(get, never):SpoopyCommandPool;
     public var context(get, never):SpoopyWindowContext;
 
@@ -14,6 +15,13 @@ class SpoopyCommandManager {
     public function new(context:SpoopyWindowContext) {
         __context = context;
         __pool = new SpoopyCommandPool(this);
+    }
+
+    public function destroy():Void {
+        __pool.destroy();
+        
+        __context = null;
+        __pool = null;
     }
 
     @:noCompletion private function get_context():SpoopyWindowContext {

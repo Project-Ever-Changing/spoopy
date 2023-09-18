@@ -1,8 +1,9 @@
 package spoopy.graphics.commands;
 
 import spoopy.backend.native.SpoopyNativeCFFI;
+import spoopy.utils.SpoopyDestroyable;
 
-class SpoopyCommandBuffer {
+class SpoopyCommandBuffer implements ISpoopyDestroyable {
     public var parent(get, never):SpoopyCommandPool;
     public var state(get, never):SpoopyCommandState;
 
@@ -21,6 +22,11 @@ class SpoopyCommandBuffer {
         // TODO: If OpenGL, then have an actual constructor.
         __handle = SpoopyNativeCFFI.spoopy_create_command_buffer(parent.__handle, begin);
         __state = begin ? HAS_BEGUN : __state;
+    }
+
+    public function destroy():Void {
+        __handle = null;
+        __parent = null;
     }
 
     @:noCompletion private function get_parent():SpoopyCommandPool {

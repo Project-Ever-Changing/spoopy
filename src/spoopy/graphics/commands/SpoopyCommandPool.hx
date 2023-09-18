@@ -1,12 +1,13 @@
 package spoopy.graphics.commands;
 
+import spoopy.utils.SpoopyDestroyable;
 import spoopy.backend.native.SpoopyNativeCFFI;
 import spoopy.utils.SpoopyLogger;
 
 @:access(lime.ui.Window)
 @:allow(spoopy.graphics.commands.SpoopyCommandBuffer)
 @:allow(spoopy.graphics.commands.SpoopyCommandManager)
-class SpoopyCommandPool {
+class SpoopyCommandPool implements ISpoopyDestroyable {
     public var manager(get, never):SpoopyCommandManager;
 
     @:noCompletion private var __handle:SpoopyCommandPoolBackend;
@@ -29,6 +30,17 @@ class SpoopyCommandPool {
         #end
 
         return cmdBuffer;
+    }
+
+    public function destroy():Void {
+        while(__cmdBuffers[0] != null) {
+            __cmdBuffers[0].destroy();
+            __cmdBuffers.pop();
+        }
+
+        __handle = null;
+        __cmdBuffers = null;
+        __manager = null;
     }
 
     @:noCompletion private function get_manager():SpoopyCommandManager {
