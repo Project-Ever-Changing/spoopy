@@ -2,6 +2,7 @@ package spoopy.graphics;
 
 import spoopy.graphics.renderer.SpoopyRenderPass;
 import spoopy.graphics.renderer.SpoopyRenderPass;
+import spoopy.graphics.commands.SpoopyCommandManager;
 import spoopy.graphics.SpoopyAccessFlagBits;
 import spoopy.graphics.SpoopyPipelineStageFlagBits;
 
