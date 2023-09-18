@@ -8,6 +8,7 @@ class SpoopyState implements ISpoopyDestroyable {
     public var manager(default, null):SpoopyStateManager;
 
     @:noCompletion private var __renderPass:SpoopyRenderPass;
+    @:noCompletion private var __activeCmdBuffer:SpoopyCommandBuffer;
 
     public function new() {
 
@@ -22,7 +23,14 @@ class SpoopyState implements ISpoopyDestroyable {
         flush();
 
         __renderPass = null;
+        __activeCmdBuffer = null;
         manager = null;
+    }
+
+    @:noCompletion private inline function bind(manager:SpoopyStateManager):Void {
+        __manager = manager;
+
+        
     }
 
     private function flush():Void {

@@ -3,6 +3,7 @@ package spoopy.graphics;
 import spoopy.graphics.renderer.SpoopyRenderPass;
 import spoopy.graphics.renderer.SpoopyRenderPass;
 import spoopy.graphics.commands.SpoopyCommandManager;
+import spoopy.graphics.state.SpoopyStateManager;
 import spoopy.graphics.SpoopyAccessFlagBits;
 import spoopy.graphics.SpoopyPipelineStageFlagBits;
 
@@ -18,6 +19,7 @@ import lime.ui.Window;
 
 @:access(lime.ui.Window)
 @:access(spoopy.graphics.renderer.SpoopyRenderPass)
+@:access(spoopy.graphics.state.SpoopyStateManager)
 class SpoopyWindowContext {
     public var window(get, never):Window;
 
@@ -27,7 +29,6 @@ class SpoopyWindowContext {
     @:noCompletion private var __window:Window;
     @:noCompletion private var __renderPass:SpoopyRenderPass;
     // @:noCompletion private var __stateManager:SpoopyStateManager;
-    @:noCompletion private var __commandManager:SpoopyCommandManager;
     @:noCompletion private var __displayMatrix:Matrix3;
     @:noCompletion private var __viewportRect:Rectangle;
 
@@ -35,7 +36,6 @@ class SpoopyWindowContext {
         __window = window;
         __displayMatrix = new Matrix3();
         __viewportRect = new Rectangle();
-        __commandManager = new SpoopyCommandManager(this);
 
         // __stateManager = new SpoopyStateManager();
     }

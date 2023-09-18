@@ -3,11 +3,13 @@ package spoopy.graphics.state;
 import spoopy.utils.SpoopyLogger;
 
 class SpoopyStateManager {
+    public var context(get, never):SpoopyContext;
     public var currentState(get, never):SpoopyState;
 
     @:noCompletion private var __queueState:SpoopyState;
     @:noCompletion private var __currentState:SpoopyState;
     @:noCompletion private var __initialState:Class<SpoopyState>;
+    @:noCompletion private var __commandManager:SpoopyCommandManager;
 
     /* TODO: Make SpoopyStateManager handle other modules too like: */
     // @:noCompletion private var __inputModule:SpoopyInputModule;
@@ -16,6 +18,7 @@ class SpoopyStateManager {
     /* TODO: Also have these modules to be parameters in the constructor. */
     public function new(?__initialState:Class<SpoopyState>) {
         this.__initialState = (__initialState == null) ? SpoopyState : __initialState;
+        this.__commandManager = new SpoopyCommandManager();
     }
 
     public function resetState():Void {
