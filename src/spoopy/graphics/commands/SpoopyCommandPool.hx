@@ -32,6 +32,12 @@ class SpoopyCommandPool implements ISpoopyDestroyable {
         return cmdBuffer;
     }
 
+    public function destroyBuffer(cmdBuffer:SpoopyCommandBuffer):Void {
+        cmdBuffer.destroy();
+        __cmdBuffers.remove(cmdBuffer);
+        cmdBuffer = null;
+    }
+
     public function destroy():Void {
         while(__cmdBuffers[0] != null) {
             __cmdBuffers[0].destroy();
