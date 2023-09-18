@@ -11,12 +11,9 @@ class SpoopyCommandManager {
     @:noCompletion private var __context:SpoopyWindowContext;
     @:noCompletion private var __pool:SpoopyCommandPool;
 
-    public function new() {
-        __pool = new SpoopyCommandPool(this);
-    }
-
-    private inline function bindContext(context:SpoopyWindowContext):Void {
+    public function new(context:SpoopyWindowContext) {
         __context = context;
+        __pool = new SpoopyCommandPool(this);
     }
 
     @:noCompletion private function get_context():SpoopyWindowContext {
