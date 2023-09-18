@@ -35,11 +35,9 @@ class SpoopyWindowContext {
         __window = window;
         __displayMatrix = new Matrix3();
         __viewportRect = new Rectangle();
-        __commandManager = new SpoopyCommandManager();
+        __commandManager = new SpoopyCommandManager(this);
 
         // __stateManager = new SpoopyStateManager();
-
-        __commandManager.bindContext(this);
     }
 
     public function resize():Void {
