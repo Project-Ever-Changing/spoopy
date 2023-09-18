@@ -132,7 +132,7 @@ namespace lime { namespace spoopy {
     }
 
     void CommandBufferVulkan::BeginRenderPass(const VkRenderPass &renderPass, const VkFramebuffer &frameBuffer,
-                                              uint32_t width, uint32_t height, VkSubpassContents flags, std::vector<VkClearValue> clearValues) {
+        uint32_t width, uint32_t height, VkSubpassContents flags, std::vector<VkClearValue> clearValues) {
         VkRect2D renderArea = {};
         renderArea.offset = {0, 0};
         renderArea.extent = {width, height};

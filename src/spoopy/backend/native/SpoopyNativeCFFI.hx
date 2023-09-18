@@ -35,7 +35,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_pipeline_set_input_assembly = new cpp.Callable<cpp.Object->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_pipeline_set_input_assembly", "oiv", false));
     public static var spoopy_pipeline_set_vertex_input = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_pipeline_set_vertex_input", "oov", false));
     public static var spoopy_create_command_pool = new cpp.Callable<cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_command_pool", "oo", false));
-    public static var spoopy_create_command_buffer = new cpp.Callable<cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_command_buffer", "oo", false));
+    public static var spoopy_create_command_buffer = new cpp.Callable<cpp.Object->Bool->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_command_buffer", "obo", false));
     #elseif (neko || cppia)
     public static var spoopy_check_graphics_module = CFFI.load("lime", "spoopy_check_graphics_module", 0);
     public static var spoopy_resize_graphics_context = CFFI.load("lime", "spoopy_resize_graphics_context", 2);
@@ -54,7 +54,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_pipeline = CFFI.load("lime", "spoopy_create_pipeline", 0);
     public static var spoopy_pipeline_set_input_assembly = CFFI.load("lime", "spoopy_pipeline_set_input_assembly", 2);
     public static var spoopy_pipeline_set_vertex_input = CFFI.load("lime", "spoopy_pipeline_set_vertex_input", 2);
-    public static var spoopy_create_command_pool = CFFI.load("lime", "spoopy_create_command_pool", 2);
+    public static var spoopy_create_command_pool = CFFI.load("lime", "spoopy_create_command_pool", 1);
     public static var spoopy_create_command_buffer = CFFI.load("lime", "spoopy_create_command_buffer", 2);
     #else
     public static function spoopy_check_graphics_module():Void {
@@ -129,7 +129,7 @@ class SpoopyNativeCFFI {
         return null;
     }
 
-    public static function spoopy_create_command_buffer(pool:Dynamic):Dynamic {
+    public static function spoopy_create_command_buffer(pool:Dynamic, begin:Bool):Dynamic {
         return null;
     }
     #end

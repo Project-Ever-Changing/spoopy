@@ -184,9 +184,9 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME1(spoopy_create_command_pool);
 
-    value spoopy_create_command_buffer(value command_pool) {
+    value spoopy_create_command_buffer(value command_pool, bool begin) {
         CommandPool* _commandPool = (CommandPool*)val_data(command_pool);
-        CommandBuffer* _commandBuffer = new CommandBuffer(_commandPool, false);
+        CommandBuffer* _commandBuffer = new CommandBuffer(_commandPool, begin);
         return CFFIPointer(_commandBuffer, spoopy_gc_command_buffer);
     }
     DEFINE_PRIME1(spoopy_create_command_buffer);
