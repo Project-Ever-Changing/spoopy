@@ -52,7 +52,7 @@ class SpoopyGraphicsModule implements IWindowModule {
 
     @:noCompletion private function __windowResize(context:SpoopyWindowContext):Void {
         context.resize();
-        __backend.resize(display.__window, display.__viewportRect);
+        __backend.resize(context.window, context.__viewportRect);
 
         //TODO: Maybe have an event system for this?
     }

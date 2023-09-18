@@ -12,7 +12,7 @@ class SpoopyCommandBuffer {
         __parent = parent;
 
         // TODO: If OpenGL, then have an actual constructor.
-        handle = SpoopyNativeCFFI.spoopy_create_command_buffer(parent.handle);
+        __handle = SpoopyNativeCFFI.spoopy_create_command_buffer(parent.handle);
     }
 
     @:noCompletion private function get_parent():SpoopyCommandPool {
@@ -20,5 +20,5 @@ class SpoopyCommandBuffer {
     }
 }
 
-//TODO: If OpenGL, then have an actual handle class.
+// TODO: If OpenGL, then have an actual handle class.
 typedef SpoopyCommandBufferBackend = Dynamic;

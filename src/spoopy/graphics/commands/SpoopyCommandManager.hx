@@ -20,7 +20,7 @@ class SpoopyCommandManager {
     }
 
     @:noCompletion private function get_context():SpoopyWindowContext {
-        if(context == null) {
+        if(__context == null) {
             SpoopyLogger.error("SpoopyCommandManager is required to have a context!");
         }
 
