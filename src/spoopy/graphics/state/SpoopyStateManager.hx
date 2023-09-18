@@ -1,22 +1,24 @@
 package spoopy.graphics.state;
 
+import spoopy.graphics.SpoopyWindowContext;
 import spoopy.utils.SpoopyLogger;
 
 class SpoopyStateManager {
-    public var context(get, never):SpoopyContext;
+    public var context(get, never):SpoopyWindowContext;
     public var currentState(get, never):SpoopyState;
 
     @:noCompletion private var __queueState:SpoopyState;
     @:noCompletion private var __currentState:SpoopyState;
     @:noCompletion private var __initialState:Class<SpoopyState>;
     @:noCompletion private var __commandManager:SpoopyCommandManager;
+    @:noCompletion private var __context:SpoopyWindowContext;
 
     /* TODO: Make SpoopyStateManager handle other modules too like: */
     // @:noCompletion private var __inputModule:SpoopyInputModule;
     // @:noCompletion private var __soundModule:SpoopySoundModule;
 
     /* TODO: Also have these modules to be parameters in the constructor. */
-    public function new(?__initialState:Class<SpoopyState>) {
+    public function new(context:SpoopyWindowContext, ?__initialState:Class<SpoopyState>) {
         this.__initialState = (__initialState == null) ? SpoopyState : __initialState;
         this.__commandManager = new SpoopyCommandManager();
     }
@@ -63,5 +65,13 @@ class SpoopyStateManager {
         }
 
         return __currentState;
+    }
+
+    @:noCompletion private function get_context():SpoopyWindowContext {
+        if(__context == null) {
+            SpoopyLogger.error("SpoopyStateManager is required to have a context!");
+        }
+
+        return __context;
     }
 }

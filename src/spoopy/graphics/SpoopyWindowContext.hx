@@ -28,7 +28,7 @@ class SpoopyWindowContext {
 
     @:noCompletion private var __window:Window;
     @:noCompletion private var __renderPass:SpoopyRenderPass;
-    // @:noCompletion private var __stateManager:SpoopyStateManager;
+    @:noCompletion private var __stateManager:SpoopyStateManager;
     @:noCompletion private var __displayMatrix:Matrix3;
     @:noCompletion private var __viewportRect:Rectangle;
 
@@ -37,7 +37,7 @@ class SpoopyWindowContext {
         __displayMatrix = new Matrix3();
         __viewportRect = new Rectangle();
 
-        // __stateManager = new SpoopyStateManager();
+        __stateManager = new SpoopyStateManager(this);
     }
 
     public function resize():Void {
