@@ -20,10 +20,7 @@ class SpoopyCommandBuffer {
 
         // TODO: If OpenGL, then have an actual constructor.
         __handle = SpoopyNativeCFFI.spoopy_create_command_buffer(parent.__handle, begin);
-
-        if(begin) {
-            __state = HAS_BEGUN;
-        }
+        __state = begin ? HAS_BEGUN : __state;
     }
 
     @:noCompletion private function get_parent():SpoopyCommandPool {
