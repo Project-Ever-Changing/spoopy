@@ -1,5 +1,7 @@
 package spoopy.graphics.state;
 
+import spoopy.graphics.commands.SpoopyCommandManager;
+import spoopy.graphics.SpoopyGraphicsModule;
 import spoopy.graphics.SpoopyWindowContext;
 import spoopy.utils.SpoopyLogger;
 
@@ -18,7 +20,7 @@ class SpoopyStateManager {
     // @:noCompletion private var __soundModule:SpoopySoundModule;
 
     /* TODO: Also have these modules to be parameters in the constructor. */
-    public function new(context:SpoopyWindowContext, ?__initialState:Class<SpoopyState>) {
+    public function new(?__initialState:Class<SpoopyState>) {
         this.__initialState = (__initialState == null) ? SpoopyState : __initialState;
         this.__commandManager = new SpoopyCommandManager();
     }
@@ -39,6 +41,11 @@ class SpoopyStateManager {
         if(__queueState != null) {
             processSwitchState();
         }
+    }
+
+    @:allow(spoopy.graphics.SpoopyGraphicsModule)
+    private inline function bindToContext(context:SpoopyWindowContext):Void {
+        __context = context;
     }
 
     private function processSwitchState():Void {
