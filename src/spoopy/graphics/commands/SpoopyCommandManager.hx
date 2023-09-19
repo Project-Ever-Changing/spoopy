@@ -8,9 +8,9 @@ import spoopy.window.IWindowHolder;
 @:allow(spoopy.graphics.SpoopyWindowContext)
 class SpoopyCommandManager<T:IWindowHolder> implements ISpoopyDestroyable {
     public var parent(get, never):T;
-    public var pool(get, never):SpoopyCommandPool;
+    public var pool(get, never):SpoopyCommandPool<T>;
 
-    @:noCompletion private var __pool:SpoopyCommandPool;
+    @:noCompletion private var __pool:SpoopyCommandPool<T>;
     @:noCompletion private var __parent:T;
 
     public function new(parent:T) {
@@ -23,7 +23,7 @@ class SpoopyCommandManager<T:IWindowHolder> implements ISpoopyDestroyable {
         __pool = null;
     }
 
-    @:noCompletion private function get_pool():SpoopyCommandPool {
+    @:noCompletion private function get_pool():SpoopyCommandPool<T> {
         return __pool;
     }
 }
