@@ -23,7 +23,7 @@ class SpoopyCommandPool<T:SpoopyWindowContext> implements ISpoopyDestroyable {
     }
 
     public function createBuffer():SpoopyCommandBuffer<T> {
-        var cmdBuffer = new SpoopyCommandBuffer(this, true);
+        var cmdBuffer = new SpoopyCommandBuffer<T>(this, true);
         __cmdBuffers.push(cmdBuffer);
 
         #if spoopy_debug
