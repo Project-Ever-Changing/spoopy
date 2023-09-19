@@ -1,20 +1,21 @@
 package spoopy.graphics.commands;
 
-import spoopy.utils.SpoopyDestroyable;
-import spoopy.backend.native.SpoopyNativeCFFI;
 import spoopy.utils.SpoopyLogger;
+import spoopy.utils.SpoopyDestroyable;
+import spoopy.graphics.SpoopyWindowContext;
+import spoopy.backend.native.SpoopyNativeCFFI;
 
 @:access(lime.ui.Window)
 @:allow(spoopy.graphics.commands.SpoopyCommandBuffer)
 @:allow(spoopy.graphics.commands.SpoopyCommandManager)
-class SpoopyCommandPool implements ISpoopyDestroyable {
-    public var manager(get, never):SpoopyCommandManager;
+class SpoopyCommandPool<T:SpoopyWindowContext> implements ISpoopyDestroyable {
+    public var manager(get, never):SpoopyCommandManager<T>;
 
     @:noCompletion private var __handle:SpoopyCommandPoolBackend;
-    @:noCompletion private var __manager:SpoopyCommandManager;
+    @:noCompletion private var __manager:SpoopyCommandManager<T>;
     @:noCompletion private var __cmdBuffers:Array<SpoopyCommandBuffer>;
 
-    public function new(manager:SpoopyCommandManager) {
+    public function new(manager:SpoopyCommandManager<T>) {
         __cmdBuffers = [];
 
         // TODO: If OpenGL, then have an actual constructor.
@@ -49,7 +50,7 @@ class SpoopyCommandPool implements ISpoopyDestroyable {
         __manager = null;
     }
 
-    @:noCompletion private function get_manager():SpoopyCommandManager {
+    @:noCompletion private function get_manager():SpoopyCommandManager<T> {
         return __manager;
     }
 }
