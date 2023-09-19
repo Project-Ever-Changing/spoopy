@@ -4,14 +4,13 @@ import spoopy.window.IWindowModule;
 import haxe.macro.Context;
 import spoopy.utils.SpoopyLogger;
 import haxe.ds.ObjectMap;
+import spoopy.graphics.state.SpoopyStateManager;
 
 import lime.app.Application;
 import lime.ui.Window;
 import lime.graphics.RenderContextAttributes;
 import lime.graphics.RenderContext;
 import lime.math.Matrix3;
-
-import spoopy.graphics.state.SpoopyStateManager;
 
 /*
 * Handles the creation of the window and the rendering of the window.
@@ -22,14 +21,16 @@ import spoopy.graphics.state.SpoopyStateManager;
 class SpoopyGraphicsModule implements IWindowModule {
     @:noCompletion private var __backend:BackendGraphicsModule;
     @:noCompletion private var __context:SpoopyWindowContext;
+    @:noCompletion private var __tempStateManager:SpoopyStateManager;
     @:noCompletion private var __rendering:Bool = false;
 
     #if spoopy_debug
     @:noCompletion private var __createFirstWindow:Bool = false;
     #end
 
-    public function new() {
+    public function new(?stateManager:SpoopyStateManager) {
         __backend = new BackendGraphicsModule();
+        __tempStateManager = stateManager;
     }
 
     @:noCompletion private function __onAddedWindow(window:Window):Void {
@@ -42,11 +43,11 @@ class SpoopyGraphicsModule implements IWindowModule {
         __backend.checkContext(window);
         #end
 
-        __context = new SpoopyWindowContext(window);
+        __context = new SpoopyWindowContext(window, __tempStateManager);
+        __tempStateManager = null;
 
         __backend.createContextStage(window, __context.__viewportRect);
         __windowResize(__context);
-
         __context.createRenderPass();
     }
 
@@ -75,7 +76,7 @@ class SpoopyGraphicsModule implements IWindowModule {
 
     @:noCompletion private function __registerWindowModule(window:Window):Void {
         if(window == null) {
-            SpoopyLogger.error("The window is null! Unable to create a graphics module.");
+            SpoopyLogger.error("The window is null! Unable to create a context for module.");
             return;
         }
 

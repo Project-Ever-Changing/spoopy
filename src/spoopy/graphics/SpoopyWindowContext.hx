@@ -33,12 +33,13 @@ class SpoopyWindowContext implements IWindowHolder {
     @:noCompletion private var __displayMatrix:Matrix3;
     @:noCompletion private var __viewportRect:Rectangle;
 
-    public function new(window:Window) {
+    public function new(window:Window, ?stateManager:SpoopyStateManager) {
         __window = window;
         __displayMatrix = new Matrix3();
         __viewportRect = new Rectangle();
 
-        __stateManager = new SpoopyStateManager(this);
+        __stateManager = stateManager != null ? stateManager : new SpoopyStateManager();
+        __stateManager.bindToContext(this);
     }
 
     public function resize():Void {
