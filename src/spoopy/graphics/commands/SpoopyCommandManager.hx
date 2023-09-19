@@ -26,4 +26,8 @@ class SpoopyCommandManager<T:IWindowHolder> implements ISpoopyDestroyable {
     @:noCompletion private function get_pool():SpoopyCommandPool<T> {
         return __pool;
     }
+
+    @:noCompletion private function get_parent():T {
+        return __parent;
+    }
 }
