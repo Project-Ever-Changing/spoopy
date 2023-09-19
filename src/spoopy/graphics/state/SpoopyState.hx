@@ -3,13 +3,14 @@ package spoopy.graphics.state;
 import spoopy.utils.SpoopyDestroyable;
 import spoopy.graphics.renderer.SpoopyRenderPass;
 import spoopy.graphics.commands.SpoopyCommandBuffer;
+import spoopy.graphics.SpoopyWindowContext;
 
 @:allow(spoopy.graphics.state.SpoopyStateManager)
 class SpoopyState implements ISpoopyDestroyable {
     public var manager(default, null):SpoopyStateManager;
 
     @:noCompletion private var __renderPass:SpoopyRenderPass;
-    @:noCompletion private var __activeCmdBuffer:SpoopyCommandBuffer;
+    @:noCompletion private var __activeCmdBuffer:SpoopyCommandBuffer<SpoopyWindowContext>;
 
     public function new() {
 
