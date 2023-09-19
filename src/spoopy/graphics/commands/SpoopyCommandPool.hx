@@ -13,7 +13,7 @@ class SpoopyCommandPool<T:SpoopyWindowContext> implements ISpoopyDestroyable {
 
     @:noCompletion private var __handle:SpoopyCommandPoolBackend;
     @:noCompletion private var __manager:SpoopyCommandManager<T>;
-    @:noCompletion private var __cmdBuffers:Array<SpoopyCommandBuffer>;
+    @:noCompletion private var __cmdBuffers:Array<SpoopyCommandBuffer<T>>;
 
     public function new(manager:SpoopyCommandManager<T>) {
         __cmdBuffers = [];
@@ -22,7 +22,7 @@ class SpoopyCommandPool<T:SpoopyWindowContext> implements ISpoopyDestroyable {
         __handle = SpoopyNativeCFFI.spoopy_create_command_pool(manager.parent.window.__backend.handle);
     }
 
-    public function createBuffer():SpoopyCommandBuffer {
+    public function createBuffer():SpoopyCommandBuffer<T> {
         var cmdBuffer = new SpoopyCommandBuffer(this, true);
         __cmdBuffers.push(cmdBuffer);
 
@@ -33,7 +33,7 @@ class SpoopyCommandPool<T:SpoopyWindowContext> implements ISpoopyDestroyable {
         return cmdBuffer;
     }
 
-    public function destroyBuffer(cmdBuffer:SpoopyCommandBuffer):Void {
+    public function destroyBuffer(cmdBuffer:SpoopyCommandBuffer<T>):Void {
         cmdBuffer.destroy();
         __cmdBuffers.remove(cmdBuffer);
         cmdBuffer = null;

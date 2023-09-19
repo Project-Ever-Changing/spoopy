@@ -1,17 +1,18 @@
 package spoopy.graphics.commands;
 
+import spoopy.graphics.SpoopyWindowContext;
 import spoopy.backend.native.SpoopyNativeCFFI;
 import spoopy.utils.SpoopyDestroyable;
 
-class SpoopyCommandBuffer implements ISpoopyDestroyable {
-    public var parent(get, never):SpoopyCommandPool;
+class SpoopyCommandBuffer<T:SpoopyWindowContext> implements ISpoopyDestroyable {
+    public var parent(get, never):SpoopyCommandPool<T>;
     public var state(get, never):SpoopyCommandState;
 
-    @:noCompletion private var __parent:SpoopyCommandPool;
+    @:noCompletion private var __parent:SpoopyCommandPool<T>;
     @:noCompletion private var __handle:SpoopyCommandBufferBackend;
     @:noCompletion private var __state:SpoopyCommandState;
 
-    private function new(parent:SpoopyCommandPool, begin:Bool = true) {
+    private function new(parent:SpoopyCommandPool<T>, begin:Bool = true) {
         __state = WAITING_FOR_BEGIN;
         __parent = parent;
 
@@ -29,7 +30,7 @@ class SpoopyCommandBuffer implements ISpoopyDestroyable {
         __parent = null;
     }
 
-    @:noCompletion private function get_parent():SpoopyCommandPool {
+    @:noCompletion private function get_parent():SpoopyCommandPool<T> {
         return __parent;
     }
 
