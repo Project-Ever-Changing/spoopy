@@ -22,7 +22,6 @@ class SpoopyStateManager {
     /* TODO: Also have these modules to be parameters in the constructor. */
     public function new(?__initialState:Class<SpoopyState>) {
         this.__initialState = (__initialState == null) ? SpoopyState : __initialState;
-        this.__commandManager = new SpoopyCommandManager();
     }
 
     public function resetState():Void {
@@ -45,6 +44,7 @@ class SpoopyStateManager {
 
     @:allow(spoopy.graphics.SpoopyGraphicsModule)
     private inline function bindToContext(context:SpoopyWindowContext):Void {
+        __commandManager = new SpoopyCommandManager(context);
         __context = context;
     }
 
