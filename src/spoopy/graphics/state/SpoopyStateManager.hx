@@ -12,7 +12,7 @@ class SpoopyStateManager {
     @:noCompletion private var __queueState:SpoopyState;
     @:noCompletion private var __currentState:SpoopyState;
     @:noCompletion private var __initialState:Class<SpoopyState>;
-    @:noCompletion private var __commandManager:SpoopyCommandManager;
+    @:noCompletion private var __commandManager:SpoopyCommandManager<SpoopyWindowContext>;
     @:noCompletion private var __context:SpoopyWindowContext;
 
     /* TODO: Make SpoopyStateManager handle other modules too like: */
@@ -44,7 +44,7 @@ class SpoopyStateManager {
 
     @:allow(spoopy.graphics.SpoopyGraphicsModule)
     private inline function bindToContext(context:SpoopyWindowContext):Void {
-        __commandManager = new SpoopyCommandManager(context);
+        __commandManager = new SpoopyCommandManager<SpoopyWindowContext>(context);
         __context = context;
     }
 
