@@ -6,6 +6,7 @@ import spoopy.graphics.commands.SpoopyCommandManager;
 import spoopy.graphics.state.SpoopyStateManager;
 import spoopy.graphics.SpoopyAccessFlagBits;
 import spoopy.graphics.SpoopyPipelineStageFlagBits;
+import spoopy.window.IWindowHolder;
 
 import lime.math.Rectangle;
 import lime.math.Matrix3;
@@ -20,7 +21,7 @@ import lime.ui.Window;
 @:access(lime.ui.Window)
 @:access(spoopy.graphics.renderer.SpoopyRenderPass)
 @:access(spoopy.graphics.state.SpoopyStateManager)
-class SpoopyWindowContext {
+class SpoopyWindowContext implements IWindowHolder {
     public var window(get, never):Window;
 
     public var displayWidth(default, null):Int = 0;

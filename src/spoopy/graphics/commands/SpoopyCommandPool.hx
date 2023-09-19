@@ -18,7 +18,7 @@ class SpoopyCommandPool implements ISpoopyDestroyable {
         __cmdBuffers = [];
 
         // TODO: If OpenGL, then have an actual constructor.
-        __handle = SpoopyNativeCFFI.spoopy_create_command_pool(manager.context.window.__backend.handle);
+        __handle = SpoopyNativeCFFI.spoopy_create_command_pool(manager.parent.window.__backend.handle);
     }
 
     public function createBuffer():SpoopyCommandBuffer {
