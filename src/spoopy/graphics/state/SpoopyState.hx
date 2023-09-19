@@ -2,6 +2,7 @@ package spoopy.graphics.state;
 
 import spoopy.utils.SpoopyDestroyable;
 import spoopy.graphics.renderer.SpoopyRenderPass;
+import spoopy.graphics.commands.SpoopyCommandBuffer;
 
 @:allow(spoopy.graphics.state.SpoopyStateManager)
 class SpoopyState implements ISpoopyDestroyable {
@@ -30,7 +31,7 @@ class SpoopyState implements ISpoopyDestroyable {
     @:noCompletion private inline function bind(manager:SpoopyStateManager):Void {
         __manager = manager;
 
-        
+
     }
 
     private function flush():Void {
