@@ -60,7 +60,7 @@ class SpoopyStateManager {
         }
 
         __currentState = __queueState;
-        __currentState.addManager(this);
+        __currentState.bind(this);
         __currentState.create();
 
         __queueState = null;
