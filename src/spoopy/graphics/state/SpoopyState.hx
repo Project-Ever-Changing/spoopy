@@ -28,7 +28,7 @@ class SpoopyState implements ISpoopyDestroyable {
 
         __renderPass = null;
         __activeCmdBuffer = null;
-        manager = null;
+        __manager = null;
     }
 
     @:noCompletion private function get_manager():SpoopyStateManager {
@@ -45,9 +45,5 @@ class SpoopyState implements ISpoopyDestroyable {
 
     private function flush():Void {
         /* TODO: Flush out Vulkan buffers and the descriptor pool that is attached to the current state. */
-    }
-
-    private inline function addManager(manager:SpoopyStateManager):Void {
-        this.manager = manager;
     }
 }
