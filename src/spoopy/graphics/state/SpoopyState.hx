@@ -1,16 +1,18 @@
 package spoopy.graphics.state;
 
 import spoopy.utils.SpoopyDestroyable;
+import spoopy.utils.SpoopyLogger;
 import spoopy.graphics.renderer.SpoopyRenderPass;
 import spoopy.graphics.commands.SpoopyCommandBuffer;
 import spoopy.graphics.SpoopyWindowContext;
 
 @:allow(spoopy.graphics.state.SpoopyStateManager)
 class SpoopyState implements ISpoopyDestroyable {
-    public var manager(default, null):SpoopyStateManager;
+    public var manager(get, never):SpoopyStateManager;
 
     @:noCompletion private var __renderPass:SpoopyRenderPass;
     @:noCompletion private var __activeCmdBuffer:SpoopyCommandBuffer<SpoopyWindowContext>;
+    @:noCompletion private var __manager:SpoopyStateManager;
 
     public function new() {
 
@@ -29,10 +31,16 @@ class SpoopyState implements ISpoopyDestroyable {
         manager = null;
     }
 
+    @:noCompletion private function get_manager():SpoopyStateManager {
+        if(__manager == null) {
+            SpoopyLogger.error("State is not bound to a manager!");
+        }
+
+        return __manager;
+    }
+
     @:noCompletion private inline function bind(manager:SpoopyStateManager):Void {
         __manager = manager;
-
-
     }
 
     private function flush():Void {
