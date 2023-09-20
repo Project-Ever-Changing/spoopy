@@ -4,6 +4,7 @@ import spoopy.graphics.SpoopyWindowContext;
 import spoopy.backend.native.SpoopyNativeCFFI;
 import spoopy.utils.SpoopyDestroyable;
 
+@:allow(spoopy.graphics.commands.SpoopyCommandPool)
 class SpoopyCommandBuffer<T:SpoopyWindowContext> implements ISpoopyDestroyable {
     public var parent(get, never):SpoopyCommandPool<T>;
     public var state(get, never):SpoopyCommandState;
