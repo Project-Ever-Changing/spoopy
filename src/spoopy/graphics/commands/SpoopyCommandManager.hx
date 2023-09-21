@@ -12,8 +12,8 @@ class SpoopyCommandManager<T:IWindowHolder> implements ISpoopyDestroyable {
     @:noCompletion private var __parent:T;
 
     public function new(parent:T) {
-        __pool = new SpoopyCommandPool<T>(this);
         __parent = parent;
+        __pool = new SpoopyCommandPool<T>(this);
     }
 
     public function destroy():Void {
