@@ -2,7 +2,6 @@ package spoopy.graphics.commands;
 
 import spoopy.utils.SpoopyLogger;
 import spoopy.utils.SpoopyDestroyable;
-import spoopy.graphics.SpoopyWindowContext;
 import spoopy.window.IWindowHolder;
 import spoopy.backend.native.SpoopyNativeCFFI;
 
