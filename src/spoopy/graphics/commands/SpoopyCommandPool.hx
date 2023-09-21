@@ -3,12 +3,13 @@ package spoopy.graphics.commands;
 import spoopy.utils.SpoopyLogger;
 import spoopy.utils.SpoopyDestroyable;
 import spoopy.graphics.SpoopyWindowContext;
+import spoopy.window.IWindowHolder;
 import spoopy.backend.native.SpoopyNativeCFFI;
 
 @:access(lime.ui.Window)
 @:allow(spoopy.graphics.commands.SpoopyCommandBuffer)
 @:allow(spoopy.graphics.commands.SpoopyCommandManager)
-class SpoopyCommandPool<T:SpoopyWindowContext> implements ISpoopyDestroyable {
+class SpoopyCommandPool<T:IWindowHolder> implements ISpoopyDestroyable {
     public var manager(get, never):SpoopyCommandManager<T>;
 
     @:noCompletion private var __handle:SpoopyCommandPoolBackend;
