@@ -2,7 +2,6 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/lib/hxcpp" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/lib/rocket" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/lib/spirv-cross" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/lib/volk" vcs="Git" />

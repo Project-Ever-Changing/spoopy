@@ -12,8 +12,14 @@ class SpoopyStateManager {
     @:noCompletion private var __queueState:SpoopyState;
     @:noCompletion private var __currentState:SpoopyState;
     @:noCompletion private var __initialState:Class<SpoopyState>;
-    @:noCompletion private var __commandManager:SpoopyCommandManager<SpoopyWindowContext>;
     @:noCompletion private var __context:SpoopyWindowContext;
+
+    /*
+    * This command manager is suppose to handle offscreen rendering.
+    * The manager will give each state their own dedicated offscreen buffer while the manager and the pool hold them.
+    * Once the manager is done with the offscreen buffer, it will ship it off to the context and swapchain for post processing.
+    */
+    @:noCompletion private var __commandManager:SpoopyCommandManager<SpoopyWindowContext>;
 
     /* TODO: Make SpoopyStateManager handle other modules too like: */
     // @:noCompletion private var __inputModule:SpoopyInputModule;
