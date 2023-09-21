@@ -189,7 +189,7 @@ namespace lime { namespace spoopy {
         CommandBuffer* _commandBuffer = new CommandBuffer(_commandPool, begin);
         return CFFIPointer(_commandBuffer, spoopy_gc_command_buffer);
     }
-    DEFINE_PRIME1(spoopy_create_command_buffer);
+    DEFINE_PRIME2(spoopy_create_command_buffer);
 
     void spoopy_pipeline_set_input_assembly(value pipeline, int topology) {
         Pipeline* _pipeline = (Pipeline*)val_data(pipeline);
