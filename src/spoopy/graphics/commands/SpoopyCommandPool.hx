@@ -16,6 +16,7 @@ class SpoopyCommandPool<T:IWindowHolder> implements ISpoopyDestroyable {
     @:noCompletion private var __cmdBuffers:Array<SpoopyCommandBuffer<T>>;
 
     public function new(manager:SpoopyCommandManager<T>) {
+        __manager = manager;
         __cmdBuffers = [];
 
         // TODO: If OpenGL, then have an actual constructor.
