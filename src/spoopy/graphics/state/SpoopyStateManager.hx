@@ -44,7 +44,7 @@ class SpoopyStateManager {
 
     @:allow(spoopy.graphics.SpoopyWindowContext)
     private inline function bindToContext(context:SpoopyWindowContext):Void {
-        __commandManager = new SpoopyCommandManager<SpoopyWindowContext>(context);
+        //__commandManager = new SpoopyCommandManager<SpoopyWindowContext>(context);
         __context = context;
     }
 
