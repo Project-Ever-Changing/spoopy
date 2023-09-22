@@ -17,7 +17,7 @@ class SpoopyStateManager {
     /*
     * This command manager is suppose to handle offscreen rendering.
     * The manager will give each state their own dedicated offscreen buffer while the manager and the pool hold them.
-    * Once the manager is done with the offscreen buffer, it will ship it off to the context and swapchain for post processing.
+    * Once the manager is done with the offscreen buffer, it will ship it off to the context stage and swapchain for post processing.
     */
     @:noCompletion private var __commandManager:SpoopyCommandManager<SpoopyWindowContext>;
 
