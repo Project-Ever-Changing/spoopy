@@ -20,6 +20,8 @@ namespace lime { namespace spoopy {
             const VkQueue &GetQueue() const { return queue; }
             const uint32_t &GetFamilyIndex() const { return familyIndex; }
 
+            //inline void Submit(value cmdBuffers, int count);
+
         private:
             uint32_t familyIndex;
             VkQueue queue;

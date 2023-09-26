@@ -3,8 +3,8 @@
 #include <spoopy.h>
 
 /*
- * A wrapper for the Vulkan command pool to be able to use as a handle
- * to thez frontend in Haxe.
+ * A primitive class for the Haxe frontend command pool
+ * to be able to use as a handle.
  */
 
 namespace lime { namespace spoopy {

@@ -9,7 +9,7 @@
 #include "graphics/vulkan/ContextStage.h"
 #include "graphics/vulkan/RenderPassVulkan.h"
 #include "graphics/vulkan/PipelineVulkan.h"
-#include "graphics/vulkan/CommandPoolVulkan.h"
+#include "graphics/vulkan/primitives/CommandPoolVulkan.h"
 #include "graphics/vulkan/CommandBufferVulkan.h"
 #include "graphics/vulkan/QueueVulkan.h"
 
@@ -19,6 +19,7 @@ typedef lime::spoopy::RenderPassVulkan RenderPass;
 typedef lime::spoopy::PipelineVulkan Pipeline;
 typedef lime::spoopy::CommandPoolVulkan CommandPool;
 typedef lime::spoopy::CommandBufferVulkan CommandBuffer;
+typedef std::shared_ptr<lime::spoopy::QueueVulkan> Queue;
 #endif
 
 namespace lime { namespace spoopy {
@@ -190,6 +191,16 @@ namespace lime { namespace spoopy {
         return CFFIPointer(_commandBuffer, spoopy_gc_command_buffer);
     }
     DEFINE_PRIME2(spoopy_create_command_buffer);
+
+    void spoopy_submit_command_buffers(value window_handle, value cmdArray) {
+        int len = val_array_size(cmdArray);
+
+        Window* window = (Window*)val_data(window_handle);
+        SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
+        Context context = sdlWindow->context;
+        Queue queue = context->GetQueue();
+
+    }
 
     void spoopy_pipeline_set_input_assembly(value pipeline, int topology) {
         Pipeline* _pipeline = (Pipeline*)val_data(pipeline);
