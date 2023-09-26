@@ -1,6 +1,8 @@
 #include "../GraphicsVulkan.h"
 #include "CommandPoolVulkan.h"
 
+#include <spoopy_assert.h>
+
 namespace lime { namespace spoopy {
     CommandPoolVulkan::CommandPoolVulkan(const LogicalDevice &device, uint32_t queueFamily) {
         VkCommandPoolCreateInfo commandPoolCreateInfo = {};
@@ -14,6 +16,8 @@ namespace lime { namespace spoopy {
     }
 
     CommandPoolVulkan::~CommandPoolVulkan() {
+        SP_ASSERT(commandPool != VK_NULL_HANDLE);
+
         auto device = GraphicsVulkan::GetCurrent()->GetLogicalDevice();
         vkDestroyCommandPool(*device, commandPool, nullptr);
     }
