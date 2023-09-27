@@ -1,9 +1,11 @@
 #pragma once
 
+#include <Mutex.h>
 #include <spoopy.h>
 
 namespace lime { namespace spoopy {
     class LogicalDevice;
+    class CommandBufferVulkan;
 
     enum PotentialQueueIndex : uint32_t {
         P_Graphics = 0,
@@ -20,12 +22,18 @@ namespace lime { namespace spoopy {
             const VkQueue &GetQueue() const { return queue; }
             const uint32_t &GetFamilyIndex() const { return familyIndex; }
 
+            void UpdateLastSubmittedCommandBuffer(CommandBufferVulkan* cmdBuffer);
+
             //inline void Submit(value cmdBuffers, int count);
 
         private:
             uint32_t familyIndex;
+            Mutex mutex;
             VkQueue queue;
 
             const LogicalDevice &device;
+
+            CommandBufferVulkan* lastSubmittedCommandBuffer;
+            uint64_t lastSubmittedCmdBufferFenceCounter;
     };
 }}

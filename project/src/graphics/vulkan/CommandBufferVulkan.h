@@ -24,6 +24,8 @@ namespace lime { namespace spoopy {
             // void Submit(const VkSemaphore &waitSemaphore, const VkSemaphore &signalSemaphore, VkFence fence);
             void SubmitIdle(const VkQueue &queue);
 
+            inline uint64_t GetFenceSignaledCounter() const { return _fenceSignaledCounter; }
+
             operator const VkCommandBuffer &() const { return _commandBuffer; }
             bool IsRunning() const { return running; }
 
@@ -33,6 +35,7 @@ namespace lime { namespace spoopy {
 
             const LogicalDevice &_device;
 
+            uint64_t _fenceSignaledCounter;
             VkCommandBuffer _commandBuffer = VK_NULL_HANDLE;
             VkCommandBufferUsageFlags _usageFlags;
             VkStructureType _sType;
