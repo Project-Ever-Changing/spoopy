@@ -14,14 +14,15 @@ namespace lime { namespace spoopy {
 
     class SemaphoreVulkan {
         public:
-            explicit SemaphoreVulkan(const LogicalDevice &device, ContextVulkan &context);
+            explicit SemaphoreVulkan(LogicalDevice &device, ContextVulkan &context);
             ~SemaphoreVulkan();
 
             operator const VkSemaphore &() const { return semaphore; }
             const VkSemaphore &GetSemaphore() const { return semaphore; }
 
         private:
-            VkSemaphore semaphore = VK_NULL_HANDLE;
+            VkSemaphore semaphore;
+            LogicalDevice& device;
             ContextVulkan& context;
     };
 }}
