@@ -5,8 +5,7 @@
 #include <spoopy_assert.h>
 
 namespace lime { namespace spoopy {
-    SemaphoreVulkan::SemaphoreVulkan(const LogicalDevice &device, ContextVulkan &context):
-    context(context),
+    SemaphoreVulkan::SemaphoreVulkan(const LogicalDevice &device):
     device(device),
     semaphore(VK_NULL_HANDLE) {
         VkSemaphoreCreateInfo semaphoreInfo = {};

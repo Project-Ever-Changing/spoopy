@@ -10,6 +10,7 @@
 #include "graphics/vulkan/RenderPassVulkan.h"
 #include "graphics/vulkan/PipelineVulkan.h"
 #include "graphics/vulkan/primitives/CommandPoolVulkan.h"
+#include "graphics/vulkan/primitives/SemaphoreVulkan.h"
 #include "graphics/vulkan/CommandBufferVulkan.h"
 #include "graphics/vulkan/QueueVulkan.h"
 
@@ -19,6 +20,7 @@ typedef lime::spoopy::RenderPassVulkan RenderPass;
 typedef lime::spoopy::PipelineVulkan Pipeline;
 typedef lime::spoopy::CommandPoolVulkan CommandPool;
 typedef lime::spoopy::CommandBufferVulkan CommandBuffer;
+typedef lime::spoopy::SemaphoreVulkan Semaphore;
 typedef std::shared_ptr<lime::spoopy::QueueVulkan> Queue;
 #endif
 
@@ -153,6 +155,11 @@ namespace lime { namespace spoopy {
         delete _memoryReader;
     }
 
+    void spoopy_gc_semaphore(value handle) {
+        Semaphore* _semaphore = (Semaphore*)val_data(handle);
+        delete _semaphore;
+    }
+
     value spoopy_create_render_pass() {
         RenderPass* _renderPass = new RenderPass(*GraphicsModule::GetCurrent()->GetLogicalDevice());
         return CFFIPointer(_renderPass, spoopy_gc_render_pass);
@@ -191,6 +198,12 @@ namespace lime { namespace spoopy {
         return CFFIPointer(_commandBuffer, spoopy_gc_command_buffer);
     }
     DEFINE_PRIME2(spoopy_create_command_buffer);
+
+    value spoopy_create_semaphore() {
+        Semaphore* _semaphore = new Semaphore(*GraphicsModule::GetCurrent()->GetLogicalDevice());
+        return CFFIPointer(_semaphore, spoopy_gc_semaphore);
+    }
+    DEFINE_PRIME0(spoopy_create_semaphore);
 
     void spoopy_submit_command_buffers(value window_handle, value cmdArray) {
         int len = val_array_size(cmdArray);

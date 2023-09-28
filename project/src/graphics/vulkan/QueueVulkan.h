@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Mutex.h>
+#include <system/Mutex.h>
 #include <spoopy.h>
 
 namespace lime { namespace spoopy {
@@ -22,7 +22,7 @@ namespace lime { namespace spoopy {
             const VkQueue &GetQueue() const { return queue; }
             const uint32_t &GetFamilyIndex() const { return familyIndex; }
 
-            void GetLastSubmittedInfo(CommandBufferVulkan*& cmdBuffer, uint64_t& fenceCounter) const;
+            void GetLastSubmittedInfo(CommandBufferVulkan*& cmdBuffer, uint64_t& fenceCounter);
             //inline void Submit(value cmdBuffers, int count);
 
         private:

@@ -14,7 +14,7 @@ namespace lime { namespace spoopy {
 
     class SemaphoreVulkan {
         public:
-            explicit SemaphoreVulkan(LogicalDevice &device, ContextVulkan &context);
+            explicit SemaphoreVulkan(const LogicalDevice &device);
             ~SemaphoreVulkan();
 
             operator const VkSemaphore &() const { return semaphore; }
@@ -22,7 +22,7 @@ namespace lime { namespace spoopy {
 
         private:
             VkSemaphore semaphore;
-            LogicalDevice& device;
-            ContextVulkan& context;
+
+            const LogicalDevice& device;
     };
 }}

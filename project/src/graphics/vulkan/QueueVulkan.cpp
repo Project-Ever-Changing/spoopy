@@ -1,13 +1,14 @@
 #include "QueueVulkan.h"
 #include "GraphicsVulkan.h"
-
+#include "CommandBufferVulkan.h"
 
 namespace lime { namespace spoopy {
     QueueVulkan::QueueVulkan(const LogicalDevice &device, uint32_t familyIndex)
     : device(device)
     , familyIndex(familyIndex)
     , queue(VK_NULL_HANDLE)
-    , lastSubmittedCmdBuffer(nullptr) {
+    , lastSubmittedCommandBuffer(nullptr),
+      lastSubmittedCmdBufferFenceCounter(0) {
         vkGetDeviceQueue(device, familyIndex, 0, &queue);
     }
 
@@ -20,7 +21,7 @@ namespace lime { namespace spoopy {
         mutex.Unlock();
     }
 
-    void QueueVulkan::GetLastSubmittedInfo(CommandBufferVulkan*& cmdBuffer, uint64_t& fenceCounter) const {
+    void QueueVulkan::GetLastSubmittedInfo(CommandBufferVulkan*& cmdBuffer, uint64_t& fenceCounter) {
         mutex.Lock();
 
         cmdBuffer = lastSubmittedCommandBuffer;
