@@ -22,11 +22,12 @@ namespace lime { namespace spoopy {
             const VkQueue &GetQueue() const { return queue; }
             const uint32_t &GetFamilyIndex() const { return familyIndex; }
 
-            void UpdateLastSubmittedCommandBuffer(CommandBufferVulkan* cmdBuffer);
-
+            void GetLastSubmittedInfo(CommandBufferVulkan*& cmdBuffer, uint64_t& fenceCounter) const;
             //inline void Submit(value cmdBuffers, int count);
 
         private:
+            void UpdateLastSubmittedCommandBuffer(CommandBufferVulkan* cmdBuffer);
+
             uint32_t familyIndex;
             Mutex mutex;
             VkQueue queue;

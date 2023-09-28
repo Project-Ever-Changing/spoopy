@@ -19,4 +19,13 @@ namespace lime { namespace spoopy {
 
         mutex.Unlock();
     }
+
+    void QueueVulkan::GetLastSubmittedInfo(CommandBufferVulkan*& cmdBuffer, uint64_t& fenceCounter) const {
+        mutex.Lock();
+
+        cmdBuffer = lastSubmittedCommandBuffer;
+        fenceCounter = lastSubmittedCmdBufferFenceCounter;
+
+        mutex.Unlock();
+    }
 }}
