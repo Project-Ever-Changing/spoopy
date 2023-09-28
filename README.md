@@ -7,7 +7,7 @@ Spoopy Engine
 ![SpoopyEngine](/SpoopyEngine.png?raw=true "SpoopyEngine")
 
 
-Spoopy Engine is an in-development framework that supports platforms like Windows, Mac OS, and Linux. While there is little support for anything other than Vulkan, in the future, I plan to expand upon the framework to make my game, Ever Changing.
+Spoopy Engine is an in-development framework that supports platforms like Windows, Mac OS, and potentially Linux. While there is little support for anything other than Vulkan, in the future, I plan to expand upon the framework to make my game Ever Changing.
 
 ## Table of Contents
 
