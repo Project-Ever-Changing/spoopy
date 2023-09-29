@@ -3,6 +3,7 @@ package spoopy.graphics.commands;
 import spoopy.window.IWindowHolder;
 import spoopy.backend.native.SpoopyNativeCFFI;
 import spoopy.utils.SpoopyDestroyable;
+import spoopy.graphics.SpoopySemaphore;
 
 @:allow(spoopy.graphics.commands.SpoopyCommandPool)
 class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
@@ -12,6 +13,8 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
     @:noCompletion private var __parent:SpoopyCommandPool<T>;
     @:noCompletion private var __handle:SpoopyCommandBufferBackend;
     @:noCompletion private var __state:SpoopyCommandState;
+    @:noCompletion private var __waitSemaphores:Array<SpoopySemaphore>;
+    @:noCompletion private var __signalSemaphores:Array<SpoopySemaphore>;
 
     private function new(parent:SpoopyCommandPool<T>, begin:Bool = true) {
         __state = WAITING_FOR_BEGIN;
@@ -24,6 +27,9 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
         // TODO: If OpenGL, then have an actual constructor.
         __handle = SpoopyNativeCFFI.spoopy_create_command_buffer(parent.__handle, begin);
         __state = begin ? HAS_BEGUN : __state;
+
+        __waitSemaphores = new Array<SpoopySemaphore>();
+        __signalSemaphores = new Array<SpoopySemaphore>();
     }
 
     public function destroy():Void {
