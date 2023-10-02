@@ -28,8 +28,8 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
         __handle = SpoopyNativeCFFI.spoopy_create_command_buffer(parent.__handle, begin);
         __state = begin ? HAS_BEGUN : __state;
 
-        __waitSemaphores = new Array<SpoopySemaphore>();
-        __signalSemaphores = new Array<SpoopySemaphore>();
+        __waitSemaphores = [];
+        __signalSemaphores = [];
     }
 
     public function destroy():Void {

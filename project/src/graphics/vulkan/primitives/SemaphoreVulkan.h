@@ -15,10 +15,11 @@ namespace lime { namespace spoopy {
     class SemaphoreVulkan {
         public:
             explicit SemaphoreVulkan(const LogicalDevice &device);
-            ~SemaphoreVulkan();
 
             operator const VkSemaphore &() const { return semaphore; }
             const VkSemaphore &GetSemaphore() const { return semaphore; }
+
+            void Destroy();
 
         private:
             VkSemaphore semaphore;

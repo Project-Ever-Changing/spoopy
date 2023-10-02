@@ -205,16 +205,6 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME0(spoopy_create_semaphore);
 
-    void spoopy_submit_command_buffers(value window_handle, value cmdArray) {
-        int len = val_array_size(cmdArray);
-
-        Window* window = (Window*)val_data(window_handle);
-        SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
-        Context context = sdlWindow->context;
-        Queue queue = context->GetQueue();
-
-    }
-
     void spoopy_pipeline_set_input_assembly(value pipeline, int topology) {
         Pipeline* _pipeline = (Pipeline*)val_data(pipeline);
         _pipeline->SetInputAssembly((PrimTopologyType)topology);
