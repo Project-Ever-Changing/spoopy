@@ -112,8 +112,8 @@
 			<file name="src/graphics/vulkan/GraphicsHandlerVulkan.cpp" />
 			<file name="src/graphics/vulkan/GraphicsVulkan.cpp" />
 			<file name="src/graphics/vulkan/SwapchainVulkan.cpp" />
-			<file name="src/graphics/vulkan/primitives/CommandPoolVulkan.cpp" />
-			<file name="src/graphics/vulkan/primitives/SemaphoreVulkan.cpp" />
+			<file name="src/graphics/vulkan/components/CommandPoolVulkan.cpp" />
+			<file name="src/graphics/vulkan/components/SemaphoreVulkan.cpp" />
 			<file name="src/graphics/vulkan/RenderPassVulkan.cpp" />
 			<file name="src/graphics/vulkan/FramebufferVulkan.cpp" />
 			<file name="src/graphics/vulkan/QueueVulkan.cpp" />

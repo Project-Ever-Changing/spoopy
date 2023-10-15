@@ -9,8 +9,8 @@
 #include "graphics/vulkan/ContextStage.h"
 #include "graphics/vulkan/RenderPassVulkan.h"
 #include "graphics/vulkan/PipelineVulkan.h"
-#include "graphics/vulkan/primitives/CommandPoolVulkan.h"
-#include "graphics/vulkan/primitives/SemaphoreVulkan.h"
+#include "graphics/vulkan/components/CommandPoolVulkan.h"
+#include "graphics/vulkan/components/SemaphoreVulkan.h"
 #include "graphics/vulkan/CommandBufferVulkan.h"
 #include "graphics/vulkan/QueueVulkan.h"
 

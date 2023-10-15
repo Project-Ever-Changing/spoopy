@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../helpers/SpoopyHelpersVulkan.h"
-#include "primitives/CommandPoolVulkan.h"
+#include "components/CommandPoolVulkan.h"
 
 #include <memory>
 

@@ -4,7 +4,7 @@
 #include <spoopy.h>
 
 /*
- * A primitive class for the Haxe frontend semaphore
+ * A component class for the Haxe frontend semaphore
  * to be able to use as a handle.
  */
 

@@ -3,7 +3,7 @@
 #include <spoopy.h>
 
 /*
- * A primitive class for the Haxe frontend command pool
+ * A component class for the Haxe frontend command pool
  * to be able to use as a handle.
  */
 
