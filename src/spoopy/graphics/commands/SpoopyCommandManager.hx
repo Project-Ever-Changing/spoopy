@@ -1,7 +1,7 @@
 package spoopy.graphics.commands;
 
 import spoopy.utils.SpoopyLogger;
-import spoopy.utils.SpoopyDestroyable;
+import spoopy.utils.destroy.SpoopyDestroyable;
 import spoopy.window.IWindowHolder;
 
 /*

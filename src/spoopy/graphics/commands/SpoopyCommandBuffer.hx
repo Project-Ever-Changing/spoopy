@@ -2,7 +2,7 @@ package spoopy.graphics.commands;
 
 import spoopy.window.IWindowHolder;
 import spoopy.backend.native.SpoopyNativeCFFI;
-import spoopy.utils.SpoopyDestroyable;
+import spoopy.utils.destroy.SpoopyDestroyable;
 import spoopy.graphics.SpoopySemaphore;
 
 @:allow(spoopy.graphics.commands.SpoopyCommandPool)

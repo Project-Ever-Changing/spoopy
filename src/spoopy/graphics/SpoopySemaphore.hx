@@ -1,6 +1,6 @@
 package spoopy.graphics;
 
-import spoopy.utils.SpoopyDestroyable;
+import spoopy.utils.destroy.SpoopyDestroyable;
 import spoopy.graphics.SpoopyGraphicsModule;
 import spoopy.backend.native.SpoopyNativeCFFI;
 

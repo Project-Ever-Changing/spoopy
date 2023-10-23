@@ -1,11 +1,12 @@
 package spoopy.backend.native;
 
-import spoopy.utils.SpoopyDestroyable;
+import spoopy.utils.destroy.SpoopyDestroyable;
 import spoopy.graphics.commands.SpoopyCommandManager;
 import spoopy.graphics.SpoopyWindowContext;
 
 /*
 * This class serves as a frontend wrapper for the context stage inside the native context.
+* TODO: Work on this later.
 */
 
 class SpoopyNativeStageWrapper implements ISpoopyDestroyable {

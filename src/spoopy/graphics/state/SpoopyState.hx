@@ -1,6 +1,6 @@
 package spoopy.graphics.state;
 
-import spoopy.utils.SpoopyDestroyable;
+import spoopy.utils.destroy.SpoopyDestroyable;
 import spoopy.utils.SpoopyLogger;
 import spoopy.graphics.renderer.SpoopyRenderPass;
 import spoopy.graphics.commands.SpoopyCommandBuffer;
