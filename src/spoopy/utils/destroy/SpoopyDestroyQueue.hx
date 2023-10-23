@@ -32,6 +32,10 @@ class SpoopyDestroyQueue<T> {
         }
     }
 
+    public function isEmpty():Bool {
+        return head == null;
+    }
+
     private function dequeue():T { // There is no point for this to be public in this is auto deletion queue.
         if(isEmpty()) {
             throw "Queue underflow";
@@ -45,10 +49,6 @@ class SpoopyDestroyQueue<T> {
         }
 
         return item;
-    }
-
-    public function isEmpty():Bool {
-        return head == null;
     }
 }
 
