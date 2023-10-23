@@ -21,12 +21,14 @@ class SpoopyCommandManager<T:IWindowHolder> implements ISpoopyDestroyable {
         __pool = new SpoopyCommandPool<T>(this);
     }
 
+    /*
     public function createCmdBuffer(oldCmdBuffer:SpoopyCommandBuffer<T>):SpoopyCommandBuffer<T> {
         switch(oldCmdBuffer) {
             case null:
 
         }
     }
+    */
 
     public function destroy():Void {
         __pool.destroy();

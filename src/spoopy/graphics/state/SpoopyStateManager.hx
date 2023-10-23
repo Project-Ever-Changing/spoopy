@@ -1,7 +1,6 @@
 package spoopy.graphics.state;
 
 import spoopy.graphics.commands.SpoopyCommandManager;
-import spoopy.graphics.SpoopyGraphicsModule;
 import spoopy.graphics.SpoopyWindowContext;
 import spoopy.utils.SpoopyLogger;
 
