@@ -11,7 +11,7 @@ import sys.thread.Lock;
 * to maintain and keep organized.
 */
 
-class SpoopyDestroyQueue<T> {
+class SpoopyDestroyQueue<T:ISpoopyDestroyable> {
     private var head:Node<T>;
     private var tail:Node<T>;
 
@@ -30,6 +30,14 @@ class SpoopyDestroyQueue<T> {
         } else {
             oldTail.next = tail;
         }
+    }
+
+    public function ReleaseItems():Void {
+        #if !web
+        var lock = new Lock();
+        #end
+
+        
     }
 
     public function isEmpty():Bool {

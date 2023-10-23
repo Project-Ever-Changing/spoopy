@@ -62,7 +62,6 @@ class SpoopyGraphicsModule implements IWindowModule {
         if(__rendering) return;
         __rendering = true;
 
-
         __rendering = false;
     }
 
