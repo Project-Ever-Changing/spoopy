@@ -22,6 +22,7 @@ import lime.ui.Window;
 @:access(spoopy.graphics.renderer.SpoopyRenderPass)
 @:access(spoopy.graphics.state.SpoopyStateManager)
 class SpoopyWindowContext implements IWindowHolder {
+    public var module(get, never):SpoopyGraphicsModule;
     public var window(get, never):Window;
 
     public var displayWidth(default, null):Int = 0;
@@ -30,11 +31,14 @@ class SpoopyWindowContext implements IWindowHolder {
     @:noCompletion private var __window:Window;
     @:noCompletion private var __renderPass:SpoopyRenderPass;
     @:noCompletion private var __stateManager:SpoopyStateManager;
+    @:noCompletion private var __module:SpoopyGraphicsModule;
     @:noCompletion private var __displayMatrix:Matrix3;
     @:noCompletion private var __viewportRect:Rectangle;
 
-    public function new(window:Window, ?stateManager:SpoopyStateManager) {
+    public function new(module:SpoopyGraphicsModule, window:Window, ?stateManager:SpoopyStateManager) {
         __window = window;
+        __module = module;
+        
         __displayMatrix = new Matrix3();
         __viewportRect = new Rectangle();
 
@@ -101,5 +105,9 @@ class SpoopyWindowContext implements IWindowHolder {
 
     @:noCompletion private function get_window():Window {
         return __window;
+    }
+
+    @:noCompletion private function get_module():SpoopyGraphicsModule {
+        return __module;
     }
 }
