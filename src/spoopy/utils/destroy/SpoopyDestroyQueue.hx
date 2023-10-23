@@ -36,7 +36,7 @@ class SpoopyDestroyQueue<T> {
         return head == null;
     }
 
-    private function dequeue():T { // There is no point for this to be public in this is auto deletion queue.
+    private function dequeue():T { // There is no point for this to be public since this is auto deletion queue.
         if(isEmpty()) {
             throw "Queue underflow";
         }
