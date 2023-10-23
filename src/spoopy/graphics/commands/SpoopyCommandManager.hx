@@ -16,7 +16,7 @@ class SpoopyCommandManager<T:IWindowHolder> implements ISpoopyDestroyable {
     @:noCompletion private var __pool:SpoopyCommandPool<T>;
     @:noCompletion private var __parent:T;
 
-    public function new(module:SpoopyGraphicsModule, parent:T) {
+    public function new(parent:T) {
         __parent = parent;
         __pool = new SpoopyCommandPool<T>(this);
     }
