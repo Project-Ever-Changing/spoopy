@@ -37,6 +37,8 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_command_pool = new cpp.Callable<cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_command_pool", "oo", false));
     public static var spoopy_create_command_buffer = new cpp.Callable<cpp.Object->Bool->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_command_buffer", "obo", false));
     public static var spoopy_create_semaphore = new cpp.Callable<Void->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_semaphore", "o", false));
+    public static var spoopy_create_entry = new cpp.Callable<cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_entry", "oo", false));
+    public static var spoopy_entry_is_gpu_operation_complete = new cpp.Callable<cpp.Object->Bool>(cpp.Prime._loadPrime("lime", "spoopy_entry_is_gpu_operation_complete", "ob", false));
     #elseif (neko || cppia)
     public static var spoopy_check_graphics_module = CFFI.load("lime", "spoopy_check_graphics_module", 0);
     public static var spoopy_resize_graphics_context = CFFI.load("lime", "spoopy_resize_graphics_context", 2);
@@ -58,6 +60,8 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_command_pool = CFFI.load("lime", "spoopy_create_command_pool", 1);
     public static var spoopy_create_command_buffer = CFFI.load("lime", "spoopy_create_command_buffer", 2);
     public static var spoopy_create_semaphore = CFFI.load("lime", "spoopy_create_semaphore", 0);
+    public static var spoopy_create_entry = CFFI.load("lime", "spoopy_create_entry", 1);
+    public static var spoopy_entry_is_gpu_operation_complete = CFFI.load("lime", "spoopy_entry_is_gpu_operation_complete", 1);
     #else
     public static function spoopy_check_graphics_module():Void {
         return;
@@ -137,6 +141,14 @@ class SpoopyNativeCFFI {
 
     public static function spoopy_create_semaphore():Dynamic {
         return null;
+    }
+
+    public static function spoopy_create_entry(window:Dynamic):Dynamic {
+        return null;
+    }
+
+    public static function spoopy_entry_is_gpu_operation_complete(entry:Dynamic):Bool {
+        return false;
     }
     #end
 }
