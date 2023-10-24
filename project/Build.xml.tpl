@@ -118,6 +118,7 @@
 			<file name="src/graphics/vulkan/FramebufferVulkan.cpp" />
 			<file name="src/graphics/vulkan/QueueVulkan.cpp" />
 			<file name="src/graphics/vulkan/CommandBufferVulkan.cpp" />
+			<file name="src/graphics/vulkan/EntryVulkan.cpp" />
 			<file name="src/helpers/SpoopyHelpersVulkan.cpp" />
 			<file name="src/helpers/VulkanAddons.cpp" />
 			<file name="src/device/Capabilities.cpp" />

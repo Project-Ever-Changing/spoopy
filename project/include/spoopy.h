@@ -6,6 +6,13 @@
 
 #if defined(SPOOPY_VOLK) && defined(SPOOPY_VULKAN)
 #include <volk.h>
+
+#define SPOOPY_SAFE_DESTROY_VULKAN(resource, device, handle)  \
+    if (resourceHandle != VK_NULL_HANDLE) {                   \
+        vkDestroy##resource(device, resourceHandle, nullptr); \
+        resourceHandle = VK_NULL_HANDLE;                      \
+    }
+
 #endif
 
 #include <vk_mem_alloc.h>

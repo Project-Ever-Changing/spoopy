@@ -13,10 +13,9 @@ namespace lime { namespace spoopy {
         checkVulkan(vkCreateSemaphore(device, &semaphoreInfo, nullptr, &semaphore));
     }
 
-    void SemaphoreVulkan::Destroy() {
-        if (semaphore != VK_NULL_HANDLE) {
-            vkDestroySemaphore(device, semaphore, nullptr);
-            semaphore = VK_NULL_HANDLE;
-        }
+    SemaphoreVulkan::~SemaphoreVulkan() {
+        SP_ASSERT(semaphore != VK_NULL_HANDLE);
+        vkDestroySemaphore(device, semaphore, nullptr);
+        semaphore = VK_NULL_HANDLE;
     }
 }}

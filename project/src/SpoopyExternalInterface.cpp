@@ -13,6 +13,7 @@
 #include "graphics/vulkan/components/SemaphoreVulkan.h"
 #include "graphics/vulkan/CommandBufferVulkan.h"
 #include "graphics/vulkan/QueueVulkan.h"
+#include "graphics/vulkan/EntryVulkan.h"
 
 
 typedef lime::spoopy::GraphicsVulkan GraphicsModule;
@@ -22,6 +23,7 @@ typedef lime::spoopy::CommandPoolVulkan CommandPool;
 typedef lime::spoopy::CommandBufferVulkan CommandBuffer;
 typedef lime::spoopy::SemaphoreVulkan Semaphore;
 typedef std::shared_ptr<lime::spoopy::QueueVulkan> Queue;
+typedef lime::spoopy::EntryVulkan Entry;
 #endif
 
 namespace lime { namespace spoopy {
@@ -160,6 +162,11 @@ namespace lime { namespace spoopy {
         delete _semaphore;
     }
 
+    void spoopy_gc_entry(value handle) {
+        Entry* _entry = (Entry*)val_data(handle);
+        delete _entry;
+    }
+
     value spoopy_create_render_pass() {
         RenderPass* _renderPass = new RenderPass(*GraphicsModule::GetCurrent()->GetLogicalDevice());
         return CFFIPointer(_renderPass, spoopy_gc_render_pass);
@@ -204,6 +211,15 @@ namespace lime { namespace spoopy {
         return CFFIPointer(_semaphore, spoopy_gc_semaphore);
     }
     DEFINE_PRIME0(spoopy_create_semaphore);
+
+    value spoopy_create_entry(value window_handle) {
+        Window* window = (Window*)val_data(window_handle);
+        SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
+        Context context = sdlWindow->context;
+
+        Entry* _entry = new Entry(*context->GetQueue());
+        return CFFIPointer(_entry, spoopy_gc_entry);
+    }
 
     void spoopy_pipeline_set_input_assembly(value pipeline, int topology) {
         Pipeline* _pipeline = (Pipeline*)val_data(pipeline);

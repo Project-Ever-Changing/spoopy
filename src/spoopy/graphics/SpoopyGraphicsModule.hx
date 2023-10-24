@@ -1,11 +1,12 @@
 package spoopy.graphics;
 
+import spoopy.utils.destroy.SpoopyDestroyQueue;
 import spoopy.window.IWindowModule;
 import haxe.macro.Context;
 import spoopy.utils.SpoopyLogger;
 import haxe.ds.ObjectMap;
 import spoopy.graphics.state.SpoopyStateManager;
-
+import spoopy.graphics.modules.SpoopyEntry;
 import lime.app.Application;
 import lime.ui.Window;
 import lime.graphics.RenderContextAttributes;
@@ -19,8 +20,11 @@ import lime.math.Matrix3;
 
 @:access(spoopy.graphics.SpoopyWindowContext)
 class SpoopyGraphicsModule implements IWindowModule {
+    public var frameCount(default, null):UInt = 0;
+
     @:noCompletion private var __backend:BackendGraphicsModule;
     @:noCompletion private var __context:SpoopyWindowContext;
+    @:noCompletion private var __deletionQueue:SpoopyDestroyQueue<SpoopyEntry>;
     @:noCompletion private var __tempStateManager:SpoopyStateManager;
     @:noCompletion private var __rendering:Bool = false;
 
@@ -30,8 +34,27 @@ class SpoopyGraphicsModule implements IWindowModule {
 
     public function new(?stateManager:SpoopyStateManager) {
         __backend = new BackendGraphicsModule();
+        __deletionQueue = new SpoopyDestroyQueue<SpoopyEntry>();
         __tempStateManager = stateManager;
     }
+
+    /*
+    * Helpful wrapper methods
+    */
+
+    public function enqueueDeletionObj(item:ISpoopyDestroyable, frame:UInt):Void {
+        if(item == null) {
+            SpoopyLogger.error("The item is null! Unable to enqueue deletion.");
+            return;
+        }
+
+        var entry = new SpoopyEntry(item, frame);
+    }
+
+
+    /**
+     * Backend methods
+     */
 
     @:noCompletion private function __onAddedWindow(window:Window):Void {
         #if spoopy_debug
@@ -61,6 +84,8 @@ class SpoopyGraphicsModule implements IWindowModule {
     @:noCompletion private function __onWindowRender(context:RenderContext):Void { // The `RenderContext` is practically useless.
         if(__rendering) return;
         __rendering = true;
+
+        frameCount++;
 
         __rendering = false;
     }

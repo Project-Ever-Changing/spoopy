@@ -7,3 +7,28 @@ enum class PrimTopologyType {
     TriangleList = 3,
     PatchList = 4
 };
+
+#ifdef SPOOPY_VULKAN
+
+enum class BackendType {
+    RenderPass,
+    Buffer,
+    BufferView,
+    Image,
+    ImageView,
+    Pipeline,
+    PipelineLayout,
+    Framebuffer,
+    DescriptorSetLayout,
+    Sampler,
+    Semaphore,
+    ShaderModule,
+    Event,
+    ResourceAllocation,
+    DeviceMemoryAllocation,
+    BufferSuballocation,
+    AccelerationStructure,
+    BindlessHandle,
+};
+
+#endif

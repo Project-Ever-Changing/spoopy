@@ -4,7 +4,12 @@ import spoopy.utils.destroy.SpoopyDestroyable;
 import spoopy.graphics.SpoopyGraphicsModule;
 import spoopy.backend.native.SpoopyNativeCFFI;
 
-class SpoopySemaphore implements ISpoopyDestroyable {
+/*
+* CAREFUL: Do not de-allocate the semaphore regularaly!
+* YOU MUST: Use the `destroy()` method to de-allocate the semaphore safely then `semaphore = null.`
+*/
+
+class SpoopySemaphore implements ISpoopyDestroyable implements  {
     @:noCompletion private var __handle:SpoopySemaphoreBackend;
     @:noCompletion private var __module:SpoopyGraphicsModule;
 

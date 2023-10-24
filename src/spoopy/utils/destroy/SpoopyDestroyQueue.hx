@@ -32,12 +32,20 @@ class SpoopyDestroyQueue<T:ISpoopyDestroyable> {
         }
     }
 
-    public function ReleaseItems():Void {
+    public function ReleaseItems(deleteImmediately:Bool):Void {
         #if !web
         var lock = new Lock();
         #end
 
-        
+        var curr = head;
+
+        while(!isEmpty() && curr != null) {
+            curr.item.destroy();
+
+            var next = curr.next;
+            dequeue();
+            curr = next;
+        }
     }
 
     public function isEmpty():Bool {
