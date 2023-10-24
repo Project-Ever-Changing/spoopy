@@ -220,6 +220,7 @@ namespace lime { namespace spoopy {
         Entry* _entry = new Entry(*context->GetQueue());
         return CFFIPointer(_entry, spoopy_gc_entry);
     }
+    DEFINE_PRIME1(spoopy_create_entry);
 
     void spoopy_pipeline_set_input_assembly(value pipeline, int topology) {
         Pipeline* _pipeline = (Pipeline*)val_data(pipeline);
@@ -234,6 +235,12 @@ namespace lime { namespace spoopy {
         _pipeline->SetVertexInput(*_memoryReader);
     }
     DEFINE_PRIME2v(spoopy_pipeline_set_vertex_input);
+
+    bool spoopy_entry_is_gpu_operation_complete(value entry) {
+        Entry* _entry = (Entry*)val_data(entry);
+        return _entry->IsGPUOperationComplete();
+    }
+    DEFINE_PRIME1(spoopy_entry_is_gpu_operation_complete);
 
     int spoopy_get_memory_length(value memory_reader) {
         MemoryReader* _memoryReader = (MemoryReader*)val_data(memory_reader);
