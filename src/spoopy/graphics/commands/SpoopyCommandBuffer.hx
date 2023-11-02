@@ -3,7 +3,7 @@ package spoopy.graphics.commands;
 import spoopy.window.IWindowHolder;
 import spoopy.backend.native.SpoopyNativeCFFI;
 import spoopy.utils.destroy.SpoopyDestroyable;
-import spoopy.graphics.SpoopySemaphore;
+import spoopy.graphics.modules.SpoopyGPUObject;
 
 @:allow(spoopy.graphics.commands.SpoopyCommandPool)
 class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
@@ -13,8 +13,8 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
     @:noCompletion private var __parent:SpoopyCommandPool<T>;
     @:noCompletion private var __handle:SpoopyCommandBufferBackend;
     @:noCompletion private var __state:SpoopyCommandState;
-    @:noCompletion private var __waitSemaphores:Array<SpoopySemaphore>;
-    @:noCompletion private var __signalSemaphores:Array<SpoopySemaphore>;
+    @:noCompletion private var __waitSemaphores:Array<SpoopyGPUObject>;
+    @:noCompletion private var __signalSemaphores:Array<SpoopyGPUObject>;
 
     private function new(parent:SpoopyCommandPool<T>, begin:Bool = true) {
         __state = WAITING_FOR_BEGIN;

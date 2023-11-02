@@ -7,6 +7,7 @@ import spoopy.utils.SpoopyLogger;
 import haxe.ds.ObjectMap;
 import spoopy.graphics.state.SpoopyStateManager;
 import spoopy.graphics.modules.SpoopyEntry;
+import spoopy.graphics.modules.SpoopyGPUObject;
 import lime.app.Application;
 import lime.ui.Window;
 import lime.graphics.RenderContextAttributes;
@@ -20,6 +21,7 @@ import lime.math.Matrix3;
 
 @:access(spoopy.graphics.SpoopyWindowContext)
 class SpoopyGraphicsModule implements IWindowModule {
+    public var window(get, never):Window;
     public var frameCount(default, null):UInt = 0;
 
     @:noCompletion private var __backend:BackendGraphicsModule;
@@ -42,13 +44,14 @@ class SpoopyGraphicsModule implements IWindowModule {
     * Helpful wrapper methods
     */
 
-    public function enqueueDeletionObj(item:ISpoopyDestroyable, frame:UInt):Void {
+    public function enqueueDeletionObj(item:SpoopyGPUObject, frame:UInt):Void {
         if(item == null) {
             SpoopyLogger.error("The item is null! Unable to enqueue deletion.");
             return;
         }
 
         var entry = new SpoopyEntry(item, frame);
+        __deletionQueue.enqueue(entry);
     }
 
 
@@ -112,6 +115,10 @@ class SpoopyGraphicsModule implements IWindowModule {
 
     @:noCompletion private function __unregisterWindowModule(window:Window):Void {
         __context = null;
+    }
+
+    @:noCompletion private function get_window():Window {
+        return __context.window;
     }
 }
 
