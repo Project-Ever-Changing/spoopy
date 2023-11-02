@@ -1,5 +1,7 @@
 package spoopy.utils.destroy;
 
+import spoopy.utils.destroy.SpoopyDestroyable;
+
 #if !web
 import sys.thread.Lock;
 #end
