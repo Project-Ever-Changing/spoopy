@@ -26,7 +26,7 @@ class SpoopyGPUObject implements ISpoopyDestroyable {
     }
 
     public function destroy():Void {
-        __module.enqueueDeletionObj(this);
+        __module.enqueueDeletionObj(this, __module.frameCount);
     }
 
     @:allow(spoopy.graphics.modules.SpoopyEntry)
