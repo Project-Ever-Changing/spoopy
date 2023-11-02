@@ -68,7 +68,7 @@ class SpoopyDestroyQueue<T:ISpoopyDestroyable> {
     }
 }
 
-private typedef Node<T> = {
-    private var item:T;
-    private var next:Node<T>;
+private typedef Node<T:ISpoopyDestroyable> = {
+    var item:T;
+    var next:Node<T>;
 }
