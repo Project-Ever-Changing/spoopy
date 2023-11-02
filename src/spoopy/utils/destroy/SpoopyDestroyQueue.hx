@@ -17,6 +17,12 @@ class SpoopyDestroyQueue<T:ISpoopyDestroyable> {
     private var head:Node<T>;
     private var tail:Node<T>;
 
+    public function new() {
+        head = null;
+        tail = null;
+    }
+    
+
     // Consideration: Add a `size` or `length` variable to signify how large the queue is, but what's the point?
 
     public function enqueue(item:T):Void {

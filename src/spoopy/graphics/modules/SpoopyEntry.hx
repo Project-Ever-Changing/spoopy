@@ -28,7 +28,7 @@ class SpoopyEntry implements ISpoopyDestroyable {
     }
 
     public function destroy() {
-        var checkFrame = __module.frameCounter - SpoopyApplication.NUM_FRAMES_WAIT_UNTIL_DELETE;
+        var checkFrame = __module.frameCount - SpoopyApplication.NUM_FRAMES_WAIT_UNTIL_DELETE;
 
         if(checkFrame > frameCounter && isGPUOperationComplete()) {
             item.flush();
@@ -43,7 +43,7 @@ class SpoopyEntry implements ISpoopyDestroyable {
     private inline function isGPUOperationComplete():Bool {
         
         // TODO: If OpenGL, then have an actual method.
-        return SpoopyNativeCFFI.spoopy_is_entry_complete(__handle);
+        return SpoopyNativeCFFI.spoopy_entry_is_gpu_operation_complete(__handle);
     }
 }
 

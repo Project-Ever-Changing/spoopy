@@ -50,7 +50,7 @@ class SpoopyGraphicsModule implements IWindowModule {
             return;
         }
 
-        var entry = new SpoopyEntry(item, frame);
+        var entry = new SpoopyEntry(this, __context, frame, item);
         __deletionQueue.enqueue(entry);
     }
 
