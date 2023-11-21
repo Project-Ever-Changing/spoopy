@@ -55,9 +55,9 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME2v(spoopy_pipeline_set_vertex_input);
 
-    void spoopy_dealloc_gpu_cffi_handle(int type, value handle) { // Pure CFFIPointer Deallocator
+    void spoopy_dealloc_gpu_cffi_pointer(int type, value pointer) { // Pure CFFIPointer Deallocator
         switch((BackendType)type) {
-            #define CASE(x) case BackendType::x: { x* buffer = (x*)val_data(handle); delete buffer; break; }
+            #define CASE(x) case BackendType::x: { x* buffer = (x*)val_data(pointer); delete buffer; break; }
 
             CASE(Semaphore);
             CASE(Pipeline);
@@ -69,5 +69,5 @@ namespace lime { namespace spoopy {
             #undef CASE
         }
     }
-    DEFINE_PRIME2v(spoopy_dealloc_gpu_cffi_handle);
+    DEFINE_PRIME2v(spoopy_dealloc_gpu_cffi_pointer);
 }}
