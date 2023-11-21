@@ -8,9 +8,7 @@
 #include "graphics/vulkan/GraphicsVulkan.h"
 #include "graphics/vulkan/ContextStage.h"
 #include "graphics/vulkan/RenderPassVulkan.h"
-#include "graphics/vulkan/PipelineVulkan.h"
 #include "graphics/vulkan/components/CommandPoolVulkan.h"
-#include "graphics/vulkan/components/SemaphoreVulkan.h"
 #include "graphics/vulkan/CommandBufferVulkan.h"
 #include "graphics/vulkan/QueueVulkan.h"
 #include "graphics/vulkan/EntryVulkan.h"
@@ -18,10 +16,8 @@
 
 typedef lime::spoopy::GraphicsVulkan GraphicsModule;
 typedef lime::spoopy::RenderPassVulkan RenderPass;
-typedef lime::spoopy::PipelineVulkan Pipeline;
 typedef lime::spoopy::CommandPoolVulkan CommandPool;
 typedef lime::spoopy::CommandBufferVulkan CommandBuffer;
-typedef lime::spoopy::SemaphoreVulkan Semaphore;
 typedef std::shared_ptr<lime::spoopy::QueueVulkan> Queue;
 typedef lime::spoopy::EntryVulkan Entry;
 #endif
@@ -137,11 +133,6 @@ namespace lime { namespace spoopy {
         delete _renderPass;
     }
 
-    void spoopy_gc_pipeline(value handle) {
-        Pipeline* _pipeline = (Pipeline*)val_data(handle);
-        delete _pipeline;
-    }
-
     void spoopy_gc_command_pool(value handle) {
         CommandPool* _commandPool = (CommandPool*)val_data(handle);
         delete _commandPool;
@@ -155,11 +146,6 @@ namespace lime { namespace spoopy {
     void spoopy_gc_memory_reader(value handle) {
         MemoryReader* _memoryReader = (MemoryReader*)val_data(handle);
         delete _memoryReader;
-    }
-
-    void spoopy_gc_semaphore(value handle) {
-        Semaphore* _semaphore = (Semaphore*)val_data(handle);
-        delete _semaphore;
     }
 
     void spoopy_gc_entry(value handle) {
@@ -183,12 +169,6 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME2(spoopy_create_memory_reader);
 
-    value spoopy_create_pipeline() {
-        Pipeline *_pipeline = new Pipeline(*GraphicsModule::GetCurrent()->GetLogicalDevice());
-        return CFFIPointer(_pipeline, spoopy_gc_pipeline);
-    }
-    DEFINE_PRIME0(spoopy_create_pipeline);
-
     value spoopy_create_command_pool(value window_handle) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
@@ -206,12 +186,6 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME2(spoopy_create_command_buffer);
 
-    value spoopy_create_semaphore() {
-        Semaphore* _semaphore = new Semaphore(*GraphicsModule::GetCurrent()->GetLogicalDevice());
-        return CFFIPointer(_semaphore, spoopy_gc_semaphore);
-    }
-    DEFINE_PRIME0(spoopy_create_semaphore);
-
     value spoopy_create_entry(value window_handle) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
@@ -221,20 +195,6 @@ namespace lime { namespace spoopy {
         return CFFIPointer(_entry, spoopy_gc_entry);
     }
     DEFINE_PRIME1(spoopy_create_entry);
-
-    void spoopy_pipeline_set_input_assembly(value pipeline, int topology) {
-        Pipeline* _pipeline = (Pipeline*)val_data(pipeline);
-        _pipeline->SetInputAssembly((PrimTopologyType)topology);
-    }
-    DEFINE_PRIME2v(spoopy_pipeline_set_input_assembly);
-
-    void spoopy_pipeline_set_vertex_input(value pipeline, value memory_reader) {
-        MemoryReader* _memoryReader = (MemoryReader*)val_data(memory_reader);
-        Pipeline* _pipeline = (Pipeline*)val_data(pipeline);
-
-        _pipeline->SetVertexInput(*_memoryReader);
-    }
-    DEFINE_PRIME2v(spoopy_pipeline_set_vertex_input);
 
     bool spoopy_entry_is_gpu_operation_complete(value entry) {
         Entry* _entry = (Entry*)val_data(entry);

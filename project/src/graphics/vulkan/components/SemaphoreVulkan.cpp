@@ -6,8 +6,8 @@
 
 namespace lime { namespace spoopy {
     SemaphoreVulkan::SemaphoreVulkan(const LogicalDevice &device):
-    device(device),
-    semaphore(VK_NULL_HANDLE) {
+    BufferWrapper(device),
+    semaphore(handle) {
         VkSemaphoreCreateInfo semaphoreInfo = {};
         semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
         checkVulkan(vkCreateSemaphore(device, &semaphoreInfo, nullptr, &semaphore));

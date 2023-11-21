@@ -11,24 +11,8 @@ enum class PrimTopologyType {
 #ifdef SPOOPY_VULKAN
 
 enum class BackendType {
-    RenderPass,
-    Buffer,
-    BufferView,
-    Image,
-    ImageView,
-    Pipeline,
-    PipelineLayout,
-    Framebuffer,
-    DescriptorSetLayout,
-    Sampler,
-    Semaphore,
-    ShaderModule,
-    Event,
-    ResourceAllocation,
-    DeviceMemoryAllocation,
-    BufferSuballocation,
-    AccelerationStructure,
-    BindlessHandle,
+    Pipeline = 0,
+    Semaphore = 1,
 };
 
 #endif

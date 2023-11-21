@@ -3,6 +3,7 @@
 #include "../../helpers/SpoopyHelpersVulkan.h"
 
 #include <graphics/Enums.h>
+#include <graphics/BufferWrapper.h>
 #include <math/Rectangle.h>
 #include <math/Vector2T.h>
 
@@ -15,9 +16,9 @@ namespace lime { namespace spoopy {
     class PipelineShader;
     class MemoryReader;
 
-    class PipelineVulkan {
+    class PipelineVulkan: BufferWrapper<VkPipeline> {
         public:
-            PipelineVulkan(VkDevice device, bool pushDescriptors = false);
+            PipelineVulkan(const LogicalDevice &device, bool pushDescriptors = false);
             ~PipelineVulkan();
 
             void CreateGraphicsPipeline(std::unique_ptr<PipelineShader> pipeline, VkRenderPass renderPass,
@@ -50,10 +51,10 @@ namespace lime { namespace spoopy {
             std::vector<VkPipelineColorBlendAttachmentState> colorBlendAttachments;
 
         protected:
-            VkDevice device;
+            VkPipeline& pipeline;
+
             bool pushDescriptors;
 
-            VkPipeline pipeline = VK_NULL_HANDLE;
             VkPipelineLayout pipelineLayout = VK_NULL_HANDLE;
             VkCullModeFlags cullMode = VK_CULL_MODE_NONE;
             VkFrontFace frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;

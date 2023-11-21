@@ -9,7 +9,10 @@
 #include <algorithm>
 
 namespace lime { namespace spoopy {
-    PipelineVulkan::PipelineVulkan(VkDevice device, bool pushDescriptors): device(device), pushDescriptors(pushDescriptors) {
+    PipelineVulkan::PipelineVulkan(const LogicalDevice &device, bool pushDescriptors)
+    : BufferWrapper(device)
+    , pipeline(handle)
+    , pushDescriptors(pushDescriptors) {
         viewportAndScissorState = {};
         viewportAndScissorState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
     }
