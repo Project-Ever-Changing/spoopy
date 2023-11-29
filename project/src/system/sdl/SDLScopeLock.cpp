@@ -6,7 +6,7 @@ namespace lime { namespace spoopy {
     }
 
     ScopeLock::~ScopeLock() {
-        mutex.Unlock();
+        mutex->Unlock();
         mutex = nullptr;
     }
 }}
