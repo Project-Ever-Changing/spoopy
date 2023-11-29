@@ -12,6 +12,6 @@ namespace lime { namespace spoopy {
             ScopeLock& operator=(const ScopeLock&) = delete;
 
         private:
-            Mutex* mutex;
+            const Mutex* mutex;
     };
 }}
