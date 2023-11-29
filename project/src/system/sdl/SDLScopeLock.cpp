@@ -1,7 +1,7 @@
 #include <system/ScopeLock.h>
 
 namespace lime { namespace spoopy {
-    ScopeLock::ScopeLock() {
+    ScopeLock::ScopeLock(const Mutex& mutex) : mutex(&mutex) {
         mutex->Lock();
     }
 
