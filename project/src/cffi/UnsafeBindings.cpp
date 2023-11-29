@@ -17,7 +17,6 @@
 
 #ifdef SPOOPY_VULKAN
 
-
 #include "../graphics/vulkan/GraphicsVulkan.h"
 #include "../graphics/vulkan/components/SemaphoreVulkan.h"
 #include "../graphics/vulkan/PipelineVulkan.h"

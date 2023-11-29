@@ -102,6 +102,7 @@
 		    <compilerflag value="-Iref/vk" />
 
 		    <file name="ref/vk/vk_mem_alloc.cpp" />
+		    <file name="src/system/sdl/SDLScopeLock.cpp" />
 		    <file name="src/graphics/vulkan/shaders/PipelineShader.cpp" />
 		    <file name="src/graphics/vulkan/shaders/Shader.cpp" />
 		    <file name="src/graphics/vulkan/images/Image.cpp" />
