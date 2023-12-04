@@ -138,7 +138,7 @@ class RunScript {
                 Log.error("Could not find the spoopy alias script. You can try 'haxelib selfupdate' and run setup again.");
             }
         }else {
-            @:final var binPath = if (FileSys.isMac) "/usr/local/bin" else "/usr/bin";
+            @:final var binPath = Sys.getEnv('HAXEPATH') ?? (if (FileSys.isMac) "/usr/local/bin" else "/usr/bin");
             
             var shellScript = Sys.getCwd();
             shellScript = PathUtils.combine(shellScript, "bin");
