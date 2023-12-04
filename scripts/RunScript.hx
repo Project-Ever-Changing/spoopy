@@ -120,11 +120,7 @@ class RunScript {
         }
         
         if(FileSys.isWindows) {
-            var haxePath:String = Sys.getEnv("HAXEPATH");
-
-            if (haxePath == null || haxePath == "") {
-                haxePath = "C:\\HaxeToolkit\\haxe\\";
-            }
+            var haxePath:String = Sys.getEnv("HAXEPATH") ?? "C:/HaxeToolkit/haxe/";
 
             @:final var batchFile:String = "spoopy.bat";
 
