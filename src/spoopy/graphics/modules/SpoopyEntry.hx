@@ -4,7 +4,7 @@ import spoopy.window.IWindowHolder;
 import spoopy.graphics.SpoopyGraphicsModule;
 import spoopy.backend.native.SpoopyNativeCFFI;
 import spoopy.utils.destroy.SpoopyDestroyable;
-import spoopy.app.SpoopyApplication;
+import spoopy.app.SpoopyEngine;
 
 /*
 * A wrapper for the wrappers to indicate the last frame before the object was deleted.

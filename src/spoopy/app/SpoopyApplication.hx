@@ -12,7 +12,6 @@ import haxe.ds.ObjectMap;
 
 @:access(spoopy.window.IWindowModule)
 class SpoopyApplication extends Application {
-    public static var windowModules:ObjectMap<Window, IWindowModule>;
 
     /*
 	* A list of active Window module instances associated with this Application.
