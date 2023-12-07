@@ -28,7 +28,7 @@ class SpoopyEntry implements ISpoopyDestroyable {
     }
 
     public function destroy() {
-        var checkFrame = __module.frameCount - SpoopyApplication.NUM_FRAMES_WAIT_UNTIL_DELETE;
+        var checkFrame = __module.frameCount - SpoopyEngine.NUM_FRAMES_WAIT_UNTIL_DELETE;
 
         if(checkFrame > frameCounter && isGPUOperationComplete()) {
             item.flush();
