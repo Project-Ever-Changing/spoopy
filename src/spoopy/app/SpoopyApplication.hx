@@ -13,16 +13,6 @@ import haxe.ds.ObjectMap;
 @:access(spoopy.window.IWindowModule)
 class SpoopyApplication extends Application {
 
-    /*
-    * The number of frames to wait before deleting a node off the queue.
-    */
-    public static var NUM_FRAMES_WAIT_UNTIL_DELETE:UInt = 3;
-    
-    /*
-	* A list of active Window module instances associated with this Application.
-	*/
-	public var windowModules(default, null):ObjectMap<Window, IWindowModule>;
-
     public static function getTimer():Int {
         return System.getTimer();
     }
