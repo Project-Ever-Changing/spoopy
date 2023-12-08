@@ -6,7 +6,7 @@ import lime.app.IModule;
 import lime.app.Application;
 
 class SpoopyEngine implements IModule {
-    private var cpuLimiterEnabled(default, null);
+    private var cpuLimiterEnabled(default, null):Bool;
 
     /*
     * The number of frames to wait before deleting a node off the queue.
