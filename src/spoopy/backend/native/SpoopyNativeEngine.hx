@@ -8,4 +8,8 @@ class SpoopyNativeEngine {
     @:noCompletion private static function main(cpuLimiterEnabled:Bool) {
         // main
     }
+
+    @:noCompletion private static function shutdown() {
+        // shutdown
+    }
 }
