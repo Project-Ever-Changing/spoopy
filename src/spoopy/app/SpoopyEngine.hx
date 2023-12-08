@@ -6,7 +6,7 @@ import lime.app.IModule;
 import lime.app.Application;
 
 class SpoopyEngine implements IModule {
-    public var cpuLimiterEnabled(default, set);
+    private var cpuLimiterEnabled(default, null);
 
     /*
     * The number of frames to wait before deleting a node off the queue.
@@ -17,19 +17,19 @@ class SpoopyEngine implements IModule {
         this.cpuLimiterEnabled = cpuLimiterEnabled;
     }
 
+    /*
+    * It's important to be thread safe here, so I need to plan this out.
+    */
+    public inline function enableCPULimiter(value:Bool):Void {
+        cpuLimiterEnabled = value;
+    }
+
     @:noCompletion private function __registerLimeModule(app:Application):Bool {
         SpoopyEngineBackend.main(this.cpuLimiterEnabled);
     }
 
     @:noCompletion private function __unregisterLimeModule(app:Application):Bool {
         SpoopyEngineBackend.shutdown();
-    }
-
-    /*
-    * It's important to be thread safe here, so I need to plan this out.
-    */
-    @:noCompletion private inline function set_cpuLimiterEnabled(value:Bool):Bool {
-        return value;
     }
 }
 
