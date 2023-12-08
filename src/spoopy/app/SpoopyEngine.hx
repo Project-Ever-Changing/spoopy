@@ -24,11 +24,11 @@ class SpoopyEngine implements IModule {
         cpuLimiterEnabled = value;
     }
 
-    @:noCompletion private function __registerLimeModule(app:Application):Bool {
+    @:noCompletion private function __registerLimeModule(app:Application):Void {
         SpoopyEngineBackend.main(this.cpuLimiterEnabled);
     }
 
-    @:noCompletion private function __unregisterLimeModule(app:Application):Bool {
+    @:noCompletion private function __unregisterLimeModule(app:Application):Void {
         SpoopyEngineBackend.shutdown();
     }
 }
