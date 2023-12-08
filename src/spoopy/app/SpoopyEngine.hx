@@ -28,8 +28,8 @@ class SpoopyEngine implements IModule {
     /*
     * It's important to be thread safe here, so I need to plan this out.
     */
-    @:noCompletion private function set_cpuLimiterEnabled(value:Bool):Bool {
-        return cpuLimiterEnabled = value;
+    @:noCompletion private inline function set_cpuLimiterEnabled(value:Bool):Bool {
+        return value;
     }
 }
 
