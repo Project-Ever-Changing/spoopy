@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Mutex.h>
+#include <system/Mutex.h>
 
 namespace lime { namespace spoopy {
     class ScopeLock {
