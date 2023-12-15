@@ -13,7 +13,7 @@ class SpoopyEngine implements IModule {
     */
     public static var NUM_FRAMES_WAIT_UNTIL_DELETE(default, null):UInt = 3;
 
-    @:allow(spoopy.app.SpoopyApplication) private function new(?cpuLimiterEnabled:Bool = true) {
+    @:allow(spoopy.app.SpoopyApplication) private function new(updateFPS:Float = 60, drawFPS:Float = 60, cpuLimiterEnabled:Bool = true) {
         this.cpuLimiterEnabled = cpuLimiterEnabled;
     }
 

@@ -130,6 +130,8 @@
 		</section>
 
         <file name="src/utils/MemoryReader.cpp" />
+        <file name="src/utils/Time.cpp" />
+        <file name="src/core/Engine.cpp" />
         <file name="src/cffi/UnsafeBindings.cpp" />
         <file name="src/graphics/EmptyOpenGL.cpp" unless="LIME_OPENGL"/>
         <file name="src/graphics/Viewport.cpp" />
