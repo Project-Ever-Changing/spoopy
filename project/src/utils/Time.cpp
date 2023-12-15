@@ -5,7 +5,7 @@
 namespace lime { namespace spoopy {
     float Timer::TimeScale = 1.0f;
 
-    double Timer::GetTimeSeconds() {
+    inline double Timer::GetTimeSeconds() {
         return SDL_GetTicks64() * 0.001;
     }
 
@@ -32,14 +32,14 @@ namespace lime { namespace spoopy {
         NextBegin = LastBegin + reciprocalTargetFPS;
     }
 
-    void Timer::OnBeforeRun() {
+    inline void Timer::OnBeforeRun() {
         const double time = GetTimeSeconds();
 
         UpdateTick.OnBeforeRun(ReciprocalUpdateFPS, time);
         DrawTick.OnBeforeRun(ReciprocalDrawFPS, time);
     }
 
-    double Timer::GetNextTick() {
+    inline double Timer::GetNextTick() {
         double nextTick = MAX_DOUBLE;
 
         if (UpdateFPS > EPSILON && UpdateTick.NextBegin < nextTick) nextTick = UpdateTick.NextBegin;
