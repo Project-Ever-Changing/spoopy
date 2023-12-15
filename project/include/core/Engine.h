@@ -7,20 +7,25 @@
 namespace lime { namespace spoopy {
     class Engine {
         public:
-            static inline void Main(bool __cpuLimiterEnabled);
-            static inline void Apply(float updateFPS, float drawFPS, float timeScale);
+            Engine();
+
+            void Main(bool __cpuLimiterEnabled);
+            void Apply(float updateFPS, float drawFPS, float timeScale);
             // static void Apply(float updateFPS, float drawFPS, float physicsFPS, float timeScale); --TODO: Implement physics
+            void RequestExit();
 
-            static inline void RequestExit();
+            bool RanMain() { return ranMain; }
 
-            static inline bool ShouldQuit();
+            static Engine *GetInstance() { return INSTANCE; }
 
+            static bool ShouldQuit() { return requestingExit; }
+            static bool IsCpuLimiterEnabled() { return cpuLimiterEnabled; }
         private:
-            static inline int Run(void* data);
+            SDL_Thread* renderThread;
+            Mutex engineMutex;
+            bool ranMain;
 
-            static SDL_Thread* renderThread;
-
-            static Mutex engineMutex;
+            static Engine* INSTANCE;
             static bool cpuLimiterEnabled;
             static bool requestingExit;
     };

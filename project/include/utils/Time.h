@@ -53,16 +53,16 @@ namespace lime { namespace spoopy {
         /*
          * Get the current time in seconds.
          */
-        static inline double GetTimeSeconds();
+        static double GetTimeSeconds();
 
         /*
          * Get the time of the upcoming tick.
          */
-        static inline double GetNextTick();
+        static double GetNextTick();
 
         /*
          * Set up the timer before the engine starts running.
          */
-        static inline void OnBeforeRun();
+        static void OnBeforeRun();
     };
 }}
