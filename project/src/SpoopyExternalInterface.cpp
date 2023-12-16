@@ -1,6 +1,7 @@
 #include <system/CFFI.h>
 #include <system/CFFIPointer.h>
 #include <utils/MemoryReader.h>
+#include <core/Engine.h>
 #include <sdl_definitions_config.h>
 #include <SDLWindow.h>
 
@@ -221,4 +222,33 @@ namespace lime { namespace spoopy {
     DEFINE_PRIME1(spoopy_get_memory_position);
 
     #endif
+
+
+    /*
+     * Engine API
+     */
+
+    extern "C" {
+
+        void spoopy_engine_main(bool cpuLimiterEnabled, value updateCallback, value drawCallback) {
+            if (Engine::GetInstance()->RanMain()) {
+                SPOOPY_LOG_ERROR("Engine is already running!");
+                return;
+            }
+
+            if (!val_is_function(updateCallback)) {
+                SPOOPY_LOG_ERROR("Update callback is not a function!");
+                return;
+            }
+
+            if (!val_is_function(drawCallback)) {
+                SPOOPY_LOG_ERROR("Draw callback is not a function!");
+                return;
+            }
+
+            Engine::GetInstance()->Main(cpuLimiterEnabled, updateCallback, drawCallback);
+        }
+        DEFINE_PRIME3v(spoopy_engine_main);
+
+    }
 }}

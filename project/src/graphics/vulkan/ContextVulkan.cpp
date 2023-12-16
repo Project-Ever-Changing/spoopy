@@ -18,8 +18,8 @@ namespace lime { namespace spoopy {
 
     void ContextVulkan::RecreateSwapchain(const PhysicalDevice &physicalDevice, const LogicalDevice &logicalDevice,
         const VkExtent2D &extent, const SwapchainVulkan *oldSwapchain) {
-        swapchain.reset();
-        swapchain = std::make_unique<SwapchainVulkan>(physicalDevice, *surface, logicalDevice, extent, oldSwapchain, sync);
+        //swapchain.reset();
+        //swapchain = std::make_unique<SwapchainVulkan>(physicalDevice, *surface, logicalDevice, extent, oldSwapchain, sync);
     }
 
     void ContextVulkan::DestroySwapchain() {
@@ -32,7 +32,8 @@ namespace lime { namespace spoopy {
             return VK_ERROR_INITIALIZATION_FAILED;
         }
 
-        return swapchain->AcquireNextImage(presentCompleteSemaphore, fence);
+        //return swapchain->AcquireNextImage(presentCompleteSemaphore, fence);
+        return VK_SUCCESS;
     }
 
     uint32_t ContextVulkan::GetImageCount() const {
@@ -41,6 +42,7 @@ namespace lime { namespace spoopy {
             return 0;
         }
 
-        return swapchain->GetImageCount();
+        //return swapchain->GetImageCount();
+        return 0;
     }
 }}

@@ -9,6 +9,7 @@ namespace lime { namespace spoopy {
     bool Engine::requestingExit = false;
 
     static int Run(void* data) {
+        ThreadData* threadData = static_cast<ThreadData*>(data);
         Timer::OnBeforeRun();
 
         while(!Engine::ShouldQuit()) {
@@ -22,22 +23,47 @@ namespace lime { namespace spoopy {
             if(Timer::UpdateTick.OnTickBegin(Timer::ReciprocalUpdateFPS, MAX_UPDATE_DELTA_TIME)) {
                 // Updater
                 SPOOPY_LOG_INFO("Updater");
+                threadData->updateCallback->Call();
             }
         }
+
+        delete threadData->updateCallback;
+        delete threadData->drawCallback;
+        delete threadData;
 
         return 0;
     }
 
-
     Engine::Engine(): ranMain(false) {}
 
-    void Engine::Main(bool __cpuLimiterEnabled) {
+    void Engine::Main(bool __cpuLimiterEnabled, value updateCallback, value drawCallback) {
         if(ranMain) return;
 
         cpuLimiterEnabled = __cpuLimiterEnabled;
         requestingExit = false;
 
-        renderThread = SDL_CreateThread(Run, "RenderThread", nullptr);
+        ThreadData* data = new ThreadData();
+        data->updateCallback = new ValuePointer(updateCallback);
+        data->drawCallback = new ValuePointer(updateCallback);
+
+        renderThread = SDL_CreateThread(Run, "RenderThread", data);
+        ranMain = true;
+    }
+
+    /*
+     * I got lazy
+     */
+    void Engine::Main(bool __cpuLimiterEnabled, vclosure* updateCallback, vclosure* drawCallback) {
+        if(ranMain) return;
+
+        cpuLimiterEnabled = __cpuLimiterEnabled;
+        requestingExit = false;
+
+        ThreadData* data = new ThreadData();
+        data->updateCallback = new ValuePointer(updateCallback);
+        data->drawCallback = new ValuePointer(updateCallback);
+
+        renderThread = SDL_CreateThread(Run, "RenderThread", data);
         ranMain = true;
     }
 

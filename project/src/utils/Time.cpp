@@ -12,7 +12,7 @@ namespace lime { namespace spoopy {
 
     Timer::TickStruct Timer::UpdateTick;
     Timer::TickStruct Timer::DrawTick;
-    
+
 
     double Timer::GetTimeSeconds() {
         return SDL_GetTicks64() * 0.001;
