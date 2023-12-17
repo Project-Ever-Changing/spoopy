@@ -40,6 +40,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_entry = new cpp.Callable<cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_entry", "oo", false));
     public static var spoopy_entry_is_gpu_operation_complete = new cpp.Callable<cpp.Object->Bool>(cpp.Prime._loadPrime("lime", "spoopy_entry_is_gpu_operation_complete", "ob", false));
     public static var spoopy_dealloc_gpu_cffi_pointer = new cpp.Callable<Int->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_dealloc_gpu_cffi_pointer", "iov", false));
+    public static var spoopy_engine_main = new cpp.Callable<Bool->cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_engine_main", "boov", false));
     #elseif (neko || cppia)
     public static var spoopy_check_graphics_module = CFFI.load("lime", "spoopy_check_graphics_module", 0);
     public static var spoopy_resize_graphics_context = CFFI.load("lime", "spoopy_resize_graphics_context", 2);
@@ -64,6 +65,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_entry = CFFI.load("lime", "spoopy_create_entry", 1);
     public static var spoopy_entry_is_gpu_operation_complete = CFFI.load("lime", "spoopy_entry_is_gpu_operation_complete", 1);
     public static var spoopy_dealloc_gpu_cffi_pointer = CFFI.load("lime", "spoopy_dealloc_gpu_cffi_pointer", 2);
+    public static var spoopy_engine_main = CFFI.load("lime", "spoopy_engine_main", 3);
     #else
     public static function spoopy_check_graphics_module():Void {
         return;
@@ -154,6 +156,10 @@ class SpoopyNativeCFFI {
     }
 
     public static function spoopy_dealloc_gpu_cffi_pointer(type:Int, handle:Dynamic):Void {
+        return;
+    }
+
+    public static function spoopy_engine_main(cpuLimiterEnabled:Bool, updateCallback:Dynamic, drawCallback:Dynamic):Void {
         return;
     }
     #end

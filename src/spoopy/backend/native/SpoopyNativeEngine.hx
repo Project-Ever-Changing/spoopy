@@ -5,8 +5,8 @@ package spoopy.backend.native;
 */
 @:allow(spoopy.app.SpoopyEngine)
 class SpoopyNativeEngine {
-    @:noCompletion private static function main(cpuLimiterEnabled:Bool) {
-        // main
+    @:noCompletion private static function main(cpuLimiterEnabled:Bool, updateCallback:Void->Void, renderCallback:Void->Void) {
+        SpoopyNativeCFFI.spoopy_engine_main(cpuLimiterEnabled, updateCallback, renderCallback);
     }
 
     @:noCompletion private static function shutdown() {
