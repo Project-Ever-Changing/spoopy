@@ -2,6 +2,7 @@ package spoopy.app;
 
 import spoopy.events.SpoopyEvent;
 import spoopy.events.SpoopyEventDispatcher;
+import spoopy.events.SpoopyUncaughtDispatcher;
 import spoopy.backend.native.SpoopyNativeEngine;
 import spoopy.utils.SpoopyLogger;
 
