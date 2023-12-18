@@ -13,13 +13,13 @@ class SpoopyEvent #if openfl extends Event #end {
     * The `ENTER_DRAW_FRAME` constant defines the value of the `type` property
     * of an `enterDrawFrame` event object.
     */
-    public static inline var ENTER_DRAW_FRAME:EventType<Event> = "enterDrawFrame";
+    public static inline var ENTER_DRAW_FRAME:EventType<SpoopyEvent> = "enterDrawFrame";
 
     /*
     * The `ENTER_UPDATE_FRAME` constant defines the value of the `type` property
     * of an `enterUpdateFrame` event object.
     */
-    public static inline var ENTER_UPDATE_FRAME:EventType<Event> = "enterUpdateFrame";
+    public static inline var ENTER_UPDATE_FRAME:EventType<SpoopyEvent> = "enterUpdateFrame";
 
 	@:noCompletion private static var __pool:ObjectPool<SpoopyEvent> = new ObjectPool<SpoopyEvent>(function() {
 		return new SpoopyEvent(null);
