@@ -1,6 +1,6 @@
 package spoopy.events;
 
-import spoopy.events.SpoopyEvent;
+import openfl.events.EventType;
 
 class SpoopyUncaughtDispatcher extends SpoopyEventDispatcher {
     @:noCompletion private var __enabled:Bool;
