@@ -15,7 +15,7 @@ class SpoopyEventDispatcher {
         if(listener == null) return;
 
         if(!__eventNameMap.exists(eventType)) {
-            __eventNameMap.set(eventType, new Array<String>());
+            __eventNameMap.set(eventType, []);
         }
 
         var __listener = new Listener(eventType, priority, listener);
@@ -26,7 +26,7 @@ class SpoopyEventDispatcher {
         }
 
         __eventListeners.set(eventName, __listener);
-        __addEventListenerByPriority(eventName, __eventNameMap.get(eventType));
+        __addEventListenerByPriority(eventName, __eventNameMap.get(eventType), priority:Int);
     }
 
     public function removeEventListener(eventName:String):Void {
@@ -43,7 +43,7 @@ class SpoopyEventDispatcher {
         return __eventNameMap.get(eventType).length > 0;
     }
 
-    @:noCompletion private function __addEventListenerByPriority(eventName:String, list:Array<String>):Void {
+    @:noCompletion private function __addEventListenerByPriority(eventName:String, list:Array<String>, priority:Int):Void {
         var numElements:Int = list.length;
 		var addAtPosition:Int = numElements;
 
@@ -76,7 +76,7 @@ class SpoopyEventDispatcher {
 
 private class Listener {
     public var priority:Int;
-    public var callback:Dynamic->Void;
+    public var listener:Dynamic->Void;
     public var eventType:String;
 
     public function new(eventType:String, priority:Int, listener:Dynamic->Void) {
