@@ -15,12 +15,14 @@ import lime.app.Application;
 @:access(spoopy.events.SpoopyEvent)
 @:access(spoopy.events.SpoopyUncaughtDispatcher)
 class SpoopyEngine implements IModule {
-    public static var INSTANCE(default, null):SpoopyEngine = new ;
+    public static var INSTANCE(default, null):SpoopyEngine = new SpoopyEngine();
 
     public var UPDATE_EVENT(default, null):SpoopyEvent;
     public var DRAW_EVENT(default, null):SpoopyEvent;
 
-    private var cpuLimiterEnabled(default, null):Bool;
+    public var cpuLimiterEnabled(default, null):Bool;
+    public var updateFramerate(default, null):Int;
+    public var drawFramerate(default, null):Int;
 
     @:noCompletion private var __eventDispatcher:SpoopyEventDispatcher;
     @:noCompletion private var __uncaughtDispatcher:SpoopyUncaughtDispatcher;
@@ -30,19 +32,16 @@ class SpoopyEngine implements IModule {
     */
     public static var NUM_FRAMES_WAIT_UNTIL_DELETE(default, null):UInt = 3;
 
-    private function new() {}
+    private function new() {
+        cpuLimiterEnabled = true;
+        updateFramerate = 60;
+        drawFramerate = 60;
+    }
 
-    public function init(updateFPS:Float = 60, drawFPS:Float = 60, cpuLimiterEnabled:Bool = true) {
+    public function update(updateFramerate:Float = 60, drawFPS:Float = 60, cpuLimiterEnabled:Bool = true) {
         this.cpuLimiterEnabled = cpuLimiterEnabled;
-
-        __eventDispatcher = new SpoopyEventDispatcher();
-        __uncaughtDispatcher = new SpoopyUncaughtDispatcher();
-
-        UPDATE_EVENT = SpoopyEvent.__pool.get();
-        UPDATE_EVENT.type = SpoopyEvent.ENTER_UPDATE_FRAME;
-
-        DRAW_EVENT = SpoopyEvent.__pool.get();
-        DRAW_EVENT.type = SpoopyEvent.ENTER_DRAW_FRAME;
+        this.updateFramerate = updateFramerate;
+        this.drawFramerate = drawFramerate;
     }
 
     /*
@@ -53,9 +52,16 @@ class SpoopyEngine implements IModule {
     }
 
     @:noCompletion private function __registerLimeModule(app:Application):Void {
+        __eventDispatcher = new SpoopyEventDispatcher();
+        __uncaughtDispatcher = new SpoopyUncaughtDispatcher();
+
+        UPDATE_EVENT = SpoopyEvent.__pool.get();
+        UPDATE_EVENT.type = SpoopyEvent.ENTER_UPDATE_FRAME;
+
+        DRAW_EVENT = SpoopyEvent.__pool.get();
+        DRAW_EVENT.type = SpoopyEvent.ENTER_DRAW_FRAME;
+
         SpoopyEngineBackend.main(this.cpuLimiterEnabled, __update, __draw);
-
-
     }
 
     @:noCompletion private function __unregisterLimeModule(app:Application):Void {
@@ -87,7 +93,7 @@ class SpoopyEngine implements IModule {
             __uncaughtDispatcher.__dispatch(event);
         }catch(e:Dynamic) {}
 
-        if(event.__preventThrowing) {
+        if(!event.__preventThrowing) {
             SpoopyLogger.error(haxe.CallStack.toString(haxe.CallStack.exceptionStack()));
             SpoopyLogger.error(e);
 
