@@ -1,5 +1,7 @@
 package spoopy.events;
 
+import spoopy.events.SpoopyEvent;
+
 class SpoopyUncaughtDispatcher extends SpoopyEventDispatcher {
     @:noCompletion private var __enabled:Bool;
     @:noCompletion private var __totalEvents:Array<String>;
