@@ -26,7 +26,7 @@ class SpoopyEventDispatcher {
         }
 
         __eventListeners.set(eventName, __listener);
-        __addEventListenerByPriority(eventName, __eventNameMap.get(eventType), priority:Int);
+        __addEventListenerByPriority(eventName, __eventNameMap.get(eventType), priority);
     }
 
     public function removeEventListener(eventName:String):Void {
