@@ -32,7 +32,7 @@ class SpoopyEvent #if openfl extends Event #end {
 
 	@:noCompletion private var __preventThrowing:Bool;
 
-    public function new(type:EventType<Event>) {
+    public function new(type:EventType<SpoopyEvent>) {
         this.type = type;
 		this.__preventThrowing = false;
     }
