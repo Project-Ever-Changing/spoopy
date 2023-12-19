@@ -2,7 +2,10 @@
 
 #include <system/ValuePointer.h>
 #include <core/Log.h>
-#include <hxcpp.h>
+
+namespace hx {
+    class Object;
+}
 
 namespace lime { namespace spoopy {
     class CallbackPointer: public ValuePointer {
@@ -11,13 +14,11 @@ namespace lime { namespace spoopy {
             CallbackPointer(vobj* handle): ValuePointer(handle) {};
             CallbackPointer(vdynamic* handle): ValuePointer(handle) {};
             CallbackPointer(vclosure* handle): ValuePointer(handle) {};
-            ~CallbackPointer();
+            ~CallbackPointer() {}
 
             void CallRaw();
 
         private:
             void* CallRaw(hx::Object* arg1);
-    };
-
     };
 }}

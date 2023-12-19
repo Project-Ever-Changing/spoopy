@@ -1,13 +1,10 @@
 #include <system/CallbackPointer.h>
+#include <hxcpp.h>
 
 namespace lime { namespace spoopy {
-    CallbackPointer::~CallbackPointer() {
-        ~ValuePointer();
-    }
-
     void CallbackPointer::CallRaw() {
-        if(valuePointer->hlValue != NULL) {
-            Call((hx::Object*)valuePointer->Get());
+        if(IsCFFIValue()) {
+            CallRaw((hx::Object*)this->Get());
         }else {
             // Empty
         }
