@@ -57,8 +57,7 @@ namespace lime { namespace spoopy {
         data->updateCallback = new ValuePointer(updateCallback);
         data->drawCallback = new ValuePointer(drawCallback);
 
-        Run(data);
-        //renderThread = SDL_CreateThread(Run, "RenderThread", data);
+        renderThread = SDL_CreateThread(Run, "RenderThread", data);
         ranMain = true;
     }
 
@@ -75,9 +74,7 @@ namespace lime { namespace spoopy {
         data->updateCallback = new ValuePointer(updateCallback);
         data->drawCallback = new ValuePointer(updateCallback);
 
-
-        Run(data);
-        //renderThread = SDL_CreateThread(Run, "RenderThread", data);
+        renderThread = SDL_CreateThread(Run, "RenderThread", data);
         ranMain = true;
     }
 
