@@ -41,9 +41,9 @@ namespace lime { namespace spoopy {
 
         threadData->updateCallback->Call();
 
-        delete threadData->updateCallback;
-        delete threadData->drawCallback;
-        delete threadData;
+        //delete threadData->updateCallback;
+        //delete threadData->drawCallback;
+        //delete threadData;
 
         return 0;
     }
