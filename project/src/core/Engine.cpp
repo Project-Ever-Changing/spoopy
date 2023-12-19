@@ -10,15 +10,15 @@ namespace lime { namespace spoopy {
     bool Engine::requestingExit = false;
 
     Mutex Engine::engineMutex;
+    Mutex renderMutex;
 
     static int Run(void* data) {
-        Mutex renderMutex;
-        ScopeLock lock(renderMutex);
-
         ThreadData* threadData = static_cast<ThreadData*>(data);
         Timer::OnBeforeRun();
 
         while(!Engine::ShouldQuit()) {
+            ScopeLock lock(renderMutex);
+
             if(Engine::IsCpuLimiterEnabled() && Timer::UpdateFPS > EPSILON) {
                 double nextTick = Timer::GetNextTick();
                 double inBetween = nextTick - Timer::GetTimeSeconds();
