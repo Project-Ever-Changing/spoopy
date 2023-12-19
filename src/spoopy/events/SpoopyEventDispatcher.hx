@@ -15,7 +15,7 @@ class SpoopyEventDispatcher {
         if(listener == null) return;
 
         if(!__eventNameMap.exists(eventType)) {
-            __eventNameMap.set(eventType, []);
+            __eventNameMap.set(eventType, new Array<String>());
         }
 
         var __listener = new Listener(eventType, priority, listener);

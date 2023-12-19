@@ -19,8 +19,8 @@ class SpoopyUncaughtDispatcher extends SpoopyEventDispatcher {
         if(__totalEvents.exists(eventName)) __enabled = true;
     }
 
-    public override function removeEventListener<T>(eventName:String, eventType:EventType<T>, listener:T->Void):Void {
-        super.removeEventListener(eventName, eventType, listener);
+    public override function removeEventListener<T>(eventName:String):Void {
+        super.removeEventListener(eventName);
         
         if(__totalEvents.exists(eventName)) __totalEvents.remove(eventName);
         if(!__totalEvents.exists(eventName)) __enabled = false;
