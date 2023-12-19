@@ -16,7 +16,6 @@ import lime.app.Application;
 @:access(spoopy.events.SpoopyEvent)
 @:access(spoopy.events.SpoopyUncaughtDispatcher)
 @:access(spoopy.events.SpoopyEventDispatcher)
-@:cppInclude('<iostream>')
 class SpoopyEngine implements IModule {
     public static var INSTANCE(default, null):SpoopyEngine = new SpoopyEngine();
 
@@ -76,8 +75,6 @@ class SpoopyEngine implements IModule {
     }
 
     @:noCompletion private function __update():Void {
-        untyped __cpp__('std::cout << "Hello world!\n" << std::endl;');
-        // trace("Hello world!");
         // __broadcastEvent(UPDATE_EVENT);
     }
 

@@ -12,6 +12,8 @@ namespace lime { namespace spoopy {
     Mutex renderMutex;
 
     static int Run(void* data) {
+        SPOOPY_LOG_INFO("Ran");
+
         ScopeLock lock(renderMutex);
 
         ThreadData* threadData = static_cast<ThreadData*>(data);
@@ -28,7 +30,7 @@ namespace lime { namespace spoopy {
             if(Timer::UpdateTick.OnTickBegin(Timer::ReciprocalUpdateFPS, MAX_UPDATE_DELTA_TIME)) {
                 // Updater
 
-                threadData->updateCallback->Call();
+                // threadData->updateCallback->Call();
             }
         }
 
