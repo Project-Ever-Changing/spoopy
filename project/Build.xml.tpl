@@ -91,6 +91,7 @@
 
 		<compilerflag value="-I${LIME_INCLUDE_PATH}" />
 		<compilerflag value="-I${LIME_SOURCE_PATH}/backend/sdl" />
+		<compilerflag value="-Ithirdparty" />
 
 		<compilerflag value="-DSPOOPY_SDL" if="SPOOPY_SDL" />
 		<compilerflag value="-DSPOOPY_VULKAN" if="SPOOPY_VULKAN" />

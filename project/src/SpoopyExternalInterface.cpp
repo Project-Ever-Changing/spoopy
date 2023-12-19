@@ -258,5 +258,10 @@ namespace lime { namespace spoopy {
             Engine::GetInstance()->Apply(updateFPS, drawFPS, timeScale);
         }
         DEFINE_PRIME3v(spoopy_engine_apply);
+
+        void spoopy_engine_dequeue() {
+            Engine::GetInstance()->DequeueAll();
+        }
+        DEFINE_PRIME0v(spoopy_engine_dequeue);
     }
 }}

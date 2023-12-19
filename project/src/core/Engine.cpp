@@ -9,7 +9,7 @@ namespace lime { namespace spoopy {
     bool Engine::cpuLimiterEnabled = true;
     bool Engine::requestingExit = false;
 
-    Mutex Engine::engineMutex;
+
     Mutex renderMutex;
 
     static int Run(void* data) {
@@ -29,12 +29,12 @@ namespace lime { namespace spoopy {
             if(Timer::UpdateTick.OnTickBegin(Timer::ReciprocalUpdateFPS, MAX_UPDATE_DELTA_TIME)) {
                 // Updater
 
-                threadData->updateCallback->Call();
+                Engine::GetInstance()->tasks.enqueue(threadData->updateCallback);
             }
         }
 
-        delete threadData->updateCallback;
-        delete threadData->drawCallback;
+        threadData->updateCallback.reset();
+        threadData->drawCallback.reset();
         delete threadData;
 
         return 0;
@@ -49,8 +49,8 @@ namespace lime { namespace spoopy {
         requestingExit = false;
 
         ThreadData* data = new ThreadData();
-        data->updateCallback = new ValuePointer(updateCallback);
-        data->drawCallback = new ValuePointer(drawCallback);
+        data->updateCallback = std::make_shared<ValuePointer>(updateCallback);
+        data->drawCallback = std::make_shared<ValuePointer>(drawCallback);
 
         renderThread = SDL_CreateThread(Run, "RenderThread", data);
         ranMain = true;
@@ -66,15 +66,15 @@ namespace lime { namespace spoopy {
         requestingExit = false;
 
         ThreadData* data = new ThreadData();
-        data->updateCallback = new ValuePointer(updateCallback);
-        data->drawCallback = new ValuePointer(drawCallback);
+        data->updateCallback = std::make_shared<ValuePointer>(updateCallback);
+        data->drawCallback = std::make_shared<ValuePointer>(drawCallback);
 
         renderThread = SDL_CreateThread(Run, "RenderThread", data);
         ranMain = true;
     }
 
     void Engine::Apply(float updateFPS, float drawFPS, float timeScale) {
-        Engine::engineMutex.Lock();
+        engineMutex.Lock();
 
         Timer::TimeScale = timeScale;
         Timer::UpdateFPS = updateFPS;
@@ -83,17 +83,27 @@ namespace lime { namespace spoopy {
         Timer::ReciprocalUpdateFPS = updateFPS > EPSILON ? 1.0f / updateFPS : 0.0f;
         Timer::ReciprocalDrawFPS = drawFPS > EPSILON ? 1.0f / drawFPS : 0.0f;
 
-        Engine::engineMutex.Unlock();
+        engineMutex.Unlock();
     }
 
     void Engine::RequestExit() {
         if(requestingExit) return;
 
-        Engine::engineMutex.Lock();
+        engineMutex.Lock();
 
         requestingExit = true;
         SDL_WaitThread(renderThread, nullptr);
 
-        Engine::engineMutex.Unlock();
+        engineMutex.Unlock();
+    }
+
+    void Engine::DequeueAll() {
+        ScopeLock lock(taskMutex);
+
+        std::shared_ptr<ValuePointer> task;
+        while(tasks.try_dequeue(task)) {
+            if(task.get() == nullptr) continue;
+            task->Call();
+        }
     }
 }}

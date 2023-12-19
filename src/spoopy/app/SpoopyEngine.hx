@@ -58,6 +58,8 @@ class SpoopyEngine implements IModule {
     }
 
     @:noCompletion private function __registerLimeModule(app:Application):Void {
+        app.onUpdate.add(__mainLoop);
+
         __eventDispatcher = new SpoopyEventDispatcher();
         __uncaughtDispatcher = new SpoopyUncaughtDispatcher();
 
@@ -72,6 +74,10 @@ class SpoopyEngine implements IModule {
 
     @:noCompletion private function __unregisterLimeModule(app:Application):Void {
         SpoopyEngineBackend.shutdown();
+    }
+
+    @:noCompletion private function __mainLoop():Void {
+        SpoopyNativeEngine.dequeue();
     }
 
     @:noCompletion private function __update():Void {
