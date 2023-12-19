@@ -67,7 +67,7 @@ class SpoopyEventDispatcher {
         for(name in eventNames) {
             var listener = __eventListeners.get(name);
             if(listener == null) continue;
-            listener.callback(event);
+            listener.listener(event);
         }
         
         return true;

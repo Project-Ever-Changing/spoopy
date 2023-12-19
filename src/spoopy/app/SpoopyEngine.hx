@@ -15,6 +15,7 @@ import lime.app.Application;
 */
 @:access(spoopy.events.SpoopyEvent)
 @:access(spoopy.events.SpoopyUncaughtDispatcher)
+@:access(spoopy.events.SpoopyEventDispatcher)
 class SpoopyEngine implements IModule {
     public static var INSTANCE(default, null):SpoopyEngine = new SpoopyEngine();
 
@@ -22,8 +23,8 @@ class SpoopyEngine implements IModule {
     public var DRAW_EVENT(default, null):SpoopyEvent;
 
     public var cpuLimiterEnabled(default, null):Bool;
-    public var updateFramerate(default, null):Int;
-    public var drawFramerate(default, null):Int;
+    public var updateFramerate(default, null):Float;
+    public var drawFramerate(default, null):Float;
 
     @:noCompletion private var __eventDispatcher:SpoopyEventDispatcher;
     @:noCompletion private var __uncaughtDispatcher:SpoopyUncaughtDispatcher;
