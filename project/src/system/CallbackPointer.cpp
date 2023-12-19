@@ -11,6 +11,7 @@ namespace lime { namespace spoopy {
     }
 
     void* CallbackPointer::CallRaw(hx::Object* arg1) {
+        SPOOPY_LOG_INFO("CallbackPointer::CallRaw(hx::Object* arg1)");
 
         //hx::Throw(HX_NULL_FUNCTION_POINTER);
         return arg1->__run().GetPtr();
