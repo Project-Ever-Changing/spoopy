@@ -1,5 +1,6 @@
 #include <core/Engine.h>
 #include <core/Log.h>
+#include <system/ScopeLock.h>
 #include <utils/Time.h>
 
 namespace lime { namespace spoopy {
@@ -11,6 +12,9 @@ namespace lime { namespace spoopy {
     Mutex Engine::engineMutex;
 
     static int Run(void* data) {
+        Mutex runMutex;
+        ScopeLock lock(runMutex);
+
         ThreadData* threadData = static_cast<ThreadData*>(data);
         //Timer::OnBeforeRun();
 
