@@ -9,7 +9,7 @@ namespace lime { namespace spoopy {
     bool Engine::cpuLimiterEnabled = true;
     bool Engine::requestingExit = false;
 
-    //Mutex Engine::engineMutex;
+    Mutex Engine::engineMutex;
 
     static int Run(void* data) {
         ScopeLock lock{Engine::engineMutex};
