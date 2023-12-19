@@ -12,8 +12,9 @@ namespace lime { namespace spoopy {
 
     static int Run(void* data) {
         ThreadData* threadData = static_cast<ThreadData*>(data);
-        Timer::OnBeforeRun();
+        //Timer::OnBeforeRun();
 
+        /*
         while(!Engine::ShouldQuit()) {
             if(Engine::IsCpuLimiterEnabled() && Timer::UpdateFPS > EPSILON) {
                 double nextTick = Timer::GetNextTick();
@@ -33,6 +34,9 @@ namespace lime { namespace spoopy {
                 Engine::engineMutex.Unlock();
             }
         }
+         */
+
+        threadData->updateCallback->Call();
 
         delete threadData->updateCallback;
         delete threadData->drawCallback;
@@ -69,8 +73,10 @@ namespace lime { namespace spoopy {
         ThreadData* data = new ThreadData();
         data->updateCallback = new ValuePointer(updateCallback);
         data->drawCallback = new ValuePointer(updateCallback);
+        data->updateCallback->Call();
 
-        renderThread = SDL_CreateThread(Run, "RenderThread", data);
+        //Run(data);
+        //renderThread = SDL_CreateThread(Run, "RenderThread", data);
         ranMain = true;
     }
 
