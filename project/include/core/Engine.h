@@ -1,7 +1,7 @@
 #pragma once
 
 #include <system/CFFI.h>
-#include <system/ValuePointer.h>
+#include <system/CallbackPointer.h>
 #include <system/ConcurrentQueue.h>
 #include <system/Mutex.h>
 #include <SDL_thread.h>
@@ -13,8 +13,8 @@ namespace lime { namespace spoopy {
      * There is no need to make a class for this, as it is only used in one place.
      */
     struct ThreadData {
-        std::shared_ptr<ValuePointer> updateCallback;
-        std::shared_ptr<ValuePointer> drawCallback;
+        std::shared_ptr<CallbackPointer> updateCallback;
+        std::shared_ptr<CallbackPointer> drawCallback;
     };
 
     class Engine {

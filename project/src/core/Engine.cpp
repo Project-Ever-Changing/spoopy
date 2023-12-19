@@ -48,8 +48,8 @@ namespace lime { namespace spoopy {
         requestingExit = false;
 
         ThreadData* data = new ThreadData();
-        data->updateCallback = std::make_shared<ValuePointer>(updateCallback);
-        data->drawCallback = std::make_shared<ValuePointer>(drawCallback);
+        data->updateCallback = std::make_shared<CallbackPointer>(updateCallback);
+        data->drawCallback = std::make_shared<CallbackPointer>(drawCallback);
 
         renderThread = SDL_CreateThread(Run, "RenderThread", data);
         ranMain = true;
@@ -65,8 +65,8 @@ namespace lime { namespace spoopy {
         requestingExit = false;
 
         ThreadData* data = new ThreadData();
-        data->updateCallback = std::make_shared<ValuePointer>(updateCallback);
-        data->drawCallback = std::make_shared<ValuePointer>(drawCallback);
+        data->updateCallback = std::make_shared<CallbackPointer>(updateCallback);
+        data->drawCallback = std::make_shared<CallbackPointer>(drawCallback);
 
         renderThread = SDL_CreateThread(Run, "RenderThread", data);
         ranMain = true;
