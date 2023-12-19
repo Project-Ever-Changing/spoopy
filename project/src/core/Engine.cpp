@@ -99,6 +99,8 @@ namespace lime { namespace spoopy {
     void Engine::DequeueAll() {
         ScopeLock lock(taskMutex);
 
+        SPOOPY_LOG_INFO("Dequeueing all tasks");
+
         std::shared_ptr<ValuePointer> task;
         while(tasks.try_dequeue(task)) {
             if(task.get() == nullptr) continue;
