@@ -16,7 +16,7 @@ import lime.app.Application;
 @:access(spoopy.events.SpoopyEvent)
 @:access(spoopy.events.SpoopyUncaughtDispatcher)
 @:access(spoopy.events.SpoopyEventDispatcher)
-@:cppInclude('#include <iostream>')
+@:cppInclude('<iostream>')
 class SpoopyEngine implements IModule {
     public static var INSTANCE(default, null):SpoopyEngine = new SpoopyEngine();
 
