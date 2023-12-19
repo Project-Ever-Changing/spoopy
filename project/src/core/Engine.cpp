@@ -12,8 +12,6 @@ namespace lime { namespace spoopy {
     Mutex renderMutex;
 
     static int Run(void* data) {
-        SPOOPY_LOG_INFO("Ran");
-
         ScopeLock lock(renderMutex);
 
         ThreadData* threadData = static_cast<ThreadData*>(data);
