@@ -13,7 +13,7 @@ namespace lime { namespace spoopy {
         Timer::OnBeforeRun();
 
         while(!Engine::ShouldQuit()) {
-            SPOOPY_LOG_INFO("Updater");
+            //SPOOPY_LOG_INFO("Updater");
 
             if(Engine::IsCpuLimiterEnabled() && Timer::UpdateFPS > EPSILON) {
                 double nextTick = Timer::GetNextTick();
@@ -24,7 +24,7 @@ namespace lime { namespace spoopy {
 
             if(Timer::UpdateTick.OnTickBegin(Timer::ReciprocalUpdateFPS, MAX_UPDATE_DELTA_TIME)) {
                 // Updater
-                //SPOOPY_LOG_INFO("Updater");
+                SPOOPY_LOG_INFO("Updater");
                 //threadData->updateCallback->Call();
             }
         }
