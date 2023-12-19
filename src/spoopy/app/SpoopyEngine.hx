@@ -71,7 +71,6 @@ class SpoopyEngine implements IModule {
     }
 
     @:noCompletion private function __unregisterLimeModule(application:Application):Void {
-        application.onUpdate.remove(__mainLoop);
         SpoopyEngineBackend.shutdown();
     }
 
