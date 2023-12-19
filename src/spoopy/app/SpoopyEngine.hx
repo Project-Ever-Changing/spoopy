@@ -47,7 +47,7 @@ class SpoopyEngine implements IModule {
         this.drawFramerate = drawFramerate;
         this.timeScale = timeScale;
 
-        
+        SpoopyEngineBackend.apply(this.updateFramerate, this.drawFramerate, this.timeScale);
     }
 
     /*

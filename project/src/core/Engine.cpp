@@ -24,6 +24,7 @@ namespace lime { namespace spoopy {
 
             if(Timer::UpdateTick.OnTickBegin(Timer::ReciprocalUpdateFPS, MAX_UPDATE_DELTA_TIME)) {
                 // Updater
+
                 Engine::engineMutex.Lock();
 
                 SPOOPY_LOG_INFO("Updater");
