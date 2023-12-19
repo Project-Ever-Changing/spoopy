@@ -65,7 +65,6 @@ namespace lime { namespace spoopy {
     /*
      * I got lazy
      */
-    /*
     void Engine::Main(bool __cpuLimiterEnabled, vclosure* updateCallback, vclosure* drawCallback) {
         if(ranMain) return;
 
@@ -81,7 +80,6 @@ namespace lime { namespace spoopy {
         //renderThread = SDL_CreateThread(Run, "RenderThread", data);
         ranMain = true;
     }
-     */
 
     void Engine::Apply(float updateFPS, float drawFPS, float timeScale) {
         Engine::engineMutex.Lock();

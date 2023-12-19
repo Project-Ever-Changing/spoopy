@@ -22,7 +22,7 @@ namespace lime { namespace spoopy {
             Engine();
 
             void Main(bool __cpuLimiterEnabled, value updateCallback, value drawCallback);
-            //void Main(bool __cpuLimiterEnabled, vclosure* updateCallback, vclosure* drawCallback);
+            void Main(bool __cpuLimiterEnabled, vclosure* updateCallback, vclosure* drawCallback);
             void Apply(float updateFPS, float drawFPS, float timeScale);
             // static void Apply(float updateFPS, float drawFPS, float physicsFPS, float timeScale); --TODO: Implement physics
             void RequestExit();
