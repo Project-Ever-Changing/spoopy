@@ -40,7 +40,7 @@ class SpoopyEngine implements IModule {
         drawFramerate = 60;
     }
 
-    public function update(updateFramerate:Float = 60, drawFPS:Float = 60, cpuLimiterEnabled:Bool = true) {
+    public function update(updateFramerate:Float = 60, drawFramerate:Float = 60, cpuLimiterEnabled:Bool = true) {
         this.cpuLimiterEnabled = cpuLimiterEnabled;
         this.updateFramerate = updateFramerate;
         this.drawFramerate = drawFramerate;
