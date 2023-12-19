@@ -15,9 +15,8 @@ namespace lime { namespace spoopy {
         ScopeLock lock{Engine::engineMutex};
 
         ThreadData* threadData = static_cast<ThreadData*>(data);
-        //Timer::OnBeforeRun();
+        Timer::OnBeforeRun();
 
-        /*
         while(!Engine::ShouldQuit()) {
             if(Engine::IsCpuLimiterEnabled() && Timer::UpdateFPS > EPSILON) {
                 double nextTick = Timer::GetNextTick();
@@ -29,21 +28,13 @@ namespace lime { namespace spoopy {
             if(Timer::UpdateTick.OnTickBegin(Timer::ReciprocalUpdateFPS, MAX_UPDATE_DELTA_TIME)) {
                 // Updater
 
-                Engine::engineMutex.Lock();
-
-                SPOOPY_LOG_INFO("Updater");
                 threadData->updateCallback->Call();
-
-                Engine::engineMutex.Unlock();
             }
         }
-         */
 
-        threadData->updateCallback->Call();
-
-        //delete threadData->updateCallback;
-        //delete threadData->drawCallback;
-        //delete threadData;
+        delete threadData->updateCallback;
+        delete threadData->drawCallback;
+        delete threadData;
 
         return 0;
     }
