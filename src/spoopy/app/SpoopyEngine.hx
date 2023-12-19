@@ -57,8 +57,8 @@ class SpoopyEngine implements IModule {
         cpuLimiterEnabled = value;
     }
 
-    @:noCompletion private function __registerLimeModule(app:Application):Void {
-        app.onUpdate.add(__mainLoop);
+    @:noCompletion private function __registerLimeModule(application:Application):Void {
+        application.onUpdate.add(__mainLoop);
 
         __eventDispatcher = new SpoopyEventDispatcher();
         __uncaughtDispatcher = new SpoopyUncaughtDispatcher();
@@ -72,11 +72,12 @@ class SpoopyEngine implements IModule {
         SpoopyEngineBackend.main(this.cpuLimiterEnabled, __update, __draw);
     }
 
-    @:noCompletion private function __unregisterLimeModule(app:Application):Void {
+    @:noCompletion private function __unregisterLimeModule(application:Application):Void {
+        application.onUpdate.remove(__mainLoop);
         SpoopyEngineBackend.shutdown();
     }
 
-    @:noCompletion private function __mainLoop():Void {
+    @:noCompletion private function __mainLoop(deltaTime:Int):Void {
         SpoopyNativeEngine.dequeue();
     }
 
