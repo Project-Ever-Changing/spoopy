@@ -28,7 +28,7 @@ namespace lime { namespace spoopy {
             if(Timer::UpdateTick.OnTickBegin(Timer::ReciprocalUpdateFPS, MAX_UPDATE_DELTA_TIME)) {
                 // Updater
 
-                Engine::GetInstance()->tasks.enqueue(threadData->updateCallback);
+                threadData->updateCallback->Call();
             }
         }
 
@@ -94,15 +94,5 @@ namespace lime { namespace spoopy {
         SDL_WaitThread(renderThread, nullptr);
 
         engineMutex.Unlock();
-    }
-
-    void Engine::DequeueAll() {
-        SPOOPY_LOG_INFO("Dequeueing all tasks");
-
-        std::shared_ptr<ValuePointer> task;
-        while(tasks.try_dequeue(task)) {
-            if(task.get() == nullptr) continue;
-            task->Call();
-        }
     }
 }}
