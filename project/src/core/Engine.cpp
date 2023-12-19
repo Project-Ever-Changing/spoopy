@@ -9,11 +9,10 @@ namespace lime { namespace spoopy {
     bool Engine::cpuLimiterEnabled = true;
     bool Engine::requestingExit = false;
 
-    Mutex Engine::engineMutex;
+    //Mutex Engine::engineMutex;
 
     static int Run(void* data) {
-        Mutex runMutex;
-        ScopeLock lock(runMutex);
+        ScopeLock lock{Engine::engineMutex};
 
         ThreadData* threadData = static_cast<ThreadData*>(data);
         //Timer::OnBeforeRun();
