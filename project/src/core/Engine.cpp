@@ -28,7 +28,7 @@ namespace lime { namespace spoopy {
             if(Timer::UpdateTick.OnTickBegin(Timer::ReciprocalUpdateFPS, MAX_UPDATE_DELTA_TIME)) {
                 // Updater
 
-                threadData->updateCallback->Call();
+                threadData->updateCallback->CallRaw();
             }
         }
 
