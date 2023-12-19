@@ -8,6 +8,8 @@ namespace lime { namespace spoopy {
     bool Engine::cpuLimiterEnabled = true;
     bool Engine::requestingExit = false;
 
+    Mutex Engine::engineMutex;
+
     static int Run(void* data) {
         ThreadData* threadData = static_cast<ThreadData*>(data);
         Timer::OnBeforeRun();
@@ -22,12 +24,12 @@ namespace lime { namespace spoopy {
 
             if(Timer::UpdateTick.OnTickBegin(Timer::ReciprocalUpdateFPS, MAX_UPDATE_DELTA_TIME)) {
                 // Updater
-                engineMutex.Lock();
+                Engine::engineMutex.Lock();
 
                 SPOOPY_LOG_INFO("Updater");
                 threadData->updateCallback->Call();
 
-                engineMutex.Unlock();
+                Engine::engineMutex.Unlock();
             }
         }
 
@@ -72,7 +74,7 @@ namespace lime { namespace spoopy {
     }
 
     void Engine::Apply(float updateFPS, float drawFPS, float timeScale) {
-        engineMutex.Lock();
+        Engine::engineMutex.Lock();
 
         Timer::TimeScale = timeScale;
         Timer::UpdateFPS = updateFPS;
@@ -81,17 +83,17 @@ namespace lime { namespace spoopy {
         Timer::ReciprocalUpdateFPS = updateFPS > EPSILON ? 1.0f / updateFPS : 0.0f;
         Timer::ReciprocalDrawFPS = drawFPS > EPSILON ? 1.0f / drawFPS : 0.0f;
 
-        engineMutex.Unlock();
+        Engine::engineMutex.Unlock();
     }
 
     void Engine::RequestExit() {
         if(requestingExit) return;
 
-        engineMutex.Lock();
+        Engine::engineMutex.Lock();
 
         requestingExit = true;
         SDL_WaitThread(renderThread, nullptr);
 
-        engineMutex.Unlock();
+        Engine::engineMutex.Unlock();
     }
 }}
