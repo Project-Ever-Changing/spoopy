@@ -75,7 +75,8 @@ class SpoopyEngine implements IModule {
     }
 
     @:noCompletion private function __update():Void {
-        trace("Hello world!");
+        untyped __cpp__('printf(\"Hello world!\n\")');
+        // trace("Hello world!");
         // __broadcastEvent(UPDATE_EVENT);
     }
 
