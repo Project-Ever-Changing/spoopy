@@ -13,6 +13,8 @@ namespace lime { namespace spoopy {
         Timer::OnBeforeRun();
 
         while(!Engine::ShouldQuit()) {
+            SPOOPY_LOG_INFO("Updater");
+            /*
             if(Engine::IsCpuLimiterEnabled() && Timer::UpdateFPS > EPSILON) {
                 double nextTick = Timer::GetNextTick();
                 double inBetween = nextTick - Timer::GetTimeSeconds();
@@ -25,6 +27,7 @@ namespace lime { namespace spoopy {
                 SPOOPY_LOG_INFO("Updater");
                 threadData->updateCallback->Call();
             }
+             */
         }
 
         delete threadData->updateCallback;
