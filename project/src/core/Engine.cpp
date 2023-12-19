@@ -22,13 +22,11 @@ namespace lime { namespace spoopy {
                 if(inBetween > 0.002) sleep(inBetween);
             }
 
-            /*
             if(Timer::UpdateTick.OnTickBegin(Timer::ReciprocalUpdateFPS, MAX_UPDATE_DELTA_TIME)) {
                 // Updater
-                SPOOPY_LOG_INFO("Updater");
-                threadData->updateCallback->Call();
+                //SPOOPY_LOG_INFO("Updater");
+                //threadData->updateCallback->Call();
             }
-             */
         }
 
         delete threadData->updateCallback;
