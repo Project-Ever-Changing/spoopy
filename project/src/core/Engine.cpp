@@ -5,7 +5,7 @@
 namespace lime { namespace spoopy {
     Engine* Engine::INSTANCE = new Engine();
 
-    bool Engine::cpuLimiterEnabled = false;
+    bool Engine::cpuLimiterEnabled = true;
     bool Engine::requestingExit = false;
 
     static int Run(void* data) {
@@ -22,10 +22,12 @@ namespace lime { namespace spoopy {
 
             if(Timer::UpdateTick.OnTickBegin(Timer::ReciprocalUpdateFPS, MAX_UPDATE_DELTA_TIME)) {
                 // Updater
-                SPOOPY_LOG_INFO("Updater");
+                engineMutex.Lock();
 
-                printf("%d\n", threadData->updateCallback == nullptr);
-                //threadData->updateCallback->Call();
+                SPOOPY_LOG_INFO("Updater");
+                threadData->updateCallback->Call();
+
+                engineMutex.Unlock();
             }
         }
 

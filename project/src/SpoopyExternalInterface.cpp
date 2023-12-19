@@ -250,6 +250,13 @@ namespace lime { namespace spoopy {
         }
         DEFINE_PRIME3v(spoopy_engine_main);
 
+        void spoopy_engine_apply(float updateFPS, float drawFPS, float timeScale) {
+            if(updateFPS < drawFPS) {
+                SPOOPY_LOG_WARN("The update framerate should not be less than the draw framerate, this may slow down the game.");
+            }
 
+            Engine::GetInstance()->Apply(updateFPS, drawFPS, timeScale);
+        }
+        DEFINE_PRIME3v(spoopy_engine_apply);
     }
 }}

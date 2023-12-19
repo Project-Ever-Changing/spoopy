@@ -25,6 +25,7 @@ class SpoopyEngine implements IModule {
     public var cpuLimiterEnabled(default, null):Bool;
     public var updateFramerate(default, null):Float;
     public var drawFramerate(default, null):Float;
+    public var timeScale(default, null):Float;
 
     @:noCompletion private var __eventDispatcher:SpoopyEventDispatcher;
     @:noCompletion private var __uncaughtDispatcher:SpoopyUncaughtDispatcher;
@@ -40,10 +41,13 @@ class SpoopyEngine implements IModule {
         drawFramerate = 60;
     }
 
-    public function update(updateFramerate:Float = 60, drawFramerate:Float = 60, cpuLimiterEnabled:Bool = true) {
+    public function update(updateFramerate:Float = 60, drawFramerate:Float = 60, timeScale:Float = 1.0, cpuLimiterEnabled:Bool = true) {
         this.cpuLimiterEnabled = cpuLimiterEnabled;
         this.updateFramerate = updateFramerate;
         this.drawFramerate = drawFramerate;
+        this.timeScale = timeScale;
+
+        
     }
 
     /*
