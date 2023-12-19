@@ -78,6 +78,7 @@ class SpoopyEngine implements IModule {
     }
 
     @:noCompletion private function __mainLoop(deltaTime:Int):Void {
+        trace("hi");
         SpoopyNativeEngine.dequeue();
     }
 
