@@ -13,10 +13,6 @@ class SpoopyNativeEngine {
         SpoopyNativeCFFI.spoopy_engine_apply(updateFramerate, drawFramerate, timeScale);
     }
 
-    @:noCompletion private static function dequeue():Void {
-        SpoopyNativeCFFI.spoopy_engine_dequeue();
-    }
-
     @:noCompletion private static function shutdown() {
         // shutdown
     }

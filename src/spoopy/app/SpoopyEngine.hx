@@ -58,8 +58,6 @@ class SpoopyEngine implements IModule {
     }
 
     @:noCompletion private function __registerLimeModule(application:Application):Void {
-        application.onUpdate.add(__mainLoop);
-
         __eventDispatcher = new SpoopyEventDispatcher();
         __uncaughtDispatcher = new SpoopyUncaughtDispatcher();
 
@@ -69,17 +67,12 @@ class SpoopyEngine implements IModule {
         DRAW_EVENT = SpoopyEvent.__pool.get();
         DRAW_EVENT.type = SpoopyEvent.ENTER_DRAW_FRAME;
 
-        //SpoopyEngineBackend.main(this.cpuLimiterEnabled, __update, __draw);
+        SpoopyEngineBackend.main(this.cpuLimiterEnabled, __update, __draw);
     }
 
     @:noCompletion private function __unregisterLimeModule(application:Application):Void {
         application.onUpdate.remove(__mainLoop);
         SpoopyEngineBackend.shutdown();
-    }
-
-    @:noCompletion private function __mainLoop(deltaTime:Int):Void {
-        trace("hi");
-        SpoopyNativeEngine.dequeue();
     }
 
     @:noCompletion private function __update():Void {

@@ -9,7 +9,6 @@ namespace lime { namespace spoopy {
     bool Engine::cpuLimiterEnabled = true;
     bool Engine::requestingExit = false;
 
-
     Mutex renderMutex;
 
     static int Run(void* data) {
