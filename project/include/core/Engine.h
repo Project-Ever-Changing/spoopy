@@ -33,8 +33,6 @@ namespace lime { namespace spoopy {
 
             static bool ShouldQuit() { return requestingExit; }
             static bool IsCpuLimiterEnabled() { return cpuLimiterEnabled; }
-
-            static Mutex engineMutex;
         private:
             SDL_Thread* renderThread;
             bool ranMain;
@@ -42,5 +40,6 @@ namespace lime { namespace spoopy {
             static Engine* INSTANCE;
             static bool cpuLimiterEnabled;
             static bool requestingExit;
+            static Mutex engineMutex;
     };
 }}

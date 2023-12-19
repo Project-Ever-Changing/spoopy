@@ -12,7 +12,8 @@ namespace lime { namespace spoopy {
     Mutex Engine::engineMutex;
 
     static int Run(void* data) {
-        ScopeLock lock{Engine::engineMutex};
+        Mutex renderMutex;
+        ScopeLock lock(renderMutex);
 
         ThreadData* threadData = static_cast<ThreadData*>(data);
         Timer::OnBeforeRun();
