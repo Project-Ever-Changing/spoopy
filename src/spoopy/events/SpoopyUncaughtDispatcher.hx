@@ -15,14 +15,14 @@ class SpoopyUncaughtDispatcher extends SpoopyEventDispatcher {
     public override function addEventListener<T>(eventName:String, eventType:EventType<T>, listener:T->Void, priority:Int = 0):Void {
         super.addEventListener(eventName, eventType, listener, priority);
         
-        if(!__totalEvents.exists(eventName)) __totalEvents.push(eventName);
-        if(__totalEvents.exists(eventName)) __enabled = true;
+        if(!__totalEvents.contains(eventName)) __totalEvents.push(eventName);
+        if(__totalEvents.contains(eventName)) __enabled = true;
     }
 
     public override function removeEventListener<T>(eventName:String):Void {
         super.removeEventListener(eventName);
         
-        if(__totalEvents.exists(eventName)) __totalEvents.remove(eventName);
-        if(!__totalEvents.exists(eventName)) __enabled = false;
+        if(__totalEvents.contains(eventName)) __totalEvents.remove(eventName);
+        if(!__totalEvents.contains(eventName)) __enabled = false;
     }
 }
