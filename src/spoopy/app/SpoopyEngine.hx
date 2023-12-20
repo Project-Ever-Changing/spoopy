@@ -85,7 +85,7 @@ class SpoopyEngine implements IModule {
 
     @:noCompletion private function __createThreading():Void {
         #if cpp
-        Thread.create(SpoopyNativeEngine.run);
+        sys.thread.Thread.create(SpoopyNativeEngine.run);
         #end
     }
 
