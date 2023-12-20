@@ -68,6 +68,7 @@ class SpoopyEngine implements IModule {
         DRAW_EVENT.type = SpoopyEvent.ENTER_DRAW_FRAME;
 
         SpoopyNativeEngine.bindCallbacks(__update, __draw);
+        __createThreading();
     }
 
     @:noCompletion private function __unregisterLimeModule(application:Application):Void {
@@ -84,7 +85,7 @@ class SpoopyEngine implements IModule {
 
     @:noCompletion private function __createThreading():Void {
         #if cpp
-        // untyped __cpp__("__hxcpp_thread_create()");
+        untyped __cpp__("__hxcpp_thread_create(::spoopy::backend::native::SpoopyNativeEngine_obj::run)");
         #end
     }
 

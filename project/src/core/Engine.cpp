@@ -21,6 +21,9 @@ namespace lime { namespace spoopy {
     }
 
     void Engine::Run() {
+        SPOOPY_LOG_INFO("Engine::Run()");
+
+        /*
         ScopeLock lock(renderMutex);
         Timer::OnBeforeRun();
 
@@ -40,6 +43,7 @@ namespace lime { namespace spoopy {
         }
 
         if(threadData != nullptr) delete threadData;
+         */
     }
 
     void Engine::Apply(bool __cpuLimiterEnabled, float updateFPS, float drawFPS, float timeScale) {
