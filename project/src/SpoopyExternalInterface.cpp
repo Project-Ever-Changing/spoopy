@@ -252,5 +252,10 @@ namespace lime { namespace spoopy {
             Engine::GetInstance()->Apply(cpuLimiterEnabled, updateFPS, drawFPS, timeScale);
         }
         DEFINE_PRIME4v(spoopy_engine_apply);
+
+        void spoopy_engine_run() {
+            Engine::GetInstance()->Run();
+        }
+        DEFINE_PRIME0v(spoopy_engine_run);
     }
 }}

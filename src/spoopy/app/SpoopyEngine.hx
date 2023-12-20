@@ -84,7 +84,7 @@ class SpoopyEngine implements IModule {
 
     @:noCompletion private function __createThreading():Void {
         #if cpp
-        //untyped __cpp__("__hxcpp_thread_create()");
+        // untyped __cpp__("__hxcpp_thread_create()");
         #end
     }
 

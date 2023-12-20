@@ -13,7 +13,11 @@ class SpoopyNativeEngine {
         SpoopyNativeCFFI.spoopy_engine_bind_callbacks(updateCallback, drawCallback);
     }
 
-    @:noCompletion private static function shutdown() {
+    @:noCompletion private static function run():Void {
+        SpoopyNativeCFFI.spoopy_engine_run();
+    }
+
+    @:noCompletion private static function shutdown():Void {
         // shutdown
     }
 }
