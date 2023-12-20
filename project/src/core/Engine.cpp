@@ -37,13 +37,13 @@ namespace lime { namespace spoopy {
 
             if(Timer::UpdateTick.OnTickBegin(Timer::ReciprocalUpdateFPS, MAX_UPDATE_DELTA_TIME)) {
                 // Updater
-
-                //threadData->updateCallback->CallRaw();
             }
         }
 
         if(threadData != nullptr) delete threadData;
          */
+
+        threadData->updateCallback->CallRaw();
     }
 
     void Engine::Apply(bool __cpuLimiterEnabled, float updateFPS, float drawFPS, float timeScale) {
