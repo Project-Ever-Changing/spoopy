@@ -229,13 +229,7 @@ namespace lime { namespace spoopy {
      */
 
     extern "C" {
-
-        void spoopy_engine_main(bool cpuLimiterEnabled, value updateCallback, value drawCallback) {
-            if (Engine::GetInstance()->RanMain()) {
-                SPOOPY_LOG_ERROR("Engine is already running!");
-                return;
-            }
-
+        void spoopy_engine_bind_callbacks(value updateCallback, value drawCallback) {
             if (!val_is_function(updateCallback)) {
                 SPOOPY_LOG_ERROR("Update callback is not a function!");
                 return;
@@ -246,17 +240,17 @@ namespace lime { namespace spoopy {
                 return;
             }
 
-            Engine::GetInstance()->Main(cpuLimiterEnabled, updateCallback, drawCallback);
+            Engine::GetInstance()->BindCallbacks(updateCallback, drawCallback);
         }
-        DEFINE_PRIME3v(spoopy_engine_main);
+        DEFINE_PRIME2v(spoopy_engine_bind_callbacks);
 
-        void spoopy_engine_apply(float updateFPS, float drawFPS, float timeScale) {
+        void spoopy_engine_apply(bool cpuLimiterEnabled, float updateFPS, float drawFPS, float timeScale) {
             if(updateFPS < drawFPS) {
                 SPOOPY_LOG_WARN("The update framerate should not be less than the draw framerate, this may slow down the game.");
             }
 
-            Engine::GetInstance()->Apply(updateFPS, drawFPS, timeScale);
+            Engine::GetInstance()->Apply(cpuLimiterEnabled, updateFPS, drawFPS, timeScale);
         }
-        DEFINE_PRIME3v(spoopy_engine_apply);
+        DEFINE_PRIME4v(spoopy_engine_apply);
     }
 }}

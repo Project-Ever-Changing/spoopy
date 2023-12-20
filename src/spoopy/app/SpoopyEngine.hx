@@ -47,7 +47,7 @@ class SpoopyEngine implements IModule {
         this.drawFramerate = drawFramerate;
         this.timeScale = timeScale;
 
-        SpoopyEngineBackend.apply(this.updateFramerate, this.drawFramerate, this.timeScale);
+        SpoopyEngineBackend.apply(this.cpuLimiterEnabled, this.updateFramerate, this.drawFramerate, this.timeScale);
     }
 
     /*
@@ -66,8 +66,6 @@ class SpoopyEngine implements IModule {
 
         DRAW_EVENT = SpoopyEvent.__pool.get();
         DRAW_EVENT.type = SpoopyEvent.ENTER_DRAW_FRAME;
-
-        SpoopyEngineBackend.main(this.cpuLimiterEnabled, __update, __draw);
     }
 
     @:noCompletion private function __unregisterLimeModule(application:Application):Void {

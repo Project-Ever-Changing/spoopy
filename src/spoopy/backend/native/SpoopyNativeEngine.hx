@@ -5,12 +5,8 @@ package spoopy.backend.native;
 */
 @:allow(spoopy.app.SpoopyEngine)
 class SpoopyNativeEngine {
-    @:noCompletion private static function main(cpuLimiterEnabled:Bool, updateCallback:Void->Void, renderCallback:Void->Void) {
-        SpoopyNativeCFFI.spoopy_engine_main(cpuLimiterEnabled, updateCallback, renderCallback);
-    }
-
-    @:noCompletion private static function apply(updateFramerate:Float, drawFramerate:Float, timeScale:Float):Void {
-        SpoopyNativeCFFI.spoopy_engine_apply(updateFramerate, drawFramerate, timeScale);
+    @:noCompletion private static function apply(cpuLimiterEnabled:Bool, updateFramerate:Float, drawFramerate:Float, timeScale:Float):Void {
+        SpoopyNativeCFFI.spoopy_engine_apply(cpuLimiterEnabled, updateFramerate, drawFramerate, timeScale);
     }
 
     @:noCompletion private static function shutdown() {

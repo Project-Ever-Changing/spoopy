@@ -6,7 +6,6 @@
 #include <unistd.h>
 #endif
 
-
 /*
  * This header file contains all the types and macros that are used by the renderer.
  */

@@ -5,16 +5,23 @@
 
 namespace lime { namespace spoopy {
     Engine* Engine::INSTANCE = new Engine();
-
-    bool Engine::cpuLimiterEnabled = true;
     bool Engine::requestingExit = false;
 
-    Mutex renderMutex;
+    Engine::Engine()
+    : ranMain(false)
+    , threadData(nullptr) {}
 
-    static int Run(void* data) {
+    Engine::~Engine() {
+        if(threadData != nullptr) delete threadData;
+    }
+
+    void Engine::BindCallbacks(value updateCallback, value drawCallback) {
+        if(threadData != nullptr) delete threadData;
+        threadData = new ThreadData(updateCallback, drawCallback);
+    }
+
+    void Engine::Run() {
         ScopeLock lock(renderMutex);
-
-        ThreadData* threadData = static_cast<ThreadData*>(data);
         Timer::OnBeforeRun();
 
         while(!Engine::ShouldQuit()) {
@@ -28,52 +35,17 @@ namespace lime { namespace spoopy {
             if(Timer::UpdateTick.OnTickBegin(Timer::ReciprocalUpdateFPS, MAX_UPDATE_DELTA_TIME)) {
                 // Updater
 
-                threadData->updateCallback->CallRaw();
+                //threadData->updateCallback->CallRaw();
             }
         }
 
-        threadData->updateCallback.reset();
-        threadData->drawCallback.reset();
-        delete threadData;
-
-        return 0;
+        if(threadData != nullptr) delete threadData;
     }
 
-    Engine::Engine(): ranMain(false) {}
-
-    void Engine::Main(bool __cpuLimiterEnabled, value updateCallback, value drawCallback) {
-        if(ranMain) return;
-
-        cpuLimiterEnabled = __cpuLimiterEnabled;
-        requestingExit = false;
-
-        ThreadData* data = new ThreadData();
-        data->updateCallback = std::make_shared<CallbackPointer>(updateCallback);
-        data->drawCallback = std::make_shared<CallbackPointer>(drawCallback);
-
-        renderThread = SDL_CreateThread(Run, "RenderThread", data);
-        ranMain = true;
-    }
-
-    /*
-     * I got lazy
-     */
-    void Engine::Main(bool __cpuLimiterEnabled, vclosure* updateCallback, vclosure* drawCallback) {
-        if(ranMain) return;
-
-        cpuLimiterEnabled = __cpuLimiterEnabled;
-        requestingExit = false;
-
-        ThreadData* data = new ThreadData();
-        data->updateCallback = std::make_shared<CallbackPointer>(updateCallback);
-        data->drawCallback = std::make_shared<CallbackPointer>(drawCallback);
-
-        renderThread = SDL_CreateThread(Run, "RenderThread", data);
-        ranMain = true;
-    }
-
-    void Engine::Apply(float updateFPS, float drawFPS, float timeScale) {
+    void Engine::Apply(bool __cpuLimiterEnabled, float updateFPS, float drawFPS, float timeScale) {
         engineMutex.Lock();
+
+        Engine::cpuLimiterEnabled = __cpuLimiterEnabled;
 
         Timer::TimeScale = timeScale;
         Timer::UpdateFPS = updateFPS;
@@ -91,8 +63,27 @@ namespace lime { namespace spoopy {
         engineMutex.Lock();
 
         requestingExit = true;
-        SDL_WaitThread(renderThread, nullptr);
 
         engineMutex.Unlock();
+    }
+
+
+    /*
+     * ThreadData
+     */
+
+    Engine::ThreadData::ThreadData(value updateCallback, value drawCallback) {
+        this->updateCallback = std::make_unique<ValuePointer>(updateCallback);
+        this->drawCallback = std::make_unique<ValuePointer>(drawCallback);
+    }
+
+    Engine::ThreadData::ThreadData(vclosure* updateCallback, vclosure* drawCallback) {
+        this->updateCallback = std::make_unique<ValuePointer>(updateCallback);
+        this->drawCallback = std::make_unique<ValuePointer>(drawCallback);
+    }
+
+    Engine::ThreadData::~ThreadData() {
+        if(this->updateCallback.get() != nullptr) this->updateCallback.reset();
+        if(this->drawCallback.get() != nullptr) this->drawCallback.reset();
     }
 }}
