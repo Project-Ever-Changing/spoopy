@@ -66,6 +66,8 @@ class SpoopyEngine implements IModule {
 
         DRAW_EVENT = SpoopyEvent.__pool.get();
         DRAW_EVENT.type = SpoopyEvent.ENTER_DRAW_FRAME;
+
+        SpoopyNativeEngine.bindCallbacks(__update, __draw);
     }
 
     @:noCompletion private function __unregisterLimeModule(application:Application):Void {
@@ -78,6 +80,12 @@ class SpoopyEngine implements IModule {
 
     @:noCompletion private function __draw():Void {
         // __broadcastEvent(DRAW_EVENT);
+    }
+
+    @:noCompletion private function __createThreading():Void {
+        #if cpp
+        //untyped __cpp__("__hxcpp_thread_create()");
+        #end
     }
 
     @:noCompletion private function __broadcastEvent(event:SpoopyEvent):Void {

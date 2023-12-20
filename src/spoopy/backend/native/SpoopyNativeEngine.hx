@@ -9,6 +9,10 @@ class SpoopyNativeEngine {
         SpoopyNativeCFFI.spoopy_engine_apply(cpuLimiterEnabled, updateFramerate, drawFramerate, timeScale);
     }
 
+    @:noCompletion private static function bindCallbacks(updateCallback:Dynamic, drawCallback:Dynamic):Void {
+        SpoopyNativeCFFI.spoopy_engine_bind_callbacks(updateCallback, drawCallback);
+    }
+
     @:noCompletion private static function shutdown() {
         // shutdown
     }
