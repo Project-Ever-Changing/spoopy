@@ -19,7 +19,7 @@ class SpoopyNativeEngine {
 
     @:noCompletion private static function runRaw():SpoopyThread {
         SpoopyNativeCFFI.spoopy_engine_run_raw();
-        return null;
+        return 0;
     }
 
     @:noCompletion private static function shutdown():Void {
