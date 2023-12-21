@@ -5,7 +5,7 @@
 namespace lime { namespace spoopy {
     class ScopeLock {
         public:
-            ScopeLock(const Mutex& mutex);
+            explicit ScopeLock(const Mutex& mutex);
             ~ScopeLock();
 
             ScopeLock(const ScopeLock&) = delete;

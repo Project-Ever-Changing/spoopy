@@ -103,7 +103,6 @@
 		    <compilerflag value="-Ithirdparty/vk" />
 
 		    <file name="thirdparty/vk/vk_mem_alloc.cpp" />
-		    <file name="src/system/sdl/SDLScopeLock.cpp" />
 		    <file name="src/graphics/vulkan/shaders/PipelineShader.cpp" />
 		    <file name="src/graphics/vulkan/shaders/Shader.cpp" />
 		    <file name="src/graphics/vulkan/images/Image.cpp" />
@@ -136,6 +135,8 @@
         <file name="src/cffi/UnsafeBindings.cpp" />
         <file name="src/graphics/EmptyOpenGL.cpp" unless="LIME_OPENGL"/>
         <file name="src/graphics/Viewport.cpp" />
+        <file name="src/system/sdl/SDLScopeLock.cpp" />
+        <file name="src/system/sdl/SDLSemaphore.cpp" />
 	</files>
 
 	<include name="volk.xml.tpl" if="SPOOPY_VOLK" />
