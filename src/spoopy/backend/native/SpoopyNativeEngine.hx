@@ -22,7 +22,7 @@ class SpoopyNativeEngine {
         SpoopyNativeCFFI.spoopy_engine_run();
     }
 
-    @:noCompletion private static function runRaw(arg:SpoopyThread):SpoopyThread {
+    @:noDebug @:noCompletion private static function runRaw(arg:SpoopyThread):SpoopyThread {
         //SpoopyNativeCFFI.spoopy_engine_run_raw();
         untyped __cpp__('printf("%s", "Hello World")');
         return null;
