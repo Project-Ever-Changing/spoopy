@@ -24,12 +24,13 @@ class SpoopyNativeEngine {
         SpoopyNativeCFFI.spoopy_engine_run();
     }
 
-    @:noCompletion private static function runRaw(arg:SpoopyThread):SpoopyThread {
+    @:noDebug @:noCompletion private static function runRaw(arg:SpoopyThread):SpoopyThread {
         //SpoopyNativeCFFI.spoopy_engine_run_raw();
         //trace("hello world");
 
         __semaphore.set();
-        untyped __cpp__('printf("%s", "hello world")');
+        trace("hello world");
+        __semaphore.wait();
         return null;
     }
 
