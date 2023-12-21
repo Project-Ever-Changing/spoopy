@@ -70,12 +70,16 @@ class SpoopyEngine implements IModule {
 
         SpoopyNativeEngine.bindCallbacks(__update, __draw);
 
-        
+        untyped __cpp__('hx::GCPrepareMultiThreaded()');
+        untyped __cpp__('hx::EnterGCFreeZone()');
 
         #if (cpp && !cppia)
         untyped __cpp__("HxCreateDetachedThread(::spoopy::backend::native::SpoopyNativeEngine_obj::runRaw, 0)");
         //untyped __cpp__("hx::ExitGCFreeZone()");
         #end
+
+        SpoopyNativeEngine.__semaphore.wait();
+        untyped __cpp__('hx::ExitGCFreeZone()');
     }
 
     @:noCompletion private function __unregisterLimeModule(application:Application):Void {

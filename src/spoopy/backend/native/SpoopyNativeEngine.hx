@@ -10,7 +10,7 @@ package spoopy.backend.native;
 
 @:allow(spoopy.app.SpoopyEngine)
 class SpoopyNativeEngine {
-    @:noCompletion private static var __semaphore:SpoopyNativeSemaphore = new SpoopyNativeSemaphore();
+    public static var __semaphore:SpoopyNativeSemaphore = new SpoopyNativeSemaphore();
 
     @:noCompletion private static function apply(cpuLimiterEnabled:Bool, updateFramerate:Float, drawFramerate:Float, timeScale:Float):Void {
         SpoopyNativeCFFI.spoopy_engine_apply(cpuLimiterEnabled, updateFramerate, drawFramerate, timeScale);
@@ -28,13 +28,8 @@ class SpoopyNativeEngine {
         //SpoopyNativeCFFI.spoopy_engine_run_raw();
         //trace("hello world");
 
-        untyped __cpp__('hx::GCPrepareMultiThreaded()');
-        untyped __cpp__('hx::EnterGCFreeZone()');
-
         __semaphore.set();
         trace("hello world");
-        __semaphore.wait();
-        untyped __cpp__('hx::ExitGCFreeZone()');
         return null;
     }
 
