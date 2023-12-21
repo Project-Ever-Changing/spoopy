@@ -9,7 +9,8 @@ namespace lime { namespace spoopy {
 
     Engine::Engine()
     : ranMain(false)
-    , threadData(nullptr) {}
+    , threadData(nullptr)
+    , thread(nullptr) {}
 
     Engine::~Engine() {
         if(threadData != nullptr) delete threadData;
