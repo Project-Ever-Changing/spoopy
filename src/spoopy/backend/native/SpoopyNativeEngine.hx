@@ -29,7 +29,7 @@ class SpoopyNativeEngine {
         //trace("hello world");
 
         __semaphore.set();
-        untyped __cpp__('printf("%s\n", "hello world");');
+        untyped __cpp__('printf("%s\n", "hello world")');
         return null;
     }
 
