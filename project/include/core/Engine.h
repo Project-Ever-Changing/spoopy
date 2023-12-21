@@ -13,8 +13,9 @@ namespace lime { namespace spoopy {
             Engine();
             ~Engine();
 
-            void Run();
+            int Run();
             void BindCallbacks(value updateCallback, value drawCallback);
+            void BindCallbacks(vclosure* updateCallback, vclosure* drawCallback);
             void Apply(bool __cpuLimiterEnabled, float updateFPS, float drawFPS, float timeScale);
             // static void Apply(float updateFPS, float drawFPS, float physicsFPS, float timeScale); --TODO: Implement physics
             void RequestExit();
@@ -22,22 +23,24 @@ namespace lime { namespace spoopy {
             bool RanMain() { return ranMain; }
             bool IsCpuLimiterEnabled() { return cpuLimiterEnabled; }
 
+            SDL_Thread* thread;
         public:
             static Engine *GetInstance() { return INSTANCE; }
             static bool ShouldQuit() { return requestingExit; }
-    private:
-        class ThreadData { // I don't want this class to be handled by the GC
-            public:
-                ThreadData(value updateCallback, value drawCallback);
-                ThreadData(vclosure* updateCallback, vclosure* drawCallback);
-                ~ThreadData();
 
-            private:
-                friend class Engine;
+        private:
+            class ThreadData {
+                public:
+                    ThreadData(value updateCallback, value drawCallback);
+                    ThreadData(vclosure* updateCallback, vclosure* drawCallback);
+                    ~ThreadData();
 
-                std::unique_ptr<ValuePointer> updateCallback;
-                std::unique_ptr<ValuePointer> drawCallback;
-        };
+                private:
+                    friend class Engine;
+
+                    std::unique_ptr<ValuePointer> updateCallback;
+                    std::unique_ptr<ValuePointer> drawCallback;
+            };
 
         private:
             ThreadData* threadData;
@@ -48,8 +51,11 @@ namespace lime { namespace spoopy {
             Mutex engineMutex;
             Mutex taskMutex;
 
-
             static Engine* INSTANCE;
             static bool requestingExit;
     };
+
+    static int EngineThreadStatic(void* ptr) {
+        return static_cast<Engine*>(ptr)->Run();
+    }
 }}

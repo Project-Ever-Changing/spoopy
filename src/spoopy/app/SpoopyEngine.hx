@@ -29,6 +29,7 @@ class SpoopyEngine implements IModule {
 
     @:noCompletion private var __eventDispatcher:SpoopyEventDispatcher;
     @:noCompletion private var __uncaughtDispatcher:SpoopyUncaughtDispatcher;
+    @:noCompletion private var __thread:Dynamic;
 
     /*
     * The number of frames to wait before deleting a node off the queue.
@@ -68,7 +69,11 @@ class SpoopyEngine implements IModule {
         DRAW_EVENT.type = SpoopyEvent.ENTER_DRAW_FRAME;
 
         SpoopyNativeEngine.bindCallbacks(__update, __draw);
-        __createThreading();
+
+        #if (cpp && !cppia)
+        untyped __cpp__("hx::GCPrepareMultiThreaded()");
+        #end
+        SpoopyNativeEngine.run();
     }
 
     @:noCompletion private function __unregisterLimeModule(application:Application):Void {
@@ -82,12 +87,6 @@ class SpoopyEngine implements IModule {
 
     @:noCompletion private function __draw():Void {
         // __broadcastEvent(DRAW_EVENT);
-    }
-
-    @:noCompletion private function __createThreading():Void {
-        #if cpp
-        untyped __cpp__("__hxcpp_thread_create(::spoopy::backend::native::SpoopyNativeEngine_obj::run_dyn())");
-        #end
     }
 
     @:noCompletion private function __broadcastEvent(event:SpoopyEvent):Void {
@@ -124,3 +123,5 @@ class SpoopyEngine implements IModule {
 
 // TODO: If OpenGL, then have an actual backend class.
 typedef SpoopyEngineBackend = SpoopyNativeEngine;
+
+#if (cpp && !cppia)

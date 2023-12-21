@@ -13,17 +13,10 @@ namespace lime { namespace spoopy {
 
     Engine::~Engine() {
         if(threadData != nullptr) delete threadData;
+        if(thread != nullptr) SDL_WaitThread(thread, nullptr);
     }
 
-    void Engine::BindCallbacks(value updateCallback, value drawCallback) {
-        if(threadData != nullptr) delete threadData;
-        threadData = new ThreadData(updateCallback, drawCallback);
-    }
-
-    void Engine::Run() {
-        SPOOPY_LOG_INFO("Engine::Run()");
-
-        /*
+    int Engine::Run() {
         ScopeLock lock(renderMutex);
         Timer::OnBeforeRun();
 
@@ -37,13 +30,25 @@ namespace lime { namespace spoopy {
 
             if(Timer::UpdateTick.OnTickBegin(Timer::ReciprocalUpdateFPS, MAX_UPDATE_DELTA_TIME)) {
                 // Updater
+
+                threadData->updateCallback->Call();
             }
         }
 
-        if(threadData != nullptr) delete threadData;
-         */
+        delete threadData;
+        threadData = nullptr;
 
-        threadData->updateCallback->CallRaw();
+        return 0;
+    }
+
+    void Engine::BindCallbacks(value updateCallback, value drawCallback) {
+        if(threadData != nullptr) return;
+        threadData = new ThreadData(updateCallback, drawCallback);
+    }
+
+    void Engine::BindCallbacks(vclosure* updateCallback, vclosure* drawCallback) {
+        if(threadData != nullptr) return;
+        threadData = new ThreadData(updateCallback, drawCallback);
     }
 
     void Engine::Apply(bool __cpuLimiterEnabled, float updateFPS, float drawFPS, float timeScale) {
@@ -71,11 +76,9 @@ namespace lime { namespace spoopy {
         engineMutex.Unlock();
     }
 
-
     /*
      * ThreadData
      */
-
     Engine::ThreadData::ThreadData(value updateCallback, value drawCallback) {
         this->updateCallback = std::make_unique<ValuePointer>(updateCallback);
         this->drawCallback = std::make_unique<ValuePointer>(drawCallback);

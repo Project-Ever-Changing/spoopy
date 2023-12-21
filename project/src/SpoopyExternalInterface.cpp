@@ -254,7 +254,12 @@ namespace lime { namespace spoopy {
         DEFINE_PRIME4v(spoopy_engine_apply);
 
         void spoopy_engine_run() {
-            Engine::GetInstance()->Run();
+            if(Engine::GetInstance()->thread != nullptr) {
+                SPOOPY_LOG_WARN("Engine is already running!");
+                return;
+            }
+
+            Engine::GetInstance()->thread = SDL_CreateThread(EngineThreadStatic, "EngineThread", Engine::GetInstance());
         }
         DEFINE_PRIME0v(spoopy_engine_run);
     }
