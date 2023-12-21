@@ -81,10 +81,6 @@ namespace lime { namespace spoopy {
         engineMutex.Unlock();
     }
 
-    void Engine::EngineThread() {
-        HxCreateDetachedThread(Engine::GetInstance()->Run(), nullptr);
-    }
-
     /*
      * ThreadData
      */

@@ -27,7 +27,6 @@ namespace lime { namespace spoopy {
         public:
             static Engine *GetInstance() { return INSTANCE; }
             static bool ShouldQuit() { return requestingExit; }
-            static void EngineThread();
 
         private:
             class ThreadData {
