@@ -1,4 +1,4 @@
-package spoopy.backend.native;
+package spoopy.backend.native.cpp;
 
 #if windows
 @:native("DWORD WINAPI")
