@@ -28,7 +28,7 @@ class SpoopyNativeEngine {
 }
 
 #if cpp
-typedef SpoopyThread = spoopy.backend.native.SpoopyNativeThread;
+typedef SpoopyThread = spoopy.backend.native.SpoopyNativeThread.ThreadFunctionType;
 #else
 typedef SpoopyThread = Int;
 #end
