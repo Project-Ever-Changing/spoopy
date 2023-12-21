@@ -68,16 +68,11 @@ class SpoopyEngine implements IModule {
         DRAW_EVENT = SpoopyEvent.__pool.get();
         DRAW_EVENT.type = SpoopyEvent.ENTER_DRAW_FRAME;
 
-        #if (cpp && !cppia)
-        untyped __cpp__("hx::GCPrepareMultiThreaded()");
-        untyped __cpp__("hx::EnterGCFreeZone()");
-        #end
-
         SpoopyNativeEngine.bindCallbacks(__update, __draw);
 
         #if (cpp && !cppia)
         untyped __cpp__("HxCreateDetachedThread(::spoopy::backend::native::SpoopyNativeEngine_obj::runRaw, 0)");
-        untyped __cpp__("hx::ExitGCFreeZone()");
+        //untyped __cpp__("hx::ExitGCFreeZone()");
         #end
     }
 
