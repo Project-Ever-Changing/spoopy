@@ -236,7 +236,7 @@ namespace lime { namespace spoopy {
 
     value spoopy_create_threading_semaphore() {
         Semaphore* _semaphore = new Semaphore();
-        return CFFIPointer(_semaphore, spoopy_gc_semaphore);
+        return CFFIPointer(_semaphore, spoopy_gc_threading_semaphore);
     }
     DEFINE_PRIME0(spoopy_create_threading_semaphore);
 

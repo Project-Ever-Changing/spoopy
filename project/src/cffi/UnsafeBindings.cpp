@@ -58,7 +58,7 @@ namespace lime { namespace spoopy {
         switch((BackendType)type) {
             #define CASE(x) case BackendType::x: { x* buffer = (x*)val_data(pointer); delete buffer; break; }
 
-            CASE(Semaphore);
+            CASE(GPUSemaphore);
             CASE(Pipeline);
 
             default:
