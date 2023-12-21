@@ -28,6 +28,7 @@ class SpoopyNativeEngine {
         //SpoopyNativeCFFI.spoopy_engine_run_raw();
         //trace("hello world");
 
+        untyped __cpp__('hx::GCPrepareMultiThreaded()');
         untyped __cpp__('hx::EnterGCFreeZone()');
 
         __semaphore.set();
