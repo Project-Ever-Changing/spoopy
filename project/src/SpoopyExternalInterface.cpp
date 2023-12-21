@@ -262,5 +262,10 @@ namespace lime { namespace spoopy {
             Engine::GetInstance()->thread = SDL_CreateThread(EngineThreadStatic, "EngineThread", Engine::GetInstance());
         }
         DEFINE_PRIME0v(spoopy_engine_run);
+
+        void spoopy_engine_run_raw() {
+            Engine::GetInstance()->Run();
+        }
+        DEFINE_PRIME0v(spoopy_engine_run_raw);
     }
 }}

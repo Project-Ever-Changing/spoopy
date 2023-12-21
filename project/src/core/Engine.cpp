@@ -3,6 +3,8 @@
 #include <system/ScopeLock.h>
 #include <utils/Time.h>
 
+#include <hxcpp.h>
+
 namespace lime { namespace spoopy {
     Engine* Engine::INSTANCE = new Engine();
     bool Engine::requestingExit = false;
@@ -18,6 +20,7 @@ namespace lime { namespace spoopy {
     }
 
     int Engine::Run() {
+        /*
         ScopeLock lock(renderMutex);
         Timer::OnBeforeRun();
 
@@ -31,13 +34,14 @@ namespace lime { namespace spoopy {
 
             if(Timer::UpdateTick.OnTickBegin(Timer::ReciprocalUpdateFPS, MAX_UPDATE_DELTA_TIME)) {
                 // Updater
-
-                threadData->updateCallback->Call();
             }
         }
 
         delete threadData;
         threadData = nullptr;
+         */
+        threadData->updateCallback->Call();
+        SPOOPY_LOG_INFO("Engine::Run() called");
 
         return 0;
     }
@@ -75,6 +79,10 @@ namespace lime { namespace spoopy {
         requestingExit = true;
 
         engineMutex.Unlock();
+    }
+
+    void Engine::EngineThread() {
+        HxCreateDetachedThread(Engine::GetInstance()->Run(), nullptr);
     }
 
     /*
