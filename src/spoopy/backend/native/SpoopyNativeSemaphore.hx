@@ -6,7 +6,7 @@ class SpoopyNativeSemaphore implements ISpoopyDestroyable {
     public var handle:Dynamic;
 
     public function new() {
-        handle = SpoopyNativeCFFI.spoopy_create_threading_sempahore();
+        handle = SpoopyNativeCFFI.spoopy_create_threading_semaphore();
     }
 
     public function wait():Void {
