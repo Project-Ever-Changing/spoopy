@@ -17,7 +17,7 @@ class SpoopyNativeEngine {
         SpoopyNativeCFFI.spoopy_engine_run();
     }
 
-    @:noCompletion private static function runRaw():Void {
+    @:noCompletion private static function runRaw():Int {
         SpoopyNativeCFFI.spoopy_engine_run_raw();
         return 0;
     }
