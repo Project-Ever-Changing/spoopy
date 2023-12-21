@@ -23,8 +23,8 @@ class SpoopyNativeEngine {
     }
 
     @:noDebug @:noCompletion private static function runRaw(arg:SpoopyThread):SpoopyThread {
-        //SpoopyNativeCFFI.spoopy_engine_run_raw();
-        untyped __cpp__('printf("%s", "Hello World")');
+        SpoopyNativeCFFI.spoopy_engine_run_raw();
+        //trace("hello world");
         return null;
     }
 
@@ -34,7 +34,7 @@ class SpoopyNativeEngine {
 }
 
 #if cpp
-typedef SpoopyThread = spoopy.backend.native.SpoopyNativeThread.ThreadFunctionType;
+typedef SpoopyThread = spoopy.backend.native.cpp.SpoopyNativeThread.ThreadFunctionType;
 #else
 typedef SpoopyThread = Int;
 #end
