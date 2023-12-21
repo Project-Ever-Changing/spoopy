@@ -3,6 +3,7 @@ package spoopy.backend.native;
 /*
 * A wrapper class for backend Engine.
 */
+
 #if cpp
 @:headerCode("#include <hx/Thread.h>")
 #end
@@ -22,7 +23,8 @@ class SpoopyNativeEngine {
     }
 
     @:noCompletion private static function runRaw(arg:SpoopyThread):SpoopyThread {
-        SpoopyNativeCFFI.spoopy_engine_run_raw();
+        //SpoopyNativeCFFI.spoopy_engine_run_raw();
+        untyped __cpp__('printf("%s", "Hello World")');
         return null;
     }
 
