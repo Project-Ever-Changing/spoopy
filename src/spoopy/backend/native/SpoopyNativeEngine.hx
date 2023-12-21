@@ -30,6 +30,7 @@ class SpoopyNativeEngine {
 
         __semaphore.set();
         trace("hello world");
+        untyped __cpp__('hx::UnregisterCurrentThread()');
         __semaphore.wait();
         return null;
     }
