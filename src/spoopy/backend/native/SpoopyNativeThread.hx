@@ -1,5 +1,10 @@
 package spoopy.backend.native;
 
 @:unreflective
-@:native("THREAD_FUNC_TYPE")
+
+#if windows
+@:native("DWORD WINAPI")
+#else
+@:native("void*")
+#end
 extern class ThreadFunctionType {}
