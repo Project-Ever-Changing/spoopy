@@ -17,7 +17,7 @@ class SpoopyNativeEngine {
         SpoopyNativeCFFI.spoopy_engine_run();
     }
 
-    @:noCompletion private static function runRaw():Int {
+    @:noCompletion private static function runRaw():SpoopyThread {
         SpoopyNativeCFFI.spoopy_engine_run_raw();
         return 0;
     }
@@ -26,3 +26,9 @@ class SpoopyNativeEngine {
         // shutdown
     }
 }
+
+#if cpp
+typedef SpoopyThread = spoopy.backend.native.SpoopyNativeThread;
+#else
+typedef SpoopyThread = Int;
+#end
