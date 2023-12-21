@@ -5,6 +5,5 @@ package spoopy.backend.native;
 #else
 @:native("void*")
 #end
-@:headerCode("#include <hx/Thread.h>")
 @:unreflective
 extern class ThreadFunctionType {}

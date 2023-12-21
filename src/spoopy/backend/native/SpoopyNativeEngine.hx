@@ -3,6 +3,10 @@ package spoopy.backend.native;
 /*
 * A wrapper class for backend Engine.
 */
+#if cpp
+@:headerCode("#include <hx/Thread.h>")
+#end
+
 @:allow(spoopy.app.SpoopyEngine)
 class SpoopyNativeEngine {
     @:noCompletion private static function apply(cpuLimiterEnabled:Bool, updateFramerate:Float, drawFramerate:Float, timeScale:Float):Void {
