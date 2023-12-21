@@ -10,12 +10,7 @@ namespace lime { namespace spoopy {
     }
 
     Semaphore::~Semaphore() {
-        SDL_DestroyMutex(__mutex);
-
-        if (__valid) {
-            __valid = false;
-            SDL_DestroyCond(__cond);
-        }
+        Destroy();
     }
 
     void Semaphore::Set() {
@@ -35,5 +30,17 @@ namespace lime { namespace spoopy {
         }
 
         __set = false;
+    }
+
+    void Semaphore::Destroy() {
+        if(__destroyed) return;
+        __destroyed = true;
+
+        SDL_DestroyMutex(__mutex);
+
+        if (__valid) {
+            __valid = false;
+            SDL_DestroyCond(__cond);
+        }
     }
 }}

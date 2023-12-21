@@ -1,7 +1,9 @@
 #include <system/CFFI.h>
 #include <system/CFFIPointer.h>
+#include <system/Semaphore.h>
 #include <utils/MemoryReader.h>
 #include <core/Engine.h>
+
 #include <sdl_definitions_config.h>
 #include <SDLWindow.h>
 
@@ -222,6 +224,39 @@ namespace lime { namespace spoopy {
     DEFINE_PRIME1(spoopy_get_memory_position);
 
     #endif
+
+
+    /*
+     * Engine Semaphore API
+     */
+    void spoopy_gc_threading_semaphore(value handle) {
+        Semaphore* _semaphore = (Semaphore*)val_data(handle);
+        delete _semaphore;
+    }
+
+    value spoopy_create_threading_semaphore() {
+        Semaphore* _semaphore = new Semaphore();
+        return CFFIPointer(_semaphore, spoopy_gc_semaphore);
+    }
+    DEFINE_PRIME0(spoopy_create_threading_semaphore);
+
+    void spoopy_threading_semaphore_wait(value semaphore) {
+        Semaphore* _semaphore = (Semaphore*)val_data(semaphore);
+        _semaphore->Wait();
+    }
+    DEFINE_PRIME1v(spoopy_threading_semaphore_wait);
+
+    void spoopy_threading_semaphore_set(value semaphore) {
+        Semaphore* _semaphore = (Semaphore*)val_data(semaphore);
+        _semaphore->Set();
+    }
+    DEFINE_PRIME1v(spoopy_threading_semaphore_set);
+
+    void spoopy_threading_semaphore_destroy(value semaphore) {
+        Semaphore* _semaphore = (Semaphore*)val_data(semaphore);
+        _semaphore->Destroy();
+    }
+    DEFINE_PRIME1v(spoopy_threading_semaphore_destroy);
 
 
     /*

@@ -21,7 +21,7 @@
 #include "../graphics/vulkan/components/SemaphoreVulkan.h"
 #include "../graphics/vulkan/PipelineVulkan.h"
 
-typedef lime::spoopy::SemaphoreVulkan Semaphore;
+typedef lime::spoopy::SemaphoreVulkan GPUSemaphore;
 typedef lime::spoopy::GraphicsVulkan GraphicsModule;
 typedef lime::spoopy::PipelineVulkan Pipeline;
 
@@ -29,7 +29,7 @@ typedef lime::spoopy::PipelineVulkan Pipeline;
 
 namespace lime { namespace spoopy {
     value spoopy_create_semaphore() {
-        Semaphore* _semaphore = new Semaphore(*GraphicsModule::GetCurrent()->GetLogicalDevice());
+        GPUSemaphore* _semaphore = new GPUSemaphore(*GraphicsModule::GetCurrent()->GetLogicalDevice());
         return CFFIPointer(_semaphore, nullptr);
     }
     DEFINE_PRIME0(spoopy_create_semaphore);

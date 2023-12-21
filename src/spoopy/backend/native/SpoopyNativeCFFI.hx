@@ -44,6 +44,10 @@ class SpoopyNativeCFFI {
     public static var spoopy_engine_bind_callbacks = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_engine_bind_callbacks", "oov", false));
     public static var spoopy_engine_run = new cpp.Callable<Void->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_engine_run", "v", false));
     public static var spoopy_engine_run_raw = new cpp.Callable<Void->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_engine_run_raw", "v", false));
+    public static var spoopy_create_threading_sempahore = new cpp.Callable<Void->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_threading_sempahore", "o", false));
+    public static var spoopy_threading_semaphore_wait = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_threading_semaphore_wait", "ov", false));
+    public static var spoopy_threading_semaphore_set = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_threading_semaphore_set", "ov", false));
+    public static var spoopy_threading_semaphore_destroy = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_threading_semaphore_destroy", "ov", false));
     #elseif (neko || cppia)
     public static var spoopy_check_graphics_module = CFFI.load("lime", "spoopy_check_graphics_module", 0);
     public static var spoopy_resize_graphics_context = CFFI.load("lime", "spoopy_resize_graphics_context", 2);
@@ -72,6 +76,10 @@ class SpoopyNativeCFFI {
     public static var spoopy_engine_bind_callbacks = CFFI.load("lime", "spoopy_engine_bind_callbacks", 2);
     public static var spoopy_engine_run = CFFI.load("lime", "spoopy_engine_run", 0);
     public static var spoopy_engine_run_raw = CFFI.load("lime", "spoopy_engine_run_raw", 0);
+    public static var spoopy_create_threading_sempahore = CFFI.load("lime", "spoopy_create_threading_sempahore", 0);
+    public static var spoopy_threading_semaphore_wait = CFFI.load("lime", "spoopy_threading_semaphore_wait", 1);
+    public static var spoopy_threading_semaphore_set = CFFI.load("lime", "spoopy_threading_semaphore_set", 1);
+    public static var spoopy_threading_semaphore_destroy = CFFI.load("lime", "spoopy_threading_semaphore_destroy", 1);
     #else
     public static function spoopy_check_graphics_module():Void {
         return;
@@ -178,6 +186,22 @@ class SpoopyNativeCFFI {
     }
 
     public static function spoopy_engine_run_raw():Void {
+        return;
+    }
+
+    public static function spoopy_create_threading_sempahore():Dynamic {
+        return null;
+    }
+
+    public static function spoopy_threading_semaphore_wait(semaphore:Dynamic):Void {
+        return;
+    }
+
+    public static function spoopy_threading_semaphore_set(semaphore:Dynamic):Void {
+        return;
+    }
+
+    public static function spoopy_threading_semaphore_destroy(semaphore:Dynamic):Void {
         return;
     }
     #end
