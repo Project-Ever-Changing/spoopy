@@ -79,7 +79,6 @@ class SpoopyEngine implements IModule {
         #end
 
         untyped __cpp__("hx::ExitGCFreeZone()");
-        untyped __cpp__("hx::UnregisterCurrentThread()");
     }
 
     @:noCompletion private function __unregisterLimeModule(application:Application):Void {

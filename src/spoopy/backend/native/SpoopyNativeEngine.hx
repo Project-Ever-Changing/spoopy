@@ -26,7 +26,9 @@ class SpoopyNativeEngine {
 
     @:noDebug @:noCompletion private static function runRaw(arg:SpoopyThread):SpoopyThread {
         //SpoopyNativeCFFI.spoopy_engine_run_raw();
+        untyped __cpp__('hx::RegisterCurrentThread(nullptr);');
         trace("hello world");
+        untyped __cpp__('hx::UnregisterCurrentThread();');
         return null;
     }
 
