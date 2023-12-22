@@ -69,7 +69,7 @@ class SpoopyEngine implements IModule {
         DRAW_EVENT.type = SpoopyEvent.ENTER_DRAW_FRAME;
 
         SpoopyEngineBackend.bindCallbacks(__update, __draw);
-        SpoopyEngineBackend.runRaw();
+        SpoopyEngineBackend.run();
     }
 
     @:noCompletion private function __unregisterLimeModule(application:Application):Void {
