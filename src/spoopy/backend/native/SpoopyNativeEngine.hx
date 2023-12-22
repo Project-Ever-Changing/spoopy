@@ -16,8 +16,12 @@ class SpoopyNativeEngine {
         SpoopyNativeCFFI.spoopy_engine_bind_callbacks(updateCallback, drawCallback);
     }
 
+    @:noCompletion private static function run():Void {
+        Thread.create(runRaw);
+    }
+
     @:noCompletion private static function runRaw():Void {
-        Thread.create(SpoopyNativeCFFI.spoopy_engine_run_raw);
+        SpoopyNativeCFFI.spoopy_engine_run_raw();
     }
 
     @:noCompletion private static function shutdown():Void {
