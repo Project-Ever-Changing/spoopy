@@ -78,7 +78,6 @@ class SpoopyEngine implements IModule {
 
     @:noCompletion private function __update():Void {
         // __broadcastEvent(UPDATE_EVENT);
-        trace("Hello World");
     }
 
     @:noCompletion private function __draw():Void {
