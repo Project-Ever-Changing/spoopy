@@ -71,7 +71,11 @@ class SpoopyEngine implements IModule {
         SpoopyNativeEngine.bindCallbacks(__update, __draw);
 
         #if (cpp && !cppia)
+        untyped __cpp__('hx::EnterGCFreeZone();');
+
         untyped __cpp__("HxCreateDetachedThread(::spoopy::backend::native::SpoopyNativeEngine_obj::runRaw, 0)");
+
+        untyped __cpp__('hx::ExitGCFreeZone();');
         //untyped __cpp__("hx::ExitGCFreeZone()");
         #end
     }
