@@ -72,12 +72,12 @@ class SpoopyEngine implements IModule {
 
         #if (cpp && !cppia)
         untyped __cpp__("hx::GCPrepareMultiThreaded()");
-        untyped __cpp__('hx::EnterGCFreeZone();');
+        //untyped __cpp__('hx::EnterGCFreeZone();');
 
         untyped __cpp__("HxCreateDetachedThread(::spoopy::backend::native::SpoopyNativeEngine_obj::runRaw, 0)");
         SpoopyNativeEngine.__semaphore.wait();
 
-        untyped __cpp__('hx::ExitGCFreeZone();');
+        //untyped __cpp__('hx::ExitGCFreeZone();');
         //untyped __cpp__("hx::ExitGCFreeZone()");
         #end
     }
