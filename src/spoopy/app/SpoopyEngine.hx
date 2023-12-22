@@ -62,8 +62,8 @@ class SpoopyEngine implements IModule {
     }
 
     @:noCompletion private function __registerLimeModule(application:Application):Void {
-        __eventDispatcher = new SpoopyEventDispatcher();
-        __uncaughtDispatcher = new SpoopyUncaughtDispatcher();
+        eventDispatcher = new SpoopyEventDispatcher();
+        uncaughtDispatcher = new SpoopyUncaughtDispatcher();
 
         UPDATE_EVENT = SpoopyEvent.__pool.get();
         UPDATE_EVENT.type = SpoopyEvent.ENTER_UPDATE_FRAME;
@@ -88,20 +88,20 @@ class SpoopyEngine implements IModule {
     }
 
     @:noCompletion private function __broadcastEvent(event:SpoopyEvent):Void {
-        if(__uncaughtDispatcher.__enabled) {
+        if(uncaughtDispatcher.__enabled) {
             try {
-                __eventDispatcher.__dispatch(event);
+                eventDispatcher.__dispatch(event);
             }catch(e:Dynamic) {
                 __handleError(event, e);
             }
         }else {
-            __eventDispatcher.__dispatch(event);
+            eventDispatcher.__dispatch(event);
         }
     }
 
     @:noCompletion private function __handleError(event:SpoopyEvent, e:Dynamic):Void {
         try {
-            __uncaughtDispatcher.__dispatch(event);
+            uncaughtDispatcher.__dispatch(event);
         }catch(e:Dynamic) {}
 
         if(!event.__preventThrowing) {
