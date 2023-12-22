@@ -17,7 +17,7 @@ class SpoopyNativeEngine {
     }
 
     @:noCompletion private static function runRaw():Void {
-        Thread.create(SpoopyNativeCFFI.spoopy_engine_run_raw());
+        Thread.create(SpoopyNativeCFFI.spoopy_engine_run_raw);
     }
 
     @:noCompletion private static function shutdown():Void {
