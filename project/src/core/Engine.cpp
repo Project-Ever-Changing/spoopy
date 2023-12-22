@@ -29,7 +29,6 @@ namespace lime { namespace spoopy {
                 double inBetween = nextTick - Timer::GetTimeSeconds();
 
                 if(inBetween > 0.002) {
-                    SPOOPY_LOG_INFO("Sleep");
                     sleep(inBetween);
                 }
             }

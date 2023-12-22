@@ -29,7 +29,6 @@ class SpoopyEngine implements IModule {
 
     @:noCompletion private var __eventDispatcher:SpoopyEventDispatcher;
     @:noCompletion private var __uncaughtDispatcher:SpoopyUncaughtDispatcher;
-    @:noCompletion private var __thread:Dynamic;
 
     /*
     * The number of frames to wait before deleting a node off the queue.
@@ -77,7 +76,7 @@ class SpoopyEngine implements IModule {
     }
 
     @:noCompletion private function __update():Void {
-        // __broadcastEvent(UPDATE_EVENT);
+        __broadcastEvent(UPDATE_EVENT);
     }
 
     @:noCompletion private function __draw():Void {
