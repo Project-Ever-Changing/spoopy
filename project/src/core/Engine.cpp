@@ -20,8 +20,6 @@ namespace lime { namespace spoopy {
     }
 
     int Engine::Run() {
-        /*
-        ScopeLock lock(renderMutex);
         Timer::OnBeforeRun();
 
         while(!Engine::ShouldQuit()) {
@@ -33,15 +31,14 @@ namespace lime { namespace spoopy {
             }
 
             if(Timer::UpdateTick.OnTickBegin(Timer::ReciprocalUpdateFPS, MAX_UPDATE_DELTA_TIME)) {
-                // Updater
+                renderMutex.Lock();
+                threadData->updateCallback->Call();
+                renderMutex.Unlock();
             }
         }
 
         delete threadData;
         threadData = nullptr;
-         */
-        threadData->updateCallback->Call();
-        SPOOPY_LOG_INFO("Engine::Run() called");
 
         return 0;
     }

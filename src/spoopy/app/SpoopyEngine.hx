@@ -68,18 +68,8 @@ class SpoopyEngine implements IModule {
         DRAW_EVENT = SpoopyEvent.__pool.get();
         DRAW_EVENT.type = SpoopyEvent.ENTER_DRAW_FRAME;
 
-        SpoopyNativeEngine.bindCallbacks(__update, __draw);
-
-        #if (cpp && !cppia)
-        untyped __cpp__("hx::GCPrepareMultiThreaded()");
-        //untyped __cpp__('hx::EnterGCFreeZone();');
-
-        untyped __cpp__("HxCreateDetachedThread(::spoopy::backend::native::SpoopyNativeEngine_obj::runRaw, 0)");
-        //SpoopyNativeEngine.__semaphore.wait();
-
-        //untyped __cpp__('hx::ExitGCFreeZone();');
-        //untyped __cpp__("hx::ExitGCFreeZone()");
-        #end
+        SpoopyEngineBackend.bindCallbacks(__update, __draw);
+        SpoopyEngineBackend.runRaw();
     }
 
     @:noCompletion private function __unregisterLimeModule(application:Application):Void {

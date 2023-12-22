@@ -1,8 +1,8 @@
 <xml>
+    <include name="${HXCPP}/build-tool/BuildCommon.xml" />
+
 	<set name="HXCPP_CPP11" value="1" />
 	<set name="PLATFORM" value="android-21" if="android" />
-
-	<include name="${HXCPP}/build-tool/BuildCommon.xml" />
 
 	<set name="ios" value="1" if="iphone" />
 	<set name="tvos" value="1" if="appletv" />
@@ -54,7 +54,7 @@
 	</section>
 
 	<files id="lime-extra">
-
+        <!-- EMPTY -->
 	</files>
 
 	<files id="lime">
@@ -90,7 +90,7 @@
 		<file name="src/SpoopyExternalInterface.cpp" />
 
 		<compilerflag value="-I${LIME_INCLUDE_PATH}" />
-		<compilerflag value="-I${LIME_SOURCE_PATH}/backend/sdl" />
+		<compilerflag value="-I${LIME_SOURCE_PATH}/backend/sdl" if="SPOOPY_SDL" />
 		<compilerflag value="-Ithirdparty" />
 
 		<compilerflag value="-DSPOOPY_SDL" if="SPOOPY_SDL" />
