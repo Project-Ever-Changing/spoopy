@@ -27,8 +27,8 @@ class SpoopyEngine implements IModule {
     public var drawFramerate(default, null):Float;
     public var timeScale(default, null):Float;
 
-    @:noCompletion private var __eventDispatcher:SpoopyEventDispatcher;
-    @:noCompletion private var __uncaughtDispatcher:SpoopyUncaughtDispatcher;
+    public var eventDispatcher(default, null):SpoopyEventDispatcher;
+    public var uncaughtDispatcher(default, null):SpoopyUncaughtDispatcher;
 
     /*
     * The number of frames to wait before deleting a node off the queue.
@@ -48,6 +48,10 @@ class SpoopyEngine implements IModule {
         this.timeScale = timeScale;
 
         SpoopyEngineBackend.apply(this.cpuLimiterEnabled, this.updateFramerate, this.drawFramerate, this.timeScale);
+    }
+
+    public function addEventListener<T>(eventName:String, eventType:EventType<T>, listener:T->Void, priority:Int = 0):Void {
+        
     }
 
     /*
