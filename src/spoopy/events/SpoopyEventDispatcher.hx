@@ -7,12 +7,12 @@ import haxe.ds.ObjectMap;
 import haxe.ds.StringMap;
 
 class SpoopyEventDispatcher<K> {
-    @:noCompletion private var __eventNameMap:ObjectMap<String, Array<K>>;
-    @:noCompletion private var __eventListeners:StringMap<Listener>;
+    @:noCompletion private var __eventNameMap:StringMap<Array<K>>;
+    @:noCompletion private var __eventListeners:ObjectMap<K, Listener>;
 
     public function new() {
-        __eventNameMap = new ObjectMap<String, Array<K>>();
-        __eventListeners = new StringMap<Listener>();
+        __eventNameMap = new StringMap<Array<K>>();
+        __eventListeners = new ObjectMap<K, Listener>();
     }
 
     public function addEventListener<T>(eventRef:K, eventType:EventType<T>, listener:T->Void, priority:Int = 0):Void {
