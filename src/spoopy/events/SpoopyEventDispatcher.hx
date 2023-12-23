@@ -35,7 +35,7 @@ class SpoopyEventDispatcher<K> {
     public function removeEventListener(eventRef:K):Void {
         if(!__eventListeners.exists(eventRef)) return;
 
-        var listener = __eventListeners.get(eventID);
+        var listener = __eventListeners.get(eventRef);
         var eventRefs = __eventNameMap.get(listener.eventType);
         eventRefs.remove(eventRef);
         __eventListeners.remove(eventRef);
