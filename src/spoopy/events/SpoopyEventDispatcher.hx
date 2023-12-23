@@ -8,8 +8,8 @@ class SpoopyEventDispatcher<K> {
     @:noCompletion private var __eventListeners:Map<K, Listener>;
 
     public function new() {
-        __eventNameMap = new Map<String, Array<String>>();
-        __eventListeners = new Map<String, Listener>();
+        __eventNameMap = new Map<String, Array<K>>();
+        __eventListeners = new Map<K, Listener>();
     }
 
     public function addEventListener<T>(eventRef:K, eventType:EventType<T>, listener:T->Void, priority:Int = 0):Void {
