@@ -2,7 +2,7 @@ package spoopy.events;
 
 import openfl.events.EventType;
 
-class SpoopyUncaughtDispatcher extends SpoopyEventDispatcher {
+class SpoopyUncaughtDispatcher<K> extends SpoopyEventDispatcher<K> {
     @:noCompletion private var __enabled:Bool;
     @:noCompletion private var __totalEvents:Array<String>;
 
@@ -12,17 +12,17 @@ class SpoopyUncaughtDispatcher extends SpoopyEventDispatcher {
         __enabled = false;
     }
 
-    public override function addEventListener<T>(eventName:String, eventType:EventType<T>, listener:T->Void, priority:Int = 0):Void {
-        super.addEventListener(eventName, eventType, listener, priority);
+    public override function addEventListener<T>(eventRef:K, eventType:EventType<T>, listener:T->Void, priority:Int = 0):Void {
+        super.addEventListener(eventRef, eventType, listener, priority);
         
-        if(!__totalEvents.contains(eventName)) __totalEvents.push(eventName);
-        if(__totalEvents.contains(eventName)) __enabled = true;
+        if(!__totalEvents.contains(eventRef)) __totalEvents.push(eventRef);
+        if(__totalEvents.contains(eventRef)) __enabled = true;
     }
 
-    public override function removeEventListener<T>(eventName:String):Void {
-        super.removeEventListener(eventName);
+    public override function removeEventListener<T>(eventRef:K):Void {
+        super.removeEventListener(eventRef);
         
-        if(__totalEvents.contains(eventName)) __totalEvents.remove(eventName);
-        if(!__totalEvents.contains(eventName)) __enabled = false;
+        if(__totalEvents.contains(eventRef)) __totalEvents.remove(eventRef);
+        if(!__totalEvents.contains(eventRef)) __enabled = false;
     }
 }
