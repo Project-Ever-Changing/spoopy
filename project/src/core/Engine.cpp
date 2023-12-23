@@ -36,6 +36,10 @@ namespace lime { namespace spoopy {
             if(Timer::UpdateTick.OnTickBegin(Timer::ReciprocalUpdateFPS, MAX_UPDATE_DELTA_TIME)) {
                 threadData->updateCallback->Call();
             }
+
+            if(Timer::DrawTick.OnTickBegin(Timer::ReciprocalDrawFPS, MAX_DRAW_DELTA_TIME)) {
+                threadData->drawCallback->Call();
+            }
         }
 
         delete threadData;

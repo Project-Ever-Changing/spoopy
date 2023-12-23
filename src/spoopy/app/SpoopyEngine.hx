@@ -80,7 +80,7 @@ class SpoopyEngine implements IModule {
     }
 
     @:noCompletion private function __draw():Void {
-        // __broadcastEvent(DRAW_EVENT);
+        __broadcastEvent(DRAW_EVENT);
     }
 
     @:noCompletion private function __broadcastEvent(event:SpoopyEvent):Void {

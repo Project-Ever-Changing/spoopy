@@ -4,7 +4,8 @@
 
 #define EPSILON 1e-7f
 #define MAX_DOUBLE 1.79769313486231570e+308
-#define MAX_UPDATE_DELTA_TIME 0.1f
+#define MAX_UPDATE_DELTA_TIME 1.0f
+#define MAX_DRAW_DELTA_TIME 1.0f
 
 namespace lime { namespace spoopy {
 
