@@ -4,7 +4,7 @@ import spoopy.utils.SpoopyLogger;
 import openfl.events.EventType;
 
 class SpoopyEventDispatcher<K> {
-    @:noCompletion private var __eventNameMap:Map<String, Array<ID>>;
+    @:noCompletion private var __eventNameMap:Map<String, Array<K>>;
     @:noCompletion private var __eventListeners:Map<K, Listener>;
 
     public function new() {
