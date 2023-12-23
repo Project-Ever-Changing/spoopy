@@ -3,13 +3,16 @@ package spoopy.events;
 import spoopy.utils.SpoopyLogger;
 import openfl.events.EventType;
 
+import haxe.ds.ObjectMap;
+import haxe.ds.StringMap;
+
 class SpoopyEventDispatcher<K> {
     @:noCompletion private var __eventNameMap:ObjectMap<String, Array<K>>;
-    @:noCompletion private var __eventListeners:Map<K, Listener>;
+    @:noCompletion private var __eventListeners:StringMap<Listener>;
 
     public function new() {
-        __eventNameMap = new Map<String, Array<K>>();
-        __eventListeners = new Map<K, Listener>();
+        __eventNameMap = new ObjectMap<String, Array<K>>();
+        __eventListeners = new StringMap<Listener>();
     }
 
     public function addEventListener<T>(eventRef:K, eventType:EventType<T>, listener:T->Void, priority:Int = 0):Void {
