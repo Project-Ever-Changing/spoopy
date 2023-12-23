@@ -6,7 +6,7 @@ import openfl.events.EventType;
 import haxe.ds.ObjectMap;
 import haxe.ds.StringMap;
 
-class SpoopyEventDispatcher<K> {
+class SpoopyEventDispatcher<K:{}> {
     @:noCompletion private var __eventNameMap:StringMap<Array<K>>;
     @:noCompletion private var __eventListeners:ObjectMap<K, Listener>;
 

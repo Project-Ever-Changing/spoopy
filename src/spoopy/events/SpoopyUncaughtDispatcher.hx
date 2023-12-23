@@ -2,7 +2,7 @@ package spoopy.events;
 
 import openfl.events.EventType;
 
-class SpoopyUncaughtDispatcher<K> extends SpoopyEventDispatcher<K> {
+class SpoopyUncaughtDispatcher<K:{}> extends SpoopyEventDispatcher<K> {
     @:noCompletion private var __enabled:Bool;
     @:noCompletion private var __totalEvents:Array<K>;
 
