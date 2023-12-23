@@ -42,7 +42,6 @@ class SpoopyNativeCFFI {
     public static var spoopy_dealloc_gpu_cffi_pointer = new cpp.Callable<Int->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_dealloc_gpu_cffi_pointer", "iov", false));
     public static var spoopy_engine_apply = new cpp.Callable<Bool->Float->Float->Float->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_engine_apply", "bfffv", false));
     public static var spoopy_engine_bind_callbacks = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_engine_bind_callbacks", "oov", false));
-    public static var spoopy_engine_run = new cpp.Callable<Void->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_engine_run", "v", false));
     public static var spoopy_engine_run_raw = new cpp.Callable<Void->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_engine_run_raw", "v", false));
     public static var spoopy_create_threading_semaphore = new cpp.Callable<Void->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_threading_semaphore", "o", false));
     public static var spoopy_threading_semaphore_wait = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_threading_semaphore_wait", "ov", false));
@@ -74,7 +73,6 @@ class SpoopyNativeCFFI {
     public static var spoopy_dealloc_gpu_cffi_pointer = CFFI.load("lime", "spoopy_dealloc_gpu_cffi_pointer", 2);
     public static var spoopy_engine_apply = CFFI.load("lime", "spoopy_engine_apply", 4);
     public static var spoopy_engine_bind_callbacks = CFFI.load("lime", "spoopy_engine_bind_callbacks", 2);
-    public static var spoopy_engine_run = CFFI.load("lime", "spoopy_engine_run", 0);
     public static var spoopy_engine_run_raw = CFFI.load("lime", "spoopy_engine_run_raw", 0);
     public static var spoopy_create_threading_semaphore = CFFI.load("lime", "spoopy_create_threading_semaphore", 0);
     public static var spoopy_threading_semaphore_wait = CFFI.load("lime", "spoopy_threading_semaphore_wait", 1);
@@ -178,10 +176,6 @@ class SpoopyNativeCFFI {
     }
 
     public static function spoopy_engine_bind_callbacks(updateCallback:Dynamic, drawCallback:Dynamic):Void {
-        return;
-    }
-
-    public static function spoopy_engine_run():Void {
         return;
     }
 
