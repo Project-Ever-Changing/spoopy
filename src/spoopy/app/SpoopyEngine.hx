@@ -4,6 +4,7 @@ import spoopy.events.SpoopyEvent;
 import spoopy.events.SpoopyEventDispatcher;
 import spoopy.events.SpoopyUncaughtDispatcher;
 import spoopy.backend.native.SpoopyNativeEngine;
+import spoopy.graphics.SpoopyGraphicsModule;
 import spoopy.utils.SpoopyLogger;
 
 import lime.app.IModule;
@@ -27,8 +28,11 @@ class SpoopyEngine implements IModule {
     public var drawFramerate(default, null):Float;
     public var timeScale(default, null):Float;
 
-    public var eventDispatcher(default, null):SpoopyEventDispatcher;
-    public var uncaughtDispatcher(default, null):SpoopyUncaughtDispatcher;
+    public var eventDispatcher(default, null):SpoopyEventDispatcher<String>;
+    public var uncaughtDispatcher(default, null):SpoopyUncaughtDispatcher<String>;
+
+    @:allow(spoopy.graphics.SpoopyGraphicsModule) private var eventModuleDispatcher(default, null):SpoopyEventDispatcher<SpoopyGraphicsModule>;
+    @:allow(spoopy.graphics.SpoopyGraphicsModule) private var uncaughtModuleDispatcher(default, null):SpoopyUncaughtDispatcher<SpoopyGraphicsModule>;
 
     /*
     * The number of frames to wait before deleting a node off the queue.
@@ -58,8 +62,11 @@ class SpoopyEngine implements IModule {
     }
 
     @:noCompletion private function __registerLimeModule(application:Application):Void {
-        eventDispatcher = new SpoopyEventDispatcher();
-        uncaughtDispatcher = new SpoopyUncaughtDispatcher();
+        eventDispatcher = new SpoopyEventDispatcher<String>();
+        uncaughtDispatcher = new SpoopyUncaughtDispatcher<String>();
+
+        eventModuleDispatcher = new SpoopyEventDispatcher<SpoopyGraphicsModule>();
+        uncaughtModuleDispatcher = new SpoopyUncaughtDispatcher<SpoopyGraphicsModule>();
 
         UPDATE_EVENT = SpoopyEvent.__pool.get();
         UPDATE_EVENT.type = SpoopyEvent.ENTER_UPDATE_FRAME;
@@ -72,18 +79,24 @@ class SpoopyEngine implements IModule {
     }
 
     @:noCompletion private function __unregisterLimeModule(application:Application):Void {
+        eventDispatcher = null;
+        uncaughtDispatcher = null;
+
+        eventModuleDispatcher = null;
+        uncaughtModuleDispatcher = null;
+
         SpoopyEngineBackend.shutdown();
     }
 
     @:noCompletion private function __update():Void {
-        __broadcastEvent(UPDATE_EVENT);
+        __broadcastEvent(UPDATE_EVENT, eventDispatcher, uncaughtDispatcher);
     }
 
     @:noCompletion private function __draw():Void {
-        __broadcastEvent(DRAW_EVENT);
+        __broadcastEvent(DRAW_EVENT, eventDispatcher, uncaughtDispatcher);
     }
 
-    @:noCompletion private function __broadcastEvent(event:SpoopyEvent):Void {
+    @:noCompletion private function __broadcastEvent<T>(event:SpoopyEvent, dispatcher:SpoopyEventDispatcher<T>, uncaught:SpoopyUncaughtDispatcher<T>):Void {
         if(uncaughtDispatcher.__enabled) {
             try {
                 eventDispatcher.__dispatch(event);

@@ -1,17 +1,18 @@
 package spoopy.events;
 
+import spoopy.utils.SpoopyLogger;
 import openfl.events.EventType;
 
-class SpoopyEventDispatcher {
-    @:noCompletion private var __eventNameMap:Map<String, Array<String>>;
-    @:noCompletion private var __eventListeners:Map<String, Listener>;
+class SpoopyEventDispatcher<K> {
+    @:noCompletion private var __eventNameMap:Map<String, Array<ID>>;
+    @:noCompletion private var __eventListeners:Map<K, Listener>;
 
     public function new() {
         __eventNameMap = new Map<String, Array<String>>();
         __eventListeners = new Map<String, Listener>();
     }
 
-    public function addEventListener<T>(eventName:String, eventType:EventType<T>, listener:T->Void, priority:Int = 0):Void {
+    public function addEventListener<T>(eventRef:K, eventType:EventType<T>, listener:T->Void, priority:Int = 0):Void {
         if(listener == null) return;
 
         if(!__eventNameMap.exists(eventType)) {
@@ -20,22 +21,24 @@ class SpoopyEventDispatcher {
 
         var __listener = new Listener(eventType, priority, listener);
 
-        if(__eventListeners.exists(eventName)) {
-            var eventType = __eventListeners.get(eventName).eventType;
-            __eventNameMap.get(eventType).remove(eventName);
+        if(__eventListeners.exists(eventRef)) {
+            SpoopyLogger.warn("Event listener for event " + eventRef + " already exists. Overwriting...");
+
+            var eventType = __eventListeners.get(eventRef).eventType;
+            __eventNameMap.get(eventType).remove(eventRef);
         }
 
-        __eventListeners.set(eventName, __listener);
-        __addEventListenerByPriority(eventName, __eventNameMap.get(eventType), priority);
+        __eventListeners.set(eventRef, __listener);
+        __addEventListenerByPriority(eventRef, __eventNameMap.get(eventType), priority);
     }
 
-    public function removeEventListener(eventName:String):Void {
-        if(!__eventListeners.exists(eventName)) return;
+    public function removeEventListener(eventRef:K):Void {
+        if(!__eventListeners.exists(eventRef)) return;
 
-        var listener = __eventListeners.get(eventName);
-        var eventNames = __eventNameMap.get(listener.eventType);
-        eventNames.remove(eventName);
-        __eventListeners.remove(eventName);
+        var listener = __eventListeners.get(eventID);
+        var eventRefs = __eventNameMap.get(listener.eventType);
+        eventRefs.remove(eventRef);
+        __eventListeners.remove(eventRef);
     }
 
     public function hasEventListener(eventType:String):Bool {
@@ -43,7 +46,7 @@ class SpoopyEventDispatcher {
         return __eventNameMap.get(eventType).length > 0;
     }
 
-    @:noCompletion private function __addEventListenerByPriority(eventName:String, list:Array<String>, priority:Int):Void {
+    @:noCompletion private function __addEventListenerByPriority(eventRef:K, list:Array<String>, priority:Int):Void {
         var numElements:Int = list.length;
 		var addAtPosition:Int = numElements;
 
@@ -56,16 +59,16 @@ class SpoopyEventDispatcher {
             }
         }
 
-        list.insert(addAtPosition, eventName);
+        list.insert(addAtPosition, eventRef);
     }
 
     @:noCompletion private function __dispatch(event:SpoopyEvent):Bool {
         if(!hasEventListener(event.type)) return false;
 
-        var eventNames = __eventNameMap.get(event.type);
+        var eventRefs = __eventNameMap.get(event.type);
 
-        for(name in eventNames) {
-            var listener = __eventListeners.get(name);
+        for(ref in eventRefs) {
+            var listener = __eventListeners.get(ref);
             if(listener == null) continue;
             listener.listener(event);
         }

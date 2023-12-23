@@ -6,6 +6,7 @@
 #include <unistd.h>
 #endif
 
+
 /*
  * This header file contains all the types and macros that are used by the renderer.
  */
@@ -13,6 +14,7 @@
 typedef signed int int32;
 
 #if defined(SPOOPY_VOLK) && defined(SPOOPY_VULKAN)
+
 #include <volk.h>
 
 #define SPOOPY_SAFE_DESTROY_VULKAN(resource, device, handle)  \

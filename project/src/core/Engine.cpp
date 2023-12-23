@@ -20,7 +20,6 @@ namespace lime { namespace spoopy {
     }
 
     int Engine::Run() {
-        ScopeLock lock(renderMutex);
         Timer::OnBeforeRun();
 
         while(!Engine::ShouldQuit()) {
@@ -38,7 +37,9 @@ namespace lime { namespace spoopy {
             }
 
             if(Timer::DrawTick.OnTickBegin(Timer::ReciprocalDrawFPS, MAX_DRAW_DELTA_TIME)) {
+                drawMutex.Lock();
                 threadData->drawCallback->Call();
+                drawMutex.Unlock();
             }
         }
 

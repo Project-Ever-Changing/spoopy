@@ -2,12 +2,11 @@ package spoopy.graphics;
 
 import spoopy.utils.destroy.SpoopyDestroyQueue;
 import spoopy.window.IWindowModule;
-import haxe.macro.Context;
 import spoopy.utils.SpoopyLogger;
-import haxe.ds.ObjectMap;
 import spoopy.graphics.state.SpoopyStateManager;
 import spoopy.graphics.modules.SpoopyEntry;
 import spoopy.graphics.modules.SpoopyGPUObject;
+import spoopy.app.SpoopyEngine;
 import lime.app.Application;
 import lime.ui.Window;
 import lime.graphics.RenderContextAttributes;
@@ -28,16 +27,19 @@ class SpoopyGraphicsModule implements IWindowModule {
     @:noCompletion private var __context:SpoopyWindowContext;
     @:noCompletion private var __deletionQueue:SpoopyDestroyQueue<SpoopyEntry>;
     @:noCompletion private var __tempStateManager:SpoopyStateManager;
+    @:noCompletion private var __engine:SpoopyEngine;
+
     @:noCompletion private var __rendering:Bool = false;
 
     #if spoopy_debug
     @:noCompletion private var __createFirstWindow:Bool = false;
     #end
 
-    public function new(?stateManager:SpoopyStateManager) {
+    public function new(engine:SpoopyEngine, ?stateManager:SpoopyStateManager) {
         __backend = new BackendGraphicsModule();
         __deletionQueue = new SpoopyDestroyQueue<SpoopyEntry>();
         __tempStateManager = stateManager;
+        __engine = engine;
     }
 
     /*

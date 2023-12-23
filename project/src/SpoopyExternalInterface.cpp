@@ -8,6 +8,7 @@
 #include <SDLWindow.h>
 
 #ifdef SPOOPY_VULKAN
+
 #include "graphics/vulkan/GraphicsVulkan.h"
 #include "graphics/vulkan/ContextStage.h"
 #include "graphics/vulkan/RenderPassVulkan.h"
@@ -23,6 +24,7 @@ typedef lime::spoopy::CommandPoolVulkan CommandPool;
 typedef lime::spoopy::CommandBufferVulkan CommandBuffer;
 typedef std::shared_ptr<lime::spoopy::QueueVulkan> Queue;
 typedef lime::spoopy::EntryVulkan Entry;
+
 #endif
 
 namespace lime { namespace spoopy {
