@@ -46,7 +46,7 @@ class SpoopyEventDispatcher<K> {
         return __eventNameMap.get(eventType).length > 0;
     }
 
-    @:noCompletion private function __addEventListenerByPriority(eventRef:K, list:Array<String>, priority:Int):Void {
+    @:noCompletion private function __addEventListenerByPriority(eventRef:K, list:Array<K>, priority:Int):Void {
         var numElements:Int = list.length;
 		var addAtPosition:Int = numElements;
 
