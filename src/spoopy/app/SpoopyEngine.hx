@@ -50,10 +50,6 @@ class SpoopyEngine implements IModule {
         SpoopyEngineBackend.apply(this.cpuLimiterEnabled, this.updateFramerate, this.drawFramerate, this.timeScale);
     }
 
-    public function addEventListener<T>(eventName:String, eventType:EventType<T>, listener:T->Void, priority:Int = 0):Void {
-        
-    }
-
     /*
     * It's important to be thread safe here, so I need to plan this out.
     */
