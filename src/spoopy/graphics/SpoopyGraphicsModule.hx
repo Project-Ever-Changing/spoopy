@@ -19,7 +19,7 @@ import lime.math.Matrix3;
 * As well as the overall graphics of the application.
 */
 
-#if (haxe_ver >= 4.0) enum #else @:enum #end abstract GraphicsEventType(String) {
+#if (haxe_ver >= 4.0) enum #else @:enum #end abstract GraphicsEventType(String) to String {
     var DRAW_FRAME = "sgm-drawFrame";
     var UPDATE_FRAME = "sgm-updateFrame";
 }
