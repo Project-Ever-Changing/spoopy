@@ -98,7 +98,7 @@ class SpoopyEngine implements IModule {
         __broadcastEvent(DRAW_EVENT, eventDispatcher, uncaughtDispatcher);
     }
 
-    @:noCompletion private function __broadcastEvent<T:{}>(event:SpoopyEvent, dispatcher:SpoopyEventDispatcher<T>, uncaught:SpoopyUncaughtDispatcher<T>):Void {
+    @:noCompletion private function __broadcastEvent<T:String>(event:SpoopyEvent, dispatcher:SpoopyEventDispatcher<T>, uncaught:SpoopyUncaughtDispatcher<T>):Void {
         if(uncaughtDispatcher.__enabled) {
             try {
                 eventDispatcher.__dispatch(event);
