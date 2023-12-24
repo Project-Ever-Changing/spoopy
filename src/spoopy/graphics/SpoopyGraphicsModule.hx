@@ -7,6 +7,7 @@ import spoopy.graphics.state.SpoopyStateManager;
 import spoopy.graphics.modules.SpoopyEntry;
 import spoopy.graphics.modules.SpoopyGPUObject;
 import spoopy.app.SpoopyEngine;
+import spoopy.events.SpoopyEvent;
 import lime.app.Application;
 import lime.ui.Window;
 import lime.graphics.RenderContextAttributes;
@@ -17,6 +18,11 @@ import lime.math.Matrix3;
 * Handles the creation of the window and the rendering of the window.
 * As well as the overall graphics of the application.
 */
+
+#if (haxe_ver >= 4.0) enum #else @:enum #end abstract GraphicsEventType(String) {
+    var DRAW_FRAME = "sgm-drawFrame";
+    var UPDATE_FRAME = "sgm-updateFrame";
+}
 
 @:access(spoopy.graphics.SpoopyWindowContext)
 class SpoopyGraphicsModule implements IWindowModule {
@@ -113,10 +119,24 @@ class SpoopyGraphicsModule implements IWindowModule {
         window.onResize.add(__onWindowResize.bind(window));
 
         __onAddedWindow(window);
+
+        __engine.eventModuleDispatcher.addEventListener(GraphicsEventType.UPDATE_FRAME, SpoopyEvent.ENTER_UPDATE_FRAME, __onUpdateFrame);
+        __engine.eventModuleDispatcher.addEventListener(GraphicsEventType.DRAW_FRAME, SpoopyEvent.ENTER_DRAW_FRAME, __onDrawFrame);
     }
 
     @:noCompletion private function __unregisterWindowModule(window:Window):Void {
+        __engine.eventModuleDispatcher.removeEventListener(GraphicsEventType.UPDATE_FRAME);
+        __engine.eventModuleDispatcher.removeEventListener(GraphicsEventType.DRAW_FRAME);
+
         __context = null;
+    }
+
+    @:noCompletion private function __onUpdateFrame(event:SpoopyEvent):Void {
+        
+    }
+
+    @:noCompletion private function __onDrawFrame(event:SpoopyEvent):Void {
+        
     }
 
     @:noCompletion private function get_window():Window {

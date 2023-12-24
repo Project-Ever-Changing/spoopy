@@ -31,8 +31,8 @@ class SpoopyEngine implements IModule {
     public var eventDispatcher(default, null):SpoopyEventDispatcher<String>;
     public var uncaughtDispatcher(default, null):SpoopyUncaughtDispatcher<String>;
 
-    @:allow(spoopy.graphics.SpoopyGraphicsModule) private var eventModuleDispatcher(default, null):SpoopyEventDispatcher<SpoopyGraphicsModule>;
-    @:allow(spoopy.graphics.SpoopyGraphicsModule) private var uncaughtModuleDispatcher(default, null):SpoopyUncaughtDispatcher<SpoopyGraphicsModule>;
+    @:allow(spoopy.graphics.SpoopyGraphicsModule) private var eventModuleDispatcher(default, null):SpoopyEventDispatcher<GraphicsEventType>;
+    @:allow(spoopy.graphics.SpoopyGraphicsModule) private var uncaughtModuleDispatcher(default, null):SpoopyUncaughtDispatcher<GraphicsEventType>;
 
     /*
     * The number of frames to wait before deleting a node off the queue.
@@ -89,10 +89,12 @@ class SpoopyEngine implements IModule {
     }
 
     @:noCompletion private function __update():Void {
+        __broadcastEvent(UPDATE_EVENT, eventModuleDispatcher, uncaughtModuleDispatcher);
         __broadcastEvent(UPDATE_EVENT, eventDispatcher, uncaughtDispatcher);
     }
 
     @:noCompletion private function __draw():Void {
+        __broadcastEvent(DRAW_EVENT, eventModuleDispatcher, uncaughtModuleDispatcher);
         __broadcastEvent(DRAW_EVENT, eventDispatcher, uncaughtDispatcher);
     }
 
