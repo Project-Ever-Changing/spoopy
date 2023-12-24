@@ -65,8 +65,8 @@ class SpoopyEngine implements IModule {
         eventDispatcher = new SpoopyEventDispatcher<String>();
         uncaughtDispatcher = new SpoopyUncaughtDispatcher<String>();
 
-        eventModuleDispatcher = new SpoopyEventDispatcher<SpoopyGraphicsModule>();
-        uncaughtModuleDispatcher = new SpoopyUncaughtDispatcher<SpoopyGraphicsModule>();
+        eventModuleDispatcher = new SpoopyEventDispatcher<GraphicsEventType>();
+        uncaughtModuleDispatcher = new SpoopyUncaughtDispatcher<GraphicsEventType>();
 
         UPDATE_EVENT = SpoopyEvent.__pool.get();
         UPDATE_EVENT.type = SpoopyEvent.ENTER_UPDATE_FRAME;
