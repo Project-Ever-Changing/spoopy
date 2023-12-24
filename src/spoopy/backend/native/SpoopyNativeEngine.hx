@@ -28,9 +28,3 @@ class SpoopyNativeEngine {
         // shutdown
     }
 }
-
-#if cpp
-typedef SpoopyThread = spoopy.backend.native.cpp.SpoopyNativeThread.ThreadFunctionType;
-#else
-typedef SpoopyThread = Int;
-#end
