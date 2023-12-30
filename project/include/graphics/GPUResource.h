@@ -7,14 +7,14 @@
 namespace lime { namespace spoopy {
     class LogicalDevice;
 
-    template<typename T> class BufferWrapper {
+    template<typename T, typename Device = const LogicalDevice> class GPUResource {
         public:
-            BufferWrapper(const LogicalDevice& device): device(device) {};
+            GPUResource(Device& device): device(device) {}
 
             operator const T &() const { return handle; }
             const T &GetHandle() const { return handle; }
         protected:
-            const LogicalDevice& device;
+            Device& device;
 
             T handle = 0;
     };

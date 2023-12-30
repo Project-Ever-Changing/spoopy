@@ -16,11 +16,12 @@ namespace lime { namespace spoopy {
 
     class QueueVulkan {
         public:
-            QueueVulkan(const LogicalDevice &device, uint32_t familyIndex);
+            QueueVulkan(LogicalDevice &device, uint32_t familyIndex);
 
             operator const VkQueue &() const { return queue; }
             const VkQueue &GetQueue() const { return queue; }
             const uint32_t &GetFamilyIndex() const { return familyIndex; }
+            LogicalDevice &GetDevice() const { return device; }
 
             void GetLastSubmittedInfo(CommandBufferVulkan*& cmdBuffer, uint64_t& fenceCounter);
             //inline void Submit(value cmdBuffers, int count);
@@ -32,7 +33,7 @@ namespace lime { namespace spoopy {
             Mutex mutex;
             VkQueue queue;
 
-            const LogicalDevice &device;
+            LogicalDevice &device;
 
             CommandBufferVulkan* lastSubmittedCommandBuffer;
             uint64_t lastSubmittedCmdBufferFenceCounter;

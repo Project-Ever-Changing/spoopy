@@ -32,7 +32,7 @@ namespace lime { namespace spoopy {
     #ifndef LIME_OPENGL
 
     void spoopy_check_graphics_module() {
-        if(GraphicsModule::GetCurrent() != nullptr) {
+        if(GraphicsModule::GetCurrent()) {
             SPOOPY_LOG_SUCCESS("Graphics module is currently active!");
             return;
         }
@@ -48,6 +48,34 @@ namespace lime { namespace spoopy {
         GraphicsModule::GetCurrent()->ChangeSize(sdlWindow->context, Viewport(viewport));
     }
     DEFINE_PRIME2v(spoopy_resize_graphics_context);
+
+    void spoopy_device_lock_fence() {
+        GraphicsModule::GetCurrent()->GetLogicalDevice()->fenceMutex.Lock();
+    }
+    DEFINE_PRIME0v(spoopy_device_lock_fence);
+
+    void spoopy_device_unlock_fence() {
+        GraphicsModule::GetCurrent()->GetLogicalDevice()->fenceMutex.Unlock();
+    }
+    DEFINE_PRIME0v(spoopy_device_unlock_fence);
+
+    void spoopy_device_hook_callback_to_swapchain_recreate(value window_handle, value callback) {
+        Window* window = (Window*)val_data(window_handle);
+        SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
+        Context context = sdlWindow->context;
+
+        if(!val_is_function(callback)) {
+            SPOOPY_LOG_ERROR("Attempted to hook a non-function to the swapchain recreate callback!");
+            return;
+        }
+
+        if(context->coreRecreateSwapchain) {
+            delete context->coreRecreateSwapchain;
+        }
+
+        context->coreRecreateSwapchain = new ValuePointer(callback);
+    }
+    DEFINE_PRIME2v(spoopy_device_hook_callback_to_swapchain_recreate);
 
     void spoopy_add_color_attachment(value renderpass, int location, int format, bool hasImageLayout, bool sampled) {
         RenderPass* _renderPass = (RenderPass*)val_data(renderpass);
@@ -113,7 +141,7 @@ namespace lime { namespace spoopy {
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
         Context context = sdlWindow->context;
 
-        if(context != nullptr) {
+        if(context) {
             SPOOPY_LOG_SUCCESS("Window has a context!");
             return;
         }

@@ -32,24 +32,7 @@ namespace lime { namespace spoopy {
         // RecreateSwapchains();
     }
 
-    void GraphicsVulkan::RecreateSwapchain(const Context &context) {
-        checkVulkan(vkDeviceWaitIdle(*logicalDevice));
-        context->RecreateSwapchain(*physicalDevice, *logicalDevice, displayExtent, context->GetSwapchain());
-    }
-
-    void GraphicsVulkan::RecreateSwapchains() {
-        checkVulkan(vkDeviceWaitIdle(*logicalDevice));
-
-        for(auto &context: contexts) {
-            context->RecreateSwapchain(*physicalDevice, *logicalDevice, displayExtent, context->GetSwapchain());
-        }
-    }
-
     GraphicsVulkan::~GraphicsVulkan() {
-        for(auto &context: contexts) {
-            context->DestroySwapchain();
-        }
-
         vkDestroyPipelineCache(*logicalDevice, pipelineCache, nullptr);
         contexts.clear();
     }

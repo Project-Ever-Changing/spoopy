@@ -25,7 +25,7 @@ namespace lime { namespace spoopy {
     }
 
     CommandBufferVulkan::~CommandBufferVulkan() {
-        vkFreeCommandBuffers(_device, _commandPool->GetCommandPool(), 1, &_commandBuffer);
+        vkFreeCommandBuffers(_device, _commandPool->GetHandle(), 1, &_commandBuffer);
     }
 
     void CommandBufferVulkan::BeginRecord() {

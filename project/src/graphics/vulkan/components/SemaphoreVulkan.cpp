@@ -6,7 +6,7 @@
 
 namespace lime { namespace spoopy {
     SemaphoreVulkan::SemaphoreVulkan(const LogicalDevice &device):
-    BufferWrapper(device),
+    GPUResource(device),
     semaphore(handle) {
         VkSemaphoreCreateInfo semaphoreInfo = {};
         semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;

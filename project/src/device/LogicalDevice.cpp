@@ -184,4 +184,8 @@ namespace lime { namespace spoopy {
 
         queues[P_Present] = queues[P_Graphics];
     }
+
+    void LogicalDevice::WaitForGPU() {
+        if(logicalDevice != VK_NULL_HANDLE) checkVulkan(vkDeviceWaitIdle(logicalDevice));
+    }
 }}

@@ -24,15 +24,15 @@ namespace lime { namespace spoopy {
 
         private:
             VkPhysicalDevice BestPhysicalDevice(const std::vector<VkPhysicalDevice> &devices);
-
             static uint32_t ScorePhysicalDevice(const VkPhysicalDevice &device);
 
-            const Instance &instance;
-
+        private:
             VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
             VkPhysicalDeviceProperties properties = {};
             VkPhysicalDeviceFeatures features = {};
             VkPhysicalDeviceMemoryProperties memoryProperties = {};
             VkSampleCountFlagBits msaaSamples = VK_SAMPLE_COUNT_1_BIT;
+
+            const Instance &instance;
     };
 }}

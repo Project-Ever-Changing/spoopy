@@ -1,5 +1,6 @@
 #pragma once
 
+#include <system/Mutex.h>
 #include <graphics/ContextLayer.h>
 #include <graphics/Limits.h>
 #include <spoopy.h>
@@ -10,6 +11,7 @@
 #include <vector>
 
 namespace lime { namespace spoopy {
+    class SwapchainVulkan;
     class QueueVulkan;
     class CommandPoolVulkan;
     class PhysicalDevice;
@@ -23,8 +25,6 @@ namespace lime { namespace spoopy {
 
             operator const VkDevice &() const { return logicalDevice; }
 
-            // VkQueue GetQueue(const VkQueueFlagBits queueFamilyIndex) const;
-
             const VkDevice &GetLogicalDevice() const { return logicalDevice; }
             const VkPhysicalDeviceFeatures &GetEnabledFeatures() const { return enabledFeatures; }
 
@@ -34,6 +34,10 @@ namespace lime { namespace spoopy {
             static const std::vector<const char *> Extensions;
 
             void SetupPresentQueue(const Surface &surface);
+            void WaitForGPU();
+
+        public:
+            Mutex fenceMutex;
 
         private:
             friend class GraphicsVulkan;

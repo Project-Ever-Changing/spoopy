@@ -3,7 +3,7 @@
 #include "../../helpers/SpoopyHelpersVulkan.h"
 
 #include <graphics/Enums.h>
-#include <graphics/BufferWrapper.h>
+#include <graphics/GPUResource.h>
 #include <math/Rectangle.h>
 #include <math/Vector2T.h>
 
@@ -16,7 +16,7 @@ namespace lime { namespace spoopy {
     class PipelineShader;
     class MemoryReader;
 
-    class PipelineVulkan: BufferWrapper<VkPipeline> {
+    class PipelineVulkan: public GPUResource<VkPipeline> {
         public:
             PipelineVulkan(const LogicalDevice &device, bool pushDescriptors = false);
             ~PipelineVulkan();

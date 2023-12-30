@@ -17,6 +17,9 @@ namespace lime { namespace spoopy {
             const VkSurfaceKHR &GetSurface() const { return surface; }
             const VkSurfaceCapabilitiesKHR &GetCapabilities() const { return capabilities; }
             const VkSurfaceFormatKHR &GetFormat() const { return format; }
+
+            void CreateSurface();
+            void DestroySurface();
         private:
             void CreateWindowSurface(SDL_Window* window, VkInstance instance, VkSurfaceKHR* surface);
 

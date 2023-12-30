@@ -4,7 +4,7 @@
 #include <assert.h>
 
 namespace lime { namespace spoopy {
-    Image::Image(const LogicalDevice &device, VkFilter filter, VkSamplerAddressMode addressMode, VkSampleCountFlagBits samples, VkImageLayout layout, VkImageUsageFlags usage, VkFormat format, uint32_t mipLevels,
+    Image::Image(LogicalDevice &device, VkFilter filter, VkSamplerAddressMode addressMode, VkSampleCountFlagBits samples, VkImageLayout layout, VkImageUsageFlags usage, VkFormat format, uint32_t mipLevels,
         uint32_t arrayLayers, const VkExtent3D &extent):
         device(device),
         filter(filter),
@@ -154,5 +154,77 @@ namespace lime { namespace spoopy {
         imageViewInfo.subresourceRange.baseArrayLayer = baseArrayLayer;
         imageViewInfo.subresourceRange.layerCount = layerCount;
         checkVulkan(vkCreateImageView(device, &imageViewInfo, nullptr, &imageView));
+    }
+
+    void Image::InsertImageMemoryBarrier(const CommandBufferVulkan &commandBuffer, const VkImage &image, VkAccessFlags srcAccessMask, VkAccessFlags dstAccessMask,
+    VkImageLayout oldImageLayout, VkImageLayout newImageLayout, VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask,
+    VkImageAspectFlags imageAspect, uint32_t mipLevels, uint32_t baseMipLevel, uint32_t layerCount, uint32_t baseArrayLayer) {
+        VkImageMemoryBarrier imageMemoryBarrier = {};
+        imageMemoryBarrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+        imageMemoryBarrier.oldLayout = oldImageLayout;
+        imageMemoryBarrier.newLayout = newImageLayout;
+        imageMemoryBarrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+        imageMemoryBarrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+        imageMemoryBarrier.image = image;
+        imageMemoryBarrier.srcAccessMask = srcAccessMask;
+        imageMemoryBarrier.dstAccessMask = dstAccessMask;
+    }
+
+    VkPipelineStageFlags Image::GetPipelineStageFlags(VkImageLayout layout, VkAccessFlags& accessFlags) {
+        VkPipelineStageFlags stageFlags;
+
+        switch (layout) {
+            case VK_IMAGE_LAYOUT_UNDEFINED:
+                accessFlags = 0;
+                stageFlags = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
+                break;
+            case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
+                accessFlags = VK_ACCESS_TRANSFER_WRITE_BIT;
+                stageFlags = VK_PIPELINE_STAGE_TRANSFER_BIT;
+                break;
+            case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
+                accessFlags = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+                stageFlags = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+                break;
+            case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
+                accessFlags = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+                stageFlags = VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT;
+                break;
+            case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
+                accessFlags = VK_ACCESS_TRANSFER_READ_BIT;
+                stageFlags = VK_PIPELINE_STAGE_TRANSFER_BIT;
+                break;
+            case VK_IMAGE_LAYOUT_PRESENT_SRC_KHR:
+                accessFlags = 0;
+                stageFlags = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
+                break;
+            case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
+                accessFlags = VK_ACCESS_SHADER_READ_BIT;
+                stageFlags = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+                break;
+            case VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL:
+                accessFlags = VK_ACCESS_SHADER_READ_BIT;
+                stageFlags = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+                break;
+
+            #if VK_KHR_maintenance2
+
+            case VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL_KHR:
+			    accessFlags = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+			    stageFlags = VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT;
+			    break;
+
+            #endif
+
+            case VK_IMAGE_LAYOUT_GENERAL:
+                accessFlags = VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT;
+                stageFlags = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+                break;
+            default:
+                throw std::runtime_error("Unsupported layout transition!");
+                break;
+        }
+
+        return stageFlags;
     }
 }}

@@ -1,5 +1,8 @@
 #pragma once
 
+// Should use a Shader Resource View (SRV)
+#define SPOOPY_USE_WINDOW_SRV 1
+
 #if defined(__WIN32__)
 #include <Windows.h>
 #else
@@ -12,6 +15,7 @@
  */
 
 typedef signed int int32;
+typedef long long int64;
 
 #if defined(SPOOPY_VOLK) && defined(SPOOPY_VULKAN)
 
@@ -27,6 +31,7 @@ typedef signed int int32;
 
 #endif
 
+#include <algorithm>
 
 #if __cplusplus == 201103L
 
@@ -37,6 +42,12 @@ namespace std { // Future C++ version intergration
     template<typename T, typename... Args> std::unique_ptr<T> make_unique(Args&&... args) {
         return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
     }
+
+
+
+    template<class T> constexpr const T& clamp(const T& v, const T& lo, const T& hi) {
+		return std::max(std::min(v, hi), lo);
+	}
 }
 
 #endif
@@ -64,6 +75,14 @@ namespace platform {
 
         usleep(milliseconds * 1000);
 
+        #endif
+    }
+
+    inline void memClear(void* ptr, size_t size) {
+        #if defined(__WIN32__)
+        SecureZeroMemory(ptr, size);
+        #else
+        memset(ptr, 0, size);
         #endif
     }
 }

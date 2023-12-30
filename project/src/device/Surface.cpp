@@ -9,6 +9,23 @@ namespace lime { namespace spoopy {
     physicalDevice(physicalDevice),
     logicalDevice(logicalDevice),
     window(window) {
+        CreateSurface();
+    }
+
+    Surface::~Surface() {
+        DestroySurface();
+        window = nullptr;
+    }
+
+    void Surface::CreateWindowSurface(SDL_Window* window, VkInstance instance, VkSurfaceKHR* surface) {
+        #if SPOOPY_SDL
+            if(!SDL_Vulkan_CreateSurface(window, instance, surface)) {
+                printf("%s", "Failed to create window surface, SDL_Error: %s", SDL_GetError());
+            }
+        #endif
+    }
+
+    void Surface::CreateSurface() {
         CreateWindowSurface(window, instance, &surface);
         checkVulkan(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surface, &capabilities));
 
@@ -23,8 +40,8 @@ namespace lime { namespace spoopy {
         }else {
             bool found_B8G8R8A8_UNORM = false;
 
-            for(auto &surfaceFormat: surfaceFormats) {
-                if(surfaceFormat.format == VK_FORMAT_B8G8R8A8_UNORM) {
+            for (auto &surfaceFormat: surfaceFormats) {
+                if (surfaceFormat.format == VK_FORMAT_B8G8R8A8_UNORM) {
                     format.format = surfaceFormat.format;
                     format.colorSpace = surfaceFormat.colorSpace;
                     found_B8G8R8A8_UNORM = true;
@@ -32,24 +49,18 @@ namespace lime { namespace spoopy {
                 }
             }
 
-            if(!found_B8G8R8A8_UNORM) {
+            if (!found_B8G8R8A8_UNORM) {
                 format.format = surfaceFormats[0].format;
                 format.colorSpace = surfaceFormats[0].colorSpace;
             }
-
-            logicalDevice.SetupPresentQueue(*this);
         }
     }
 
-    Surface::~Surface() {
+    void Surface::DestroySurface() {
         vkDestroySurfaceKHR(instance, surface, nullptr);
-    }
 
-    void Surface::CreateWindowSurface(SDL_Window* window, VkInstance instance, VkSurfaceKHR* surface) {
-        #if SPOOPY_SDL
-            if(!SDL_Vulkan_CreateSurface(window, instance, surface)) {
-                printf("%s", "Failed to create window surface, SDL_Error: %s", SDL_GetError());
-            }
-        #endif
+        surface = VK_NULL_HANDLE;
+        capabilities = {};
+        format = {};
     }
 }}

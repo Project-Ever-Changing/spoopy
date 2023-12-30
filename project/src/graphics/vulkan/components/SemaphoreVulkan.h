@@ -1,7 +1,7 @@
 #pragma once
 
 #include <graphics/ContextLayer.h>
-#include <graphics/BufferWrapper.h>
+#include <graphics/GPUResource.h>
 #include <spoopy.h>
 
 /*
@@ -13,11 +13,11 @@ namespace lime { namespace spoopy {
     class GraphicsVulkan;
     class LogicalDevice;
 
-    class SemaphoreVulkan: BufferWrapper<VkSemaphore> {
+    class SemaphoreVulkan: public GPUResource<VkSemaphore> {
         public:
             explicit SemaphoreVulkan(const LogicalDevice &device);
             ~SemaphoreVulkan();
         private:
-            VkSemaphore& semaphore;
+            VkSemaphore &semaphore;
     };
 }}

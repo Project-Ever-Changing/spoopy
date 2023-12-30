@@ -4,6 +4,7 @@
 #include "../../device/LogicalDevice.h"
 #include "../../device/PhysicalDevice.h"
 #include "../../../include/graphics/ContextLayer.h"
+#include "SwapchainVulkan.h"
 
 #include <graphics/Viewport.h>
 #include <math/Vector2T.h>
@@ -35,9 +36,6 @@ namespace lime { namespace spoopy {
             const VkPipelineCache &GetPipelineCache() const { return pipelineCache; }
 
         private:
-            void RecreateSwapchain(const Context &context);
-            void RecreateSwapchains();
-
             static std::unique_ptr<GraphicsVulkan> Main;
 
             std::unique_ptr<Instance> instance;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <system/Mutex.h>
+#include <system/ValuePointer.h>
 #include <core/Log.h>
 #include <spoopy.h>
 
@@ -25,8 +27,7 @@ namespace lime { namespace spoopy {
             ContextVulkan(const std::shared_ptr<QueueVulkan> &queue);
             ~ContextVulkan();
 
-            void RecreateSwapchain(const PhysicalDevice &physicalDevice, const LogicalDevice &logicalDevice, const VkExtent2D &extent, const SwapchainVulkan* oldSwapchain);
-            VkResult AcquireNextImage(const VkSemaphore &presentCompleteSemaphore = VK_NULL_HANDLE, VkFence fence = VK_NULL_HANDLE);
+            // void RecreateSwapchain(const PhysicalDevice &physicalDevice, const LogicalDevice &logicalDevice, const VkExtent2D &extent, const SwapchainVulkan* oldSwapchain);
 
             uint32_t GetImageCount() const;
 
@@ -34,19 +35,28 @@ namespace lime { namespace spoopy {
             void SetVSYNC(uint8_t sync) { this->sync = sync; }
 
             Surface* GetSurface() const { return surface.get(); }
-            SwapchainVulkan* GetSwapchain() const { return swapchain.get(); }
+            SwapchainVulkan* GetSwapchain() const;
             std::shared_ptr<QueueVulkan> GetQueue() const { return queue; }
-
-            void DestroySwapchain();
+            bool RecreateSwapchainWrapper(value coreFunction, int width, int height);
 
             std::unique_ptr<ContextStage> stage;
 
+            VkPipelineStageFlags sourceStage = 0;
+            VkPipelineStageFlags destStage = 0;
+
+            ValuePointer* coreRecreateSwapchain;
+
+        public: // WIP
+            // bool InitSwapchain(int32 width, int32 height);
+
         private:
             uint8_t sync = 0;
+            SwapchainVulkan* swapchain;
 
             std::unique_ptr<Surface> surface;
-            std::unique_ptr<SwapchainVulkan> swapchain;
             std::shared_ptr<QueueVulkan> queue;
+
+            Mutex swapchainMutex;
     };
 
     #endif

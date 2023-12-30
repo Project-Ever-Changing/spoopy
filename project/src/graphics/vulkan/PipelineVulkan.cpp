@@ -10,7 +10,7 @@
 
 namespace lime { namespace spoopy {
     PipelineVulkan::PipelineVulkan(const LogicalDevice &device, bool pushDescriptors)
-    : BufferWrapper(device)
+    : GPUResource(device)
     , pipeline(handle)
     , pushDescriptors(pushDescriptors) {
         viewportAndScissorState = {};

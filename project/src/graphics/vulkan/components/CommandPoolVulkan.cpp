@@ -4,7 +4,9 @@
 #include <spoopy_assert.h>
 
 namespace lime { namespace spoopy {
-    CommandPoolVulkan::CommandPoolVulkan(const LogicalDevice &device, uint32_t queueFamily) {
+    CommandPoolVulkan::CommandPoolVulkan(const LogicalDevice &device, uint32_t queueFamily)
+    : GPUResource(device)
+    , commandPool(handle) {
         VkCommandPoolCreateInfo commandPoolCreateInfo = {};
         commandPoolCreateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
 

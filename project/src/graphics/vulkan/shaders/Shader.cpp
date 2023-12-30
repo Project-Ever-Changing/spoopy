@@ -1,7 +1,10 @@
+#include "../../../device/LogicalDevice.h"
+#include "../../../helpers/SpoopyHelpersVulkan.h"
 #include "Shader.h"
 
 namespace lime { namespace spoopy {
-    Shader::Shader(VkDevice device, Bytes bytes, VkShaderStageFlagBits stage): device(device) {
+    Shader::Shader(const LogicalDevice &device, Bytes bytes, VkShaderStageFlagBits stage)
+    : device(device) {
         CreateModule(bytes);
     }
 

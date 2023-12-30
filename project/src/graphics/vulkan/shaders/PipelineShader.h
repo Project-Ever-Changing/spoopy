@@ -8,7 +8,7 @@
 namespace lime { namespace spoopy {
     class PipelineShader {
         public:
-            PipelineShader(VkDevice device): device(device) {}
+            PipelineShader(const LogicalDevice &device): device(device) {}
             ~PipelineShader();
 
             void CreateVertexShader(Bytes bytes);
@@ -21,7 +21,7 @@ namespace lime { namespace spoopy {
             const std::vector<VkPipelineShaderStageCreateInfo> &GetStageInfos() const { return stageInfos; }
 
         private:
-            VkDevice device;
+            const LogicalDevice &device;
 
             std::vector<VkPipelineShaderStageCreateInfo> stageInfos;
             std::vector<std::unique_ptr<Shader>> shaders;

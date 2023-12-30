@@ -15,8 +15,8 @@ namespace lime { namespace spoopy {
     , thread(nullptr) {}
 
     Engine::~Engine() {
-        if(threadData != nullptr) delete threadData;
-        if(thread != nullptr) SDL_WaitThread(thread, nullptr);
+        if(threadData) delete threadData;
+        if(thread) SDL_WaitThread(thread, nullptr);
     }
 
     int Engine::Run() {
@@ -37,9 +37,7 @@ namespace lime { namespace spoopy {
             }
 
             if(Timer::DrawTick.OnTickBegin(Timer::ReciprocalDrawFPS, MAX_DRAW_DELTA_TIME)) {
-                drawMutex.Lock();
                 threadData->drawCallback->Call();
-                drawMutex.Unlock();
             }
         }
 
@@ -50,12 +48,12 @@ namespace lime { namespace spoopy {
     }
 
     void Engine::BindCallbacks(value updateCallback, value drawCallback) {
-        if(threadData != nullptr) return;
+        if(threadData) return;
         threadData = new ThreadData(updateCallback, drawCallback);
     }
 
     void Engine::BindCallbacks(vclosure* updateCallback, vclosure* drawCallback) {
-        if(threadData != nullptr) return;
+        if(threadData) return;
         threadData = new ThreadData(updateCallback, drawCallback);
     }
 
@@ -98,7 +96,7 @@ namespace lime { namespace spoopy {
     }
 
     Engine::ThreadData::~ThreadData() {
-        if(this->updateCallback.get() != nullptr) this->updateCallback.reset();
-        if(this->drawCallback.get() != nullptr) this->drawCallback.reset();
+        if(this->updateCallback.get()) this->updateCallback.reset();
+        if(this->drawCallback.get()) this->drawCallback.reset();
     }
 }}

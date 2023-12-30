@@ -100,6 +100,10 @@
 		<compilerflag value="-DUSE_CUSTOM_SDL_DEFINITIONS" if="USE_CUSTOM_SDL_DEFINITIONS"/>
 
 		<section if="SPOOPY_VULKAN">
+		    <compilerflag value="-DVK_USE_IMAGE_ACQUIRE_FENCES=1" />
+		    <compilerflag value="-DVK_MAX_BACK_BUFFERS=4" />
+		    <compilerflag value="-DVK_BACK_BUFFERS_COUNT=3" />
+
 		    <compilerflag value="-Ithirdparty/vk" />
 
 		    <file name="thirdparty/vk/vk_mem_alloc.cpp" />
@@ -115,6 +119,7 @@
 			<file name="src/graphics/vulkan/SwapchainVulkan.cpp" />
 			<file name="src/graphics/vulkan/components/CommandPoolVulkan.cpp" />
 			<file name="src/graphics/vulkan/components/SemaphoreVulkan.cpp" />
+			<file name="src/graphics/vulkan/components/FenceVulkan.cpp" />
 			<file name="src/graphics/vulkan/RenderPassVulkan.cpp" />
 			<file name="src/graphics/vulkan/FramebufferVulkan.cpp" />
 			<file name="src/graphics/vulkan/QueueVulkan.cpp" />

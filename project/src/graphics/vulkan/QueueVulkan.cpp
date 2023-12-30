@@ -3,7 +3,7 @@
 #include "CommandBufferVulkan.h"
 
 namespace lime { namespace spoopy {
-    QueueVulkan::QueueVulkan(const LogicalDevice &device, uint32_t familyIndex)
+    QueueVulkan::QueueVulkan(LogicalDevice &device, uint32_t familyIndex)
     : device(device)
     , familyIndex(familyIndex)
     , queue(VK_NULL_HANDLE)
