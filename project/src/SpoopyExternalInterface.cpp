@@ -59,7 +59,7 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME0v(spoopy_device_unlock_fence);
 
-    void spoopy_device_create_swapchain(value window_handle, value callback) {
+    void spoopy_device_init_swapchain(value window_handle, value callback) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
         Context context = sdlWindow->context;
@@ -85,7 +85,7 @@ namespace lime { namespace spoopy {
         context->InitSwapchain(width, height, physicalDevice);
         context->coreRecreateSwapchain = new ValuePointer(callback);
     }
-    DEFINE_PRIME2v(spoopy_device_create_swapchain);
+    DEFINE_PRIME2v(spoopy_device_init_swapchain);
 
     void spoopy_add_color_attachment(value renderpass, int location, int format, bool hasImageLayout, bool sampled) {
         RenderPass* _renderPass = (RenderPass*)val_data(renderpass);

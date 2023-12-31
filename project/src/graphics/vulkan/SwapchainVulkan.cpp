@@ -35,9 +35,6 @@ namespace lime { namespace spoopy {
         Create(oldSwapchain);
     }
 
-    /*
-     *
-     */
     void SwapchainVulkan::Create(const VkSwapchainKHR &oldSwapchain) {
         /*
          * Parts needed to create a swapchain:
@@ -245,6 +242,7 @@ namespace lime { namespace spoopy {
             checkVulkan(result);
         }
 
+        Swapchain::Present();
         return SwapchainStatus::OK;
     }
 
@@ -256,6 +254,11 @@ namespace lime { namespace spoopy {
     , FenceVulkan* fence, int32 prevSemaphoreIndex, int32 semaphoreIndex) {
         SP_ASSERT(currentImageIndex == -1);
 
+        if(presentCounter == 0) {
+            SPOOPY_LOG_ERROR("Swapchain::AcquireNextImage called with no images being presented!");
+            return;
+        }
+
         uint32_t imageIndex = 0;
 
         #ifdef VK_USE_IMAGE_ACQUIRE_FENCES
@@ -265,37 +268,28 @@ namespace lime { namespace spoopy {
         VkFence fenceHandle = VK_NULL_HANDLE;
         #endif
 
-        VkResult result; {
-            const uint32_t maxImageIndex = val_array_size(imageAvailableSemaphore) - 1;
-            const value semaphore = val_array_i(imageAvailableSemaphore, semaphoreIndex);
-            const SemaphoreVulkan& rawSemaphore = *(SemaphoreVulkan*)val_data(semaphore);
+        VkResult result;
 
-            result = vkAcquireNextImageKHR(
-                device,
-                swapchain,
-                UINT64_MAX,
-                rawSemaphore,
-                fenceHandle,
-                &imageIndex
-            );
+        const uint32_t maxImageIndex = val_array_size(imageAvailableSemaphore) - 1;
+        const value semaphore = val_array_i(imageAvailableSemaphore, semaphoreIndex);
+        const SemaphoreVulkan& rawSemaphore = *(SemaphoreVulkan*)val_data(semaphore);
 
-            while(imageIndex > maxImageIndex && (result == VK_SUCCESS || result == VK_SUBOPTIMAL_KHR)) {
-                result = vkAcquireNextImageKHR(
-                    device,
-                    swapchain,
-                    UINT64_MAX,
-                    rawSemaphore,
-                    fenceHandle,
-                    &imageIndex
-                );
-            }
-        }
+        result = vkAcquireNextImageKHR(
+            device,
+            swapchain,
+            UINT64_MAX,
+            rawSemaphore,
+            fenceHandle,
+            &imageIndex
+        );
 
         if(result == VK_ERROR_OUT_OF_DATE_KHR) {
+            SPOOPY_LOG_WARN("Swapchain::AcquireNextImage returned out of date!");
             return (int32)SwapchainStatus::OUT_OF_DATE;
         }
 
         if(result == VK_ERROR_SURFACE_LOST_KHR) {
+            SPOOPY_LOG_WARN("Swapchain::AcquireNextImage returned lost surface!");
             return (int32)SwapchainStatus::LOST_SURFACE;
         }
 
@@ -359,6 +353,7 @@ namespace lime { namespace spoopy {
         }
         swapchain = VK_NULL_HANDLE;
         width = height = 0;
+        presentCounter = 0;
 
         // The front end will handle deleting the acquired fences and semaphores.
     }
