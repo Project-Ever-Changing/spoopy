@@ -27,8 +27,6 @@ namespace lime { namespace spoopy {
             ContextVulkan(const std::shared_ptr<QueueVulkan> &queue);
             ~ContextVulkan();
 
-            // void RecreateSwapchain(const PhysicalDevice &physicalDevice, const LogicalDevice &logicalDevice, const VkExtent2D &extent, const SwapchainVulkan* oldSwapchain);
-
             uint32_t GetImageCount() const;
 
             template<typename... Args> void CreateSurface(Args&&... args) { this->surface = std::make_unique<Surface>(std::forward<Args>(args)...); }
@@ -37,7 +35,9 @@ namespace lime { namespace spoopy {
             Surface* GetSurface() const { return surface.get(); }
             SwapchainVulkan* GetSwapchain() const;
             std::shared_ptr<QueueVulkan> GetQueue() const { return queue; }
-            bool RecreateSwapchainWrapper(value coreFunction, int width, int height);
+            bool RecreateSwapchainWrapper(int width, int height);
+
+            void DestroySwapchain();
 
             std::unique_ptr<ContextStage> stage;
 
@@ -46,12 +46,10 @@ namespace lime { namespace spoopy {
 
             ValuePointer* coreRecreateSwapchain;
 
-        public: // WIP
-            // bool InitSwapchain(int32 width, int32 height);
-
         private:
             uint8_t sync = 0;
             SwapchainVulkan* swapchain;
+            VkSwapchainKHR oldSwapchain;
 
             std::unique_ptr<Surface> surface;
             std::shared_ptr<QueueVulkan> queue;

@@ -23,7 +23,7 @@ namespace lime { namespace spoopy {
         }
     }
 
-    bool ContextVulkan::RecreateSwapchainWrapper(value coreFunction, int width, int height) {
+    bool ContextVulkan::RecreateSwapchainWrapper(int width, int height) {
         ScopeLock lock(swapchainMutex);
 
         if(swapchain->GetWidth() == width && swapchain->GetHeight() == height) {
@@ -31,6 +31,7 @@ namespace lime { namespace spoopy {
         }
 
         queue->GetDevice().WaitForGPU();
+        coreRecreateSwapchain->Call(&width, &height);
         return true;
     }
 
@@ -51,5 +52,9 @@ namespace lime { namespace spoopy {
         }
 
         return swapchain;
+    }
+
+    void ContextVulkan::DestroySwapchain() {
+        swapchain->Destroy(oldSwapchain);
     }
 }}

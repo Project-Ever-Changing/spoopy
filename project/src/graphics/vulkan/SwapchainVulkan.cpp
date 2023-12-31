@@ -23,7 +23,7 @@ namespace lime { namespace spoopy {
      * After the swapchain is created, we need to create attachments for the command buffers to render to.
      * This is done on the frontend side, in Haxe.
      */
-    SwapchainVulkan::SwapchainVulkan(int32 width, int32 height, SwapchainVulkan* oldSwapchain, bool vsync,
+    SwapchainVulkan::SwapchainVulkan(int32 width, int32 height, SwapchainVulkan* oldSwapchain, bool vsync
     , LogicalDevice &device, const PhysicalDevice &physicalDevice, const ContextVulkan &context)
     : GPUResource(device)
     , physicalDevice(physicalDevice)
@@ -79,10 +79,8 @@ namespace lime { namespace spoopy {
         bool foundPresentModeImmediate = false;
         bool foundPresentModeFifo = false;
 
-        for (size_t i=0; i < presentModesCount; i++) {
-            const VkPresentModeKHR& mode = presentModes[i];
-
-            switch(mode) {
+        for (size_t i=0; i<presentModesCount; i++) {
+            switch(presentModes[(int32)i]) {
                 case VK_PRESENT_MODE_IMMEDIATE_KHR:
                     foundPresentModeImmediate = true;
                     break;
@@ -91,6 +89,8 @@ namespace lime { namespace spoopy {
                     break;
                 case VK_PRESENT_MODE_MAILBOX_KHR:
                     foundPresentModeMailbox = true;
+                    break;
+                default:
                     break;
             }
         }
@@ -338,10 +338,20 @@ namespace lime { namespace spoopy {
         acquiredImageIndex = -1;
         currentImageIndex = -1;
 
-        if(swapchain != VK_NULL_HANDLE) {
-            vkDestroySwapchainKHR(device, swapchain, nullptr);
-            swapchain = VK_NULL_HANDLE;
+        // Destroy the old swapchain if it exists, Vulkan does not have a GC for old swapchains
+        // , so we have to do it manually.
+        if(oldSwapchain != VK_NULL_HANDLE) {
+            vkDestroySwapchainKHR(device, oldSwapchain, nullptr);
         }
+
+        bool shouldRecreate = (oldSwapchain != VK_NULL_HANDLE) && vkKeepSwapchain;
+        if(shouldRecreate) {
+            vkDestroySwapchainKHR(device, swapchain, nullptr);
+        }else {
+            oldSwapchain = swapchain;
+        }
+        swapchain = VK_NULL_HANDLE;
+        width = height = 0;
 
         // The front end will handle deleting the acquired fences and semaphores.
     }

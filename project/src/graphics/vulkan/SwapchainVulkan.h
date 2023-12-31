@@ -23,7 +23,7 @@ namespace lime { namespace spoopy {
             };
 
         public:
-            SwapchainVulkan(int32 width, int32 height, SwapchainVulkan *oldSwapchain, bool vsync,
+            SwapchainVulkan(int32 width, int32 height, SwapchainVulkan *oldSwapchain, bool vsync
             , LogicalDevice &device, const PhysicalDevice &physicalDevice, const ContextVulkan &context);
             int32 AcquireNextImage(value imageAvailableSemaphore, FenceVulkan* fence
             , int32 prevSemaphoreIndex, int32 semaphoreIndex);
@@ -36,7 +36,7 @@ namespace lime { namespace spoopy {
             void ReleaseImages();
 
         private:
-            bool sync;
+            bool vsync;
 
             const PhysicalDevice &physicalDevice;
 
