@@ -12,7 +12,9 @@
 namespace lime { namespace spoopy {
     ContextVulkan::ContextVulkan(const std::shared_ptr<QueueVulkan> &queue)
     : queue(queue)
-    , swapchain(nullptr) {
+    , swapchain(nullptr)
+    , oldSwapchain(VK_NULL_HANDLE)
+    , vsync(false) {
 
     }
 
@@ -45,13 +47,8 @@ namespace lime { namespace spoopy {
         return 0;
     }
 
-    SwapchainVulkan* ContextVulkan::GetSwapchain() const {
-        if(!swapchain) {
-            SPOOPY_LOG_WARN("Attempted to get swapchain without a swapchain!");
-            return nullptr;
-        }
-
-        return swapchain;
+    void ContextVulkan::InitSwapchain(int32 width, int32 height, const PhysicalDevice &physicalDevice) {
+        swapchain = new SwapchainVulkan(width, height, oldSwapchain, vsync, queue->GetDevice(), physicalDevice, *this);
     }
 
     void ContextVulkan::DestroySwapchain() {

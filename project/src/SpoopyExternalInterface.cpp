@@ -59,10 +59,18 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME0v(spoopy_device_unlock_fence);
 
-    void spoopy_device_hook_callback_to_swapchain_recreate(value window_handle, value callback) {
+    void spoopy_device_create_swapchain(value window_handle, value callback) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
         Context context = sdlWindow->context;
+
+        int32 width, height;
+        SDL_GetWindowSize(sdlWindow->sdlWindow, &width, &height);
+
+        if(context->GetSwapchain() || context->coreRecreateSwapchain) {
+            SPOOPY_LOG_ERROR("Attempted to hook a callback to the swapchain recreate callback when one already exists!");
+            return;
+        }
 
         if(!val_is_function(callback)) {
             SPOOPY_LOG_ERROR("Attempted to hook a non-function to the swapchain recreate callback!");
@@ -73,9 +81,11 @@ namespace lime { namespace spoopy {
             delete context->coreRecreateSwapchain;
         }
 
+        const PhysicalDevice& physicalDevice = *GraphicsModule::GetCurrent()->GetPhysicalDevice();
+        context->InitSwapchain(width, height, physicalDevice);
         context->coreRecreateSwapchain = new ValuePointer(callback);
     }
-    DEFINE_PRIME2v(spoopy_device_hook_callback_to_swapchain_recreate);
+    DEFINE_PRIME2v(spoopy_device_create_swapchain);
 
     void spoopy_add_color_attachment(value renderpass, int location, int format, bool hasImageLayout, bool sampled) {
         RenderPass* _renderPass = (RenderPass*)val_data(renderpass);

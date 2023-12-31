@@ -23,7 +23,7 @@ namespace lime { namespace spoopy {
      * After the swapchain is created, we need to create attachments for the command buffers to render to.
      * This is done on the frontend side, in Haxe.
      */
-    SwapchainVulkan::SwapchainVulkan(int32 width, int32 height, SwapchainVulkan* oldSwapchain, bool vsync
+    SwapchainVulkan::SwapchainVulkan(int32 width, int32 height, VkSwapchainKHR &oldSwapchain, bool vsync
     , LogicalDevice &device, const PhysicalDevice &physicalDevice, const ContextVulkan &context)
     : GPUResource(device)
     , physicalDevice(physicalDevice)
@@ -32,6 +32,13 @@ namespace lime { namespace spoopy {
     , acquiredImageIndex(-1)
     , currentImageIndex(-1)
     , vsync(vsync) {
+        Create(oldSwapchain);
+    }
+
+    /*
+     *
+     */
+    void SwapchainVulkan::Create(const VkSwapchainKHR &oldSwapchain) {
         /*
          * Parts needed to create a swapchain:
          *
@@ -52,8 +59,8 @@ namespace lime { namespace spoopy {
 
         const uint32_t minSwapBufferCount = std::max<uint32_t>(context.GetSurface()->GetCapabilities().minImageCount, 2);
         const uint32_t maxSwapBufferCount = context.GetSurface()->GetCapabilities().maxImageCount == 0
-        ? VK_MAX_BACK_BUFFERS
-        : std::min<uint32_t>(context.GetSurface()->GetCapabilities().maxImageCount, VK_MAX_BACK_BUFFERS);
+                                            ? VK_MAX_BACK_BUFFERS
+                                            : std::min<uint32_t>(context.GetSurface()->GetCapabilities().maxImageCount, VK_MAX_BACK_BUFFERS);
 
         if(minSwapBufferCount > maxSwapBufferCount) {
             SPOOPY_LOG_ERROR("minImageCount is greater than maxImageCount!");
@@ -64,7 +71,7 @@ namespace lime { namespace spoopy {
         device.SetupPresentQueue(*context.GetSurface());
 
 
-         // Present mode (1)
+        // Present mode (1)
 
         VkPresentModeKHR presentMode = VK_PRESENT_MODE_FIFO_KHR;
 
@@ -146,7 +153,7 @@ namespace lime { namespace spoopy {
 
         swapChainInfo.presentMode = presentMode;
         swapChainInfo.clipped = VK_TRUE;
-        swapChainInfo.oldSwapchain = (oldSwapchain) ? oldSwapchain->GetHandle() : VK_NULL_HANDLE;
+        swapChainInfo.oldSwapchain = (oldSwapchain != VK_NULL_HANDLE) ? oldSwapchain : VK_NULL_HANDLE;
         swapChainInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
 
         if(surfProperties.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR) {
@@ -159,7 +166,7 @@ namespace lime { namespace spoopy {
 
         VkBool32 supportsPresent;
         checkVulkan(vkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice, context.GetQueue()->GetFamilyIndex()
-        , surface, &supportsPresent));
+                , surface, &supportsPresent));
         SP_ASSERT(supportsPresent);
         checkVulkan(vkCreateSwapchainKHR(device, &swapChainInfo, nullptr, &swapchain));
 

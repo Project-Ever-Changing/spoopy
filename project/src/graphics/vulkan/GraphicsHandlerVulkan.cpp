@@ -54,7 +54,7 @@ namespace lime { namespace spoopy {
         return 0;
     }
 
-    int GraphicsHandler::Handler_SwapInterval(int vsync) {
+    int GraphicsHandler::Handler_SwapInterval(bool vsync) {
         auto& contexts = GraphicsVulkan::Main->contexts;
 
         for(size_t i=0; i<contexts.size(); ++i) {

@@ -25,7 +25,7 @@ namespace lime { namespace spoopy {
         static Context Handler_CreateContext(SDL_Window* m_window);
         static void Handler_DestroyContext(const Context &context);
         static int Handler_MakeCurrent(SDL_Window* m_window, const Context &context);
-        static int Handler_SwapInterval(int vsync);
+        static int Handler_SwapInterval(bool vsync);
     };
 }}
 

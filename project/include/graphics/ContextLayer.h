@@ -30,13 +30,14 @@ namespace lime { namespace spoopy {
             uint32_t GetImageCount() const;
 
             template<typename... Args> void CreateSurface(Args&&... args) { this->surface = std::make_unique<Surface>(std::forward<Args>(args)...); }
-            void SetVSYNC(uint8_t sync) { this->sync = sync; }
+            void SetVSYNC(bool sync) { this->vsync = sync; }
 
             Surface* GetSurface() const { return surface.get(); }
-            SwapchainVulkan* GetSwapchain() const;
+            SwapchainVulkan* GetSwapchain() const { return swapchain; }
             std::shared_ptr<QueueVulkan> GetQueue() const { return queue; }
             bool RecreateSwapchainWrapper(int width, int height);
 
+            void InitSwapchain(int32 width, int32 height, const PhysicalDevice &physicalDevice);
             void DestroySwapchain();
 
             std::unique_ptr<ContextStage> stage;
@@ -47,7 +48,7 @@ namespace lime { namespace spoopy {
             ValuePointer* coreRecreateSwapchain;
 
         private:
-            uint8_t sync = 0;
+            bool vsync;
             SwapchainVulkan* swapchain;
             VkSwapchainKHR oldSwapchain;
 
