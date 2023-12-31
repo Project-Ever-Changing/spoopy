@@ -23,14 +23,15 @@ namespace lime { namespace spoopy {
      * After the swapchain is created, we need to create attachments for the command buffers to render to.
      * This is done on the frontend side, in Haxe.
      */
-    SwapchainVulkan::SwapchainVulkan(int32 width, int32 height, SwapchainVulkan* oldSwapchain
+    SwapchainVulkan::SwapchainVulkan(int32 width, int32 height, SwapchainVulkan* oldSwapchain, bool vsync,
     , LogicalDevice &device, const PhysicalDevice &physicalDevice, const ContextVulkan &context)
     : GPUResource(device)
     , physicalDevice(physicalDevice)
     , Swapchain(context)
     , swapchain(VK_NULL_HANDLE)
     , acquiredImageIndex(-1)
-    , currentImageIndex(-1) {
+    , currentImageIndex(-1)
+    , vsync(vsync) {
         /*
          * Parts needed to create a swapchain:
          *
@@ -80,13 +81,13 @@ namespace lime { namespace spoopy {
 
         for (size_t i=0; i < presentModesCount; i++) { // I sadly can't use a switch here because CLion is dumb
             const VkPresentModeKHR& mode = presentModes[i]; // Yes I use CLion, don't ask why and how I can afford it
-
-            if(mode == VK_PRESENT_MODE_MAILBOX_KHR) {
-                foundPresentModeMailbox = true;
-            } else if(mode == VK_PRESENT_MODE_IMMEDIATE_KHR) {
-                foundPresentModeImmediate = true;
-            } else if(mode == VK_PRESENT_MODE_FIFO_KHR) {
+            
+            if(mode == VK_PRESENT_MODE_IMMEDIATE_KHR && !vsync) {
                 foundPresentModeFifo = true;
+            }else if(mode == VK_PRESENT_MODE_FIFO_KHR) {
+                foundPresentModeImmediate = true;
+            }else if(mode == VK_PRESENT_MODE_MAILBOX_KHR) {
+                foundPresentModeMailbox = true;
             }
         }
 
@@ -300,6 +301,22 @@ namespace lime { namespace spoopy {
         return currentImageIndex;
     }
 
+    void SwapchainVulkan::ReleaseImageViews() {
+        for(int32 i=0; i<imageViews.size(); i++) {
+            vkDestroyImageView(device, imageViews[i], nullptr);
+        }
+
+        imageViews.clear();
+    }
+
+    void SwapchainVulkan::ReleaseImages() {
+        for(int32 i=0; i<images.size(); i++) {
+            vkDestroyImage(device, images[i], nullptr);
+        }
+
+        images.clear();
+    }
+
     /*
      * Have the front end handle the swapchain deletion of resources such as flushing command buffers
      * , deleting the acquired fences and semaphores, and back buffers.
@@ -311,7 +328,16 @@ namespace lime { namespace spoopy {
 
         device.WaitForGPU();
 
+        ReleaseImages();
+        ReleaseImageViews();
 
+        acquiredImageIndex = -1;
+        currentImageIndex = -1;
+
+        if(swapchain != VK_NULL_HANDLE) {
+            vkDestroySwapchainKHR(device, swapchain, nullptr);
+            swapchain = VK_NULL_HANDLE;
+        }
 
         // The front end will handle deleting the acquired fences and semaphores.
     }
