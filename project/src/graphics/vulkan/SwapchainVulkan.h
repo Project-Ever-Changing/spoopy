@@ -25,9 +25,9 @@ namespace lime { namespace spoopy {
         public:
             SwapchainVulkan(int32 width, int32 height, SwapchainVulkan *oldSwapchain
             , LogicalDevice &device, const PhysicalDevice &physicalDevice, const ContextVulkan &context);
-            int32 AcquireNextImage(value imageAvailableSemaphore, FenceVulkan *fence
+            int32 AcquireNextImage(value imageAvailableSemaphore, FenceVulkan* fence
             , int32 prevSemaphoreIndex, int32 semaphoreIndex);
-            SwapchainStatus Present(const QueueVulkan &queue, SemaphoreVulkan *waitSemaphore);
+            SwapchainStatus Present(const QueueVulkan &queue, SemaphoreVulkan* waitSemaphore);
             void Destroy(VkSwapchainKHR &oldSwapchain);
             void FindSurfaceFormat(VkSurfaceFormatKHR &resultFormat, VkColorSpaceKHR colorSpace);
 
