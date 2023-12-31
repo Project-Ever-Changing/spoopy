@@ -24,7 +24,7 @@ namespace lime { namespace spoopy {
      * This is done on the frontend side, in Haxe.
      */
     SwapchainVulkan::SwapchainVulkan(int32 width, int32 height, SwapchainVulkan* oldSwapchain
-    , LogicalDevice& device, const PhysicalDevice &physicalDevice, const ContextVulkan& context)
+    , LogicalDevice &device, const PhysicalDevice &physicalDevice, const ContextVulkan &context)
     : GPUResource(device)
     , physicalDevice(physicalDevice)
     , Swapchain(context)
