@@ -81,11 +81,11 @@ namespace lime { namespace spoopy {
 
         for (size_t i=0; i < presentModesCount; i++) { // I sadly can't use a switch here because CLion is dumb
             const VkPresentModeKHR& mode = presentModes[i]; // Yes I use CLion, don't ask why and how I can afford it
-            
+
             if(mode == VK_PRESENT_MODE_IMMEDIATE_KHR && !vsync) {
-                foundPresentModeFifo = true;
-            }else if(mode == VK_PRESENT_MODE_FIFO_KHR) {
                 foundPresentModeImmediate = true;
+            }else if(mode == VK_PRESENT_MODE_FIFO_KHR) {
+                foundPresentModeFifo = true;
             }else if(mode == VK_PRESENT_MODE_MAILBOX_KHR) {
                 foundPresentModeMailbox = true;
             }
