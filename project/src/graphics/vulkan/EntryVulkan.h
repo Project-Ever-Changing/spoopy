@@ -9,6 +9,7 @@ namespace lime { namespace spoopy {
     class EntryVulkan {
         public:
             EntryVulkan(QueueVulkan &queue);
+            ~EntryVulkan();
 
             bool IsGPUOperationComplete();
 

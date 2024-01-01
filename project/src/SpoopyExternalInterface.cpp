@@ -65,7 +65,7 @@ namespace lime { namespace spoopy {
         Context context = sdlWindow->context;
 
         int32 width, height;
-        SDL_GetWindowSize(sdlWindow->sdlWindow, &width, &height);
+        GetDrawableSize(sdlWindow->sdlWindow, &width, &height);
 
         if(context->GetSwapchain() || context->coreRecreateSwapchain) {
             SPOOPY_LOG_ERROR("Attempted to hook a callback to the swapchain recreate callback when one already exists!");
@@ -86,6 +86,43 @@ namespace lime { namespace spoopy {
         context->coreRecreateSwapchain = new ValuePointer(callback);
     }
     DEFINE_PRIME2v(spoopy_device_init_swapchain);
+
+    void spoopy_device_create_swapchain(value window_handle) {
+        Window* window = (Window*)val_data(window_handle);
+        SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
+        Context context = sdlWindow->context;
+
+        if(!context->coreRecreateSwapchain) {
+            SPOOPY_LOG_ERROR("Attempted to create a swapchain without a callback!");
+            return;
+        }
+
+        context->CreateSwapchain();
+    }
+    DEFINE_PRIME1v(spoopy_device_create_swapchain);
+
+    void spoopy_device_destroy_swapchain(value window_handle) {
+        Window* window = (Window*)val_data(window_handle);
+        SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
+        Context context = sdlWindow->context;
+
+        if(!context->GetSwapchain()) {
+            SPOOPY_LOG_ERROR("Attempted to destroy a swapchain that doesn't exist!");
+            return;
+        }
+
+        context->DestroySwapchain();
+    }
+    DEFINE_PRIME1v(spoopy_device_destroy_swapchain);
+
+    int spoopy_device_get_swapchain_image_count(value window_handle) {
+        Window* window = (Window*)val_data(window_handle);
+        SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
+        Context context = sdlWindow->context;
+
+        return (int)context->GetSwapchain()->GetImageCount();
+    }
+    DEFINE_PRIME1(spoopy_device_get_swapchain_image_count);
 
     void spoopy_add_color_attachment(value renderpass, int location, int format, bool hasImageLayout, bool sampled) {
         RenderPass* _renderPass = (RenderPass*)val_data(renderpass);

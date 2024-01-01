@@ -2,10 +2,6 @@
  * Precisely as the file name suggests, this cpp file contains objects that
  * aren't affiliated with Haxe's garbage collector. These classes are mainly
  * low-level wrapped objects tailored to Vulkan and, in the future, DirectX-12.
- * I can't trust the Haxe garbage compiler to deallocate these objects
- * since they are significant in GPU rendering.
- *
- * NOTE: Haxe Garbage Collector does not affect these objects, but it does delete Haxe's CFFIPointer.
  */
 
 #include <system/CFFI.h>
@@ -31,21 +27,46 @@ typedef lime::spoopy::FenceVulkan GPUFence;
 #endif
 
 namespace lime { namespace spoopy {
+    /*
+     * Delete Wrapper
+     */
+    void spoopy_delete_semaphore(value semaphore) {
+        GPUSemaphore* _semaphore = (GPUSemaphore*)val_data(semaphore);
+        delete _semaphore;
+    }
+
+    void spoopy_delete_pipeline(value pipeline) {
+        Pipeline* _pipeline = (Pipeline*)val_data(pipeline);
+        delete _pipeline;
+    }
+
+    void spoopy_delete_gpu_fence(value fence) {
+        GPUFence* _fence = (GPUFence*)val_data(fence);
+        delete _fence;
+    }
+
+
     value spoopy_create_semaphore() {
         GPUSemaphore* _semaphore = new GPUSemaphore(*GraphicsModule::GetCurrent()->GetLogicalDevice());
-        return CFFIPointer(_semaphore, nullptr);
+        return CFFIPointer(_semaphore, spoopy_delete_semaphore);
     }
     DEFINE_PRIME0(spoopy_create_semaphore);
 
+    void spoopy_recreate_semaphore(value semaphore) {
+        GPUSemaphore* _semaphore = (GPUSemaphore*)val_data(semaphore);
+        _semaphore->Create();
+    }
+    DEFINE_PRIME1v(spoopy_recreate_semaphore);
+
     value spoopy_create_pipeline() {
         Pipeline *_pipeline = new Pipeline(*GraphicsModule::GetCurrent()->GetLogicalDevice());
-        return CFFIPointer(_pipeline, nullptr);
+        return CFFIPointer(_pipeline, spoopy_delete_pipeline);
     }
     DEFINE_PRIME0(spoopy_create_pipeline);
 
     value spoopy_create_gpu_fence(bool signaled) {
         GPUFence* _fence = new GPUFence(*GraphicsModule::GetCurrent()->GetLogicalDevice(), signaled);
-        return CFFIPointer(_fence, nullptr);
+        return CFFIPointer(_fence, spoopy_delete_gpu_fence);
     }
     DEFINE_PRIME1(spoopy_create_gpu_fence);
 
@@ -96,9 +117,9 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME2v(spoopy_pipeline_set_vertex_input);
 
-    void spoopy_dealloc_gpu_cffi_pointer(int type, value pointer) { // Pure CFFIPointer Deallocator
+    void spoopy_dealloc_gpu_cffi_pointer(int type, value pointer) { // Pure Deallocator for raw references
         switch((BackendType)type) {
-            #define SAFE_CASE(x) case BackendType::x: { x* buffer = (x*)val_data(pointer); delete buffer; buffer = nullptr; break; }
+            #define SAFE_CASE(x) case BackendType::x: { x* buffer = (x*)val_data(pointer); buffer->Destroy(); break; }
 
             SAFE_CASE(GPUSemaphore);
             SAFE_CASE(Pipeline);

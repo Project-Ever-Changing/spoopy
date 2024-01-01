@@ -8,12 +8,13 @@ namespace lime { namespace spoopy {
     class FenceVulkan: public GPUResource<VkFence> {
         public:
             explicit FenceVulkan(const LogicalDevice &device, bool signaled);
-            ~FenceVulkan();
 
             bool Wait(uint64_t nanoseconds);
             void Reset();
 
-        void SetSignaled(bool signaled) { this->signaled = signaled; }
+            void SetSignaled(bool signaled) { this->signaled = signaled; }
+
+            void Destroy() override;
 
         private:
             VkFence &fence;

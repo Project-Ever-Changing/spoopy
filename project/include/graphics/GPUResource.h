@@ -13,6 +13,8 @@ namespace lime { namespace spoopy {
 
             operator const T &() const { return handle; }
             const T &GetHandle() const { return handle; }
+
+            virtual void Destroy() {}
         protected:
             Device &device;
 

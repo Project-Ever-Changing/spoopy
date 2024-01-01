@@ -16,7 +16,7 @@ namespace lime { namespace spoopy {
         checkVulkan(vkCreateFence(device, &fenceInfo, nullptr, &fence));
     }
 
-    FenceVulkan::~FenceVulkan() {
+    void FenceVulkan::Destroy() {
         SP_ASSERT(fence != VK_NULL_HANDLE);
         vkDestroyFence(device, fence, nullptr);
         fence = VK_NULL_HANDLE;

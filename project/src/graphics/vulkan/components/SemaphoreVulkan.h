@@ -16,8 +16,13 @@ namespace lime { namespace spoopy {
     class SemaphoreVulkan: public GPUResource<VkSemaphore> {
         public:
             explicit SemaphoreVulkan(const LogicalDevice &device);
-            ~SemaphoreVulkan();
+
+            void Create();
+
+            void Destroy() override;
+
         private:
-            VkSemaphore &semaphore;
+            VkSemaphoreCreateInfo semaphoreInfo = {};
+            VkSemaphore semaphore;
     };
 }}

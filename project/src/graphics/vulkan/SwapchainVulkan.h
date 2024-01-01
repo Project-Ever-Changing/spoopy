@@ -32,6 +32,8 @@ namespace lime { namespace spoopy {
             void Destroy(VkSwapchainKHR &oldSwapchain);
             void FindSurfaceFormat(VkSurfaceFormatKHR &resultFormat, VkColorSpaceKHR colorSpace);
 
+            size_t GetImageCount() const { return images.size(); }
+
         private:
             void ReleaseImageViews();
             void ReleaseImages();

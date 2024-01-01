@@ -113,9 +113,7 @@ namespace lime { namespace spoopy {
 
         // Surface capabilities (2)
 
-        VkSurfaceCapabilitiesKHR surfaceCapabilities;
-        checkVulkan(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surface, &surfaceCapabilities));
-
+        VkSurfaceCapabilitiesKHR surfaceCapabilities = context.GetSurface()->GetCapabilities();
         width = std::clamp<int32_t>(width, surfaceCapabilities.minImageExtent.width, surfaceCapabilities.maxImageExtent.width);
         height = std::clamp<int32_t>(height, surfaceCapabilities.minImageExtent.height, surfaceCapabilities.maxImageExtent.height);
 
@@ -142,9 +140,7 @@ namespace lime { namespace spoopy {
         #endif
 
         swapChainInfo.preTransform = surfaceCapabilities.currentTransform;
-
-        VkSurfaceCapabilitiesKHR surfProperties = context.GetSurface()->GetCapabilities();
-        if(surfProperties.supportedTransforms & VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR) {
+        if(surfaceCapabilities.supportedTransforms & VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR) {
             swapChainInfo.preTransform = VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR;
         }
 
@@ -153,17 +149,17 @@ namespace lime { namespace spoopy {
         swapChainInfo.oldSwapchain = (oldSwapchain != VK_NULL_HANDLE) ? oldSwapchain : VK_NULL_HANDLE;
         swapChainInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
 
-        if(surfProperties.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR) {
+        if(surfaceCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR) {
             swapChainInfo.compositeAlpha = VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR;
-        }else if(surfProperties.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR) {
+        }else if(surfaceCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR) {
             swapChainInfo.compositeAlpha = VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR;
-        }else if(surfProperties.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR) {
+        }else if(surfaceCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR) {
             swapChainInfo.compositeAlpha = VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR;
         }
 
         VkBool32 supportsPresent;
         checkVulkan(vkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice, context.GetQueue()->GetFamilyIndex()
-                , surface, &supportsPresent));
+        , surface, &supportsPresent));
         SP_ASSERT(supportsPresent);
         checkVulkan(vkCreateSwapchainKHR(device, &swapChainInfo, nullptr, &swapchain));
 
@@ -256,7 +252,7 @@ namespace lime { namespace spoopy {
 
         if(presentCounter == 0) {
             SPOOPY_LOG_ERROR("Swapchain::AcquireNextImage called with no images being presented!");
-            return;
+            return -1;
         }
 
         uint32_t imageIndex = 0;
@@ -355,6 +351,6 @@ namespace lime { namespace spoopy {
         width = height = 0;
         presentCounter = 0;
 
-        // The front end will handle deleting the acquired fences and semaphores.
+        // The front end will handle flushing the acquired fences and semaphores.
     }
 }}

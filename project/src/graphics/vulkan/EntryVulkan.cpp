@@ -8,6 +8,10 @@ namespace lime { namespace spoopy {
         queue.GetLastSubmittedInfo(lastSubmittedCommandBuffer, lastSubmittedCmdBufferFenceCounter);
     }
 
+    EntryVulkan::~EntryVulkan() {
+        lastSubmittedCommandBuffer = nullptr;
+    }
+
     bool EntryVulkan::IsGPUOperationComplete() {
         if (lastSubmittedCommandBuffer == nullptr) {
             return true;

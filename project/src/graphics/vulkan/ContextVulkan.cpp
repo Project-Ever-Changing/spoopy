@@ -37,18 +37,12 @@ namespace lime { namespace spoopy {
         return true;
     }
 
-    uint32_t ContextVulkan::GetImageCount() const {
-        if(!swapchain) {
-            SPOOPY_LOG_WARN("Attempted to get image count without a swapchain!");
-            return 0;
-        }
-
-        //return swapchain->GetImageCount();
-        return 0;
-    }
-
     void ContextVulkan::InitSwapchain(int32 width, int32 height, const PhysicalDevice &physicalDevice) {
         swapchain = new SwapchainVulkan(width, height, oldSwapchain, vsync, queue->GetDevice(), physicalDevice, *this);
+    }
+
+    void ContextVulkan::CreateSwapchain() {
+        swapchain->Create(oldSwapchain);
     }
 
     void ContextVulkan::DestroySwapchain() {
