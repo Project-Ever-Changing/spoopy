@@ -117,8 +117,8 @@ namespace lime { namespace spoopy {
     }
 
     void CommandBufferVulkan::BeginRenderPass(const VkRenderPass &renderPass, const VkFramebuffer &frameBuffer,
-                                              uint32_t width, uint32_t height, uint32_t colorAttachmentCount, uint32_t depthAttachment,
-                                              VkSubpassContents contentsFlag) {
+    uint32_t width, uint32_t height, uint32_t colorAttachmentCount, uint32_t depthAttachment,
+    VkSubpassContents contentsFlag) {
         std::vector<VkClearValue> clearValues(colorAttachmentCount + depthAttachment);
 
         for(uint32_t i=0; i<colorAttachmentCount; ++i) {
