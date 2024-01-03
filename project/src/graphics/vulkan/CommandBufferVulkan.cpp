@@ -64,39 +64,6 @@ namespace lime { namespace spoopy {
         _sType = type;
     }
 
-    /*
-     * I'm deciding if having the command buffer be responsible for submitting itself is a good idea.
-     * I'm leaning towards no based on spoopy's unique design, but I'm not sure yet.
-     *
-    void CommandBufferVulkan::Submit(const VkSemaphore &waitSemaphore, const VkSemaphore &signalSemaphore, VkFence fence) {
-        auto queue = device.GetQueue(_queueType);
-
-        VkSubmitInfo submitInfo = {};
-        submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-        submitInfo.waitSemaphoreCount = 1;
-        submitInfo.pCommandBuffers = &_commandBuffer;
-
-        if(waitSemaphore != VK_NULL_HANDLE) {
-            static VkPipelineStageFlags submitPipelineStages = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-
-            submitInfo.pWaitSemaphores = &waitSemaphore;
-            submitInfo.pWaitDstStageMask = &submitPipelineStages;
-            submitInfo.waitSemaphoreCount = 1;
-        }
-
-        if(signalSemaphore != VK_NULL_HANDLE) {
-            submitInfo.pSignalSemaphores = &signalSemaphore;
-            submitInfo.signalSemaphoreCount = 1;
-        }
-
-        if(fence != VK_NULL_HANDLE) {
-            checkVulkan(vkResetFences(device, 1, &fence));
-        }
-
-        checkVulkan(vkQueueSubmit(queue, 1, &submitInfo, fence));
-    }
-     */
-
     void CommandBufferVulkan::SubmitIdle(const VkQueue &queue) {
         if (running) {
             EndRecord();
