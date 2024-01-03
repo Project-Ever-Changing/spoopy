@@ -9,6 +9,8 @@ namespace lime { namespace spoopy {
     : GPUResource(device)
     , fence(handle)
     , signaled(signaled) {
+        fence = VK_NULL_HANDLE;
+
         VkFenceCreateInfo fenceInfo = {};
         fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
         fenceInfo.flags = signaled ? VK_FENCE_CREATE_SIGNALED_BIT : 0;

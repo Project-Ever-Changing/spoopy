@@ -5,19 +5,21 @@
 #include <vector>
 
 namespace lime { namespace spoopy {
-    CommandBufferVulkan::CommandBufferVulkan(CommandPoolVulkan* pool, bool begin, VkCommandBufferLevel bufferLevel):
-            _device(*GraphicsVulkan::GetCurrent()->GetLogicalDevice()),
-            _usageFlags(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT),
-            _sType(VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO),
-            _fenceSignaledCounter(0),
-            _commandPool(pool) {
+    CommandBufferVulkan::CommandBufferVulkan(CommandPoolVulkan* pool, bool begin, VkCommandBufferLevel bufferLevel)
+    : GPUResource(*GraphicsVulkan::GetCurrent()->GetLogicalDevice())
+    , _usageFlags(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT)
+    , _sType(VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO)
+    , _fenceSignaledCounter(0)
+    , _commandPool(pool)
+    , _commandBuffer(handle) {
+        _commandBuffer = VK_NULL_HANDLE;
 
         VkCommandBufferAllocateInfo commandBufferAllocateInfo = {};
         commandBufferAllocateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
         commandBufferAllocateInfo.commandPool = *_commandPool;
         commandBufferAllocateInfo.level = bufferLevel;
         commandBufferAllocateInfo.commandBufferCount = 1;
-        checkVulkan(vkAllocateCommandBuffers(_device, &commandBufferAllocateInfo, &_commandBuffer));
+        checkVulkan(vkAllocateCommandBuffers(device, &commandBufferAllocateInfo, &_commandBuffer));
 
         if (begin) {
             BeginRecord();
@@ -25,7 +27,7 @@ namespace lime { namespace spoopy {
     }
 
     CommandBufferVulkan::~CommandBufferVulkan() {
-        vkFreeCommandBuffers(_device, _commandPool->GetHandle(), 1, &_commandBuffer);
+        vkFreeCommandBuffers(device, _commandPool->GetHandle(), 1, &_commandBuffer);
     }
 
     void CommandBufferVulkan::BeginRecord() {
@@ -67,7 +69,7 @@ namespace lime { namespace spoopy {
      * I'm leaning towards no based on spoopy's unique design, but I'm not sure yet.
      *
     void CommandBufferVulkan::Submit(const VkSemaphore &waitSemaphore, const VkSemaphore &signalSemaphore, VkFence fence) {
-        auto queue = _device.GetQueue(_queueType);
+        auto queue = device.GetQueue(_queueType);
 
         VkSubmitInfo submitInfo = {};
         submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -88,7 +90,7 @@ namespace lime { namespace spoopy {
         }
 
         if(fence != VK_NULL_HANDLE) {
-            checkVulkan(vkResetFences(_device, 1, &fence));
+            checkVulkan(vkResetFences(device, 1, &fence));
         }
 
         checkVulkan(vkQueueSubmit(queue, 1, &submitInfo, fence));
@@ -109,11 +111,11 @@ namespace lime { namespace spoopy {
         fenceCreateInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
 
         VkFence fence;
-        checkVulkan(vkCreateFence(_device, &fenceCreateInfo, nullptr, &fence));
-        checkVulkan(vkResetFences(_device, 1, &fence));
+        checkVulkan(vkCreateFence(device, &fenceCreateInfo, nullptr, &fence));
+        checkVulkan(vkResetFences(device, 1, &fence));
         checkVulkan(vkQueueSubmit(queue, 1, &submitInfo, fence));
-        checkVulkan(vkWaitForFences(_device, 1, &fence, VK_TRUE, UINT64_MAX));
-        vkDestroyFence(_device, fence, nullptr);
+        checkVulkan(vkWaitForFences(device, 1, &fence, VK_TRUE, UINT64_MAX));
+        vkDestroyFence(device, fence, nullptr);
     }
 
     void CommandBufferVulkan::BeginRenderPass(const VkRenderPass &renderPass, const VkFramebuffer &frameBuffer,

@@ -12,6 +12,7 @@
 namespace lime { namespace spoopy {
     #ifdef LIME_VULKAN
 
+    class SemaphoreVulkan;
     class SwapchainVulkan;
     class PhysicalDevice;
     class LogicalDevice;
@@ -38,6 +39,7 @@ namespace lime { namespace spoopy {
             bool RecreateSwapchainWrapper(int width, int height);
 
             void InitSwapchain(int32 width, int32 height, const PhysicalDevice &physicalDevice);
+            int PresentImageSwapchain(QueueVulkan* queue, SemaphoreVulkan* waitSemaphore);
             void CreateSwapchain();
             void DestroySwapchain();
 

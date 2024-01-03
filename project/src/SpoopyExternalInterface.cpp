@@ -92,11 +92,6 @@ namespace lime { namespace spoopy {
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
         Context context = sdlWindow->context;
 
-        if(!context->coreRecreateSwapchain) {
-            SPOOPY_LOG_ERROR("Attempted to create a swapchain without a callback!");
-            return;
-        }
-
         context->CreateSwapchain();
     }
     DEFINE_PRIME1v(spoopy_device_create_swapchain);
@@ -123,6 +118,15 @@ namespace lime { namespace spoopy {
         return (int)context->GetSwapchain()->GetImageCount();
     }
     DEFINE_PRIME1(spoopy_device_get_swapchain_image_count);
+
+    void spoopy_device_set_swapchain_size(value window_handle, int width, int height) {
+        Window* window = (Window*)val_data(window_handle);
+        SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
+        Context context = sdlWindow->context;
+
+        context->GetSwapchain()->SetSize(width, height);
+    }
+    DEFINE_PRIME3v(spoopy_device_set_swapchain_size);
 
     void spoopy_add_color_attachment(value renderpass, int location, int format, bool hasImageLayout, bool sampled) {
         RenderPass* _renderPass = (RenderPass*)val_data(renderpass);

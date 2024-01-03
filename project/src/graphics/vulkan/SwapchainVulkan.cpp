@@ -25,7 +25,7 @@ namespace lime { namespace spoopy {
      */
     SwapchainVulkan::SwapchainVulkan(int32 width, int32 height, VkSwapchainKHR &oldSwapchain, bool vsync
     , LogicalDevice &device, const PhysicalDevice &physicalDevice, const ContextVulkan &context)
-    : GPUResource(device)
+    : device(device)
     , physicalDevice(physicalDevice)
     , Swapchain(context)
     , swapchain(VK_NULL_HANDLE)
@@ -83,8 +83,8 @@ namespace lime { namespace spoopy {
         bool foundPresentModeImmediate = false;
         bool foundPresentModeFifo = false;
 
-        for (size_t i=0; i<presentModesCount; i++) {
-            switch(presentModes[(int32)i]) {
+        for (const auto &mode: presentModes) { // A range-based for loop is much better here.
+            switch(mode) {
                 case VK_PRESENT_MODE_IMMEDIATE_KHR:
                     foundPresentModeImmediate = true;
                     break;
@@ -173,7 +173,7 @@ namespace lime { namespace spoopy {
         checkVulkan(vkGetSwapchainImagesKHR(device, swapchain, &swapChainImagesCount, nullptr));
         SP_ASSERT(swapChainImagesCount >= VK_BACK_BUFFERS_COUNT && swapChainImagesCount <= VK_MAX_BACK_BUFFERS);
 
-        images.resize(swapChainImagesCount);
+        images.reserve(swapChainImagesCount);
         checkVulkan(vkGetSwapchainImagesKHR(device, swapchain, &swapChainImagesCount, images.data()));
 
 
@@ -193,9 +193,8 @@ namespace lime { namespace spoopy {
         imageViewInfo.subresourceRange.baseArrayLayer = 0;
         imageViewInfo.subresourceRange.layerCount = 1;
 
-        imageViews.resize(swapChainImagesCount);
-
-        for(uint32_t i=0; i< swapChainImagesCount; i++) {
+        imageViews.reserve(swapChainImagesCount);
+        for(uint32_t i=0; i<swapChainImagesCount; i++) {
             imageViewInfo.image = images[i];
             checkVulkan(vkCreateImageView(device, &imageViewInfo, nullptr, &imageViews[i]));
         }
@@ -206,7 +205,7 @@ namespace lime { namespace spoopy {
      * there should be wrapper methods for this such as, TryPresent and Present, which will handle the semaphore, fence,
      * and submit the command buffer, and then present the image.
      */
-    SwapchainVulkan::SwapchainStatus SwapchainVulkan::Present(const QueueVulkan &queue, SemaphoreVulkan* waitSemaphore) {
+    SwapchainVulkan::SwapchainStatus SwapchainVulkan::Present(QueueVulkan* queue, SemaphoreVulkan* waitSemaphore) {
         SP_ASSERT(currentImageIndex == -1);
 
         VkPresentInfoKHR presentInfo = {};
@@ -216,7 +215,7 @@ namespace lime { namespace spoopy {
 
         if(waitSemaphore) {
             presentInfo.waitSemaphoreCount = 1;
-            semaphore = waitSemaphore->GetHandle();
+            semaphore = waitSemaphore->GetSemaphore();
             presentInfo.pWaitSemaphores = &semaphore;
         }
 
@@ -224,22 +223,19 @@ namespace lime { namespace spoopy {
         presentInfo.pSwapchains = &swapchain;
         presentInfo.pImageIndices = (uint32_t*)&currentImageIndex;
 
-        const VkResult result = vkQueuePresentKHR(queue, &presentInfo);
+        const VkResult result = vkQueuePresentKHR(queue->GetQueue(), &presentInfo);
 
-        if (result == VK_ERROR_OUT_OF_DATE_KHR) {
-            return SwapchainStatus::OUT_OF_DATE;
+        switch(result) {
+            case VK_SUBOPTIMAL_KHR:
+            case VK_ERROR_OUT_OF_DATE_KHR: return SwapchainStatus::OUT_OF_DATE;
+            case VK_ERROR_SURFACE_LOST_KHR: return SwapchainStatus::LOST_SURFACE;
+            case VK_SUCCESS:
+                Swapchain::Present();
+                return SwapchainStatus::OK;
+            default:
+                checkVulkan(result);
+                return SwapchainStatus::OTHER;
         }
-
-        if (result == VK_ERROR_SURFACE_LOST_KHR) {
-            return SwapchainStatus::LOST_SURFACE;
-        }
-
-        if(result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
-            checkVulkan(result);
-        }
-
-        Swapchain::Present();
-        return SwapchainStatus::OK;
     }
 
     /*
@@ -266,7 +262,6 @@ namespace lime { namespace spoopy {
 
         VkResult result;
 
-        const uint32_t maxImageIndex = val_array_size(imageAvailableSemaphore) - 1;
         const value semaphore = val_array_i(imageAvailableSemaphore, semaphoreIndex);
         const SemaphoreVulkan& rawSemaphore = *(SemaphoreVulkan*)val_data(semaphore);
 
@@ -305,17 +300,15 @@ namespace lime { namespace spoopy {
     void SwapchainVulkan::ReleaseImageViews() {
         for(int32 i=0; i<imageViews.size(); i++) {
             vkDestroyImageView(device, imageViews[i], nullptr);
+            imageViews.erase(imageViews.begin() + i);
         }
-
-        imageViews.clear();
     }
 
     void SwapchainVulkan::ReleaseImages() {
         for(int32 i=0; i<images.size(); i++) {
             vkDestroyImage(device, images[i], nullptr);
+            images.erase(images.begin() + i);
         }
-
-        images.clear();
     }
 
     /*

@@ -17,6 +17,8 @@ namespace lime { namespace spoopy {
         public:
             explicit SemaphoreVulkan(const LogicalDevice &device);
 
+            VkSemaphore &GetSemaphore() { return semaphore; }
+
             void Create();
 
             void Destroy() override;

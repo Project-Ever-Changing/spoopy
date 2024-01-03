@@ -8,6 +8,7 @@ namespace lime { namespace spoopy {
     SemaphoreVulkan::SemaphoreVulkan(const LogicalDevice &device):
     GPUResource(device),
     semaphore(handle) {
+        semaphore = VK_NULL_HANDLE;
         semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
         Create();
     }

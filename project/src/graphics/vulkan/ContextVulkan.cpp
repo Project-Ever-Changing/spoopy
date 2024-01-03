@@ -48,4 +48,8 @@ namespace lime { namespace spoopy {
     void ContextVulkan::DestroySwapchain() {
         swapchain->Destroy(oldSwapchain);
     }
+
+    int ContextVulkan::PresentImageSwapchain(QueueVulkan* queue, SemaphoreVulkan* waitSemaphore) {
+        return (int)swapchain->Present(queue, waitSemaphore);
+    }
 }}

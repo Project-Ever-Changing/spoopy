@@ -18,11 +18,14 @@
 #include "../graphics/vulkan/components/SemaphoreVulkan.h"
 #include "../graphics/vulkan/PipelineVulkan.h"
 #include "../graphics/vulkan/components/FenceVulkan.h"
+#include "../graphics/vulkan/CommandBufferVulkan.h"
+#include "../graphics/vulkan/QueueVulkan.h"
 
 typedef lime::spoopy::SemaphoreVulkan GPUSemaphore;
 typedef lime::spoopy::GraphicsVulkan GraphicsModule;
 typedef lime::spoopy::PipelineVulkan Pipeline;
 typedef lime::spoopy::FenceVulkan GPUFence;
+typedef lime::spoopy::CommandBufferVulkan GPUCommandBuffer;
 
 #endif
 
@@ -103,6 +106,16 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME5(spoopy_device_acquire_next_image);
 
+    int spoopy_device_present_image(value window_handle, value semaphore) {
+        Window* window = (Window*)val_data(window_handle);
+        SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
+        Context context = sdlWindow->context;
+
+        GPUSemaphore* _semaphore = (GPUSemaphore*)val_data(semaphore);
+        return context->PresentImageSwapchain(GraphicsModule::GetCurrent()->GetLogicalDevice()->GetPresentQueue(), _semaphore);
+    }
+    DEFINE_PRIME2(spoopy_device_present_image);
+
     void spoopy_pipeline_set_input_assembly(value pipeline, int topology) {
         Pipeline* _pipeline = (Pipeline*)val_data(pipeline);
         _pipeline->SetInputAssembly((PrimTopologyType)topology);
@@ -116,6 +129,21 @@ namespace lime { namespace spoopy {
         _pipeline->SetVertexInput(*_memoryReader);
     }
     DEFINE_PRIME2v(spoopy_pipeline_set_vertex_input);
+
+    int spoopy_queue_submit(value cmd_buffer, value fence, value rawWaitSemaphores, int state, value signalSemaphore) {
+        GPUFence* _fence = (GPUFence*)val_data(fence);
+        GPUSemaphore* _signalSemaphore = (GPUSemaphore*)val_data(signalSemaphore);
+        GPUCommandBuffer* _cmd_buffer = (GPUCommandBuffer*)val_data(cmd_buffer);
+
+        return GraphicsModule::GetCurrent()->GetLogicalDevice()->GetGraphicsQueue()->Submit(
+            _cmd_buffer,
+            _fence,
+            rawWaitSemaphores,
+            state,
+            *_signalSemaphore
+        );
+    }
+    DEFINE_PRIME5(spoopy_queue_submit);
 
     void spoopy_dealloc_gpu_cffi_pointer(int type, value pointer) { // Pure Deallocator for raw references
         switch((BackendType)type) {

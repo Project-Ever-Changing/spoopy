@@ -26,6 +26,8 @@ namespace lime { namespace spoopy {
             virtual ~Swapchain() = default;
 
         public:
+            inline void SetSize(int32 width, int32 height) { this->width = width; this->height = height; }
+
             inline int32 GetWidth() const { return width; }
             inline int32 GetHeight() const { return height; }
             inline float GetAspectRatio() const { return static_cast<float>(width) / height; }

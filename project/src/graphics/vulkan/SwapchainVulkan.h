@@ -14,12 +14,13 @@ namespace lime { namespace spoopy {
     class SemaphoreVulkan;
     class CommandBufferVulkan;
 
-    class SwapchainVulkan: public Swapchain, public GPUResource<VkSwapchainKHR, LogicalDevice> {
+    class SwapchainVulkan: public Swapchain {
         private:
             enum class SwapchainStatus {
                 OK = 0,
                 OUT_OF_DATE = -1,
-                LOST_SURFACE = -2
+                LOST_SURFACE = -2,
+                OTHER = -3
             };
 
         public:
@@ -27,7 +28,7 @@ namespace lime { namespace spoopy {
             , LogicalDevice &device, const PhysicalDevice &physicalDevice, const ContextVulkan &context);
             int32 AcquireNextImage(value imageAvailableSemaphore, FenceVulkan* fence
             , int32 prevSemaphoreIndex, int32 semaphoreIndex);
-            SwapchainStatus Present(const QueueVulkan &queue, SemaphoreVulkan* waitSemaphore);
+            SwapchainStatus Present(QueueVulkan* queue, SemaphoreVulkan* waitSemaphore);
             void Create(const VkSwapchainKHR &oldSwapchain);
             void Destroy(VkSwapchainKHR &oldSwapchain);
             void FindSurfaceFormat(VkSurfaceFormatKHR &resultFormat, VkColorSpaceKHR colorSpace);
@@ -41,6 +42,7 @@ namespace lime { namespace spoopy {
         private:
             bool vsync;
 
+            LogicalDevice &device;
             const PhysicalDevice &physicalDevice;
 
             std::vector<VkImage> images;

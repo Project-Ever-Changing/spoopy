@@ -12,7 +12,12 @@ namespace lime { namespace spoopy {
             bool Wait(uint64_t nanoseconds);
             void Reset();
 
+            /*
+             * Seriously.. what is the point of this...Anyways
+             */
             void SetSignaled(bool signaled) { this->signaled = signaled; }
+            bool IsSignaled() const { return signaled; }
+            VkFence &GetFence() { return fence; }
 
             void Destroy() override;
 

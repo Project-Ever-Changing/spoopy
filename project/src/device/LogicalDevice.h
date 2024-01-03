@@ -31,10 +31,13 @@ namespace lime { namespace spoopy {
             // TODO: Maybe expand a pon this? I mean, it's the reason why I switched it to be in logical device.
             ContextVulkan* CreateContextVulkan() {return new ContextVulkan(queues[0]);}
 
-            static const std::vector<const char *> Extensions;
+            static const std::vector<const char*> Extensions;
 
             void SetupPresentQueue(const Surface &surface);
             void WaitForGPU();
+
+            QueueVulkan* GetGraphicsQueue() const { return queues[0].get(); }
+            QueueVulkan* GetPresentQueue() const { return queues[3].get(); }
 
         public:
             Mutex fenceMutex;

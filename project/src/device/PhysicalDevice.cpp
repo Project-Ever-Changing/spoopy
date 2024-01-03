@@ -2,6 +2,9 @@
 #include "LogicalDevice.h"
 #include "Instance.h"
 
+
+// TODO: In the future, use VK_KHR_get_physical_device_properties2
+
 namespace lime { namespace spoopy {
     PhysicalDevice::PhysicalDevice(const Instance &instance): instance(instance) {
         uint32_t physicalDeviceCount;
