@@ -38,6 +38,7 @@ namespace lime { namespace spoopy {
         SP_ASSERT(!fence->IsSignaled());
 
         const VkCommandBuffer cmdBufferHandles[] = {cmdBuffer->GetHandle()};
+        const int rawWaitSemaphoresCapacity = val_array_size(rawWaitSemaphores);
 
         VkSubmitInfo submitInfo = {};
         submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -46,17 +47,18 @@ namespace lime { namespace spoopy {
         submitInfo.signalSemaphoreCount = numSignalSemaphores;
         submitInfo.pSignalSemaphores = signalSemaphores;
 
-        const int rawWaitSemaphoresCapacity = val_array_size(rawWaitSemaphores);
-        VkSemaphore waitSemaphores[rawWaitSemaphoresCapacity];
+        if(rawWaitSemaphoresCapacity > 0) {
+            VkSemaphore waitSemaphores[rawWaitSemaphoresCapacity];
 
-        for(int i=0; i<rawWaitSemaphoresCapacity; i++) {
-            SemaphoreVulkan* semaphore = (SemaphoreVulkan*)val_data(val_array_i(rawWaitSemaphores, i));
-            waitSemaphores[i] = semaphore->GetSemaphore();
+            for (int i = 0; i < rawWaitSemaphoresCapacity; i++) {
+                SemaphoreVulkan *semaphore = (SemaphoreVulkan *) val_data(val_array_i(rawWaitSemaphores, i));
+                waitSemaphores[i] = semaphore->GetSemaphore();
+            }
+
+            submitInfo.waitSemaphoreCount = rawWaitSemaphoresCapacity;
+            submitInfo.pWaitSemaphores = waitSemaphores;
+            submitInfo.pWaitDstStageMask = cmdBuffer->waitDstStageMask.data();
         }
-
-        submitInfo.waitSemaphoreCount = rawWaitSemaphoresCapacity;
-        submitInfo.pWaitSemaphores = waitSemaphores;
-        submitInfo.pWaitDstStageMask = cmdBuffer->waitDstStageMask.data();
 
         checkVulkan(vkQueueSubmit(queue, 1, &submitInfo, fence->GetFence()));
 
