@@ -26,6 +26,7 @@ namespace lime { namespace spoopy {
                 void SetBeginType(const VkStructureType &type);
                 // void Submit(const VkSemaphore &waitSemaphore, const VkSemaphore &signalSemaphore, VkFence fence);
                 void SubmitIdle(const VkQueue &queue);
+                void Free();
 
                 inline uint64_t GetFenceSignaledCounter() const { return _fenceSignaledCounter; }
 

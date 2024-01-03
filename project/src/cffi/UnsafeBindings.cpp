@@ -75,7 +75,7 @@ namespace lime { namespace spoopy {
 
     void spoopy_set_gpu_fence_signal(value fence, bool signaled) {
         GPUFence* _fence = (GPUFence*)val_data(fence);
-        _fence->SetSignaled(true);
+        _fence->SetSignaled(signaled);
     }
     DEFINE_PRIME2v(spoopy_set_gpu_fence_signal);
 

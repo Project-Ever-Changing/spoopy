@@ -1,6 +1,8 @@
 #include "GraphicsVulkan.h"
 #include "CommandBufferVulkan.h"
 
+#include <spoopy_assert.h>
+
 #include <stdint.h>
 #include <vector>
 
@@ -27,7 +29,7 @@ namespace lime { namespace spoopy {
     }
 
     CommandBufferVulkan::~CommandBufferVulkan() {
-        vkFreeCommandBuffers(device, _commandPool->GetHandle(), 1, &_commandBuffer);
+        if(_commandBuffer != VK_NULL_HANDLE) Free();
     }
 
     void CommandBufferVulkan::BeginRecord() {
@@ -126,5 +128,10 @@ namespace lime { namespace spoopy {
 
     void CommandBufferVulkan::EndRenderPass() {
         vkCmdEndRenderPass(_commandBuffer);
+    }
+
+    void CommandBufferVulkan::Free() {
+        vkFreeCommandBuffers(device, _commandPool->GetHandle(), 1, &_commandBuffer);
+        _commandBuffer = VK_NULL_HANDLE;
     }
 }}

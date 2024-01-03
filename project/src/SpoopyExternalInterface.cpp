@@ -270,6 +270,12 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME2(spoopy_create_command_buffer);
 
+    void spoopy_command_buffer_free(value command_buffer) {
+        CommandBuffer* _commandBuffer = (CommandBuffer*)val_data(command_buffer);
+        _commandBuffer->Free();
+    }
+    DEFINE_PRIME1v(spoopy_command_buffer_free);
+
     value spoopy_create_entry(value window_handle) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
