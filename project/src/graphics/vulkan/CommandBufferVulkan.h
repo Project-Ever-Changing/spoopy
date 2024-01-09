@@ -9,9 +9,12 @@
 #include <vector>
 
 namespace lime { namespace spoopy {
+        class QueueVulkan;
+
         class CommandBufferVulkan: public GPUResource<VkCommandBuffer> {
             public:
-                CommandBufferVulkan(CommandPoolVulkan* pool, bool begin = true, VkCommandBufferLevel bufferLevel = VK_COMMAND_BUFFER_LEVEL_PRIMARY);
+                CommandBufferVulkan(const LogicalDevice& device, CommandPoolVulkan* pool, bool begin
+                , VkCommandBufferLevel bufferLevel = VK_COMMAND_BUFFER_LEVEL_PRIMARY);
                 ~CommandBufferVulkan();
 
                 void BeginRecord();
@@ -24,9 +27,8 @@ namespace lime { namespace spoopy {
                 void BindPipeline(const VkPipeline &renderPipeline);
                 void SetBeginFlags(const VkCommandBufferUsageFlags &usage);
                 void SetBeginType(const VkStructureType &type);
-                // void Submit(const VkSemaphore &waitSemaphore, const VkSemaphore &signalSemaphore, VkFence fence);
-                void SubmitIdle(const VkQueue &queue);
                 void Free();
+                void Reset();
 
                 inline uint64_t GetFenceSignaledCounter() const { return _fenceSignaledCounter; }
 
@@ -45,6 +47,7 @@ namespace lime { namespace spoopy {
                 VkStructureType _sType;
 
                 CommandPoolVulkan* _commandPool;
+                QueueVulkan* _queue;
 
                 bool running = false;
         };

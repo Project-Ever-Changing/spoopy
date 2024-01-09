@@ -19,6 +19,8 @@ class SpoopyNativeCFFI {
     #if (cpp && !cppia)
     public static var spoopy_check_graphics_module = new cpp.Callable<Void->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_check_graphics_module", "v", false));
     public static var spoopy_resize_graphics_context = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_resize_graphics_context", "oov", false));
+    public static var spoopy_device_lock_fence = new cpp.Callable<Void->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_device_lock_fence", "v", false));
+    public static var spoopy_device_unlock_fence = new cpp.Callable<Void->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_device_unlock_fence", "v", false));
     public static var spoopy_create_render_pass = new cpp.Callable<Void->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_render_pass", "o", false));
     public static var spoopy_add_subpass_dependency = new cpp.Callable<cpp.Object->Bool->Bool->Int->Int->Int->Int->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_add_subpass_dependency", "obbiiiiiv", false));
     public static var spoopy_add_color_attachment = new cpp.Callable<cpp.Object->Int->Int->Bool->Bool->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_add_color_attachment", "oiibbv", false));
@@ -37,6 +39,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_command_pool = new cpp.Callable<cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_command_pool", "oo", false));
     public static var spoopy_create_command_buffer = new cpp.Callable<cpp.Object->Bool->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_command_buffer", "obo", false));
     public static var spoopy_create_semaphore = new cpp.Callable<Void->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_semaphore", "o", false));
+    public static var spoopy_recreate_swapchain = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_recreate_swapchain", "ov", false));
     public static var spoopy_create_entry = new cpp.Callable<cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_entry", "oo", false));
     public static var spoopy_entry_is_gpu_operation_complete = new cpp.Callable<cpp.Object->Bool>(cpp.Prime._loadPrime("lime", "spoopy_entry_is_gpu_operation_complete", "ob", false));
     public static var spoopy_dealloc_gpu_cffi_pointer = new cpp.Callable<Int->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_dealloc_gpu_cffi_pointer", "iov", false));
@@ -47,9 +50,29 @@ class SpoopyNativeCFFI {
     public static var spoopy_threading_semaphore_wait = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_threading_semaphore_wait", "ov", false));
     public static var spoopy_threading_semaphore_set = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_threading_semaphore_set", "ov", false));
     public static var spoopy_threading_semaphore_destroy = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_threading_semaphore_destroy", "ov", false));
+    public static var spoopy_create_gpu_fence = new cpp.Callable<Bool->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_gpu_fence", "bo", false));
+    public static var spoopy_set_gpu_fence_signal = new cpp.Callable<cpp.Object->Bool->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_gpu_fence_signal", "obv", false));
+    public static var spoopy_wait_gpu_fence = new cpp.Callable<cpp.Object->Int->Bool>(cpp.Prime._loadPrime("lime", "spoopy_wait_gpu_fence", "oib", false));
+    public static var spoopy_reset_gpu_fence = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_reset_gpu_fence", "ov", false));
+    public static var spoopy_device_acquire_next_image = new cpp.Callable<cpp.Object->cpp.Object->cpp.Object->Int->Int->Int>(cpp.Prime._loadPrime("lime", "spoopy_device_acquire_next_image", "oooiii", false));
+    public static var spoopy_device_init_swapchain = new cpp.Callable<cpp.Object->cpp.Object->Void>(cpp.Prime._loadPrime("lime", "spoopy_device_init_swapchain", "oov", false));
+    public static var spoopy_device_get_swapchain_image_count = new cpp.Callable<cpp.Object->Int>(cpp.Prime._loadPrime("lime", "spoopy_device_get_swapchain_image_count", "oi", false));
+    public static var spoopy_device_destroy_swapchain = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_device_destroy_swapchain", "ov", false));
+    public static var spoopy_device_create_swapchain = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_device_create_swapchain", "ov", false));
+    public static var spoopy_device_set_swapchain_size = new cpp.Callable<cpp.Object->Int->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_device_set_swapchain_size", "oiiv", false));
+    public static var spoopy_queue_submit = new cpp.Callable<cpp.Object->cpp.Object->cpp.Object->Int->cpp.Object->Int>(cpp.Prime._loadPrime("lime", "spoopy_queue_submit", "oooioi", false));
+    public static var spoopy_command_buffer_begin_record = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_command_buffer_begin_record", "ov", false));
+    public static var spoopy_command_buffer_end_render_pass = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_command_buffer_end_render_pass", "ov", false));
+    public static var spoopy_command_buffer_end_record = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_command_buffer_end_record", "ov", false));
+    public static var spoopy_command_buffer_free = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_command_buffer_free", "ov", false));
+    public static var spoopy_device_present_image = new cpp.Callable<cpp.Object->cpp.Object->Int>(cpp.Prime._loadPrime("lime", "spoopy_device_present_image", "ooi", false));
+    public static var spoopy_device_recreate_swapchain = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_device_recreate_swapchain", "ov", false));
+    public static var spoopy_command_buffer_reset = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_command_buffer_reset", "ov", false));
     #elseif (neko || cppia)
     public static var spoopy_check_graphics_module = CFFI.load("lime", "spoopy_check_graphics_module", 0);
     public static var spoopy_resize_graphics_context = CFFI.load("lime", "spoopy_resize_graphics_context", 2);
+    public static var spoopy_device_lock_fence = CFFI.load("lime", "spoopy_device_lock_fence", 0);
+    public static var spoopy_device_unlock_fence = CFFI.load("lime", "spoopy_device_unlock_fence", 0);
     public static var spoopy_create_render_pass = CFFI.load("lime", "spoopy_create_render_pass", 0);
     public static var spoopy_add_subpass_dependency = CFFI.load("lime", "spoopy_add_subpass_dependency", 8);
     public static var spoopy_add_color_attachment = CFFI.load("lime", "spoopy_add_color_attachment", 5);
@@ -68,6 +91,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_command_pool = CFFI.load("lime", "spoopy_create_command_pool", 1);
     public static var spoopy_create_command_buffer = CFFI.load("lime", "spoopy_create_command_buffer", 2);
     public static var spoopy_create_semaphore = CFFI.load("lime", "spoopy_create_semaphore", 0);
+    public static var spoopy_recreate_swapchain = CFFI.load("lime", "spoopy_recreate_swapchain", 1);
     public static var spoopy_create_entry = CFFI.load("lime", "spoopy_create_entry", 1);
     public static var spoopy_entry_is_gpu_operation_complete = CFFI.load("lime", "spoopy_entry_is_gpu_operation_complete", 1);
     public static var spoopy_dealloc_gpu_cffi_pointer = CFFI.load("lime", "spoopy_dealloc_gpu_cffi_pointer", 2);
@@ -78,6 +102,24 @@ class SpoopyNativeCFFI {
     public static var spoopy_threading_semaphore_wait = CFFI.load("lime", "spoopy_threading_semaphore_wait", 1);
     public static var spoopy_threading_semaphore_set = CFFI.load("lime", "spoopy_threading_semaphore_set", 1);
     public static var spoopy_threading_semaphore_destroy = CFFI.load("lime", "spoopy_threading_semaphore_destroy", 1);
+    public static var spoopy_create_gpu_fence = CFFI.load("lime", "spoopy_create_gpu_fence", 1);
+    public static var spoopy_set_gpu_fence_signal = CFFI.load("lime", "spoopy_set_gpu_fence_signal", 2);
+    public static var spoopy_wait_gpu_fence = CFFI.load("lime", "spoopy_wait_gpu_fence", 2);
+    public static var spoopy_reset_gpu_fence = CFFI.load("lime", "spoopy_reset_gpu_fence", 1);
+    public static var spoopy_device_acquire_next_image = CFFI.load("lime", "spoopy_device_acquire_next_image", 5);
+    public static var spoopy_device_init_swapchain = CFFI.load("lime", "spoopy_device_init_swapchain", 2);
+    public static var spoopy_device_get_swapchain_image_count = CFFI.load("lime", "spoopy_device_get_swapchain_image_count", 1);
+    public static var spoopy_device_destroy_swapchain = CFFI.load("lime", "spoopy_device_destroy_swapchain", 1);
+    public static var spoopy_device_create_swapchain = CFFI.load("lime", "spoopy_device_create_swapchain", 1);
+    public static var spoopy_device_set_swapchain_size = CFFI.load("lime", "spoopy_device_create_swapchain", 3);
+    public static var spoopy_queue_submit = CFFI.load("lime", "spoopy_queue_submit", 5);
+    public static var spoopy_command_buffer_end_render_pass = CFFI.load("lime", "spoopy_command_buffer_end_render_pass", 1);
+    public static var spoopy_command_buffer_begin_record = CFFI.load("lime", "spoopy_command_buffer_begin_record", 1);
+    public static var spoopy_command_buffer_end_record = CFFI.load("lime", "spoopy_command_buffer_end_record", 1);
+    public static var spoopy_command_buffer_free = CFFI.load("lime", "spoopy_command_buffer_free", 1);
+    public static var spoopy_device_present_image = CFFI.load("lime", "spoopy_device_present_image", 2);
+    public static var spoopy_device_recreate_swapchain = CFFI.load("lime", "spoopy_device_recreate_swapchain", 1);
+    public static var spoopy_command_buffer_reset = CFFI.load("lime", "spoopy_command_buffer_reset", 1);
     #else
     public static function spoopy_check_graphics_module():Void {
         return;
@@ -159,6 +201,10 @@ class SpoopyNativeCFFI {
         return null;
     }
 
+    public static function spoopy_recreate_swapchain(semaphore:Dynamic):Void {
+        return;
+    }
+
     public static function spoopy_create_entry(window:Dynamic):Dynamic {
         return null;
     }
@@ -196,6 +242,86 @@ class SpoopyNativeCFFI {
     }
 
     public static function spoopy_threading_semaphore_destroy(semaphore:Dynamic):Void {
+        return;
+    }
+
+    public static function spoopy_device_lock_fence():Void {
+        return;
+    }
+
+    public static function spoopy_device_unlock_fence():Void {
+        return;
+    }
+
+    public static function spoopy_create_gpu_fence(signaled:Bool):Dynamic {
+        return null;
+    }
+
+    public static function spoopy_set_gpu_fence_signal(fence:Dynamic, signal:Bool):Void {
+        return;
+    }
+
+    public static function spoopy_wait_gpu_fence(fence:Dynamic, nanoseconds:Int):Bool {
+        return false;
+    }
+
+    public static function spoopy_reset_gpu_fence(fence:Dynamic):Void {
+        return;
+    }
+
+    public static function spoopy_device_acquire_next_image(context:Dynamic, imageAvailableSemaphore:Dynamic, fence:Dynamic, prevSemaphoreIndex:Int, semaphoreIndex:Int):Int {
+        return 0;
+    }
+
+    public static function spoopy_device_init_swapchain(window:Dynamic, callback:Dynamic):Void {
+        return;
+    }
+
+    public static function spoopy_device_get_swapchain_image_count(window:Dynamic):Int {
+        return 0;
+    }
+
+    public static function spoopy_device_destroy_swapchain(window:Dynamic):Void {
+        return;
+    }
+
+    public static function spoopy_device_create_swapchain(window:Dynamic):Void {
+        return;
+    }
+
+    public static function spoopy_device_set_swapchain_size(window:Dynamic, width:Int, height:Int):Void {
+        return;
+    }
+
+    public static function spoopy_queue_submit(cmd_buffer:Dynamic, fence:Dynamic, rawWaitSemaphores:Dynamic, state:Int, signalSemaphore:Dynamic):Int {
+        return 0;
+    }
+
+    public static function spoopy_command_buffer_begin_record(cmd_buffer:Dynamic):Void {
+        return;
+    }
+
+    public static function spoopy_command_buffer_end_render_pass(cmd_buffer:Dynamic):Void {
+        return;
+    }
+
+    public static function spoopy_command_buffer_end_record(cmd_buffer:Dynamic):Void {
+        return;
+    }
+
+    public static function spoopy_command_buffer_free(cmd_buffer:Dynamic):Void {
+        return;
+    }
+
+    public static function spoopy_device_present_image(window:Dynamic, semaphore:Dynamic):Int {
+        return 0;
+    }
+
+    public static function spoopy_device_recreate_swapchain(window:Dynamic):Void {
+        return;
+    }
+
+    public static function spoopy_command_buffer_reset(cmd_buffer:Dynamic):Void {
         return;
     }
     #end

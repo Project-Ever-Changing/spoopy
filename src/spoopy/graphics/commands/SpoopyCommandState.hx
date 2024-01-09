@@ -6,4 +6,5 @@ package spoopy.graphics.commands;
     public var INSIDE_RENDER_PASS:Int = 2;
     public var HAS_ENDED:Int = 3;
     public var SUBMITTED:Int = 4;
+    public var DESTROYED:Int = 5;
 }

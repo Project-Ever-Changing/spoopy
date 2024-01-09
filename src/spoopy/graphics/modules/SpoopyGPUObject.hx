@@ -2,12 +2,11 @@ package spoopy.graphics.modules;
 
 import spoopy.utils.SpoopyLogger;
 import spoopy.utils.destroy.SpoopyDestroyable;
-import spoopy.backend.native.SpoopyNativeCFFI;
 
 
 /*
 * CAREFUL: Do not de-allocate the gpu object regularaly!
-* YOU MUST: Use the `destroy()` method to de-allocate the gpu object safely then `obj = null.`
+* YOU MUST: Use the `destroy()` method to de-allocate the gpu object then `obj = null.`
 */
 
 class SpoopyGPUObject implements ISpoopyDestroyable {
@@ -18,11 +17,12 @@ class SpoopyGPUObject implements ISpoopyDestroyable {
     public var flag(get, never):SpoopyFlags;
 
     public function new(flag:SpoopyFlags, module:SpoopyGraphicsModule) {
+        __module = module;
         __flag = flag;
 
         // TODO: If OpenGL, then have an actual pointer static function.
         switch(flag) {
-            case SEMAPHORE: __pointer = SpoopyNativeCFFI.spoopy_create_semaphore();
+            case SEMAPHORE: __pointer = SpoopyStaticBackend.spoopy_create_semaphore();
             case PIPELINE: /* WIP */
 
             default:
@@ -30,8 +30,18 @@ class SpoopyGPUObject implements ISpoopyDestroyable {
         }
     }
 
+    public function create():Void {
+        switch(flag) {
+            case SEMAPHORE: SpoopyStaticBackend.spoopy_recreate_semaphore(__pointer);
+            case PIPELINE: /* WIP */
+
+            default:
+                SpoopyLogger.warn("Invalid flag for GPU object recreation.");
+        }
+    }
+
     public function destroy():Void {
-        __module.enqueueDeletionObj(this, __module.frameCount);
+        if(__pointer != null) __module.enqueueDeletionObj(this, __module.frameCount);
     }
 
     @:allow(spoopy.graphics.modules.SpoopyEntry)
@@ -50,4 +60,5 @@ class SpoopyGPUObject implements ISpoopyDestroyable {
 }
 
 // TODO: If OpenGL, then have an actual pointer class.
+typedef SpoopyStaticBackend = spoopy.backend.native.SpoopyNativeCFFI;
 typedef SpoopyGPUObjectPointer = Dynamic;

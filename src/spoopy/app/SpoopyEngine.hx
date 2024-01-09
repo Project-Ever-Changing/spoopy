@@ -3,8 +3,8 @@ package spoopy.app;
 import spoopy.events.SpoopyEvent;
 import spoopy.events.SpoopyEventDispatcher;
 import spoopy.events.SpoopyUncaughtDispatcher;
-import spoopy.backend.native.SpoopyNativeEngine;
 import spoopy.graphics.SpoopyGraphicsModule;
+import spoopy.graphics.SpoopyWindowContext;
 import spoopy.utils.SpoopyLogger;
 
 import lime.app.IModule;
@@ -20,6 +20,8 @@ import lime.app.Application;
 class SpoopyEngine implements IModule {
     public static var INSTANCE(default, null):SpoopyEngine = new SpoopyEngine();
 
+    public var descriptorManager(default, null):SpoopyDescriptorManager;
+
     public var UPDATE_EVENT(default, null):SpoopyEvent;
     public var DRAW_EVENT(default, null):SpoopyEvent;
 
@@ -27,6 +29,7 @@ class SpoopyEngine implements IModule {
     public var updateFramerate(default, null):Float;
     public var drawFramerate(default, null):Float;
     public var timeScale(default, null):Float;
+    public var frameCounter(default, null):Float;
 
     public var eventDispatcher(default, null):SpoopyEventDispatcher<String>;
     public var uncaughtDispatcher(default, null):SpoopyUncaughtDispatcher<String>;
@@ -34,15 +37,24 @@ class SpoopyEngine implements IModule {
     @:allow(spoopy.graphics.SpoopyGraphicsModule) private var eventModuleDispatcher(default, null):SpoopyEventDispatcher<GraphicsEventType>;
     @:allow(spoopy.graphics.SpoopyGraphicsModule) private var uncaughtModuleDispatcher(default, null):SpoopyUncaughtDispatcher<GraphicsEventType>;
 
+    @:noCompletion private var __isRendering:Bool;
+
     /*
     * The number of frames to wait before deleting a node off the queue.
     */
     public static var NUM_FRAMES_WAIT_UNTIL_DELETE(default, null):UInt = 3;
 
+    /*
+    * The max amount of back buffers that can be stored into a Haxe Vector.
+    */
+    public static var MAX_BACK_BUFFERS(default, null):UInt = 4;
+
     private function new() {
+        __isRendering = false;
         cpuLimiterEnabled = true;
         updateFramerate = 60;
         drawFramerate = 60;
+        frameCounter = 0;
     }
 
     public function update(updateFramerate:Float = 60, drawFramerate:Float = 60, timeScale:Float = 1.0, cpuLimiterEnabled:Bool = true) {
@@ -61,6 +73,10 @@ class SpoopyEngine implements IModule {
         cpuLimiterEnabled = value;
     }
 
+    @:allow(spoopy.graphics.SpoopyGraphicsModule) private inline function createRenderTask(context:SpoopyWindowContext):Void {
+        SpoopyEngineBackend.createTask();
+    }
+
     @:noCompletion private function __registerLimeModule(application:Application):Void {
         eventDispatcher = new SpoopyEventDispatcher<String>();
         uncaughtDispatcher = new SpoopyUncaughtDispatcher<String>();
@@ -76,6 +92,8 @@ class SpoopyEngine implements IModule {
 
         SpoopyEngineBackend.bindCallbacks(__update, __draw);
         SpoopyEngineBackend.run();
+
+        descriptorManager = new SpoopyDescriptorManager();
     }
 
     @:noCompletion private function __unregisterLimeModule(application:Application):Void {
@@ -94,8 +112,13 @@ class SpoopyEngine implements IModule {
     }
 
     @:noCompletion private function __draw():Void {
+        if(__isRendering) return;
+        __isRendering = true;
+
         __broadcastEvent(DRAW_EVENT, eventModuleDispatcher, uncaughtModuleDispatcher);
         __broadcastEvent(DRAW_EVENT, eventDispatcher, uncaughtDispatcher);
+
+        __isRendering = false;
     }
 
     @:noCompletion private function __broadcastEvent<T:String>(event:SpoopyEvent, dispatcher:SpoopyEventDispatcher<T>, uncaught:SpoopyUncaughtDispatcher<T>):Void {
@@ -131,6 +154,6 @@ class SpoopyEngine implements IModule {
 }
 
 // TODO: If OpenGL, then have an actual backend class.
-typedef SpoopyEngineBackend = SpoopyNativeEngine;
-
-#if (cpp && !cppia)
+#if spoopy_vulkan
+typedef SpoopyEngineBackend = spoopy.backend.native.SpoopyNativeEngine;
+#end

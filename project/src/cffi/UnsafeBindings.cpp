@@ -132,8 +132,12 @@ namespace lime { namespace spoopy {
 
     int spoopy_queue_submit(value cmd_buffer, value fence, value rawWaitSemaphores, int state, value signalSemaphore) {
         GPUFence* _fence = (GPUFence*)val_data(fence);
-        GPUSemaphore* _signalSemaphore = (GPUSemaphore*)val_data(signalSemaphore);
+        GPUSemaphore* _signalSemaphore = nullptr;
         GPUCommandBuffer* _cmd_buffer = (GPUCommandBuffer*)val_data(cmd_buffer);
+
+        if(!val_is_null(signalSemaphore)) {
+            _signalSemaphore = (GPUSemaphore*)val_data(signalSemaphore);
+        }
 
         return GraphicsModule::GetCurrent()->GetLogicalDevice()->GetGraphicsQueue()->Submit(
             _cmd_buffer,

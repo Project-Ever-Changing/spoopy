@@ -110,6 +110,17 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME1v(spoopy_device_destroy_swapchain);
 
+    void spoopy_device_recreate_swapchain(value window_handle) {
+        Window* window = (Window*)val_data(window_handle);
+        SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
+        Context context = sdlWindow->context;
+
+        int32 width, height;
+        GetDrawableSize(sdlWindow->sdlWindow, &width, &height);
+        context->RecreateSwapchainWrapper(width, height);
+    }
+    DEFINE_PRIME1v(spoopy_device_recreate_swapchain);
+
     int spoopy_device_get_swapchain_image_count(value window_handle) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
@@ -265,16 +276,45 @@ namespace lime { namespace spoopy {
 
     value spoopy_create_command_buffer(value command_pool, bool begin) {
         CommandPool* _commandPool = (CommandPool*)val_data(command_pool);
-        CommandBuffer* _commandBuffer = new CommandBuffer(_commandPool, begin);
+        CommandBuffer* _commandBuffer = new CommandBuffer(
+            *GraphicsModule::GetCurrent()->GetLogicalDevice(),
+            _commandPool,
+            begin
+        );
+
         return CFFIPointer(_commandBuffer, spoopy_gc_command_buffer);
     }
     DEFINE_PRIME2(spoopy_create_command_buffer);
+
+    void spoopy_command_buffer_begin_record(value command_buffer) {
+        CommandBuffer* _commandBuffer = (CommandBuffer*)val_data(command_buffer);
+        _commandBuffer->BeginRecord();
+    }
+    DEFINE_PRIME1v(spoopy_command_buffer_begin_record);
+
+    void spoopy_command_buffer_end_render_pass(value command_buffer) {
+        CommandBuffer* _commandBuffer = (CommandBuffer*)val_data(command_buffer);
+        _commandBuffer->EndRenderPass();
+    }
+    DEFINE_PRIME1v(spoopy_command_buffer_end_render_pass);
+
+    void spoopy_command_buffer_end_record(value command_buffer) {
+        CommandBuffer* _command_buffer = (CommandBuffer*)val_data(command_buffer);
+        _command_buffer->EndRecord();
+    }
+    DEFINE_PRIME1v(spoopy_command_buffer_end_record);
 
     void spoopy_command_buffer_free(value command_buffer) {
         CommandBuffer* _commandBuffer = (CommandBuffer*)val_data(command_buffer);
         _commandBuffer->Free();
     }
     DEFINE_PRIME1v(spoopy_command_buffer_free);
+
+    void spoopy_command_buffer_reset(value command_buffer) {
+        CommandBuffer* _commandBuffer = (CommandBuffer*)val_data(command_buffer);
+        _commandBuffer->Reset();
+    }
+    DEFINE_PRIME1v(spoopy_command_buffer_reset);
 
     value spoopy_create_entry(value window_handle) {
         Window* window = (Window*)val_data(window_handle);

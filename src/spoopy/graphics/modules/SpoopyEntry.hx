@@ -2,7 +2,6 @@ package spoopy.graphics.modules;
 
 import spoopy.window.IWindowHolder;
 import spoopy.graphics.SpoopyGraphicsModule;
-import spoopy.backend.native.SpoopyNativeCFFI;
 import spoopy.utils.destroy.SpoopyDestroyable;
 import spoopy.app.SpoopyEngine;
 
@@ -23,11 +22,10 @@ class SpoopyEntry implements ISpoopyDestroyable {
         this.frameCounter = frameCounter;
         this.item = item;
 
-        // TODO: If OpenGL, then have an actual constructor.
-        __handle = SpoopyNativeCFFI.spoopy_create_entry(holder.window.__backend.handle);
+        __handle = SpoopyStaticBackend.spoopy_create_entry(holder.window.__backend.handle);
     }
 
-    public function destroy() {
+    public function destroy():Void {
         var checkFrame = __module.frameCount - SpoopyEngine.NUM_FRAMES_WAIT_UNTIL_DELETE;
 
         if(checkFrame > frameCounter && isGPUOperationComplete()) {
@@ -40,12 +38,16 @@ class SpoopyEntry implements ISpoopyDestroyable {
         }
     }
 
+    public inline function flush():Void {
+        item.flush();
+        item = null;
+    }
+
     private inline function isGPUOperationComplete():Bool {
-        
-        // TODO: If OpenGL, then have an actual method.
-        return SpoopyNativeCFFI.spoopy_entry_is_gpu_operation_complete(__handle);
+        return SpoopyStaticBackend.spoopy_entry_is_gpu_operation_complete(__handle);
     }
 }
 
 // TODO: If OpenGL, then have an actual handle class.
+typedef SpoopyStaticBackend = spoopy.backend.native.SpoopyNativeCFFI;
 typedef SpoopyBackendEntry = Dynamic;

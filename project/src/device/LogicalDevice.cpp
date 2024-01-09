@@ -10,7 +10,9 @@ namespace lime { namespace spoopy {
     const std::vector<const char*> LogicalDevice::Extensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME, "VK_KHR_portability_subset"};
 
     LogicalDevice::LogicalDevice(const Instance &instance, const PhysicalDevice &physicalDevice)
-        : instance(instance), physicalDevice(physicalDevice) {
+        : instance(instance)
+        , physicalDevice(physicalDevice)
+        , allocator(VK_NULL_HANDLE) {
         CreateLogicalDevice();
         RegisterDeviceLimits();
     }
@@ -137,7 +139,7 @@ namespace lime { namespace spoopy {
     }
 
     void LogicalDevice::RegisterDeviceLimits() {
-        VkPhysicalDeviceLimits physicalDeviceLimits = physicalDevice.GetProperties().limits;
+        physicalDeviceLimits = physicalDevice.GetProperties().limits;
         limits.HasComputeShaders = physicalDeviceLimits.maxComputeWorkGroupCount[0] >= 65535 && physicalDeviceLimits.maxComputeWorkGroupCount[1] >= 65535;
 
         #if defined(HX_MACOS) || defined(HX_IOS)
@@ -161,6 +163,54 @@ namespace lime { namespace spoopy {
         limits.MaxTexture2DArraySize = physicalDeviceLimits.maxImageArrayLayers;
         limits.MaxTextureCubeSize = physicalDeviceLimits.maxImageDimensionCube;
         limits.MaxAnisotropy = physicalDeviceLimits.maxSamplerAnisotropy;
+
+        // CreateAllocator();
+    }
+
+    void LogicalDevice::CreateAllocator() {/*
+        VmaVulkanFunctions vulkanFunctions = {
+            vkGetPhysicalDeviceProperties,
+            vkGetPhysicalDeviceMemoryProperties,
+            vkAllocateMemory,
+            vkFreeMemory,
+            vkMapMemory,
+            vkUnmapMemory,
+            vkFlushMappedMemoryRanges,
+            vkInvalidateMappedMemoryRanges,
+            vkBindBufferMemory,
+            vkBindImageMemory,
+            vkGetBufferMemoryRequirements,
+            vkGetImageMemoryRequirements,
+            vkCreateBuffer,
+            vkDestroyBuffer,
+            vkCreateImage,
+            vkDestroyImage,
+            vkCmdCopyBuffer,
+
+        #if VMA_DEDICATED_ALLOCATION || VMA_VULKAN_VERSION >= VK_API_VERSION_1_1
+            vkGetBufferMemoryRequirements2KHR,
+            vkGetImageMemoryRequirements2KHR,
+        #endif
+
+        #if VMA_BIND_MEMORY2 || VMA_VULKAN_VERSION >= VK_API_VERSION_1_1
+            vkBindBufferMemory2KHR,
+            vkBindImageMemory2KHR,
+        #endif
+
+        #if VMA_MEMORY_BUDGET || VMA_VULKAN_VERSION >= VK_API_VERSION_1_1
+            vkGetPhysicalDeviceMemoryProperties2KHR
+        #endif
+        };
+
+        VmaAllocatorCreateInfo allocatorInfo = {};
+        allocatorInfo.vulkanApiVersion = VK_API_VERSION_1_2;
+        allocatorInfo.physicalDevice = physicalDevice;
+        allocatorInfo.device = logicalDevice;
+        allocatorInfo.instance = instance;
+        allocatorInfo.pVulkanFunctions = &vulkanFunctions;
+
+        VkResult result = vmaCreateAllocator(&allocatorInfo, &allocator);
+        SP_ASSERT(result == VK_SUCCESS);*/
     }
 
     void LogicalDevice::SetupPresentQueue(const Surface &surface) {
@@ -187,5 +237,19 @@ namespace lime { namespace spoopy {
 
     void LogicalDevice::WaitForGPU() {
         if(logicalDevice != VK_NULL_HANDLE) checkVulkan(vkDeviceWaitIdle(logicalDevice));
+    }
+
+    VkResult LogicalDevice::CreateHostBuffer(uint32_t size, VkBuffer* buffer, VmaAllocation* allocation
+    , VmaMemoryUsage usage) {
+        VkBufferCreateInfo bufferCreateInfo = {};
+        bufferCreateInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+        bufferCreateInfo.size = size;
+        bufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
+        bufferCreateInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+
+        VmaAllocationCreateInfo allocationCreateInfo = {};
+        allocationCreateInfo.usage = usage;
+
+        return vmaCreateBuffer(allocator, &bufferCreateInfo, &allocationCreateInfo, buffer, allocation, nullptr);
     }
 }}

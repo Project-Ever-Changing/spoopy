@@ -109,8 +109,7 @@
 		    <file name="thirdparty/vk/vk_mem_alloc.cpp" />
 		    <file name="src/graphics/vulkan/shaders/PipelineShader.cpp" />
 		    <file name="src/graphics/vulkan/shaders/Shader.cpp" />
-		    <file name="src/graphics/vulkan/images/Image.cpp" />
-		    <file name="src/graphics/vulkan/descriptors/Description.cpp" />
+		    <!--<file name="src/graphics/vulkan/images/Image.cpp" />-->
 		    <file name="src/graphics/vulkan/PipelineVulkan.cpp" />
 			<file name="src/graphics/vulkan/ContextVulkan.cpp" />
 			<file name="src/graphics/vulkan/ContextStage.cpp" />

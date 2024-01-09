@@ -7,29 +7,26 @@ import sys.thread.Lock;
 #end
 
 /*
-* At first, I planned to use the regular built-in `Array` class. However, I needed a
+* At first, I planned to use the regular built-in `Array` class. However, I only needed a
 * FIFO (first in, first out) system for deallocating Vulkan handles when necessary, and
 * an array would be overly complicated. I preferred a linked list since it’s much easier
-* to maintain and keep organized.
+* to maintain, keep organized, and basic.
 */
 
 class SpoopyDestroyQueue<T:ISpoopyDestroyable> {
+    public var length(default, null);
+
     private var head:Node<T>;
     private var tail:Node<T>;
 
     public function new() {
         head = null;
         tail = null;
-    }
-    
 
-    // Consideration: Add a `size` or `length` variable to signify how large the queue is, but what's the point?
+        length = 0;
+    }
 
     public function enqueue(item:T):Void {
-        #if !web
-        var lock = new Lock(); // Just in case, since I'm planning to use this for multithreading reasons
-        #end
-
         var oldTail = tail;
         tail = {item: item, next: null};
 
@@ -38,13 +35,11 @@ class SpoopyDestroyQueue<T:ISpoopyDestroyable> {
         } else {
             oldTail.next = tail;
         }
+
+        length++;
     }
 
-    public function ReleaseItems(deleteImmediately:Bool):Void {
-        #if !web
-        var lock = new Lock();
-        #end
-
+    public function releaseItems():Void {
         var curr = head;
 
         while(!isEmpty() && curr != null) {
@@ -67,11 +62,11 @@ class SpoopyDestroyQueue<T:ISpoopyDestroyable> {
 
         var item = head.item;
         head = head.next;
+        length--;
 
         if(isEmpty()) {
             tail = null;
         }
-
         return item;
     }
 }

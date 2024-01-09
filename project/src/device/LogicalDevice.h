@@ -3,6 +3,7 @@
 #include <system/Mutex.h>
 #include <graphics/ContextLayer.h>
 #include <graphics/Limits.h>
+#include <vk_mem_alloc.h>
 #include <spoopy.h>
 
 #include <thread>
@@ -39,14 +40,28 @@ namespace lime { namespace spoopy {
             QueueVulkan* GetGraphicsQueue() const { return queues[0].get(); }
             QueueVulkan* GetPresentQueue() const { return queues[3].get(); }
 
+            VkResult CreateHostBuffer(uint32_t size, VkBuffer* buffer, VmaAllocation* allocation
+            , VmaMemoryUsage usage = VMA_MEMORY_USAGE_AUTO_PREFER_HOST);
+
         public:
             Mutex fenceMutex;
+
+            /*
+             * The Device's VMA Allocator. This is used to allocate memory for buffers and images.
+             */
+            VmaAllocator allocator;
+
+            /*
+             * The Device's Physical Device Limits.
+             */
+            VkPhysicalDeviceLimits physicalDeviceLimits;
 
         private:
             friend class GraphicsVulkan;
 
             void CreateLogicalDevice();
             void RegisterDeviceLimits();
+            void CreateAllocator();
 
             const Instance &instance;
             const PhysicalDevice &physicalDevice;

@@ -31,8 +31,8 @@ namespace lime { namespace spoopy {
         mutex.Unlock();
     }
 
-        int QueueVulkan::SubmitBuffer(CommandBufferVulkan* cmdBuffer, FenceVulkan* fence, value rawWaitSemaphores
-        , int state, uint32_t numSignalSemaphores, VkSemaphore* signalSemaphores) {
+    int QueueVulkan::SubmitBuffer(CommandBufferVulkan* cmdBuffer, FenceVulkan* fence, value rawWaitSemaphores
+    , int state, uint32_t numSignalSemaphores, VkSemaphore* signalSemaphores) {
 
         SP_ASSERT(state == 3); // 3 means that the command buffer `has ended` and is ready to be submitted
         SP_ASSERT(!fence->IsSignaled());
@@ -51,7 +51,7 @@ namespace lime { namespace spoopy {
             VkSemaphore waitSemaphores[rawWaitSemaphoresCapacity];
 
             for (int i = 0; i < rawWaitSemaphoresCapacity; i++) {
-                SemaphoreVulkan *semaphore = (SemaphoreVulkan *) val_data(val_array_i(rawWaitSemaphores, i));
+                SemaphoreVulkan *semaphore = (SemaphoreVulkan*)val_data(val_array_i(rawWaitSemaphores, i));
                 waitSemaphores[i] = semaphore->GetSemaphore();
             }
 
@@ -62,7 +62,8 @@ namespace lime { namespace spoopy {
 
         checkVulkan(vkQueueSubmit(queue, 1, &submitInfo, fence->GetFence()));
 
-        return 1; // 1 means that the command buffer `is submitted` and is waiting to be executed
+        cmdBuffer->waitDstStageMask.clear();
+        return 4; // 4 means that the command buffer `is submitted` and is waiting to be executed
     }
 
     // TODO: Make a Submit2 method that supports multiple command buffers and semaphores with Vulkan 1.3

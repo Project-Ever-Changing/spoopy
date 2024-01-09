@@ -35,8 +35,6 @@ class SpoopyGraphicsModule implements IWindowModule {
     @:noCompletion private var __tempStateManager:SpoopyStateManager;
     @:noCompletion private var __engine:SpoopyEngine;
 
-    @:noCompletion private var __rendering:Bool = false;
-
     #if spoopy_debug
     @:noCompletion private var __createFirstWindow:Bool = false;
     #end
@@ -48,6 +46,7 @@ class SpoopyGraphicsModule implements IWindowModule {
         __engine = engine;
     }
 
+    
     /*
     * Helpful wrapper methods
     */
@@ -60,6 +59,13 @@ class SpoopyGraphicsModule implements IWindowModule {
 
         var entry = new SpoopyEntry(this, __context, frame, item);
         __deletionQueue.enqueue(entry);
+    }
+
+    public function autoDeleteAll():Void {
+        while(!isEmpty()) {
+            var entry:SpoopyEntry = __deletionQueue.dequeue();
+            entry.flush();
+        }
     }
 
 
@@ -82,7 +88,19 @@ class SpoopyGraphicsModule implements IWindowModule {
 
         __backend.createContextStage(window, __context.__viewportRect);
         __windowResize(__context);
+        __initWindowWithEngine(__context);
         __context.createRenderPass();
+    }
+
+    @:noCompletion private function __initWindowWithEngine(context:SpoopyWindowContext):Void {
+        if(__engine == null) {
+            SpoopyLogger.error("The engine is null! Unable to initialize window size.");
+            return;
+        }
+
+        initSwapChain(context);
+
+        context.__active = true;
     }
 
     @:noCompletion private function __windowResize(context:SpoopyWindowContext):Void {
@@ -90,15 +108,6 @@ class SpoopyGraphicsModule implements IWindowModule {
         __backend.resize(context.window, context.__viewportRect);
 
         //TODO: Maybe have an event system for this?
-    }
-
-    @:noCompletion private function __onWindowRender(context:RenderContext):Void { // The `RenderContext` is practically useless.
-        if(__rendering) return;
-        __rendering = true;
-
-        frameCount++;
-
-        __rendering = false;
     }
 
     @:noCompletion private function __onWindowResize(window:Window, width:Int, height:Int):Void {
@@ -115,7 +124,6 @@ class SpoopyGraphicsModule implements IWindowModule {
             return;
         }
 
-        window.onRender.add(__onWindowRender);
         window.onResize.add(__onWindowResize.bind(window));
 
         __onAddedWindow(window);
@@ -144,6 +152,7 @@ class SpoopyGraphicsModule implements IWindowModule {
     }
 }
 
+// TODO: If OpenGL, then have an actual backend class.
 #if spoopy_vulkan
 typedef BackendGraphicsModule = spoopy.backend.native.SpoopyNativeGraphics;
 #end

@@ -16,7 +16,7 @@ namespace lime { namespace spoopy {
     std::string stringifyResultVk(VkResult result) {
         switch (result) {
             case VK_NOT_READY:
-                return "A fence or query has not yet completed";
+                return "A fence or queries has not yet completed";
             case VK_TIMEOUT:
                 return "A wait operation has not completed in the specified time";
             case VK_EVENT_SET:
