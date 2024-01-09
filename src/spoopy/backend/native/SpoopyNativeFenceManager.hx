@@ -1,14 +1,22 @@
 package spoopy.backend.native;
 
 import spoopy.utils.SpoopyLogger;
+import spoopy.app.SpoopyApplication;
+
+import haxe.io.Bytes;
 
 class SpoopyNativeFenceManager {
     @:noCompletion private var __freeFences:Array<SpoopyNativeFence>;
     @:noCompletion private var __inUseFences:Array<SpoopyNativeFence>;
+    @:noCompletion private var __cachedNanoSeconds:haxe.Int64;
+    @:noCompletion private var __cachedNanoBytes:Bytes;
 
     public function new() {
         __freeFences = [];
         __inUseFences = [];
+
+        __cachedNanoSeconds = 0;
+        __cachedNanoBytes = null;
     }
 
     public function alloc(signaled:Bool = false):SpoopyNativeFence {
@@ -68,7 +76,8 @@ class SpoopyNativeFenceManager {
             return false;
         }
 
-        return fence.wait(nanoseconds);
+        __cacheNanoBytes(nanoseconds);
+        return fence.wait(__cachedNanoBytes);
     }
 
     public function releaseFence(fence:SpoopyNativeFence):Void {
@@ -84,7 +93,10 @@ class SpoopyNativeFenceManager {
 
     public function waitAndReleaseFence(fence:SpoopyNativeFence, nanoseconds:Int):Void {
         SpoopyNativeCFFI.spoopy_device_lock_fence();
-        if(!fence.signaled) fence.wait(nanoseconds);
+        if(!fence.signaled) {
+            __cacheNanoBytes(nanoseconds);
+            fence.wait(__cachedNanoBytes);
+        }
 
         fence.reset();
         __inUseFences.remove(fence);
@@ -92,5 +104,12 @@ class SpoopyNativeFenceManager {
         fence = null;
 
         SpoopyNativeCFFI.spoopy_device_unlock_fence();
+    }
+
+    @:noCompletion private function __cacheNanoBytes(nanoseconds:haxe.Int64):Void {
+        if(__cachedNanoSeconds != nanoseconds) {
+            __cachedNanoBytes = SpoopyApplication.malloc64(__cachedNanoSeconds);
+            __cachedNanoSeconds = nanoseconds;
+        }
     }
 }

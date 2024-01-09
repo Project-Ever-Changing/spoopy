@@ -8,7 +8,9 @@ import lime.utils.Log;
 
 import spoopy.window.IWindowModule;
 
+import haxe.Int64;
 import haxe.ds.ObjectMap;
+import haxe.io.Bytes;
 
 @:access(spoopy.window.IWindowModule)
 class SpoopyApplication extends Application {
@@ -20,6 +22,15 @@ class SpoopyApplication extends Application {
 
     public static function getTimer():Int {
         return System.getTimer();
+    }
+
+    public static function malloc64(value:Int64):Bytes {
+        var bytes:Bytes = Bytes.alloc(8);
+
+        bytes.setInt32(0, value.low);
+        bytes.setInt32(4, value.high);
+
+        return bytes;
     }
 
     public function new() {

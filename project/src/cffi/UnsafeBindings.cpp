@@ -10,6 +10,7 @@
 #include <core/Log.h>
 #include <graphics/Enums.h>
 #include <SDLWindow.h>
+#include <spoopy_byte.h>
 #include <spoopy.h>
 
 #ifdef SPOOPY_VULKAN
@@ -79,8 +80,15 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME2v(spoopy_set_gpu_fence_signal);
 
-    bool spoopy_wait_gpu_fence(value fence, long nanoseconds) {
+    bool spoopy_wait_gpu_fence(value fence, value val_nanoseconds) {
         GPUFence* _fence = (GPUFence*)val_data(fence);
+
+        std::byte* bytes = (std::byte*)val_data(val_nanoseconds);
+        uint32_t low = *((uint32_t*)(bytes + 0));
+        uint32_t high = *((uint32_t*)(bytes + 4));
+
+        // Combine the high and low parts into a uint64_t
+        uint64_t nanoseconds = ((uint64_t)high << 32) | low;
         return _fence->Wait(nanoseconds);
     }
     DEFINE_PRIME2(spoopy_wait_gpu_fence);

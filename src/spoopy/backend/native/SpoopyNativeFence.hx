@@ -3,6 +3,8 @@ package spoopy.backend.native;
 import spoopy.graphics.modules.SpoopyFlags;
 import spoopy.utils.destroy.SpoopyDestroyable.ISpoopyDestroyable;
 
+import haxe.io.Bytes;
+
 class SpoopyNativeFence implements ISpoopyDestroyable {
     public var signaled(default, null):Bool;
     public var handle:Dynamic;
@@ -12,7 +14,7 @@ class SpoopyNativeFence implements ISpoopyDestroyable {
         handle = SpoopyNativeCFFI.spoopy_create_gpu_fence(signaled);
     }
 
-    public function wait(nanoseconds:haxe.Int64):Bool {
+    public function wait(nanoseconds:Bytes):Bool {
         return SpoopyNativeCFFI.spoopy_wait_gpu_fence(handle, nanoseconds);
     }
 

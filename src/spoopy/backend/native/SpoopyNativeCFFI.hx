@@ -53,7 +53,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_threading_semaphore_destroy = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_threading_semaphore_destroy", "ov", false));
     public static var spoopy_create_gpu_fence = new cpp.Callable<Bool->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_gpu_fence", "bo", false));
     public static var spoopy_set_gpu_fence_signal = new cpp.Callable<cpp.Object->Bool->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_set_gpu_fence_signal", "obv", false));
-    public static var spoopy_wait_gpu_fence = new cpp.Callable<cpp.Object->haxe.Int64->Bool>(cpp.Prime._loadPrime("lime", "spoopy_wait_gpu_fence", "oib", false));
+    public static var spoopy_wait_gpu_fence = new cpp.Callable<cpp.Object->cpp.Object->Bool>(cpp.Prime._loadPrime("lime", "spoopy_wait_gpu_fence", "oob", false));
     public static var spoopy_reset_gpu_fence = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_reset_gpu_fence", "ov", false));
     public static var spoopy_device_acquire_next_image = new cpp.Callable<cpp.Object->cpp.Object->cpp.Object->Int->Int->Int>(cpp.Prime._loadPrime("lime", "spoopy_device_acquire_next_image", "oooiii", false));
     public static var spoopy_device_init_swapchain = new cpp.Callable<cpp.Object->cpp.Object->Void>(cpp.Prime._loadPrime("lime", "spoopy_device_init_swapchain", "oov", false));
@@ -267,7 +267,7 @@ class SpoopyNativeCFFI {
         return;
     }
 
-    public static function spoopy_wait_gpu_fence(fence:Dynamic, nanoseconds:haxe.Int64):Bool {
+    public static function spoopy_wait_gpu_fence(fence:Dynamic, nanoseconds:Dynamic):Bool {
         return false;
     }
 
