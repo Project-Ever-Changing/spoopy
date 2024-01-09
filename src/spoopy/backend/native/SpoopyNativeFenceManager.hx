@@ -1,4 +1,4 @@
-package spoopy.graphics.modules;
+package spoopy.backend.native;
 
 import spoopy.utils.SpoopyLogger;
 
