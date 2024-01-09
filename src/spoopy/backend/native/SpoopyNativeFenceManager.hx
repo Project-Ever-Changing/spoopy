@@ -91,7 +91,7 @@ class SpoopyNativeFenceManager {
         SpoopyNativeCFFI.spoopy_device_unlock_fence();
     }
 
-    public function waitAndReleaseFence(fence:SpoopyNativeFence, nanoseconds:Int):Void {
+    public function waitAndReleaseFence(fence:SpoopyNativeFence, nanoseconds:haxe.Int64):Void {
         SpoopyNativeCFFI.spoopy_device_lock_fence();
         if(!fence.signaled) {
             __cacheNanoBytes(nanoseconds);
