@@ -1,4 +1,4 @@
-package spoopy.graphics.renderer;
+package spoopy.backend.native;
 
 import spoopy.graphics.modules.SpoopyFlags;
 import spoopy.utils.destroy.SpoopyDestroyable.ISpoopyDestroyable;
