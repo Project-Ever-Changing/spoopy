@@ -79,9 +79,9 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME2v(spoopy_set_gpu_fence_signal);
 
-    bool spoopy_wait_gpu_fence(value fence, int nanoseconds) {
+    bool spoopy_wait_gpu_fence(value fence, int64_t nanoseconds) {
         GPUFence* _fence = (GPUFence*)val_data(fence);
-        return _fence->Wait((uint64_t)nanoseconds);
+        return _fence->Wait(nanoseconds);
     }
     DEFINE_PRIME2(spoopy_wait_gpu_fence);
 

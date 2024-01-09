@@ -12,7 +12,7 @@ class SpoopyNativeFence implements ISpoopyDestroyable {
         handle = SpoopyNativeCFFI.spoopy_create_gpu_fence(signaled);
     }
 
-    public function wait(nanoseconds:Int):Bool {
+    public function wait(nanoseconds:haxe.Int64):Bool {
         return SpoopyNativeCFFI.spoopy_wait_gpu_fence(handle, nanoseconds);
     }
 

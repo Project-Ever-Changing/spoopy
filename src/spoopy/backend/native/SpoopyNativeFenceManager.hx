@@ -62,7 +62,7 @@ class SpoopyNativeFenceManager {
         return fence;
     }
 
-    public function waitForFence(fence:SpoopyNativeFence, nanoseconds:Int):Bool {
+    public function waitForFence(fence:SpoopyNativeFence, nanoseconds:haxe.Int64):Bool {
         if(__inUseFences.indexOf(fence) == -1) {
             SpoopyLogger.error("SpoopyNativeFenceManager.waitForFence: Fence is not in use!");
             return false;
