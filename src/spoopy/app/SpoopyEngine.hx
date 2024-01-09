@@ -3,6 +3,7 @@ package spoopy.app;
 import spoopy.events.SpoopyEvent;
 import spoopy.events.SpoopyEventDispatcher;
 import spoopy.events.SpoopyUncaughtDispatcher;
+import spoopy.graphics.descriptor.SpoopyDescriptorManager;
 import spoopy.graphics.SpoopyGraphicsModule;
 import spoopy.graphics.SpoopyWindowContext;
 import spoopy.utils.SpoopyLogger;
