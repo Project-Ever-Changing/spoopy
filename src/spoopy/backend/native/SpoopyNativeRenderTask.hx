@@ -73,8 +73,6 @@ class SpoopyNativeRenderTask implements ISpoopyDestroyable {
         
     }
 
-    //public function 
-
     public function acquireNextImage():Void {
         var __prevSemaphoreIndex:Int = this.__currentSemaphoreIndex;
         this.__currentSemaphoreIndex = (this.__currentSemaphoreIndex + 1) % this.__imageAcquiredSemaphores.length;

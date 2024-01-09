@@ -98,8 +98,7 @@ class SpoopyGraphicsModule implements IWindowModule {
             return;
         }
 
-        initSwapChain(context);
-
+        __backend.initSwapChain(context);
         context.__active = true;
     }
 

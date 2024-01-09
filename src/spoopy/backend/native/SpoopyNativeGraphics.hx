@@ -1,13 +1,13 @@
 package spoopy.backend.native;
 
 import spoopy.graphics.SpoopyWindowContext;
-import spoopy.graphics.renderer.SpoopyRenderPass;
+import spoopy.backend.native.SpoopyNativeRenderTask;
 
 import lime.math.Rectangle;
 import lime.ui.Window;
 
 @:access(lime.ui.Window)
-@:access(spoopy.graphics.renderer.SpoopyRenderPass)
+@:access(spoopy.backend.native.SpoopyNativeRenderTask)
 class SpoopyNativeGraphics {
     @:noCompletion private var __renderPass:SpoopyRenderPass;
 
@@ -32,8 +32,6 @@ class SpoopyNativeGraphics {
     }
 
     public function initSwapChain(context:SpoopyWindowContext):Void {
-        if(__renderPass == null) {
-            __renderPass = new SpoopyRenderPass(context);
-        }
+        if(__renderPass == null) __renderPass = new SpoopyNativeRenderTask(context);
     }
 }
