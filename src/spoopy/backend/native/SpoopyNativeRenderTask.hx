@@ -45,7 +45,7 @@ class SpoopyNativeRenderTask implements ISpoopyDestroyable {
 
     public function createSwapchain(width:Int, height:Int):Void {
         SpoopyNativeCFFI.spoopy_device_set_swapchain_size(context.window.__backend.handle, width, height);
-        SpoopyNativeEngine.spoopy_device_create_swapchain(context.window.__backend.handle);
+        SpoopyNativeCFFI.spoopy_device_create_swapchain(context.window.__backend.handle);
         imageCount = SpoopyNativeCFFI.spoopy_device_get_swapchain_image_count(context.window.__backend.handle);
 
         for(i in 0...imageCount) {
