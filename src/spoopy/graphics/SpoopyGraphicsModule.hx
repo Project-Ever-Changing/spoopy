@@ -62,7 +62,7 @@ class SpoopyGraphicsModule implements IWindowModule {
     }
 
     public function autoDeleteAll():Void {
-        while(!isEmpty()) {
+        while(!__deletionQueue.isEmpty()) {
             var entry:SpoopyEntry = __deletionQueue.dequeue();
             entry.flush();
         }

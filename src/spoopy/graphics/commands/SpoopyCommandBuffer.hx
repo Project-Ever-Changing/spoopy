@@ -28,7 +28,7 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
     private function new(parent:SpoopyCommandPool<T>, begin:Bool = true) {
         __state = WAITING_FOR_BEGIN;
         __parent = parent;
-        __holder = parent.parent.holder;
+        __holder = parent.manager.parent;
 
         __handle = SpoopyStaticBackend.spoopy_create_command_buffer(parent.__handle, begin);
         __state = begin ? HAS_BEGUN : __state;
@@ -49,7 +49,7 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
 
     public function destroy():Void {
         if(__state == SUBMITTED) {
-            var milliseconds:haxe.Int64 = (1000 / SpoopyEngine.INSTANCE.drawFramerate) * 1e+9;
+            var milliseconds:haxe.Int64 = haxe.Int64.ofFloat((1000 / SpoopyEngine.INSTANCE.drawFramerate) * 1e+9);
             SpoopyBackendEngine.fenceManager.waitAndReleaseFence(__fence, milliseconds);
         }else {
             SpoopyBackendEngine.fenceManager.releaseFence(__fence);
