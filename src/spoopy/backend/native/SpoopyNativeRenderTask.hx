@@ -6,6 +6,7 @@ import spoopy.graphics.modules.SpoopyGPUObject;
 import spoopy.graphics.SpoopyWindowContext;
 import spoopy.utils.SpoopyLogger;
 
+@:access(lime.ui.Window)
 class SpoopyNativeRenderTask implements ISpoopyDestroyable {
     public var context(default, null):SpoopyWindowContext;
     public var imageCount(default, null):Int;
@@ -89,7 +90,7 @@ class SpoopyNativeRenderTask implements ISpoopyDestroyable {
         if(result >= 0) {
             this.__acquiredSemaphore = this.__imageAcquiredSemaphores[this.__currentSemaphoreIndex];
         }else {
-            this.__currentSemaphoreIndex = this.__prevSemaphoreIndex;
+            this.__currentSemaphoreIndex = __prevSemaphoreIndex;
             return;
         }
 
