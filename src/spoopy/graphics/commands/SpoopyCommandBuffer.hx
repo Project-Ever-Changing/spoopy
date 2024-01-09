@@ -7,6 +7,7 @@ import spoopy.utils.destroy.SpoopyDestroyable;
 import spoopy.utils.SpoopyLogger;
 import spoopy.graphics.modules.SpoopyGPUObject;
 import spoopy.graphics.descriptor.SpoopyDescriptorPoolContainer;
+import spoopy.app.SpoopyEngine;
 
 @:allow(spoopy.graphics.commands.SpoopyCommandPool)
 class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
@@ -43,7 +44,7 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
     }
 
     public function begin():Void {
-        SpoopyStaticBackend.spoopy_command_buffer_begin(__handle);
+        SpoopyStaticBackend.spoopy_command_buffer_begin_record(__handle);
     }
 
     public function destroy():Void {
@@ -80,12 +81,12 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
         }
 
         __submittedSemaphores = __waitSemaphores;
-        __waitSemaphores.clear();
+        __waitSemaphores = [];
         __submittedFenceSignaledCounter = __fenceSignaledCounter;
     }
 
     public function refreshFenceStatus():Void {
-        if(!__state == SUBMITTED) {
+        if(__state != SUBMITTED) {
             SpoopyLogger.error("This command buffer has not been submitted!");
             return;
         }
@@ -99,11 +100,11 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
                 submittedSemaphore.destroy();
             }
 
-            __submittedSemaphores.clear();
+            __submittedSemaphores = [];
             SpoopyStaticBackend.spoopy_command_buffer_reset(__handle);
             __fenceSignaledCounter++;
 
-            if(__descriptorPoolContainer) {
+            if(__descriptorPoolContainer != null) {
                 SpoopyEngine.INSTANCE.descriptorManager.releasePoolContainer(__descriptorPoolContainer);
                 __descriptorPoolContainer = null;
             }
