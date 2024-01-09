@@ -3,6 +3,7 @@ package spoopy.graphics.modules;
 import spoopy.window.IWindowHolder;
 import spoopy.graphics.SpoopyGraphicsModule;
 import spoopy.utils.destroy.SpoopyDestroyable;
+import spoopy.backend.SpoopyStaticBackend;
 import spoopy.app.SpoopyEngine;
 
 /*
@@ -49,5 +50,4 @@ class SpoopyEntry implements ISpoopyDestroyable {
 }
 
 // TODO: If OpenGL, then have an actual handle class.
-typedef SpoopyStaticBackend = spoopy.backend.native.SpoopyNativeCFFI;
 typedef SpoopyBackendEntry = Dynamic;

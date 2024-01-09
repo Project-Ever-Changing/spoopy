@@ -2,6 +2,7 @@ package spoopy.graphics.modules;
 
 import spoopy.utils.SpoopyLogger;
 import spoopy.utils.destroy.SpoopyDestroyable;
+import spoopy.backend.SpoopyStaticBackend;
 
 
 /*
@@ -60,5 +61,4 @@ class SpoopyGPUObject implements ISpoopyDestroyable {
 }
 
 // TODO: If OpenGL, then have an actual pointer class.
-typedef SpoopyStaticBackend = spoopy.backend.native.SpoopyNativeCFFI;
 typedef SpoopyGPUObjectPointer = Dynamic;

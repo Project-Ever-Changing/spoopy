@@ -1,6 +1,7 @@
 package spoopy.graphics.commands;
 
 import spoopy.window.IWindowHolder;
+import spoopy.backend.SpoopyStaticBackend;
 import spoopy.backend.native.SpoopyNativeCFFI;
 import spoopy.utils.destroy.SpoopyDestroyable;
 import spoopy.utils.SpoopyLogger;
@@ -141,6 +142,5 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
 
 // TODO: If OpenGL, then have an actual handle class.
 typedef SpoopyFence = spoopy.backend.native.SpoopyNativeFence;
-typedef SpoopyStaticBackend = spoopy.backend.native.SpoopyNativeCFFI;
 typedef SpoopyBackendEngine = spoopy.backend.native.SpoopyNativeEngine;
 typedef SpoopyCommandBufferBackend = Dynamic;
