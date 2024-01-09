@@ -20,7 +20,7 @@ class SpoopyNativeRenderTask implements ISpoopyDestroyable {
     @:noCompletion private var __acquireImageIndex:Int = 0;
 
     public function new(context:SpoopyWindowContext) {
-        var maxBackBuffers = Math.max(SpoopyEngine.MAX_BACK_BUFFERS * 2, 10);
+        var maxBackBuffers = Std.int(Math.max(SpoopyEngine.MAX_BACK_BUFFERS * 2, 10));
 
         this.context = context;
 
