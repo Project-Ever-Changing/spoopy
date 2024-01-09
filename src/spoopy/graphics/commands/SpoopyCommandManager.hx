@@ -2,6 +2,7 @@ package spoopy.graphics.commands;
 
 import spoopy.utils.SpoopyLogger;
 import spoopy.utils.destroy.SpoopyDestroyable;
+import spoopy.graphics.modules.SpoopyGPUObject;
 import spoopy.window.IWindowHolder;
 
 /*
