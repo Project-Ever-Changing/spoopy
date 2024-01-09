@@ -9,7 +9,7 @@ import lime.ui.Window;
 @:access(lime.ui.Window)
 @:access(spoopy.backend.native.SpoopyNativeRenderTask)
 class SpoopyNativeGraphics {
-    @:noCompletion private var __renderPass:SpoopyRenderPass;
+    @:noCompletion private var __renderTask:SpoopyNativeRenderTask;
 
     public function new() {
         // Empty
@@ -32,6 +32,6 @@ class SpoopyNativeGraphics {
     }
 
     public function initSwapChain(context:SpoopyWindowContext):Void {
-        if(__renderPass == null) __renderPass = new SpoopyNativeRenderTask(context);
+        if(__renderTask == null) __renderTask = new SpoopyNativeRenderTask(context);
     }
 }
