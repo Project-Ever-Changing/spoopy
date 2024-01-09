@@ -113,7 +113,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_device_get_swapchain_image_count = CFFI.load("lime", "spoopy_device_get_swapchain_image_count", 1);
     public static var spoopy_device_destroy_swapchain = CFFI.load("lime", "spoopy_device_destroy_swapchain", 1);
     public static var spoopy_device_create_swapchain = CFFI.load("lime", "spoopy_device_create_swapchain", 1);
-    public static var spoopy_device_set_swapchain_size = CFFI.load("lime", "spoopy_device_create_swapchain", 3);
+    public static var spoopy_device_set_swapchain_size = CFFI.load("lime", "spoopy_device_set_swapchain_size", 3);
     public static var spoopy_queue_submit = CFFI.load("lime", "spoopy_queue_submit", 5);
     public static var spoopy_command_buffer_end_render_pass = CFFI.load("lime", "spoopy_command_buffer_end_render_pass", 1);
     public static var spoopy_command_buffer_begin_record = CFFI.load("lime", "spoopy_command_buffer_begin_record", 1);

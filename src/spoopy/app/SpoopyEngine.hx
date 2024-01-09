@@ -74,10 +74,6 @@ class SpoopyEngine implements IModule {
         cpuLimiterEnabled = value;
     }
 
-    @:allow(spoopy.graphics.SpoopyGraphicsModule) private inline function createRenderTask(context:SpoopyWindowContext):Void {
-        SpoopyEngineBackend.createTask();
-    }
-
     @:noCompletion private function __registerLimeModule(application:Application):Void {
         eventDispatcher = new SpoopyEventDispatcher<String>();
         uncaughtDispatcher = new SpoopyUncaughtDispatcher<String>();

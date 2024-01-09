@@ -27,6 +27,17 @@ class SpoopyStateManager {
     /* TODO: Also have these modules to be parameters in the constructor. */
     public function new(?__initialState:Class<SpoopyState>) {
         this.__initialState = (__initialState == null) ? SpoopyState : __initialState;
+        // __commandManager = new SpoopyCommandManager<SpoopyWindowContext>(this);
+    }
+
+    public function flushState():Void {
+        var cmdBuffer = __commandManager.getCmdBuffer();
+
+        // TODO STATE: Handle render pass and pipeline barrier
+    }
+
+    public function flush():Void {
+        // TODO: Work on this
     }
 
     public function resetState():Void {

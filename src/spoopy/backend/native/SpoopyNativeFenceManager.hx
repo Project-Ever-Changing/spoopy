@@ -107,9 +107,11 @@ class SpoopyNativeFenceManager {
     }
 
     @:noCompletion private function __cacheNanoBytes(nanoseconds:haxe.Int64):Void {
-        if(__cachedNanoSeconds != nanoseconds) {
-            __cachedNanoBytes = SpoopyApplication.malloc64(__cachedNanoSeconds);
-            __cachedNanoSeconds = nanoseconds;
+        if(__cachedNanoSeconds == nanoseconds) {
+            return;
         }
+
+        __cachedNanoBytes = SpoopyApplication.malloc64(__cachedNanoSeconds);
+        __cachedNanoSeconds = nanoseconds;
     }
 }

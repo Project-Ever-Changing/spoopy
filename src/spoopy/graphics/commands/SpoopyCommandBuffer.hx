@@ -43,6 +43,11 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
         __descriptorPoolContainer = SpoopyEngine.INSTANCE.descriptorManager.acquirePoolContainer();
     }
 
+    /*
+    * TODO: In the future, we should have a descriptor pool container binder
+    * that will bind the descriptor pool container to the command buffer from the SpoopyState.
+    */
+
     public function begin():Void {
         SpoopyStaticBackend.spoopy_command_buffer_begin_record(__handle);
     }
