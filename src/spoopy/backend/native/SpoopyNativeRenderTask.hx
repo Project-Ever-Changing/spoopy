@@ -1,5 +1,6 @@
 package spoopy.backend.native;
 
+import spoopy.app.SpoopyEngine;
 import spoopy.graphics.modules.SpoopyFlags;
 import spoopy.utils.destroy.SpoopyDestroyable.ISpoopyDestroyable;
 import spoopy.graphics.modules.SpoopyGPUObject;
