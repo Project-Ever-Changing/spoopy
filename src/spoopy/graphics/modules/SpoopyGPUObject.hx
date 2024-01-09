@@ -47,7 +47,7 @@ class SpoopyGPUObject implements ISpoopyDestroyable {
 
     @:allow(spoopy.graphics.modules.SpoopyEntry)
     @:noCompletion private inline function flush():Void {
-        SpoopyNativeCFFI.spoopy_dealloc_gpu_cffi_pointer(__flag, __pointer);
+        SpoopyStaticBackend.spoopy_dealloc_gpu_cffi_pointer(__flag, __pointer);
         __pointer = null;
 
         #if spoopy_debug

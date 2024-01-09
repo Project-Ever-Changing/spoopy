@@ -122,12 +122,12 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
     }
 
     public inline function end():Void {
-        if(!HAS_BEGUN) {
+        if(__state != HAS_BEGUN) {
             SpoopyLogger.error("This command buffer has not been begun!");
             return;
         }
 
-        SpoopyStaticBackend.spoopy_command_buffer_end(__handle);
+        SpoopyStaticBackend.spoopy_command_buffer_end_record(__handle);
         __state = HAS_ENDED;
     }
 
