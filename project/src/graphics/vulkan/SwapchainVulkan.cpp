@@ -7,6 +7,7 @@
 #include "SwapchainVulkan.h"
 #include "QueueVulkan.h"
 
+#include <system/ScopeLock.h>
 #include <core/Log.h>
 #include <spoopy_assert.h>
 #include <spoopy.h>
