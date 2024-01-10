@@ -39,7 +39,9 @@ namespace lime { namespace spoopy {
     }
 
     void ContextVulkan::InitSwapchain(int32 width, int32 height, const PhysicalDevice &physicalDevice) {
+        swapchainMutex.Lock();
         swapchain = new SwapchainVulkan(width, height, oldSwapchain, vsync, queue->GetDevice(), physicalDevice, *this);
+        swapchainMutex.Unlock();
     }
 
     void ContextVulkan::CreateSwapchain() {

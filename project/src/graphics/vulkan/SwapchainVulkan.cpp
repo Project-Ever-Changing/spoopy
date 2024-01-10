@@ -76,7 +76,6 @@ namespace lime { namespace spoopy {
 
         uint32_t presentModesCount = 0;
         checkVulkan(vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surface, &presentModesCount, nullptr));
-        printf("Present modes count: %d\n", presentModesCount);
         SP_ASSERT(presentModesCount > 0);
 
         SPOOPY_LOG_INFO("(1.25)");
