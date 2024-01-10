@@ -29,9 +29,9 @@ class SpoopyNativeRenderTask implements ISpoopyDestroyable {
         var maxBackBuffers = Std.int(Math.max(SpoopyEngine.MAX_BACK_BUFFERS * 2, 10));
 
         SpoopyNativeEngine.tasks.push(this);
-
-        /*
         SpoopyNativeCFFI.spoopy_device_init_swapchain(context.window.__backend.handle, __reCreateSwapchain);
+        
+        /*
         imageCount = SpoopyNativeCFFI.spoopy_device_get_swapchain_image_count(context.window.__backend.handle);
 
         __imageAcquiredFences = new haxe.ds.Vector<SpoopyNativeFence>(maxBackBuffers);
