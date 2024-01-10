@@ -24,12 +24,12 @@ namespace lime { namespace spoopy {
 
     void LogicalDevice::CreateLogicalDevice() {
         uint32_t deviceQueueFamilyPropertyCount;
-        vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &deviceQueueFamilyPropertyCount, nullptr);
+        vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice.GetPhysicalDevice(), &deviceQueueFamilyPropertyCount, nullptr);
 
         SP_ASSERT(deviceQueueFamilyPropertyCount >= 1);
 
         std::vector<VkQueueFamilyProperties> deviceQueueFamilyProperties(deviceQueueFamilyPropertyCount);
-        vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &deviceQueueFamilyPropertyCount, deviceQueueFamilyProperties.data());
+        vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice.GetPhysicalDevice(), &deviceQueueFamilyPropertyCount, deviceQueueFamilyProperties.data());
 
         std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
         queueCreateInfos.reserve(3);
@@ -122,7 +122,7 @@ namespace lime { namespace spoopy {
         deviceCreateInfo.ppEnabledExtensionNames = Extensions.data();
         deviceCreateInfo.pEnabledFeatures = &enabledFeatures;
 
-        checkVulkan(vkCreateDevice(physicalDevice, &deviceCreateInfo, nullptr, &logicalDevice));
+        checkVulkan(vkCreateDevice(physicalDevice.GetPhysicalDevice(), &deviceCreateInfo, nullptr, &logicalDevice));
 
         #ifndef SPOOPY_SWITCH
         volkLoadDevice(logicalDevice);
@@ -206,7 +206,7 @@ namespace lime { namespace spoopy {
         #endif
 
         VmaAllocatorCreateInfo allocatorInfo = {};
-        allocatorInfo.physicalDevice = physicalDevice;
+        allocatorInfo.physicalDevice = physicalDevice.GetPhysicalDevice();
         allocatorInfo.device = logicalDevice;
         allocatorInfo.instance = instance;
         allocatorInfo.pVulkanFunctions = &vulkanFunctions;
@@ -226,14 +226,14 @@ namespace lime { namespace spoopy {
             return;
         }
 
-        const auto supportsPresent = [surface](VkPhysicalDevice physicalDevice, QueueVulkan* queue) {
+        const auto supportsPresent = [surface](VkPhysicalDevice pDevice, QueueVulkan* queue) {
             VkBool32 supportsPresent = VK_FALSE;
             const uint32_t queueFamilyIndex = queue->GetFamilyIndex();
-            checkVulkan(vkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice, queueFamilyIndex, surface, &supportsPresent));
+            checkVulkan(vkGetPhysicalDeviceSurfaceSupportKHR(pDevice, queueFamilyIndex, surface, &supportsPresent));
             return supportsPresent == VK_TRUE;
         };
 
-        bool graphics = supportsPresent(physicalDevice, queues[P_Graphics].get());
+        bool graphics = supportsPresent(physicalDevice.GetPhysicalDevice(), queues[P_Graphics].get());
 
         if(!graphics) {
             SPOOPY_LOG_ERROR("No graphics queue found for Vulkan!");

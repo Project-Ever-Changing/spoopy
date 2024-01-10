@@ -80,14 +80,14 @@ namespace lime { namespace spoopy {
         VkPresentModeKHR presentMode = VK_PRESENT_MODE_FIFO_KHR;
 
         uint32_t presentModesCount = 0;
-        checkVulkan(vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surfaceHandle, &presentModesCount, nullptr));
+        checkVulkan(vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice.GetPhysicalDevice(), surfaceHandle, &presentModesCount, nullptr));
         SP_ASSERT(presentModesCount > 0);
 
         SPOOPY_LOG_INFO("(1.25)");
 
         // Too risky to allocate from the heap, it's safe to use a vector here to avoid potential memory leaks.
         std::vector<VkPresentModeKHR> presentModes(presentModesCount);
-        checkVulkan(vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surfaceHandle, &presentModesCount, presentModes.data()));
+        checkVulkan(vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice.GetPhysicalDevice(), surfaceHandle, &presentModesCount, presentModes.data()));
 
         bool foundPresentModeMailbox = false;
         bool foundPresentModeImmediate = false;
@@ -174,7 +174,7 @@ namespace lime { namespace spoopy {
         }
 
         VkBool32 supportsPresent;
-        checkVulkan(vkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice, context.GetQueue()->GetFamilyIndex()
+        checkVulkan(vkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice.GetPhysicalDevice(), context.GetQueue()->GetFamilyIndex()
         , surfaceHandle, &supportsPresent));
         SP_ASSERT(supportsPresent);
         checkVulkan(vkCreateSwapchainKHR(device, &swapChainInfo, nullptr, &swapchain));
