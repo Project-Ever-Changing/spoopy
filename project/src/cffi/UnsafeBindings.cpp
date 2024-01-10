@@ -101,7 +101,7 @@ namespace lime { namespace spoopy {
     bool spoopy_wait_gpu_fence(value fence, value val_nanoseconds) {
         GPUFence* _fence = (GPUFence*)val_data(fence);
         uint64_t nanoseconds = *(uint64_t*)val_data(val_nanoseconds);
-        SPOOPY_LOG_INFO(LOG_TYPE::FORMATTED, "Waiting for fence for %llu nanoseconds", nanoseconds);
+        SPOOPY_LOG_INFO(LOG_TYPE::FORMATTED, "Waiting for fence for %llu nanoseconds: ", nanoseconds);
         return _fence->Wait(nanoseconds);
     }
 
