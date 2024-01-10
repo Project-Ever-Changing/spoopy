@@ -8,6 +8,7 @@ import spoopy.utils.SpoopyLogger;
 import spoopy.graphics.modules.SpoopyGPUObject;
 import spoopy.graphics.descriptor.SpoopyDescriptorPoolContainer;
 import spoopy.app.SpoopyEngine;
+import spoopy.io.SpoopyU64;
 
 @:allow(spoopy.graphics.commands.SpoopyCommandPool)
 class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
@@ -54,13 +55,7 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
 
     public function destroy():Void {
         if(__state == SUBMITTED) {
-            #if (!cpp || cppia)
-            var milliseconds:haxe.Int64 = 1e+12 / SpoopyEngine.INSTANCE.drawFramerate;
-            #else
-
-            var milliseconds:spoopy.io.SpoopyU64 = 1e+12 / SpoopyEngine.INSTANCE.drawFramerate;
-            #end
-
+            var milliseconds:SpoopyU64 = 1e+12 / SpoopyEngine.INSTANCE.drawFramerate;
             SpoopyBackendEngine.fenceManager.waitAndReleaseFence(__fence, milliseconds);
         }else {
             SpoopyBackendEngine.fenceManager.releaseFence(__fence);
