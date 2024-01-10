@@ -31,7 +31,7 @@ class SpoopyNativeFence implements ISpoopyDestroyable {
 }
 
 #if (!cpp || cppia)
-typedef U64 = spoopy.io.SpoopyU64;
-#else
 typedef U64 = haxe.io.Bytes;
+#else
+typedef U64 = spoopy.io.SpoopyU64;
 #end
