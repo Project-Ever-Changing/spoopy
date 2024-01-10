@@ -167,50 +167,53 @@ namespace lime { namespace spoopy {
         // CreateAllocator();
     }
 
-    void LogicalDevice::CreateAllocator() {/*
-        VmaVulkanFunctions vulkanFunctions = {
-            vkGetPhysicalDeviceProperties,
-            vkGetPhysicalDeviceMemoryProperties,
-            vkAllocateMemory,
-            vkFreeMemory,
-            vkMapMemory,
-            vkUnmapMemory,
-            vkFlushMappedMemoryRanges,
-            vkInvalidateMappedMemoryRanges,
-            vkBindBufferMemory,
-            vkBindImageMemory,
-            vkGetBufferMemoryRequirements,
-            vkGetImageMemoryRequirements,
-            vkCreateBuffer,
-            vkDestroyBuffer,
-            vkCreateImage,
-            vkDestroyImage,
-            vkCmdCopyBuffer,
+    void LogicalDevice::CreateAllocator() {
+        VmaVulkanFunctions vulkanFunctions;
+        vulkanFunctions.vkGetInstanceProcAddr = vkGetInstanceProcAddr;
+        vulkanFunctions.vkGetDeviceProcAddr = vkGetDeviceProcAddr;
+        vulkanFunctions.vkAllocateMemory = vkAllocateMemory;
+        vulkanFunctions.vkBindBufferMemory = vkBindBufferMemory;
+        vulkanFunctions.vkBindImageMemory = vkBindImageMemory;
+        vulkanFunctions.vkCreateBuffer = vkCreateBuffer;
+        vulkanFunctions.vkCreateImage = vkCreateImage;
+        vulkanFunctions.vkDestroyBuffer = vkDestroyBuffer;
+        vulkanFunctions.vkDestroyImage = vkDestroyImage;
+        vulkanFunctions.vkFreeMemory = vkFreeMemory;
+        vulkanFunctions.vkGetBufferMemoryRequirements = vkGetBufferMemoryRequirements;
+        vulkanFunctions.vkGetBufferMemoryRequirements2KHR = vkGetBufferMemoryRequirements2;
+        vulkanFunctions.vkGetImageMemoryRequirements = vkGetImageMemoryRequirements;
+        vulkanFunctions.vkGetImageMemoryRequirements2KHR = vkGetImageMemoryRequirements2;
+        vulkanFunctions.vkGetPhysicalDeviceMemoryProperties = vkGetPhysicalDeviceMemoryProperties;
+        vulkanFunctions.vkGetPhysicalDeviceProperties = vkGetPhysicalDeviceProperties;
+        vulkanFunctions.vkMapMemory = vkMapMemory;
+        vulkanFunctions.vkUnmapMemory = vkUnmapMemory;
+        vulkanFunctions.vkFlushMappedMemoryRanges = vkFlushMappedMemoryRanges;
+        vulkanFunctions.vkInvalidateMappedMemoryRanges = vkInvalidateMappedMemoryRanges;
+        vulkanFunctions.vkCmdCopyBuffer = vkCmdCopyBuffer;
 
-        #if VMA_DEDICATED_ALLOCATION || VMA_VULKAN_VERSION >= VK_API_VERSION_1_1
-            vkGetBufferMemoryRequirements2KHR,
-            vkGetImageMemoryRequirements2KHR,
+        #if VMA_DEDICATED_ALLOCATION
+            vulkanFunctions.vkGetBufferMemoryRequirements2KHR = vkGetBufferMemoryRequirements2;
+            vulkanFunctions.vkGetImageMemoryRequirements2KHR = vkGetImageMemoryRequirements2;
         #endif
 
-        #if VMA_BIND_MEMORY2 || VMA_VULKAN_VERSION >= VK_API_VERSION_1_1
-            vkBindBufferMemory2KHR,
-            vkBindImageMemory2KHR,
+        #if VMA_BIND_MEMORY2
+            vulkanFunctions.vkBindBufferMemory2KHR = vkBindBufferMemory2;
+            vulkanFunctions.vkBindImageMemory2KHR = vkBindImageMemory2;
         #endif
 
-        #if VMA_MEMORY_BUDGET || VMA_VULKAN_VERSION >= VK_API_VERSION_1_1
-            vkGetPhysicalDeviceMemoryProperties2KHR
+        #if VMA_MEMORY_BUDGET
+            vulkanFunctions.vkGetPhysicalDeviceMemoryProperties2KHR = vkGetPhysicalDeviceMemoryProperties2;
         #endif
-        };
 
         VmaAllocatorCreateInfo allocatorInfo = {};
-        allocatorInfo.vulkanApiVersion = VK_API_VERSION_1_2;
+        allocatorInfo.vulkanApiVersion = volkGetInstanceVersion();
         allocatorInfo.physicalDevice = physicalDevice;
         allocatorInfo.device = logicalDevice;
         allocatorInfo.instance = instance;
         allocatorInfo.pVulkanFunctions = &vulkanFunctions;
 
         VkResult result = vmaCreateAllocator(&allocatorInfo, &allocator);
-        SP_ASSERT(result == VK_SUCCESS);*/
+        SP_ASSERT(result == VK_SUCCESS);
     }
 
     void LogicalDevice::SetupPresentQueue(const Surface &surface) {
