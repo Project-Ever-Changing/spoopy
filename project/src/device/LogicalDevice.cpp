@@ -212,9 +212,9 @@ namespace lime { namespace spoopy {
         allocatorInfo.pVulkanFunctions = &vulkanFunctions;
 
         #ifndef SPOOPY_SWITCH
-            allocatorInfo.vulkanApiVersion = volkGetInstanceVersion();
+        allocatorInfo.vulkanApiVersion = volkGetInstanceVersion();
         #else
-            allocatorInfo.vulkanApiVersion = VK_API_VERSION_1_1;
+        allocatorInfo.vulkanApiVersion = VK_API_VERSION_1_1;
         #endif
 
         VkResult result = vmaCreateAllocator(&allocatorInfo, &allocator);
