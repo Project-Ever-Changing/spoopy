@@ -110,7 +110,7 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME1v(spoopy_device_destroy_swapchain);
 
-    void spoopy_recreate_swapchain(value window_handle) {
+    void spoopy_device_recreate_swapchain(value window_handle) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
         Context context = sdlWindow->context;
@@ -119,7 +119,7 @@ namespace lime { namespace spoopy {
         GetDrawableSize(sdlWindow->sdlWindow, &width, &height);
         context->RecreateSwapchainWrapper(width, height);
     }
-    DEFINE_PRIME1v(spoopy_recreate_swapchain);
+    DEFINE_PRIME1v(spoopy_device_recreate_swapchain);
 
     int spoopy_device_get_swapchain_image_count(value window_handle) {
         Window* window = (Window*)val_data(window_handle);
