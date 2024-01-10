@@ -24,6 +24,8 @@ namespace lime { namespace spoopy {
             if(!SDL_Vulkan_CreateSurface(window, instance, surface)) {
                 printf("Failed to create window surface, SDL_Error: %s\n", SDL_GetError());
             }
+
+            SPOOPY_LOG_INFO("Created window surface");
         #endif
     }
 
