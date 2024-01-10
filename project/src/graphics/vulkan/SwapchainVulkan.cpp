@@ -85,6 +85,8 @@ namespace lime { namespace spoopy {
         bool foundPresentModeImmediate = false;
         bool foundPresentModeFifo = false;
 
+        SPOOPY_LOG_INFO("(1.5)");
+
         for (const auto &mode: presentModes) { // A range-based for loop is much better here.
             switch(mode) {
                 case VK_PRESENT_MODE_IMMEDIATE_KHR:
