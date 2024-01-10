@@ -29,10 +29,9 @@ namespace lime { namespace spoopy {
 
     void Surface::CreateSurface() {
         CreateWindowSurface(window, instance, &surface);
-        checkVulkan(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surface, &capabilities));
 
         uint32_t surfaceFormatCount = 0;
-        vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &surfaceFormatCount, nullptr)
+        vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &surfaceFormatCount, nullptr);
         SP_ASSERT(surfaceFormatCount > 0);
 
         std::vector<VkSurfaceFormatKHR> surfaceFormats(surfaceFormatCount);
@@ -41,7 +40,7 @@ namespace lime { namespace spoopy {
         if(surfaceFormatCount == 1 && surfaceFormats[0].format == VK_FORMAT_UNDEFINED) {
             format.format = VK_FORMAT_B8G8R8A8_UNORM;
             format.colorSpace = surfaceFormats[0].colorSpace;
-            
+
             SPOOPY_LOG_INFO("Surface format is undefined, using B8G8R8A8_UNORM");
         }else {
             bool found_B8G8R8A8_UNORM = false;
@@ -60,6 +59,8 @@ namespace lime { namespace spoopy {
                 format.colorSpace = surfaceFormats[0].colorSpace;
             }
         }
+
+        checkVulkan(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surface, &capabilities));
     }
 
     void Surface::DestroySurface() {
