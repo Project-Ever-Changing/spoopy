@@ -31,8 +31,8 @@ namespace lime { namespace spoopy {
     }
 
     void Surface::CreateSurface() {
-        SP_ASSERT(window || instance == VK_NULL_HANDLE
-        || physicalDevice.GetPhysicalDevice() == VK_NULL_HANDLE);
+        SP_ASSERT(window && instance != VK_NULL_HANDLE
+        && physicalDevice.GetPhysicalDevice() != VK_NULL_HANDLE);
         CreateWindowSurface(window, instance, &surface);
 
         uint32_t surfaceFormatCount;
