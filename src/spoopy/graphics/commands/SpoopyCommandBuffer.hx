@@ -55,7 +55,7 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
 
     public function destroy():Void {
         if(__state == SUBMITTED) {
-            var milliseconds:SpoopyU64 = 1e+12 / SpoopyEngine.INSTANCE.drawFramerate;
+            var milliseconds:SpoopyU64 = 1000000000000 / SpoopyEngine.INSTANCE.drawFramerate;
             SpoopyBackendEngine.fenceManager.waitAndReleaseFence(__fence, milliseconds);
         }else {
             SpoopyBackendEngine.fenceManager.releaseFence(__fence);
