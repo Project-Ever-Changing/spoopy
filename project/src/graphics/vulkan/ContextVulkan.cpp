@@ -14,7 +14,8 @@ namespace lime { namespace spoopy {
     : queue(queue)
     , swapchain(nullptr)
     , oldSwapchain(VK_NULL_HANDLE)
-    , vsync(false) {
+    , vsync(false)
+    , coreRecreateSwapchain(nullptr) {
 
     }
 
