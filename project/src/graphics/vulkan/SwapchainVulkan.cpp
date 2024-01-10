@@ -74,7 +74,7 @@ namespace lime { namespace spoopy {
 
         VkPresentModeKHR presentMode = VK_PRESENT_MODE_FIFO_KHR;
 
-        printf("%d\n", surface != VK_NULL_HANDLE);
+        SPOOPY_LOG_INFO("(1.1)");
 
         uint32_t presentModesCount = 0;
         checkVulkan(vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surface, &presentModesCount, nullptr));
@@ -82,7 +82,8 @@ namespace lime { namespace spoopy {
 
         SPOOPY_LOG_INFO("(1.25)");
 
-        std::vector<VkPresentModeKHR> presentModes(presentModesCount); // Too risky to allocate from the heap, it's safe to use a vector here to avoid potential memory leaks.
+        // Too risky to allocate from the heap, it's safe to use a vector here to avoid potential memory leaks.
+        std::vector<VkPresentModeKHR> presentModes(presentModesCount);
         checkVulkan(vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surface, &presentModesCount, presentModes.data()));
 
         bool foundPresentModeMailbox = false;
