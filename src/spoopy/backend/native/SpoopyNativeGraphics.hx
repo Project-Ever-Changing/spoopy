@@ -32,6 +32,6 @@ class SpoopyNativeGraphics {
     }
 
     public function initSwapChain(context:SpoopyWindowContext):Void {
-        if(__renderTask == null) __renderTask = new SpoopyNativeRenderTask(context);
+        // __renderTask = new SpoopyNativeRenderTask(context);
     }
 }
