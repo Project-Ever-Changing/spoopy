@@ -82,9 +82,10 @@ class SpoopyNativeFenceManager {
 
         #if (!cpp || cppia)
         __cacheNanoBytes(nanoseconds);
+        return fence.wait(__cachedNanoBytes);
         #end
 
-        return fence.wait(__cachedNanoBytes);
+        return fence.wait(nanoseconds);
     }
 
     public function releaseFence(fence:SpoopyNativeFence):Void {
