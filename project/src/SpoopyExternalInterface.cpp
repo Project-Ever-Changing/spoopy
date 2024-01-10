@@ -71,8 +71,9 @@ namespace lime { namespace spoopy {
             SPOOPY_LOG_ERROR("Attempted to hook a callback to the swapchain recreate callback when one already exists!");
 
             SPOOPY_LOG_INFO(LOG_TYPE::FORMATTED, "Was the swapchain already initialized? %d. Was the recreate callback initialized? %d.",
-                context->GetSwapchain() != nullptr, context->coreRecreateSwapchain != nullptr
+                context->GetSwapchain() > 0, context->coreRecreateSwapchain > 0
             );
+
             return;
         }
 
