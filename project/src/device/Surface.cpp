@@ -20,7 +20,7 @@ namespace lime { namespace spoopy {
     void Surface::CreateWindowSurface(SDL_Window* window, VkInstance instance, VkSurfaceKHR* surface) {
         #if SPOOPY_SDL
             if(!SDL_Vulkan_CreateSurface(window, instance, surface)) {
-                printf("%s", "Failed to create window surface, SDL_Error: %s", SDL_GetError());
+                printf("Failed to create window surface, SDL_Error: %s\n", SDL_GetError());
             }
         #endif
     }
@@ -30,9 +30,9 @@ namespace lime { namespace spoopy {
         checkVulkan(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surface, &capabilities));
 
         uint32_t surfaceFormatCount = 0;
-        vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &surfaceFormatCount, nullptr);
+        checkVulkan(vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &surfaceFormatCount, nullptr));
         std::vector<VkSurfaceFormatKHR> surfaceFormats(surfaceFormatCount);
-        vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &surfaceFormatCount, surfaceFormats.data());
+        checkVulkan(vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &surfaceFormatCount, surfaceFormats.data()));
 
         if(surfaceFormatCount == 1 && surfaceFormats[0].format == VK_FORMAT_UNDEFINED) {
             format.format = VK_FORMAT_B8G8R8A8_UNORM;
