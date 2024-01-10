@@ -1,11 +1,13 @@
-package spoopy.graphics.renderer;
+package spoopy.backend.native;
 
+import spoopy.app.SpoopyEngine;
 import spoopy.graphics.modules.SpoopyFlags;
 import spoopy.utils.destroy.SpoopyDestroyable.ISpoopyDestroyable;
 import spoopy.graphics.modules.SpoopyGPUObject;
 import spoopy.graphics.SpoopyWindowContext;
 import spoopy.utils.SpoopyLogger;
 
+@:access(lime.ui.Window)
 class SpoopyNativeRenderTask implements ISpoopyDestroyable {
     public var context(default, null):SpoopyWindowContext;
     public var imageCount(default, null):Int;
@@ -18,17 +20,16 @@ class SpoopyNativeRenderTask implements ISpoopyDestroyable {
     @:noCompletion private var __acquireImageIndex:Int = 0;
 
     public function new(context:SpoopyWindowContext) {
-        var maxBackBuffers = Math.max(MAX_BACK_BUFFERS, 10);
+        var maxBackBuffers = Std.int(Math.max(SpoopyEngine.MAX_BACK_BUFFERS * 2, 10));
 
         this.context = context;
-        this.parent = parent;
 
         if(this.context == null) {
             SpoopyLogger.error("SpoopyNativeRenderTask's window context is null!");
         }
 
         SpoopyNativeEngine.tasks.push(this);
-        SpoopyNativeCFFI.spoopy_init_swap_chain(context.window.__backend.handle, __reCreateSwapchain);
+        SpoopyNativeCFFI.spoopy_device_init_swapchain(context.window.__backend.handle, __reCreateSwapchain);
         imageCount = SpoopyNativeCFFI.spoopy_device_get_swapchain_image_count(context.window.__backend.handle);
 
         __imageAcquiredFences = new haxe.ds.Vector<SpoopyNativeFence>(maxBackBuffers);
@@ -44,7 +45,7 @@ class SpoopyNativeRenderTask implements ISpoopyDestroyable {
 
     public function createSwapchain(width:Int, height:Int):Void {
         SpoopyNativeCFFI.spoopy_device_set_swapchain_size(context.window.__backend.handle, width, height);
-        SpoopyNativeEngine.spoopy_device_create_swapchain();
+        SpoopyNativeCFFI.spoopy_device_create_swapchain(context.window.__backend.handle);
         imageCount = SpoopyNativeCFFI.spoopy_device_get_swapchain_image_count(context.window.__backend.handle);
 
         for(i in 0...imageCount) {
@@ -56,7 +57,7 @@ class SpoopyNativeRenderTask implements ISpoopyDestroyable {
     public function destroySwapchain():Void {
         context.module.autoDeleteAll();
 
-        SpoopyNativeCFFI.spoopy_destroy_swap_chain(context.window.__backend.handle);
+        SpoopyNativeCFFI.spoopy_device_destroy_swapchain(context.window.__backend.handle);
         __acquiredSemaphore = null;
 
         for(i in 0...__imageAcquiredFences.length) {
@@ -72,14 +73,12 @@ class SpoopyNativeRenderTask implements ISpoopyDestroyable {
         
     }
 
-    //public function 
-
     public function acquireNextImage():Void {
         var __prevSemaphoreIndex:Int = this.__currentSemaphoreIndex;
         this.__currentSemaphoreIndex = (this.__currentSemaphoreIndex + 1) % this.__imageAcquiredSemaphores.length;
 
-        var result = SpoopyNativeCFFI.acquireNextImage(
-            this.context,
+        var result = SpoopyNativeCFFI.spoopy_device_acquire_next_image(
+            this.context.window.__backend.handle,
             this.__imageAcquiredSemaphores,
             this.__imageAcquiredFences[__currentSemaphoreIndex],
             __prevSemaphoreIndex,
@@ -89,7 +88,7 @@ class SpoopyNativeRenderTask implements ISpoopyDestroyable {
         if(result >= 0) {
             this.__acquiredSemaphore = this.__imageAcquiredSemaphores[this.__currentSemaphoreIndex];
         }else {
-            this.__currentSemaphoreIndex = this.__prevSemaphoreIndex;
+            this.__currentSemaphoreIndex = __prevSemaphoreIndex;
             return;
         }
 

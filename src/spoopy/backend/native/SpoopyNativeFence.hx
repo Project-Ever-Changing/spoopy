@@ -12,7 +12,7 @@ class SpoopyNativeFence implements ISpoopyDestroyable {
         handle = SpoopyNativeCFFI.spoopy_create_gpu_fence(signaled);
     }
 
-    public function wait(nanoseconds:Int):Bool {
+    public function wait(nanoseconds:U64):Bool {
         return SpoopyNativeCFFI.spoopy_wait_gpu_fence(handle, nanoseconds);
     }
 
@@ -29,3 +29,9 @@ class SpoopyNativeFence implements ISpoopyDestroyable {
         SpoopyNativeCFFI.spoopy_dealloc_gpu_cffi_pointer(SpoopyFlags.FENCE, handle);
     }
 }
+
+#if (!cpp || cppia)
+typedef U64 = haxe.io.Bytes;
+#else
+typedef U64 = spoopy.io.SpoopyU64;
+#end

@@ -14,16 +14,12 @@ import sys.thread.Lock;
 */
 
 class SpoopyDestroyQueue<T:ISpoopyDestroyable> {
-    public var length(default, null);
-
     private var head:Node<T>;
     private var tail:Node<T>;
 
     public function new() {
         head = null;
         tail = null;
-
-        length = 0;
     }
 
     public function enqueue(item:T):Void {
@@ -35,8 +31,6 @@ class SpoopyDestroyQueue<T:ISpoopyDestroyable> {
         } else {
             oldTail.next = tail;
         }
-
-        length++;
     }
 
     public function releaseItems():Void {
@@ -55,14 +49,13 @@ class SpoopyDestroyQueue<T:ISpoopyDestroyable> {
         return head == null;
     }
 
-    private function dequeue():T { // There is no point for this to be public since this is auto deletion queue.
+    public function dequeue():T {
         if(isEmpty()) {
             throw "Queue underflow";
         }
 
         var item = head.item;
         head = head.next;
-        length--;
 
         if(isEmpty()) {
             tail = null;

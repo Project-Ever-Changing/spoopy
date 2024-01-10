@@ -31,7 +31,6 @@ class SpoopyWindowContext implements IWindowHolder {
     @:noCompletion private var __window:Window;
     @:noCompletion private var __renderPass:SpoopyRenderPass;
     @:noCompletion private var __stateManager:SpoopyStateManager;
-    @:noCompletion private var __commandManager:SpoopyCommandManager<SpoopyWindowContext>;
     @:noCompletion private var __module:SpoopyGraphicsModule;
     @:noCompletion private var __displayMatrix:Matrix3;
     @:noCompletion private var __viewportRect:Rectangle;
@@ -48,18 +47,6 @@ class SpoopyWindowContext implements IWindowHolder {
 
         __stateManager = stateManager != null ? stateManager : new SpoopyStateManager();
         __stateManager.bindToContext(this);
-
-        __commandManager = new SpoopyCommandManager<SpoopyWindowContext>(this);
-    }
-
-    public function flushState():Void {
-        var cmdBuffer = __commandManager.getCmdBuffer();
-
-        // TODO STATE: Handle render pass and pipeline barrier
-    }
-
-    public function flush():Void {
-        
     }
 
     public function resize():Void {

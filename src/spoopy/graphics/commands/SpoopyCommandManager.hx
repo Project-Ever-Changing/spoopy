@@ -2,6 +2,7 @@ package spoopy.graphics.commands;
 
 import spoopy.utils.SpoopyLogger;
 import spoopy.utils.destroy.SpoopyDestroyable;
+import spoopy.graphics.modules.SpoopyGPUObject;
 import spoopy.window.IWindowHolder;
 
 /*
@@ -49,7 +50,7 @@ class SpoopyCommandManager<T:IWindowHolder> implements ISpoopyDestroyable {
             }
         }
 
-        __activeCmdBuffer = __pool.createCmdBuffer();
+        __activeCmdBuffer = __pool.createBuffer();
     }
 
     public function getCmdBuffer():SpoopyCommandBuffer<T> {

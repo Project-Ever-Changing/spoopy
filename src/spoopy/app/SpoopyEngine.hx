@@ -3,6 +3,7 @@ package spoopy.app;
 import spoopy.events.SpoopyEvent;
 import spoopy.events.SpoopyEventDispatcher;
 import spoopy.events.SpoopyUncaughtDispatcher;
+import spoopy.graphics.descriptor.SpoopyDescriptorManager;
 import spoopy.graphics.SpoopyGraphicsModule;
 import spoopy.graphics.SpoopyWindowContext;
 import spoopy.utils.SpoopyLogger;
@@ -26,8 +27,8 @@ class SpoopyEngine implements IModule {
     public var DRAW_EVENT(default, null):SpoopyEvent;
 
     public var cpuLimiterEnabled(default, null):Bool;
-    public var updateFramerate(default, null):Float;
-    public var drawFramerate(default, null):Float;
+    public var updateFramerate(default, null):Int;
+    public var drawFramerate(default, null):Int;
     public var timeScale(default, null):Float;
     public var frameCounter(default, null):Float;
 
@@ -57,7 +58,7 @@ class SpoopyEngine implements IModule {
         frameCounter = 0;
     }
 
-    public function update(updateFramerate:Float = 60, drawFramerate:Float = 60, timeScale:Float = 1.0, cpuLimiterEnabled:Bool = true) {
+    public function update(updateFramerate:Int = 60, drawFramerate:Int = 60, timeScale:Float = 1.0, cpuLimiterEnabled:Bool = true) {
         this.cpuLimiterEnabled = cpuLimiterEnabled;
         this.updateFramerate = updateFramerate;
         this.drawFramerate = drawFramerate;
@@ -71,10 +72,6 @@ class SpoopyEngine implements IModule {
     */
     public inline function enableCPULimiter(value:Bool):Void {
         cpuLimiterEnabled = value;
-    }
-
-    @:allow(spoopy.graphics.SpoopyGraphicsModule) private inline function createRenderTask(context:SpoopyWindowContext):Void {
-        SpoopyEngineBackend.createTask();
     }
 
     @:noCompletion private function __registerLimeModule(application:Application):Void {

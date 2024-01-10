@@ -1,11 +1,13 @@
 package spoopy.graphics.commands;
 
 import spoopy.window.IWindowHolder;
+import spoopy.backend.SpoopyStaticBackend;
 import spoopy.backend.native.SpoopyNativeCFFI;
 import spoopy.utils.destroy.SpoopyDestroyable;
 import spoopy.utils.SpoopyLogger;
 import spoopy.graphics.modules.SpoopyGPUObject;
 import spoopy.graphics.descriptor.SpoopyDescriptorPoolContainer;
+import spoopy.app.SpoopyEngine;
 
 @:allow(spoopy.graphics.commands.SpoopyCommandPool)
 class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
@@ -26,7 +28,7 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
     private function new(parent:SpoopyCommandPool<T>, begin:Bool = true) {
         __state = WAITING_FOR_BEGIN;
         __parent = parent;
-        __holder = parent.parent.holder;
+        __holder = parent.manager.parent;
 
         __handle = SpoopyStaticBackend.spoopy_create_command_buffer(parent.__handle, begin);
         __state = begin ? HAS_BEGUN : __state;
@@ -41,13 +43,25 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
         __descriptorPoolContainer = SpoopyEngine.INSTANCE.descriptorManager.acquirePoolContainer();
     }
 
+    /*
+    * TODO: In the future, we should have a descriptor pool container binder
+    * that will bind the descriptor pool container to the command buffer from the SpoopyState.
+    */
+
     public function begin():Void {
-        SpoopyStaticBackend.spoopy_command_buffer_begin(__handle);
+        SpoopyStaticBackend.spoopy_command_buffer_begin_record(__handle);
     }
 
     public function destroy():Void {
         if(__state == SUBMITTED) {
-            var milliseconds:haxe.Int64 = (1000 / SpoopyEngine.INSTANCE.drawFramerate) * 1e+9;
+            #if (!cpp || cppia)
+            var milliseconds:haxe.Int64 = haxe.Int64.fromFloat(1e+12 / SpoopyEngine.INSTANCE.drawFramerate);
+            #else
+            
+            // Best workaround for cpp target when it comes to using a unsigned 64-bit integer.
+            var milliseconds:spoopy.io.SpoopyU64 = untyped __cpp__("1e+12 / ::spoopy::app::SpoopyEngine_obj::INSTANCE->drawFramerate");
+            #end
+
             SpoopyBackendEngine.fenceManager.waitAndReleaseFence(__fence, milliseconds);
         }else {
             SpoopyBackendEngine.fenceManager.releaseFence(__fence);
@@ -79,12 +93,12 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
         }
 
         __submittedSemaphores = __waitSemaphores;
-        __waitSemaphores.clear();
+        __waitSemaphores = [];
         __submittedFenceSignaledCounter = __fenceSignaledCounter;
     }
 
     public function refreshFenceStatus():Void {
-        if(!__state == SUBMITTED) {
+        if(__state != SUBMITTED) {
             SpoopyLogger.error("This command buffer has not been submitted!");
             return;
         }
@@ -98,11 +112,11 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
                 submittedSemaphore.destroy();
             }
 
-            __submittedSemaphores.clear();
+            __submittedSemaphores = [];
             SpoopyStaticBackend.spoopy_command_buffer_reset(__handle);
             __fenceSignaledCounter++;
 
-            if(__descriptorPoolContainer) {
+            if(__descriptorPoolContainer != null) {
                 SpoopyEngine.INSTANCE.descriptorManager.releasePoolContainer(__descriptorPoolContainer);
                 __descriptorPoolContainer = null;
             }
@@ -121,12 +135,12 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
     }
 
     public inline function end():Void {
-        if(!HAS_BEGUN) {
+        if(__state != HAS_BEGUN) {
             SpoopyLogger.error("This command buffer has not been begun!");
             return;
         }
 
-        SpoopyStaticBackend.spoopy_command_buffer_end(__handle);
+        SpoopyStaticBackend.spoopy_command_buffer_end_record(__handle);
         __state = HAS_ENDED;
     }
 
@@ -141,6 +155,5 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
 
 // TODO: If OpenGL, then have an actual handle class.
 typedef SpoopyFence = spoopy.backend.native.SpoopyNativeFence;
-typedef SpoopyStaticBackend = spoopy.backend.native.SpoopyNativeCFFI;
 typedef SpoopyBackendEngine = spoopy.backend.native.SpoopyNativeEngine;
 typedef SpoopyCommandBufferBackend = Dynamic;

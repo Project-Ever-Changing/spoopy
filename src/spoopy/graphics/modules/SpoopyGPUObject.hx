@@ -2,6 +2,7 @@ package spoopy.graphics.modules;
 
 import spoopy.utils.SpoopyLogger;
 import spoopy.utils.destroy.SpoopyDestroyable;
+import spoopy.backend.SpoopyStaticBackend;
 
 
 /*
@@ -46,7 +47,7 @@ class SpoopyGPUObject implements ISpoopyDestroyable {
 
     @:allow(spoopy.graphics.modules.SpoopyEntry)
     @:noCompletion private inline function flush():Void {
-        SpoopyNativeCFFI.spoopy_dealloc_gpu_cffi_pointer(__flag, __pointer);
+        SpoopyStaticBackend.spoopy_dealloc_gpu_cffi_pointer(__flag, __pointer);
         __pointer = null;
 
         #if spoopy_debug
@@ -60,5 +61,4 @@ class SpoopyGPUObject implements ISpoopyDestroyable {
 }
 
 // TODO: If OpenGL, then have an actual pointer class.
-typedef SpoopyStaticBackend = spoopy.backend.native.SpoopyNativeCFFI;
 typedef SpoopyGPUObjectPointer = Dynamic;
