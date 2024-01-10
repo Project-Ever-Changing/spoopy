@@ -26,9 +26,9 @@ namespace lime { namespace spoopy {
         }
     }
 
-        Surface* ContextVulkan::CreateSurface(LogicalDevice &device, const PhysicalDevice &physicalDevice, RAW_Window* window) const {
-            return new Surface(*GraphicsVulkan::GetCurrent()->instance.get(), physicalDevice, device, window);
-        }
+    Surface* ContextVulkan::CreateSurface(LogicalDevice &device, const PhysicalDevice &physicalDevice, RAW_Window* window) const {
+        return new Surface(*GraphicsVulkan::GetCurrent()->instance.get(), physicalDevice, device, window);
+    }
 
     bool ContextVulkan::RecreateSwapchainWrapper(int width, int height) {
         ScopeLock lock(swapchainMutex);
