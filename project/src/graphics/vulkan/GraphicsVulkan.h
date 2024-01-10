@@ -35,12 +35,13 @@ namespace lime { namespace spoopy {
             const LogicalDevice *GetLogicalDevice() const { return logicalDevice.get(); }
             const VkPipelineCache &GetPipelineCache() const { return pipelineCache; }
 
-        private:
-            static std::unique_ptr<GraphicsVulkan> Main;
-
             std::unique_ptr<Instance> instance;
             std::unique_ptr<PhysicalDevice> physicalDevice;
             std::unique_ptr<LogicalDevice> logicalDevice;
+
+        private:
+            static std::unique_ptr<GraphicsVulkan> Main;
+
             std::vector<std::shared_ptr<ContextVulkan>> contexts;
 
             VkExtent2D displayExtent;

@@ -12,10 +12,10 @@
 
     #define CreateContext lime::spoopy::GraphicsHandler::Handler_CreateContext
     #define DeleteContext lime::spoopy::GraphicsHandler::Handler_DestroyContext
-    #define MakeCurrent lime::spoopy::GraphicsHandler::Handler_MakeCurrent
     #define SetSwapInterval lime::spoopy::GraphicsHandler::Handler_SwapInterval
 
     #define SwapWindow EMPTY
+    #define MakeCurrent EMPTY
 #endif
 
 #ifndef LIME_OPENGL

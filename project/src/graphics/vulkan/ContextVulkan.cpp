@@ -1,7 +1,7 @@
-#include "../../device/Surface.h"
 #include "../../device/PhysicalDevice.h"
 #include "../../device/LogicalDevice.h"
 #include "../../../include/graphics/ContextLayer.h"
+#include "GraphicsVulkan.h"
 #include "SwapchainVulkan.h"
 #include "ContextStage.h"
 #include "QueueVulkan.h"
@@ -26,6 +26,10 @@ namespace lime { namespace spoopy {
         }
     }
 
+        Surface* ContextVulkan::CreateSurface(LogicalDevice &device, const PhysicalDevice &physicalDevice, RAW_Window* window) const {
+            return new Surface(*GraphicsVulkan::GetCurrent()->instance.get(), physicalDevice, device, window);
+        }
+
     bool ContextVulkan::RecreateSwapchainWrapper(int width, int height) {
         ScopeLock lock(swapchainMutex);
 
@@ -38,8 +42,8 @@ namespace lime { namespace spoopy {
         return true;
     }
 
-    void ContextVulkan::InitSwapchain(int32 width, int32 height, const PhysicalDevice &physicalDevice) {
-        swapchain = new SwapchainVulkan(width, height, oldSwapchain, vsync, queue->GetDevice(), physicalDevice, *this);
+    void ContextVulkan::InitSwapchain(int32 width, int32 height, RAW_Window* window, const PhysicalDevice &physicalDevice) {
+        swapchain = new SwapchainVulkan(width, height, window, oldSwapchain, vsync, queue->GetDevice(), physicalDevice, *this);
     }
 
     void ContextVulkan::CreateSwapchain() {

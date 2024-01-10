@@ -79,7 +79,7 @@ namespace lime { namespace spoopy {
         }
 
         const PhysicalDevice &physicalDevice = *GraphicsModule::GetCurrent()->GetPhysicalDevice();
-        context->InitSwapchain(width, height, physicalDevice);
+        context->InitSwapchain(width, height, sdlWindow->sdlWindow, physicalDevice);
         context->coreRecreateSwapchain = new ValuePointer(callback);
     }
     DEFINE_PRIME2v(spoopy_device_init_swapchain);
