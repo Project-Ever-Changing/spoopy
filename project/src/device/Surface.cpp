@@ -20,7 +20,7 @@ namespace lime { namespace spoopy {
     }
 
     void Surface::CreateWindowSurface(SDL_Window* window, VkInstance instance, VkSurfaceKHR* surface) {
-        #if SPOOPY_SDL
+        #ifdef SPOOPY_SDL
             if(!SDL_Vulkan_CreateSurface(window, instance, surface)) {
                 printf("Failed to create window surface, SDL_Error: %s\n", SDL_GetError());
             }
