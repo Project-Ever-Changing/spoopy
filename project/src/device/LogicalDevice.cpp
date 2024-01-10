@@ -192,17 +192,17 @@ namespace lime { namespace spoopy {
         vulkanFunctions.vkCmdCopyBuffer = vkCmdCopyBuffer;
 
         #if VMA_DEDICATED_ALLOCATION
-            vulkanFunctions.vkGetBufferMemoryRequirements2KHR = vkGetBufferMemoryRequirements2;
-            vulkanFunctions.vkGetImageMemoryRequirements2KHR = vkGetImageMemoryRequirements2;
+        vulkanFunctions.vkGetBufferMemoryRequirements2KHR = vkGetBufferMemoryRequirements2;
+        vulkanFunctions.vkGetImageMemoryRequirements2KHR = vkGetImageMemoryRequirements2;
         #endif
 
         #if VMA_BIND_MEMORY2
-            vulkanFunctions.vkBindBufferMemory2KHR = vkBindBufferMemory2;
-            vulkanFunctions.vkBindImageMemory2KHR = vkBindImageMemory2;
+        vulkanFunctions.vkBindBufferMemory2KHR = vkBindBufferMemory2;
+        vulkanFunctions.vkBindImageMemory2KHR = vkBindImageMemory2;
         #endif
 
         #if VMA_MEMORY_BUDGET
-            vulkanFunctions.vkGetPhysicalDeviceMemoryProperties2KHR = vkGetPhysicalDeviceMemoryProperties2;
+        vulkanFunctions.vkGetPhysicalDeviceMemoryProperties2KHR = vkGetPhysicalDeviceMemoryProperties2;
         #endif
 
         VmaAllocatorCreateInfo allocatorInfo = {};
