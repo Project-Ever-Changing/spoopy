@@ -21,18 +21,18 @@ namespace lime { namespace spoopy {
 
     void Surface::CreateWindowSurface(SDL_Window* window, VkInstance instance, VkSurfaceKHR* surface) {
         #ifdef SPOOPY_SDL
-            if(!SDL_Vulkan_CreateSurface(window, instance, surface)) {
-                printf("Failed to create window surface, SDL_Error: %s\n", SDL_GetError());
-            }
 
-            SPOOPY_LOG_INFO("Created window surface");
+        if(!SDL_Vulkan_CreateSurface(window, instance, surface)) {
+            printf("Failed to create window surface, SDL_Error: %s\n", SDL_GetError());
+        }
+
         #endif
     }
 
     void Surface::CreateSurface() {
         CreateWindowSurface(window, instance, &surface);
 
-        uint32_t surfaceFormatCount = 0;
+        uint32_t surfaceFormatCount;
         vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &surfaceFormatCount, nullptr);
         SP_ASSERT(surfaceFormatCount > 0);
 
