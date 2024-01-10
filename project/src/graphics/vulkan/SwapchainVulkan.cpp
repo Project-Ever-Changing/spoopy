@@ -67,8 +67,10 @@ namespace lime { namespace spoopy {
         const uint32_t swapBufferCount = std::clamp<uint32_t>(VK_BACK_BUFFERS_COUNT, minSwapBufferCount, maxSwapBufferCount);
         device.SetupPresentQueue(*context.GetSurface());
 
+        SPOOPY_LOG_INFO("(1)");
 
-        // Present mode (1)
+
+        // Present mode (2)
 
         VkPresentModeKHR presentMode = VK_PRESENT_MODE_FIFO_KHR;
 
@@ -110,8 +112,10 @@ namespace lime { namespace spoopy {
             presentMode = presentModes[0];
         }
 
+        SPOOPY_LOG_INFO("(2)");
 
-        // Surface capabilities (2)
+
+        // Surface capabilities (3)
 
         VkSurfaceCapabilitiesKHR surfaceCapabilities = context.GetSurface()->GetCapabilities();
         width = std::clamp<int32_t>(width, surfaceCapabilities.minImageExtent.width, surfaceCapabilities.maxImageExtent.width);
@@ -122,8 +126,10 @@ namespace lime { namespace spoopy {
             return;
         }
 
+        SPOOPY_LOG_INFO("(3)");
 
-        // Swapchain create info (3)
+
+        // Swapchain create info (4)
 
         VkSwapchainCreateInfoKHR swapChainInfo;
         swapChainInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
@@ -166,8 +172,10 @@ namespace lime { namespace spoopy {
         this->width = width;
         this->height = height;
 
+        SPOOPY_LOG_INFO("(4)");
 
-        // Swapchain images (4)
+
+        // Swapchain images (5)
 
         unsigned int swapChainImagesCount = 0;
         checkVulkan(vkGetSwapchainImagesKHR(device, swapchain, &swapChainImagesCount, nullptr));
@@ -176,8 +184,10 @@ namespace lime { namespace spoopy {
         images.reserve(swapChainImagesCount);
         checkVulkan(vkGetSwapchainImagesKHR(device, swapchain, &swapChainImagesCount, images.data()));
 
+        SPOOPY_LOG_INFO("(5)");
 
-        // Swapchain image views (5)
+
+        // Swapchain image views (6)
 
         VkImageViewCreateInfo imageViewInfo = {};
         imageViewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
@@ -198,6 +208,8 @@ namespace lime { namespace spoopy {
             imageViewInfo.image = images[i];
             checkVulkan(vkCreateImageView(device, &imageViewInfo, nullptr, &imageViews[i]));
         }
+
+        SPOOPY_LOG_INFO("(6)");
     }
 
     /*

@@ -78,7 +78,7 @@ namespace lime { namespace spoopy {
             return;
         }
 
-        const PhysicalDevice& physicalDevice = *GraphicsModule::GetCurrent()->GetPhysicalDevice();
+        const PhysicalDevice &physicalDevice = *GraphicsModule::GetCurrent()->GetPhysicalDevice();
         context->InitSwapchain(width, height, physicalDevice);
         context->coreRecreateSwapchain = new ValuePointer(callback);
     }
