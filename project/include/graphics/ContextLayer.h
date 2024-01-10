@@ -50,6 +50,8 @@ namespace lime { namespace spoopy {
 
             ValuePointer* coreRecreateSwapchain;
 
+            Mutex swapchainMutex;
+
         private:
             bool vsync;
             SwapchainVulkan* swapchain;
@@ -57,8 +59,6 @@ namespace lime { namespace spoopy {
 
             std::unique_ptr<Surface> surface;
             std::shared_ptr<QueueVulkan> queue;
-
-            Mutex swapchainMutex;
     };
 
     #endif
