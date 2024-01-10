@@ -89,7 +89,7 @@ namespace lime { namespace spoopy {
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
         Context context = sdlWindow->context;
 
-        context->CreateSwapchain();
+        context->CreateSwapchain(sdlWindow->sdlWindow);
     }
     DEFINE_PRIME1v(spoopy_device_create_swapchain);
 

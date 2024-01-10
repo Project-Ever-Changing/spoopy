@@ -34,10 +34,10 @@ namespace lime { namespace spoopy {
     , currentImageIndex(-1)
     , vsync(vsync)
     , surface(nullptr) {
-        Create(oldSwapchain);
+        Create(oldSwapchain, m_window);
     }
 
-    void SwapchainVulkan::Create(const VkSwapchainKHR &oldSwapchain) {
+    void SwapchainVulkan::Create(const VkSwapchainKHR &oldSwapchain, RAW_Window* m_window) {
         /*
          * Parts needed to create a swapchain:
          *
@@ -55,7 +55,7 @@ namespace lime { namespace spoopy {
 
         ScopeLock lock(context.swapchainMutex);
 
-        if(!surface)surface = context.CreateSurface(device, physicalDevice, m_window);
+        if(!surface)surface = std::unique_ptr<Surface>(context.CreateSurface(device, physicalDevice, m_window));
         VkSurfaceKHR surfaceHandle = surface->GetSurface();
         if(surfaceHandle == VK_NULL_HANDLE) surface->CreateSurface();
 

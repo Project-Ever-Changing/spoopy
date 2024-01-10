@@ -42,12 +42,12 @@ namespace lime { namespace spoopy {
         return true;
     }
 
-    void ContextVulkan::InitSwapchain(int32 width, int32 height, RAW_Window* window, const PhysicalDevice &physicalDevice) {
-        swapchain = new SwapchainVulkan(width, height, window, oldSwapchain, vsync, queue->GetDevice(), physicalDevice, *this);
+    void ContextVulkan::InitSwapchain(int32 width, int32 height, RAW_Window* m_window, const PhysicalDevice &physicalDevice) {
+        swapchain = new SwapchainVulkan(width, height, m_window, oldSwapchain, vsync, queue->GetDevice(), physicalDevice, *this);
     }
 
-    void ContextVulkan::CreateSwapchain() {
-        swapchain->Create(oldSwapchain);
+    void ContextVulkan::CreateSwapchain(RAW_Window* m_window) {
+        swapchain->Create(oldSwapchain, m_window);
     }
 
     void ContextVulkan::DestroySwapchain() {

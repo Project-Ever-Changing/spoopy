@@ -36,7 +36,7 @@ namespace lime { namespace spoopy {
             int32 AcquireNextImage(value imageAvailableSemaphore, FenceVulkan* fence
             , int32 prevSemaphoreIndex, int32 semaphoreIndex);
             SwapchainStatus Present(QueueVulkan* queue, SemaphoreVulkan* waitSemaphore);
-            void Create(const VkSwapchainKHR &oldSwapchain);
+            void Create(const VkSwapchainKHR &oldSwapchain, RAW_Window* m_window);
             void Destroy(VkSwapchainKHR &oldSwapchain);
             void FindSurfaceFormat(VkSurfaceFormatKHR &resultFormat, VkColorSpaceKHR colorSpace);
 

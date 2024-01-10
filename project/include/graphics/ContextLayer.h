@@ -46,10 +46,9 @@ namespace lime { namespace spoopy {
             SwapchainVulkan* GetSwapchain() const { return swapchain; }
             std::shared_ptr<QueueVulkan> GetQueue() const { return queue; }
             bool RecreateSwapchainWrapper(int width, int height);
-
-            void InitSwapchain(int32 width, int32 height, RAW_Window* window, const PhysicalDevice &physicalDevice);
+            void InitSwapchain(int32 width, int32 height, RAW_Window* m_window, const PhysicalDevice &physicalDevice);
             int PresentImageSwapchain(QueueVulkan* queue, SemaphoreVulkan* waitSemaphore);
-            void CreateSwapchain();
+            void CreateSwapchain(RAW_Window* m_window);
             void DestroySwapchain();
 
             std::unique_ptr<ContextStage> stage;
