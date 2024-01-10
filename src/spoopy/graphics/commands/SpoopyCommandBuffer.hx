@@ -55,11 +55,12 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
     public function destroy():Void {
         if(__state == SUBMITTED) {
             #if (!cpp || cppia)
-            var milliseconds:haxe.Int64 = haxe.Int64.fromFloat((1000 / SpoopyEngine.INSTANCE.drawFramerate) * 1e+9);
+            var milliseconds:haxe.Int64 = 1e+12 / SpoopyEngine.INSTANCE.drawFramerate;
             #else
-            var milliseconds:spoopy.io.SpoopyU64 = (1000 / SpoopyEngine.INSTANCE.drawFramerate) * 1e+9;
+
+            var milliseconds:spoopy.io.SpoopyU64 = 1e+12 / SpoopyEngine.INSTANCE.drawFramerate;
             #end
-            
+
             SpoopyBackendEngine.fenceManager.waitAndReleaseFence(__fence, milliseconds);
         }else {
             SpoopyBackendEngine.fenceManager.releaseFence(__fence);

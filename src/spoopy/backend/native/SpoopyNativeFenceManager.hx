@@ -17,8 +17,10 @@ class SpoopyNativeFenceManager {
         __freeFences = [];
         __inUseFences = [];
 
+        #if (!cpp || cppia)
         __cachedNanoSeconds = 0;
         __cachedNanoBytes = null;
+        #end
     }
 
     public function alloc(signaled:Bool = false):SpoopyNativeFence {
