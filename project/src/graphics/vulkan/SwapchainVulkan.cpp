@@ -33,13 +33,7 @@ namespace lime { namespace spoopy {
     , acquiredImageIndex(-1)
     , currentImageIndex(-1)
     , vsync(vsync)
-    , surface(
-        context.CreateSurface(
-            device,
-            physicalDevice,
-            m_window
-        )
-    ) {
+    , surface(nullptr) {
         Create(oldSwapchain);
     }
 
@@ -61,6 +55,7 @@ namespace lime { namespace spoopy {
 
         ScopeLock lock(context.swapchainMutex);
 
+        if(!surface)surface = context.CreateSurface(device, physicalDevice, m_window);
         VkSurfaceKHR surfaceHandle = surface->GetSurface();
         if(surfaceHandle == VK_NULL_HANDLE) surface->CreateSurface();
 
