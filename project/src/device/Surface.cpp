@@ -3,6 +3,8 @@
 #include "LogicalDevice.h"
 #include "PhysicalDevice.h"
 
+#include <spoopy_assert.h>
+
 namespace lime { namespace spoopy {
     Surface::Surface(const Instance &instance, const PhysicalDevice &physicalDevice, LogicalDevice &logicalDevice, SDL_Window* window):
     instance(instance),
@@ -30,13 +32,17 @@ namespace lime { namespace spoopy {
         checkVulkan(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surface, &capabilities));
 
         uint32_t surfaceFormatCount = 0;
-        checkVulkan(vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &surfaceFormatCount, nullptr));
+        vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &surfaceFormatCount, nullptr)
+        SP_ASSERT(surfaceFormatCount > 0);
+
         std::vector<VkSurfaceFormatKHR> surfaceFormats(surfaceFormatCount);
-        checkVulkan(vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &surfaceFormatCount, surfaceFormats.data()));
+        vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &surfaceFormatCount, surfaceFormats.data());
 
         if(surfaceFormatCount == 1 && surfaceFormats[0].format == VK_FORMAT_UNDEFINED) {
             format.format = VK_FORMAT_B8G8R8A8_UNORM;
             format.colorSpace = surfaceFormats[0].colorSpace;
+            
+            SPOOPY_LOG_INFO("Surface format is undefined, using B8G8R8A8_UNORM");
         }else {
             bool found_B8G8R8A8_UNORM = false;
 
