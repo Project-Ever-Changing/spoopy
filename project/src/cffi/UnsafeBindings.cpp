@@ -80,7 +80,10 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME2v(spoopy_set_gpu_fence_signal);
 
-    bool spoopy_wait_gpu_fence(value fence, value val_nanoseconds) {
+
+    #ifdef LIME_NEKO
+
+    bool spoopy_wait_gpu_fence(value fence, value nanoseconds) {
         GPUFence* _fence = (GPUFence*)val_data(fence);
 
         std::byte* bytes = (std::byte*)val_data(val_nanoseconds);
@@ -92,6 +95,17 @@ namespace lime { namespace spoopy {
         return _fence->Wait(nanoseconds);
     }
     DEFINE_PRIME2(spoopy_wait_gpu_fence);
+
+    #else
+
+    bool spoopy_wait_gpu_fence(value fence, value nanoseconds) {
+        GPUFence* _fence = (GPUFence*)val_data(fence);
+        uint64_t nanoseconds = *(uint64_t*)val_data(val_nanoseconds);
+        return _fence->Wait(nanoseconds);
+    }
+
+    #endif
+
 
     void spoopy_reset_gpu_fence(value fence) {
         GPUFence* _fence = (GPUFence*)val_data(fence);

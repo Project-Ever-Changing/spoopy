@@ -7,8 +7,9 @@ import lime.app.Application;
 import lime.utils.Log;
 
 import spoopy.window.IWindowModule;
+import spoopy.io.SpoopyU64;
 
-import haxe.Int64;
+
 import haxe.ds.ObjectMap;
 import haxe.io.Bytes;
 
@@ -24,7 +25,8 @@ class SpoopyApplication extends Application {
         return System.getTimer();
     }
 
-    public static function malloc64(value:Int64):Bytes {
+    #if (!cpp || cppia)
+    public static function malloc8(value:SpoopyU64):Bytes {
         var bytes:Bytes = Bytes.alloc(8);
 
         bytes.setInt32(0, value.low);
@@ -32,6 +34,7 @@ class SpoopyApplication extends Application {
 
         return bytes;
     }
+    #end
 
     public function new() {
         super();
