@@ -20,15 +20,17 @@ class SpoopyNativeRenderTask implements ISpoopyDestroyable {
     @:noCompletion private var __acquireImageIndex:Int = 0;
 
     public function new(context:SpoopyWindowContext) {
-        var maxBackBuffers = Std.int(Math.max(SpoopyEngine.MAX_BACK_BUFFERS * 2, 10));
-
         this.context = context;
 
         if(this.context == null) {
             SpoopyLogger.error("SpoopyNativeRenderTask's window context is null!");
         }
 
+        var maxBackBuffers = Std.int(Math.max(SpoopyEngine.MAX_BACK_BUFFERS * 2, 10));
+
         SpoopyNativeEngine.tasks.push(this);
+
+        /*
         SpoopyNativeCFFI.spoopy_device_init_swapchain(context.window.__backend.handle, __reCreateSwapchain);
         imageCount = SpoopyNativeCFFI.spoopy_device_get_swapchain_image_count(context.window.__backend.handle);
 
@@ -41,6 +43,7 @@ class SpoopyNativeRenderTask implements ISpoopyDestroyable {
             __imageAcquiredSemaphores[i] = new SpoopyGPUObject(SEMAPHORE, context.module);
             __imageFinishedSemaphores[i] = new SpoopyGPUObject(SEMAPHORE, context.module);
         }
+        */
     }
 
     public function createSwapchain(width:Int, height:Int):Void {
