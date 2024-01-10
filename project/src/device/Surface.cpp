@@ -6,11 +6,12 @@
 #include <spoopy_assert.h>
 
 namespace lime { namespace spoopy {
-    Surface::Surface(const Instance &instance, const PhysicalDevice &physicalDevice, LogicalDevice &logicalDevice, SDL_Window* window):
+    Surface::Surface(const Instance &instance, PhysicalDevice &physicalDevice, LogicalDevice &logicalDevice, SDL_Window* window):
     instance(instance),
     physicalDevice(physicalDevice),
     logicalDevice(logicalDevice),
-    window(window) {
+    window(window),
+    surface(VK_NULL_HANDLE) {
         CreateSurface();
     }
 

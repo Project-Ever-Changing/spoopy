@@ -26,7 +26,7 @@ namespace lime { namespace spoopy {
         }
     }
 
-    Surface* ContextVulkan::CreateSurface(LogicalDevice &device, const PhysicalDevice &physicalDevice, RAW_Window* window) const {
+    Surface* ContextVulkan::CreateSurface(LogicalDevice &device, PhysicalDevice &physicalDevice, RAW_Window* window) const {
         return new Surface(*GraphicsVulkan::GetCurrent()->instance.get(), physicalDevice, device, window);
     }
 
@@ -42,7 +42,7 @@ namespace lime { namespace spoopy {
         return true;
     }
 
-    void ContextVulkan::InitSwapchain(int32 width, int32 height, RAW_Window* m_window, const PhysicalDevice &physicalDevice) {
+    void ContextVulkan::InitSwapchain(int32 width, int32 height, RAW_Window* m_window, PhysicalDevice &physicalDevice) {
         swapchain = new SwapchainVulkan(width, height, m_window, oldSwapchain, vsync, queue->GetDevice(), physicalDevice, *this);
     }
 

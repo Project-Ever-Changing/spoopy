@@ -32,7 +32,7 @@ namespace lime { namespace spoopy {
 
         public:
             SwapchainVulkan(int32 width, int32 height, RAW_Window* m_window, VkSwapchainKHR &oldSwapchain, bool vsync
-            , LogicalDevice &device, const PhysicalDevice &physicalDevice, const ContextVulkan &context);
+            , LogicalDevice &device, PhysicalDevice &physicalDevice, const ContextVulkan &context);
             int32 AcquireNextImage(value imageAvailableSemaphore, FenceVulkan* fence
             , int32 prevSemaphoreIndex, int32 semaphoreIndex);
             SwapchainStatus Present(QueueVulkan* queue, SemaphoreVulkan* waitSemaphore);
@@ -50,7 +50,7 @@ namespace lime { namespace spoopy {
             bool vsync;
 
             LogicalDevice &device;
-            const PhysicalDevice &physicalDevice;
+            PhysicalDevice &physicalDevice;
 
             std::vector<VkImage> images;
             std::vector<VkImageView> imageViews;
