@@ -219,64 +219,75 @@ namespace lime { namespace spoopy {
         std::vector<const char *> extensions(availableExtensionCount);
 
         for(const auto& extension: availableExtensions) {
-            SPOOPY_LOG_INFO(extension.extensionName);
-
             if(platform::stringCompare(extension.extensionName, VK_EXT_DEBUG_UTILS_EXTENSION_NAME) == 0
             && enableValidationLayers) {
                 extensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+                continue;
             }
 
             if(platform::stringCompare(extension.extensionName, VK_EXT_DEBUG_REPORT_EXTENSION_NAME) == 0
             && enableValidationLayers) {
                 extensions.emplace_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
+                continue;
             }
 
             if(platform::stringCompare(extension.extensionName, VK_KHR_SURFACE_EXTENSION_NAME) == 0) {
                 extensions.emplace_back(VK_KHR_SURFACE_EXTENSION_NAME);
+                continue;
             }
 
             if(platform::stringCompare(extension.extensionName, VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME) == 0
             && volkGetInstanceVersion() >= VK_API_VERSION_1_3) {
                 extensions.emplace_back(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME);
+                continue;
             }
 
             #if defined(__APPLE__)
             if(platform::stringCompare(extension.extensionName, "VK_KHR_portability_enumeration") == 0) {
                 extensions.emplace_back("VK_KHR_portability_enumeration");
+                continue;
             }
 
             if(platform::stringCompare(extension.extensionName, "VK_KHR_portability_subset") == 0) {
                 extensions.emplace_back("VK_KHR_portability_subset");
+                continue;
             }
             #endif
 
             #if defined(VK_USE_PLATFORM_WIN32_KHR)
                 if(platform::stringCompare(extension.extensionName, VK_KHR_WIN32_SURFACE_EXTENSION_NAME) == 0) {
                     extensions.emplace_back(VK_KHR_WIN32_SURFACE_EXTENSION_NAME);
+                    continue;
                 }
             #elif defined(VK_USE_PLATFORM_XCB_KHR)
                 if(platform::stringCompare(extension.extensionName, VK_KHR_XCB_SURFACE_EXTENSION_NAME) == 0) {
                     extensions.emplace_back(VK_KHR_XCB_SURFACE_EXTENSION_NAME);
+                    continue;
                 }
             #elif defined(VK_USE_PLATFORM_XLIB_KHR)
                 if(platform::stringCompare(extension.extensionName, VK_KHR_XLIB_SURFACE_EXTENSION_NAME) == 0) {
                     extensions.emplace_back(VK_KHR_XLIB_SURFACE_EXTENSION_NAME);
+                    continue;
                 }
             #elif defined(VK_USE_PLATFORM_WAYLAND_KHR)
                 if(platform::stringCompare(extension.extensionName, VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME) == 0) {
                     extensions.emplace_back(VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME);
+                    continue;
                 }
             #elif defined(VK_USE_PLATFORM_ANDROID_KHR)
                 if(platform::stringCompare(extension.extensionName, VK_KHR_ANDROID_SURFACE_EXTENSION_NAME) == 0) {
                     extensions.emplace_back(VK_KHR_ANDROID_SURFACE_EXTENSION_NAME);
+                    continue;
                 }
             #elif defined(VK_USE_PLATFORM_MACOS_MVK)
                 if(platform::stringCompare(extension.extensionName, VK_MVK_MACOS_SURFACE_EXTENSION_NAME) == 0) {
                     extensions.emplace_back(VK_MVK_MACOS_SURFACE_EXTENSION_NAME);
+                    continue;
                 }
             #elif defined(VK_USE_PLATFORM_IOS_MVK)
                 if(platform::stringCompare(extension.extensionName, VK_MVK_IOS_SURFACE_EXTENSION_NAME) == 0) {
                     extensions.emplace_back(VK_MVK_IOS_SURFACE_EXTENSION_NAME);
+                    continue;
                 }
             #endif
         }
