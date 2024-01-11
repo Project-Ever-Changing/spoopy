@@ -20,9 +20,8 @@ namespace lime { namespace spoopy {
 
             void CreateSurface();
             void DestroySurface();
-        private:
-            void CreateWindowSurface(SDL_Window* window, VkInstance instance, VkSurfaceKHR* surface);
 
+        private:
             const Instance &instance;
             LogicalDevice &logicalDevice;
             PhysicalDevice &physicalDevice;

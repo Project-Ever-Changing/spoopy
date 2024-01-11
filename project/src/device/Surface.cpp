@@ -2,9 +2,24 @@
 #include "Instance.h"
 #include "LogicalDevice.h"
 #include "PhysicalDevice.h"
-#include "MacSurfaceCreate.h"
 
 #include <spoopy_assert.h>
+
+#if defined(HX_MACOS)
+
+#include "MacSurfaceCreate.h"
+
+#endif
+
+#if defined(SPOOPY_SDL) && defined(HX_MACOS)
+
+#define VK_CREATE_SURFACE spoopy_mac::MacCreateSurface;
+
+#elif defined(SPOOPY_SDL)
+
+#define VK_CREATE_SURFACE VkCreateSurface;
+
+#endif
 
 namespace lime { namespace spoopy {
     Surface::Surface(const Instance &instance, PhysicalDevice &physicalDevice, LogicalDevice &logicalDevice, SDL_Window* window):
@@ -21,21 +36,13 @@ namespace lime { namespace spoopy {
         window = nullptr;
     }
 
-    void Surface::CreateWindowSurface(SDL_Window* window, VkInstance instance, VkSurfaceKHR* surface) {
-        #ifdef SPOOPY_SDL
-
-        if(!SDL_Vulkan_CreateSurface(window, instance, surface)) {
-            printf("Failed to create window surface, SDL_Error: %s\n", SDL_GetError());
-        }
-
-        #endif
-    }
-
     void Surface::CreateSurface() {
         SP_ASSERT(window && instance != VK_NULL_HANDLE
         && physicalDevice.GetPhysicalDevice() != VK_NULL_HANDLE);
 
-        CreateWindowSurface(window, instance, &surface);
+        if(!VK_CREATE_SURFACE(window, instance, &surface)) {
+            printf("Failed to create window surface, SDL_Error: %s\n", SDL_GetError());
+        }
 
         uint32_t surfaceFormatCount;
         vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice.GetPhysicalDevice(), surface, &surfaceFormatCount, nullptr);
@@ -78,3 +85,5 @@ namespace lime { namespace spoopy {
         format = {};
     }
 }}
+
+#undef VK_CREATE_SURFACE
