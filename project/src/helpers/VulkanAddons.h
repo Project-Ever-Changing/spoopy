@@ -1,6 +1,8 @@
 #pragma once
 
+#ifdef SPOOPY_VOLK
 #include <volk.h>
+#endif
 
 #ifndef SPOOPY_ENGINE_VERSION
 #define SPOOPY_ENGINE_VERSION VK_MAKE_VERSION(0, 0, 1)

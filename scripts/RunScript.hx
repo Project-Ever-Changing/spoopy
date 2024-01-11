@@ -175,11 +175,19 @@ class RunScript {
         buildScript(have_API, build_args);
     }
 
-    static inline function lsCMD(args:Array<String>):Void {
-        if(args.length > 1) {
-            Sys.command("ls", [Sys.getCwd() + args[1]]);
+    static inline function lsCMD(args:Array<String>):Void { // Crappy. but it works.
+        if(FileSys.isWindows) {
+            if(args.length > 1) {
+                Sys.command("mkdir", [Sys.getCwd() + args[1]]);
+            }else {
+                Sys.command("mkdir");
+            }
         }else {
-            Sys.command("ls");
+            if(args.length > 1) {
+                Sys.command("ls", [Sys.getCwd() + args[1]]);
+            }else {
+                Sys.command("ls");
+            }
         }
     }
 

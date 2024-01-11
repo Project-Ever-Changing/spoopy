@@ -17,6 +17,12 @@
 typedef signed int int32;
 typedef long long int64;
 
+#if defined(SPOOPY_VULKAN) && defined(HX_MACOS)
+
+#include <vulkan/vulkan_macos.h>
+
+#endif
+
 #if defined(SPOOPY_VOLK) && defined(SPOOPY_VULKAN)
 
 #include <volk.h>

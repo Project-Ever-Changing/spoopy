@@ -28,8 +28,6 @@ namespace lime { namespace spoopy {
         }
 
         #endif
-
-        SP_ASSERT(surface != VK_NULL_HANDLE);
     }
 
     void Surface::CreateSurface() {
