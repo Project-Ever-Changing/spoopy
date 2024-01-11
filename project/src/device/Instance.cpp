@@ -222,12 +222,14 @@ namespace lime { namespace spoopy {
             if(platform::stringCompare(extension.extensionName, VK_EXT_DEBUG_UTILS_EXTENSION_NAME) == 0
             && enableValidationLayers) {
                 extensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+                SPOOPY_LOG_INFO("Using VK_EXT_debug_utils for Spoopy Engine");
                 continue;
             }
 
             if(platform::stringCompare(extension.extensionName, VK_EXT_DEBUG_REPORT_EXTENSION_NAME) == 0
             && enableValidationLayers) {
                 extensions.emplace_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
+                SPOOPY_LOG_INFO("Using VK_EXT_debug_utils for Spoopy Engine");
                 continue;
             }
 
