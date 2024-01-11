@@ -192,7 +192,7 @@ namespace lime { namespace spoopy {
             bool layerFound = false;
 
             for(const auto& layerProperties: instanceLayerProperties) {
-                if(strcmp(layerName, layerProperties.layerName) == 0) {
+                if(platform::stringCompare(layerName, layerProperties.layerName) == 0) {
                     layerFound = true;
                     break;
                 }
