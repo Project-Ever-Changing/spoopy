@@ -13,11 +13,11 @@
 
 #if defined(SPOOPY_SDL) && defined(HX_MACOS)
 
-#define VK_CREATE_SURFACE spoopy_mac::MacCreateSurface;
+#define VK_CREATE_SURFACE spoopy_mac::MacCreateSurface
 
 #elif defined(SPOOPY_SDL)
 
-#define VK_CREATE_SURFACE VkCreateSurface;
+#define VK_CREATE_SURFACE VkCreateSurface
 
 #endif
 

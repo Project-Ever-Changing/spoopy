@@ -1,11 +1,14 @@
 #include "Instance.h"
 #include "Capabilities.h"
 
+#include <spoopy.h>
+
 #include <sstream>
-#include <string>
 
 #ifndef VK_EXT_DEBUG_UTILS_EXTENSION_NAME
-    #define VK_EXT_DEBUG_UTILS_EXTENSION_NAME "VK_EXT_debug_utils"
+
+#define VK_EXT_DEBUG_UTILS_EXTENSION_NAME "VK_EXT_debug_utils"
+
 #endif
 
 namespace lime { namespace spoopy {
@@ -74,7 +77,7 @@ namespace lime { namespace spoopy {
         applicationInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
         applicationInfo.pEngineName = "Spoopy";
         applicationInfo.engineVersion = SPOOPY_ENGINE_VERSION;
-        applicationInfo.apiVersion = volkGetInstanceVersion() >= VK_API_VERSION_1_1 ? VK_API_VERSION_1_1 : VK_MAKE_VERSION(1, 0, 57);
+        applicationInfo.apiVersion = volkGetInstanceVersion();
 
         if(enableValidationLayers && !CheckValidationLayerSupport()) {
             SPOOPY_LOG_ERROR("Vulkan validation layers requested, but not available!");
@@ -113,9 +116,13 @@ namespace lime { namespace spoopy {
 
         if(result == VK_ERROR_INCOMPATIBLE_DRIVER) {
             #if defined(__APPLE__)
+
                 SPOOPY_LOG_ERROR("Cannot find Metal driver, please make sure MoltenVK is installed!");
+
             #else
+
                 SPOOPY_LOG_ERROR("Cannot find a compatible Vulkan installable client driver (ICD)!");
+
             #endif
 
             return;
@@ -127,9 +134,13 @@ namespace lime { namespace spoopy {
         }
 
         #if VOLK_HEADER_VERSION >= 131 && !defined(SPOOPY_SWITCH)
+
             volkLoadInstanceOnly(instance);
+
         #elif !defined(SPOOPY_SWITCH)
+
             volkLoadInstance(instance);
+
         #endif
     }
 
@@ -139,6 +150,7 @@ namespace lime { namespace spoopy {
         }
 
         #ifdef SPOOPY_DEBUG_MESSENGER
+
                 VkDebugUtilsMessengerCreateInfoEXT debugUtilsMessengerCreateInfo = {};
             debugUtilsMessengerCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
             debugUtilsMessengerCreateInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
@@ -148,7 +160,9 @@ namespace lime { namespace spoopy {
             debugUtilsMessengerCreateInfo.pfnUserCallback = &CallbackDebug;
 
             checkVulkan(FvkCreateDebugUtilsMessengerEXT(instance, &debugUtilsMessengerCreateInfo, nullptr, &debugMessenger));
+
         #else
+
             VkDebugReportCallbackCreateInfoEXT debugReportCallbackCreateInfo = {};
             debugReportCallbackCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT;
             debugReportCallbackCreateInfo.pNext = nullptr;
@@ -163,6 +177,7 @@ namespace lime { namespace spoopy {
             } else {
                 checkVulkan(debugReportResult);
             }
+
         #endif
     }
 
@@ -201,57 +216,61 @@ namespace lime { namespace spoopy {
         std::vector<VkExtensionProperties> availableExtensions(availableExtensionCount);
         vkEnumerateInstanceExtensionProperties(nullptr, &availableExtensionCount, availableExtensions.data());
 
-        #ifdef SPOOPY_SDL
-
-        unsigned int extensionCount = 0;
-        SDL_Vulkan_GetInstanceExtensions(m_window, &extensionCount, nullptr);
-        std::vector<const char*> extensions(extensionCount);
-        SDL_Vulkan_GetInstanceExtensions(m_window, &extensionCount, extensions.data());
-
-        #else
-
-        std::vector<const char*> extensions;
-
-        #endif
-
-        extensions.reserve(availableExtensionCount + 5);
-
+        std::vector<const char *> extensions(availableExtensionCount);
         if(enableValidationLayers) {
             extensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
             extensions.emplace_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
         }
 
-        auto isExtensionSupported = [&](const char* extensionName) { // I got lazy so I'm using a lambda.
-            for(const auto& extension: availableExtensions) {
-                if(strcmp(extension.extensionName, extensionName) == 0) {
-                    return true;
-                }
+        for(const auto& extension: availableExtensions) {
+            if(platform::stringCompare(extension.extensionName, VK_KHR_SURFACE_EXTENSION_NAME) == 0) {
+                extensions.emplace_back(VK_KHR_SURFACE_EXTENSION_NAME);
             }
-            return false;
-        };
 
-        #ifdef VK_API_VERSION_1_3_2
+            if(platform::stringCompare(extension.extensionName, VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME) == 0
+            && volkGetInstanceVersion() >= VK_API_VERSION_1_3) {
+                extensions.emplace_back(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME);
+            }
 
-        if(Capabilities::IsAvailableExtension("VK_KHR_get_physical_device_properties2")) {
-            extensions.emplace_back("VK_KHR_get_physical_device_properties2");
-        }
+            #if defined(__APPLE__)
+            if(platform::stringCompare(extension.extensionName, "VK_KHR_portability_enumeration") == 0) {
+                extensions.emplace_back("VK_KHR_portability_enumeration");
+            }
 
-        if(Capabilities::IsAvailableExtension("VK_KHR_portability_enumeration")) {
-            extensions.emplace_back("VK_KHR_portability_enumeration");
-        }
+            if(platform::stringCompare(extension.extensionName, "VK_KHR_portability_subset") == 0) {
+                extensions.emplace_back("VK_KHR_portability_subset");
+            }
+            #endif
 
-        #endif
-
-        #ifdef HX_MACOS
-
-        if(Capabilities::IsAvailableExtension(VK_MVK_MACOS_SURFACE_EXTENSION_NAME)) {
-            extensions.emplace_back("VK_MVK_macos_surface");
-        }
-
-        #endif
-
-        if(Capabilities::IsAvailableExtension(VK_KHR_SURFACE_EXTENSION_NAME)) {
-            extensions.emplace_back("VK_MVK_macos_surface");
+            #if defined(VK_USE_PLATFORM_WIN32_KHR)
+                if(platform::stringCompare(extension.extensionName, VK_KHR_WIN32_SURFACE_EXTENSION_NAME) == 0) {
+                    extensions.emplace_back(VK_KHR_WIN32_SURFACE_EXTENSION_NAME);
+                }
+            #elif defined(VK_USE_PLATFORM_XCB_KHR)
+                if(platform::stringCompare(extension.extensionName, VK_KHR_XCB_SURFACE_EXTENSION_NAME) == 0) {
+                    extensions.emplace_back(VK_KHR_XCB_SURFACE_EXTENSION_NAME);
+                }
+            #elif defined(VK_USE_PLATFORM_XLIB_KHR)
+                if(platform::stringCompare(extension.extensionName, VK_KHR_XLIB_SURFACE_EXTENSION_NAME) == 0) {
+                    extensions.emplace_back(VK_KHR_XLIB_SURFACE_EXTENSION_NAME);
+                }
+            #elif defined(VK_USE_PLATFORM_WAYLAND_KHR)
+                if(platform::stringCompare(extension.extensionName, VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME) == 0) {
+                    extensions.emplace_back(VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME);
+                }
+            #elif defined(VK_USE_PLATFORM_ANDROID_KHR)
+                if(platform::stringCompare(extension.extensionName, VK_KHR_ANDROID_SURFACE_EXTENSION_NAME) == 0) {
+                    extensions.emplace_back(VK_KHR_ANDROID_SURFACE_EXTENSION_NAME);
+                }
+            #elif defined(VK_USE_PLATFORM_MACOS_MVK)
+                if(platform::stringCompare(extension.extensionName, VK_MVK_MACOS_SURFACE_EXTENSION_NAME) == 0) {
+                    extensions.emplace_back(VK_MVK_MACOS_SURFACE_EXTENSION_NAME);
+                }
+            #elif defined(VK_USE_PLATFORM_IOS_MVK)
+                if(platform::stringCompare(extension.extensionName, VK_MVK_IOS_SURFACE_EXTENSION_NAME) == 0) {
+                    extensions.emplace_back(VK_MVK_IOS_SURFACE_EXTENSION_NAME);
+                }
+            #endif
         }
 
         return extensions;

@@ -31,5 +31,6 @@ namespace spoopy_mac {
         surfaceCreateInfo.pView = (__bridge void*)nsView;
 
         lime::spoopy::FvkCreateMacOSSurfaceMVK(instance, &surfaceCreateInfo, nullptr, surface);
+        return true;
     }
 }

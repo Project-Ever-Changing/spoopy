@@ -38,6 +38,7 @@ typedef long long int64;
 #endif
 
 #include <algorithm>
+#include <string>
 
 #if __cplusplus == 201103L
 
@@ -86,9 +87,25 @@ namespace platform {
 
     inline void memClear(void* ptr, size_t size) {
         #if defined(__WIN32__)
+
         SecureZeroMemory(ptr, size);
+
         #else
+
         memset(ptr, 0, size);
+
+        #endif
+    }
+
+    inline int stringCompare(const char* str1, const char* str2) {
+        #if defined(__WIN32__)
+
+        return wcscmp(str1, str2);
+
+        #else
+
+        return strcmp(str1, str2);
+
         #endif
     }
 }
