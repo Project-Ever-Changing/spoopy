@@ -24,8 +24,8 @@ namespace lime { namespace spoopy {
             void CreateWindowSurface(SDL_Window* window, VkInstance instance, VkSurfaceKHR* surface);
 
             const Instance &instance;
-            PhysicalDevice &physicalDevice;
             LogicalDevice &logicalDevice;
+            PhysicalDevice &physicalDevice;
 
             SDL_Window* window;
 

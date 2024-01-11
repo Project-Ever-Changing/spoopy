@@ -1,46 +1,51 @@
 #include "VulkanAddons.h"
+#include "SpoopyHelpersVulkan.h"
 
 #include <iostream>
 
 namespace lime { namespace spoopy {
     #if SPOOPY_DEBUG_MESSENGER
-        VkResult FvkCreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
-        const VkAllocationCallbacks *pAllocator, VkDebugUtilsMessengerEXT *pDebugMessenger) {
-            auto func = reinterpret_cast<PFN_vkCreateDebugUtilsMessengerEXT>(vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT"));
 
-            if(func) {
-                return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
-            }
+    VkResult FvkCreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
+    const VkAllocationCallbacks *pAllocator, VkDebugUtilsMessengerEXT *pDebugMessenger) {
+        auto func = reinterpret_cast<PFN_vkCreateDebugUtilsMessengerEXT>(vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT"));
 
-            return VK_ERROR_EXTENSION_NOT_PRESENT;
+        if(func) {
+            return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
         }
 
-        void FvkDestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT messenger, const VkAllocationCallbacks *pAllocator) {
-            auto func = reinterpret_cast<PFN_vkDestroyDebugUtilsMessengerEXT>(vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT"));
+        return VK_ERROR_EXTENSION_NOT_PRESENT;
+    }
 
-            if(func) {
-                func(instance, messenger, pAllocator);
-            }
+    void FvkDestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT messenger, const VkAllocationCallbacks *pAllocator) {
+        auto func = reinterpret_cast<PFN_vkDestroyDebugUtilsMessengerEXT>(vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT"));
+
+        if(func) {
+            func(instance, messenger, pAllocator);
         }
+    }
+
     #else
-        VkResult FvkCreateDebugReportCallbackEXT(VkInstance instance, const VkDebugReportCallbackCreateInfoEXT *pCreateInfo,
-        const VkAllocationCallbacks *pAllocator, VkDebugReportCallbackEXT *pCallback) {
-            auto func = reinterpret_cast<PFN_vkCreateDebugReportCallbackEXT>(vkGetInstanceProcAddr(instance, "vkCreateDebugReportCallbackEXT"));
 
-            if (func) {
-                return func(instance, pCreateInfo, pAllocator, pCallback);
-            }
+    VkResult FvkCreateDebugReportCallbackEXT(VkInstance instance, const VkDebugReportCallbackCreateInfoEXT *pCreateInfo,
+    const VkAllocationCallbacks *pAllocator, VkDebugReportCallbackEXT *pCallback) {
+        auto func = reinterpret_cast<PFN_vkCreateDebugReportCallbackEXT>(vkGetInstanceProcAddr(instance, "vkCreateDebugReportCallbackEXT"));
 
-            return VK_ERROR_EXTENSION_NOT_PRESENT;
+        if (func) {
+            return func(instance, pCreateInfo, pAllocator, pCallback);
         }
 
-        void FvkDestroyDebugReportCallbackEXT(VkInstance instance, VkDebugReportCallbackEXT callback, const VkAllocationCallbacks *pAllocator) {
-            auto func = reinterpret_cast<PFN_vkDestroyDebugReportCallbackEXT>(vkGetInstanceProcAddr(instance, "vkDestroyDebugReportCallbackEXT"));
+        return VK_ERROR_EXTENSION_NOT_PRESENT;
+    }
 
-            if (func) {
-                func(instance, callback, pAllocator);
-            }
+    void FvkDestroyDebugReportCallbackEXT(VkInstance instance, VkDebugReportCallbackEXT callback, const VkAllocationCallbacks *pAllocator) {
+        auto func = reinterpret_cast<PFN_vkDestroyDebugReportCallbackEXT>(vkGetInstanceProcAddr(instance, "vkDestroyDebugReportCallbackEXT"));
+
+        if (func) {
+            func(instance, callback, pAllocator);
         }
+    }
+
     #endif
 
     void FvkCmdPushDescriptorSetKHR(VkDevice device, VkCommandBuffer commandBuffer, VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout, uint32_t set,
@@ -64,4 +69,17 @@ namespace lime { namespace spoopy {
 
         throw std::runtime_error("Couldn't find a proper memory type");
     }
+
+    #ifdef HX_MACOS
+
+    void FvkCreateMacOSSurfaceMVK(VkInstance instance, const VkMacOSSurfaceCreateInfoMVK *pCreateInfo, const VkAllocationCallbacks *pAllocator
+    , VkSurfaceKHR *pSurface) {
+        auto func = reinterpret_cast<PFN_vkCreateMacOSSurfaceMVK>(vkGetInstanceProcAddr(instance, "vkCreateMacOSSurfaceMVK"));
+
+        if(func) {
+            checkVulkan(func(instance, pCreateInfo, pAllocator, pSurface));
+        }
+    }
+
+    #endif
 }}

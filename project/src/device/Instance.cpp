@@ -202,13 +202,19 @@ namespace lime { namespace spoopy {
         vkEnumerateInstanceExtensionProperties(nullptr, &availableExtensionCount, availableExtensions.data());
 
         #ifdef SPOOPY_SDL
-                unsigned int extensionCount = 0;
-                SDL_Vulkan_GetInstanceExtensions(m_window, &extensionCount, nullptr);
-                std::vector<const char*> extensions(extensionCount);
-                SDL_Vulkan_GetInstanceExtensions(m_window, &extensionCount, extensions.data());
+
+        unsigned int extensionCount = 0;
+        SDL_Vulkan_GetInstanceExtensions(m_window, &extensionCount, nullptr);
+        std::vector<const char*> extensions(extensionCount);
+        SDL_Vulkan_GetInstanceExtensions(m_window, &extensionCount, extensions.data());
+
         #else
-                std::vector<const char*> extensions;
+
+        std::vector<const char*> extensions;
+
         #endif
+
+        extensions.reserve(availableExtensionCount + 3);
 
         if(enableValidationLayers) {
             extensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
@@ -224,14 +230,31 @@ namespace lime { namespace spoopy {
             return false;
         };
 
+        auto containsExtension = [&extensions](const char* extensionName) {
+            return std::find(extensions.begin(), extensions.end(), extensionName) != extensions.end();
+        };
+
         #ifdef VK_API_VERSION_1_3_2
-        if (Capabilities::IsAvailableExtension("VK_KHR_get_physical_device_properties2")) {
+
+        if(Capabilities::IsAvailableExtension("VK_KHR_get_physical_device_properties2")
+        && !containsExtension("VK_KHR_get_physical_device_properties2")) {
             extensions.emplace_back("VK_KHR_get_physical_device_properties2");
         }
 
-        if (Capabilities::IsAvailableExtension("VK_KHR_portability_enumeration")) {
+        if(Capabilities::IsAvailableExtension("VK_KHR_portability_enumeration")
+        && !containsExtension("VK_KHR_portability_enumeration")) {
             extensions.emplace_back("VK_KHR_portability_enumeration");
         }
+
+        #endif
+
+        #ifdef HX_MACOS
+
+        if(Capabilities::IsAvailableExtension("VK_MVK_macos_surface")
+        && !containsExtension("VK_MVK_macos_surface")) {
+            extensions.emplace_back("VK_MVK_macos_surface");
+        }
+
         #endif
 
         return extensions;

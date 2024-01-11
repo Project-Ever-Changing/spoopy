@@ -2,6 +2,7 @@
 #include "Instance.h"
 #include "LogicalDevice.h"
 #include "PhysicalDevice.h"
+#include "MacSurfaceCreate.h"
 
 #include <spoopy_assert.h>
 
