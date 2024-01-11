@@ -217,12 +217,20 @@ namespace lime { namespace spoopy {
         vkEnumerateInstanceExtensionProperties(nullptr, &availableExtensionCount, availableExtensions.data());
 
         std::vector<const char *> extensions(availableExtensionCount);
-        if(enableValidationLayers) {
-            extensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
-            extensions.emplace_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
-        }
 
         for(const auto& extension: availableExtensions) {
+            SPOOPY_LOG_INFO(extension.extensionName);
+
+            if(platform::stringCompare(extension.extensionName, VK_EXT_DEBUG_UTILS_EXTENSION_NAME) == 0
+            && enableValidationLayers) {
+                extensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+            }
+
+            if(platform::stringCompare(extension.extensionName, VK_EXT_DEBUG_REPORT_EXTENSION_NAME) == 0
+            && enableValidationLayers) {
+                extensions.emplace_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
+            }
+
             if(platform::stringCompare(extension.extensionName, VK_KHR_SURFACE_EXTENSION_NAME) == 0) {
                 extensions.emplace_back(VK_KHR_SURFACE_EXTENSION_NAME);
             }
