@@ -230,19 +230,13 @@ namespace lime { namespace spoopy {
             return false;
         };
 
-        auto containsExtension = [&extensions](const char* extensionName) {
-            return std::find(extensions.begin(), extensions.end(), extensionName) != extensions.end();
-        };
-
         #ifdef VK_API_VERSION_1_3_2
 
-        if(Capabilities::IsAvailableExtension("VK_KHR_get_physical_device_properties2")
-        && !containsExtension("VK_KHR_get_physical_device_properties2")) {
+        if(Capabilities::IsAvailableExtension("VK_KHR_get_physical_device_properties2")) {
             extensions.emplace_back("VK_KHR_get_physical_device_properties2");
         }
 
-        if(Capabilities::IsAvailableExtension("VK_KHR_portability_enumeration")
-        && !containsExtension("VK_KHR_portability_enumeration")) {
+        if(Capabilities::IsAvailableExtension("VK_KHR_portability_enumeration")) {
             extensions.emplace_back("VK_KHR_portability_enumeration");
         }
 
@@ -250,15 +244,13 @@ namespace lime { namespace spoopy {
 
         #ifdef HX_MACOS
 
-        if(Capabilities::IsAvailableExtension(VK_MVK_MACOS_SURFACE_EXTENSION_NAME)
-        && !containsExtension(VK_MVK_MACOS_SURFACE_EXTENSION_NAME)) {
+        if(Capabilities::IsAvailableExtension(VK_MVK_MACOS_SURFACE_EXTENSION_NAME)) {
             extensions.emplace_back("VK_MVK_macos_surface");
         }
 
         #endif
 
-        if(Capabilities::IsAvailableExtension(VK_KHR_SURFACE_EXTENSION_NAME)
-           && !containsExtension(VK_KHR_SURFACE_EXTENSION_NAME)) {
+        if(Capabilities::IsAvailableExtension(VK_KHR_SURFACE_EXTENSION_NAME)) {
             extensions.emplace_back("VK_MVK_macos_surface");
         }
 
