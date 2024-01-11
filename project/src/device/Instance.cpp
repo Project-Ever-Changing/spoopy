@@ -214,7 +214,7 @@ namespace lime { namespace spoopy {
 
         #endif
 
-        extensions.reserve(availableExtensionCount + 3);
+        extensions.reserve(availableExtensionCount + 5);
 
         if(enableValidationLayers) {
             extensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
@@ -250,12 +250,17 @@ namespace lime { namespace spoopy {
 
         #ifdef HX_MACOS
 
-        if(Capabilities::IsAvailableExtension("VK_MVK_macos_surface")
-        && !containsExtension("VK_MVK_macos_surface")) {
+        if(Capabilities::IsAvailableExtension(VK_MVK_MACOS_SURFACE_EXTENSION_NAME)
+        && !containsExtension(VK_MVK_MACOS_SURFACE_EXTENSION_NAME)) {
             extensions.emplace_back("VK_MVK_macos_surface");
         }
 
         #endif
+
+        if(Capabilities::IsAvailableExtension(VK_KHR_SURFACE_EXTENSION_NAME)
+           && !containsExtension(VK_KHR_SURFACE_EXTENSION_NAME)) {
+            extensions.emplace_back("VK_MVK_macos_surface");
+        }
 
         return extensions;
     }
