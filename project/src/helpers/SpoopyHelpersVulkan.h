@@ -2,7 +2,6 @@
 
 #include <iostream>
 
-#include <core/Log.h>
 #include <graphics/PixelFormat.h>
 #include <spoopy.h>
 

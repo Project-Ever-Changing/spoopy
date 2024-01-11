@@ -70,13 +70,6 @@ namespace lime { namespace spoopy {
         if(context->GetSwapchain() || context->coreRecreateSwapchain) {
             SPOOPY_LOG_ERROR("Attempted to hook a callback to the swapchain recreate callback when one already exists!");
 
-            SPOOPY_LOG_INFO(
-                LOG_TYPE::FORMATTED,
-                "Was the swapchain already initialized? %d. Was the recreate callback initialized? %d.",
-                context->GetSwapchain() != nullptr,
-                context->coreRecreateSwapchain != nullptr
-            );
-
             return;
         }
 
@@ -85,8 +78,8 @@ namespace lime { namespace spoopy {
             return;
         }
 
-        const PhysicalDevice& physicalDevice = *GraphicsModule::GetCurrent()->GetPhysicalDevice();
-        context->InitSwapchain(width, height, physicalDevice);
+        PhysicalDevice &physicalDevice = *GraphicsModule::GetCurrent()->GetPhysicalDevice();
+        context->InitSwapchain(width, height, sdlWindow->sdlWindow, physicalDevice);
         context->coreRecreateSwapchain = new ValuePointer(callback);
     }
     DEFINE_PRIME2v(spoopy_device_init_swapchain);
@@ -96,7 +89,7 @@ namespace lime { namespace spoopy {
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
         Context context = sdlWindow->context;
 
-        context->CreateSwapchain();
+        context->CreateSwapchain(sdlWindow->sdlWindow);
     }
     DEFINE_PRIME1v(spoopy_device_create_swapchain);
 

@@ -7,6 +7,7 @@
 #include "SwapchainVulkan.h"
 #include "QueueVulkan.h"
 
+#include <system/ScopeLock.h>
 #include <core/Log.h>
 #include <spoopy_assert.h>
 #include <spoopy.h>
@@ -23,19 +24,20 @@ namespace lime { namespace spoopy {
      * After the swapchain is created, we need to create attachments for the command buffers to render to.
      * This is done on the frontend side, in Haxe.
      */
-    SwapchainVulkan::SwapchainVulkan(int32 width, int32 height, VkSwapchainKHR &oldSwapchain, bool vsync
-    , LogicalDevice &device, const PhysicalDevice &physicalDevice, const ContextVulkan &context)
+    SwapchainVulkan::SwapchainVulkan(int32 width, int32 height, RAW_Window* m_window, VkSwapchainKHR &oldSwapchain
+    , bool vsync, LogicalDevice &device, PhysicalDevice &physicalDevice, const ContextVulkan &context)
     : device(device)
     , physicalDevice(physicalDevice)
     , Swapchain(context)
     , swapchain(VK_NULL_HANDLE)
     , acquiredImageIndex(-1)
     , currentImageIndex(-1)
-    , vsync(vsync) {
-        Create(oldSwapchain);
+    , vsync(vsync)
+    , surface(nullptr) {
+        Create(oldSwapchain, m_window);
     }
 
-    void SwapchainVulkan::Create(const VkSwapchainKHR &oldSwapchain) {
+    void SwapchainVulkan::Create(const VkSwapchainKHR &oldSwapchain, RAW_Window* m_window) {
         /*
          * Parts needed to create a swapchain:
          *
@@ -51,13 +53,16 @@ namespace lime { namespace spoopy {
         // Surface Creation (When needed) (1)
         // Since I'm using SDL_Vulkan_CreateSurface, I don't need to create the surface everytime I create a swapchain.
 
-        VkSurfaceKHR surface = context.GetSurface()->GetSurface();
-        if(surface == VK_NULL_HANDLE) context.GetSurface()->CreateSurface();
+        ScopeLock lock(context.swapchainMutex);
 
-        const uint32_t minSwapBufferCount = std::max<uint32_t>(context.GetSurface()->GetCapabilities().minImageCount, 2);
-        const uint32_t maxSwapBufferCount = context.GetSurface()->GetCapabilities().maxImageCount == 0
+        if(!surface)surface = std::unique_ptr<Surface>(context.CreateSurface(device, physicalDevice, m_window));
+        VkSurfaceKHR surfaceHandle = surface->GetSurface();
+        if(surfaceHandle == VK_NULL_HANDLE) surface->CreateSurface();
+
+        const uint32_t minSwapBufferCount = std::max<uint32_t>(surface->GetCapabilities().minImageCount, 2);
+        const uint32_t maxSwapBufferCount = surface->GetCapabilities().maxImageCount == 0
                                             ? VK_MAX_BACK_BUFFERS
-                                            : std::min<uint32_t>(context.GetSurface()->GetCapabilities().maxImageCount, VK_MAX_BACK_BUFFERS);
+                                            : std::min<uint32_t>(surface->GetCapabilities().maxImageCount, VK_MAX_BACK_BUFFERS);
 
         if(minSwapBufferCount > maxSwapBufferCount) {
             SPOOPY_LOG_ERROR("minImageCount is greater than maxImageCount!");
@@ -65,23 +70,30 @@ namespace lime { namespace spoopy {
         }
 
         const uint32_t swapBufferCount = std::clamp<uint32_t>(VK_BACK_BUFFERS_COUNT, minSwapBufferCount, maxSwapBufferCount);
-        device.SetupPresentQueue(*context.GetSurface());
+        device.SetupPresentQueue(*surface);
+
+        SPOOPY_LOG_INFO("(1)");
 
 
-        // Present mode (1)
+        // Present mode (2)
 
         VkPresentModeKHR presentMode = VK_PRESENT_MODE_FIFO_KHR;
 
-        unsigned int presentModesCount = 0;
-        checkVulkan(vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surface, &presentModesCount, nullptr));
+        uint32_t presentModesCount = 0;
+        checkVulkan(vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice.GetPhysicalDevice(), surfaceHandle, &presentModesCount, nullptr));
         SP_ASSERT(presentModesCount > 0);
 
-        std::vector<VkPresentModeKHR> presentModes(presentModesCount); // Too risky to allocate from the heap, it's safe to use a vector here to avoid potential memory leaks.
-        checkVulkan(vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surface, &presentModesCount, presentModes.data()));
+        SPOOPY_LOG_INFO("(1.25)");
+
+        // Too risky to allocate from the heap, it's safe to use a vector here to avoid potential memory leaks.
+        std::vector<VkPresentModeKHR> presentModes(presentModesCount);
+        checkVulkan(vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice.GetPhysicalDevice(), surfaceHandle, &presentModesCount, presentModes.data()));
 
         bool foundPresentModeMailbox = false;
         bool foundPresentModeImmediate = false;
         bool foundPresentModeFifo = false;
+
+        SPOOPY_LOG_INFO("(1.5)");
 
         for (const auto &mode: presentModes) { // A range-based for loop is much better here.
             switch(mode) {
@@ -110,10 +122,12 @@ namespace lime { namespace spoopy {
             presentMode = presentModes[0];
         }
 
+        SPOOPY_LOG_INFO("(2)");
 
-        // Surface capabilities (2)
 
-        VkSurfaceCapabilitiesKHR surfaceCapabilities = context.GetSurface()->GetCapabilities();
+        // Surface capabilities (3)
+
+        VkSurfaceCapabilitiesKHR surfaceCapabilities = surface->GetCapabilities();
         width = std::clamp<int32_t>(width, surfaceCapabilities.minImageExtent.width, surfaceCapabilities.maxImageExtent.width);
         height = std::clamp<int32_t>(height, surfaceCapabilities.minImageExtent.height, surfaceCapabilities.maxImageExtent.height);
 
@@ -122,15 +136,17 @@ namespace lime { namespace spoopy {
             return;
         }
 
+        SPOOPY_LOG_INFO("(3)");
 
-        // Swapchain create info (3)
+
+        // Swapchain create info (4)
 
         VkSwapchainCreateInfoKHR swapChainInfo;
         swapChainInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-        swapChainInfo.surface = surface;
+        swapChainInfo.surface = surfaceHandle;
         swapChainInfo.minImageCount = swapBufferCount;
-        swapChainInfo.imageFormat = context.GetSurface()->GetFormat().format;
-        swapChainInfo.imageColorSpace = context.GetSurface()->GetFormat().colorSpace;
+        swapChainInfo.imageFormat = surface->GetFormat().format;
+        swapChainInfo.imageColorSpace = surface->GetFormat().colorSpace;
         swapChainInfo.imageExtent.width = width;
         swapChainInfo.imageExtent.height = height;
         swapChainInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT;
@@ -158,16 +174,18 @@ namespace lime { namespace spoopy {
         }
 
         VkBool32 supportsPresent;
-        checkVulkan(vkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice, context.GetQueue()->GetFamilyIndex()
-        , surface, &supportsPresent));
+        checkVulkan(vkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice.GetPhysicalDevice(), context.GetQueue()->GetFamilyIndex()
+        , surfaceHandle, &supportsPresent));
         SP_ASSERT(supportsPresent);
         checkVulkan(vkCreateSwapchainKHR(device, &swapChainInfo, nullptr, &swapchain));
 
         this->width = width;
         this->height = height;
 
+        SPOOPY_LOG_INFO("(4)");
 
-        // Swapchain images (4)
+
+        // Swapchain images (5)
 
         unsigned int swapChainImagesCount = 0;
         checkVulkan(vkGetSwapchainImagesKHR(device, swapchain, &swapChainImagesCount, nullptr));
@@ -176,13 +194,15 @@ namespace lime { namespace spoopy {
         images.reserve(swapChainImagesCount);
         checkVulkan(vkGetSwapchainImagesKHR(device, swapchain, &swapChainImagesCount, images.data()));
 
+        SPOOPY_LOG_INFO("(5)");
 
-        // Swapchain image views (5)
+
+        // Swapchain image views (6)
 
         VkImageViewCreateInfo imageViewInfo = {};
         imageViewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
         imageViewInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-        imageViewInfo.format = context.GetSurface()->GetFormat().format;
+        imageViewInfo.format = surface->GetFormat().format;
         imageViewInfo.components.r = VK_COMPONENT_SWIZZLE_R;
         imageViewInfo.components.g = VK_COMPONENT_SWIZZLE_G;
         imageViewInfo.components.b = VK_COMPONENT_SWIZZLE_B;
@@ -198,6 +218,8 @@ namespace lime { namespace spoopy {
             imageViewInfo.image = images[i];
             checkVulkan(vkCreateImageView(device, &imageViewInfo, nullptr, &imageViews[i]));
         }
+
+        SPOOPY_LOG_INFO("(6)");
     }
 
     /*

@@ -3,6 +3,8 @@
 #include "../helpers/VulkanAddons.h"
 #include "../helpers/SpoopyHelpersVulkan.h"
 
+#include <core/Log.h>
+
 #include <vector>
 
 namespace lime { namespace spoopy {

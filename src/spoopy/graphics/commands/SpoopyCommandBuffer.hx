@@ -57,8 +57,9 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
             #if (!cpp || cppia)
             var milliseconds:haxe.Int64 = haxe.Int64.fromFloat(1e+12 / SpoopyEngine.INSTANCE.drawFramerate);
             #else
-            
-            // Best workaround for cpp target when it comes to using a unsigned 64-bit integer.
+
+            // It's the best workaround for Haxe's cpp target when using an unsigned 64-bit integer.
+            // Without this, the compiler will scream at me because this operation would be classified as a `Float.`
             var milliseconds:spoopy.io.SpoopyU64 = untyped __cpp__("1e+12 / ::spoopy::app::SpoopyEngine_obj::INSTANCE->drawFramerate");
             #end
 

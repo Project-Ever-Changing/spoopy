@@ -24,12 +24,12 @@ namespace lime { namespace spoopy {
 
     void LogicalDevice::CreateLogicalDevice() {
         uint32_t deviceQueueFamilyPropertyCount;
-        vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &deviceQueueFamilyPropertyCount, nullptr);
+        vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice.GetPhysicalDevice(), &deviceQueueFamilyPropertyCount, nullptr);
 
         SP_ASSERT(deviceQueueFamilyPropertyCount >= 1);
 
         std::vector<VkQueueFamilyProperties> deviceQueueFamilyProperties(deviceQueueFamilyPropertyCount);
-        vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &deviceQueueFamilyPropertyCount, deviceQueueFamilyProperties.data());
+        vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice.GetPhysicalDevice(), &deviceQueueFamilyPropertyCount, deviceQueueFamilyProperties.data());
 
         std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
         queueCreateInfos.reserve(3);
@@ -122,7 +122,7 @@ namespace lime { namespace spoopy {
         deviceCreateInfo.ppEnabledExtensionNames = Extensions.data();
         deviceCreateInfo.pEnabledFeatures = &enabledFeatures;
 
-        checkVulkan(vkCreateDevice(physicalDevice, &deviceCreateInfo, nullptr, &logicalDevice));
+        checkVulkan(vkCreateDevice(physicalDevice.GetPhysicalDevice(), &deviceCreateInfo, nullptr, &logicalDevice));
 
         #ifndef SPOOPY_SWITCH
         volkLoadDevice(logicalDevice);
@@ -167,50 +167,58 @@ namespace lime { namespace spoopy {
         // CreateAllocator();
     }
 
-    void LogicalDevice::CreateAllocator() {/*
-        VmaVulkanFunctions vulkanFunctions = {
-            vkGetPhysicalDeviceProperties,
-            vkGetPhysicalDeviceMemoryProperties,
-            vkAllocateMemory,
-            vkFreeMemory,
-            vkMapMemory,
-            vkUnmapMemory,
-            vkFlushMappedMemoryRanges,
-            vkInvalidateMappedMemoryRanges,
-            vkBindBufferMemory,
-            vkBindImageMemory,
-            vkGetBufferMemoryRequirements,
-            vkGetImageMemoryRequirements,
-            vkCreateBuffer,
-            vkDestroyBuffer,
-            vkCreateImage,
-            vkDestroyImage,
-            vkCmdCopyBuffer,
+    void LogicalDevice::CreateAllocator() {
+        VmaVulkanFunctions vulkanFunctions;
+        vulkanFunctions.vkGetInstanceProcAddr = vkGetInstanceProcAddr;
+        vulkanFunctions.vkGetDeviceProcAddr = vkGetDeviceProcAddr;
+        vulkanFunctions.vkAllocateMemory = vkAllocateMemory;
+        vulkanFunctions.vkBindBufferMemory = vkBindBufferMemory;
+        vulkanFunctions.vkBindImageMemory = vkBindImageMemory;
+        vulkanFunctions.vkCreateBuffer = vkCreateBuffer;
+        vulkanFunctions.vkCreateImage = vkCreateImage;
+        vulkanFunctions.vkDestroyBuffer = vkDestroyBuffer;
+        vulkanFunctions.vkDestroyImage = vkDestroyImage;
+        vulkanFunctions.vkFreeMemory = vkFreeMemory;
+        vulkanFunctions.vkGetBufferMemoryRequirements = vkGetBufferMemoryRequirements;
+        vulkanFunctions.vkGetBufferMemoryRequirements2KHR = vkGetBufferMemoryRequirements2;
+        vulkanFunctions.vkGetImageMemoryRequirements = vkGetImageMemoryRequirements;
+        vulkanFunctions.vkGetImageMemoryRequirements2KHR = vkGetImageMemoryRequirements2;
+        vulkanFunctions.vkGetPhysicalDeviceMemoryProperties = vkGetPhysicalDeviceMemoryProperties;
+        vulkanFunctions.vkGetPhysicalDeviceProperties = vkGetPhysicalDeviceProperties;
+        vulkanFunctions.vkMapMemory = vkMapMemory;
+        vulkanFunctions.vkUnmapMemory = vkUnmapMemory;
+        vulkanFunctions.vkFlushMappedMemoryRanges = vkFlushMappedMemoryRanges;
+        vulkanFunctions.vkInvalidateMappedMemoryRanges = vkInvalidateMappedMemoryRanges;
+        vulkanFunctions.vkCmdCopyBuffer = vkCmdCopyBuffer;
 
-        #if VMA_DEDICATED_ALLOCATION || VMA_VULKAN_VERSION >= VK_API_VERSION_1_1
-            vkGetBufferMemoryRequirements2KHR,
-            vkGetImageMemoryRequirements2KHR,
+        #if VMA_DEDICATED_ALLOCATION
+        vulkanFunctions.vkGetBufferMemoryRequirements2KHR = vkGetBufferMemoryRequirements2;
+        vulkanFunctions.vkGetImageMemoryRequirements2KHR = vkGetImageMemoryRequirements2;
         #endif
 
-        #if VMA_BIND_MEMORY2 || VMA_VULKAN_VERSION >= VK_API_VERSION_1_1
-            vkBindBufferMemory2KHR,
-            vkBindImageMemory2KHR,
+        #if VMA_BIND_MEMORY2
+        vulkanFunctions.vkBindBufferMemory2KHR = vkBindBufferMemory2;
+        vulkanFunctions.vkBindImageMemory2KHR = vkBindImageMemory2;
         #endif
 
-        #if VMA_MEMORY_BUDGET || VMA_VULKAN_VERSION >= VK_API_VERSION_1_1
-            vkGetPhysicalDeviceMemoryProperties2KHR
+        #if VMA_MEMORY_BUDGET
+        vulkanFunctions.vkGetPhysicalDeviceMemoryProperties2KHR = vkGetPhysicalDeviceMemoryProperties2;
         #endif
-        };
 
         VmaAllocatorCreateInfo allocatorInfo = {};
-        allocatorInfo.vulkanApiVersion = VK_API_VERSION_1_2;
-        allocatorInfo.physicalDevice = physicalDevice;
+        allocatorInfo.physicalDevice = physicalDevice.GetPhysicalDevice();
         allocatorInfo.device = logicalDevice;
         allocatorInfo.instance = instance;
         allocatorInfo.pVulkanFunctions = &vulkanFunctions;
 
+        #ifndef SPOOPY_SWITCH
+        allocatorInfo.vulkanApiVersion = volkGetInstanceVersion();
+        #else
+        allocatorInfo.vulkanApiVersion = VK_API_VERSION_1_1;
+        #endif
+
         VkResult result = vmaCreateAllocator(&allocatorInfo, &allocator);
-        SP_ASSERT(result == VK_SUCCESS);*/
+        SP_ASSERT(result == VK_SUCCESS);
     }
 
     void LogicalDevice::SetupPresentQueue(const Surface &surface) {
@@ -218,14 +226,14 @@ namespace lime { namespace spoopy {
             return;
         }
 
-        const auto supportsPresent = [surface](VkPhysicalDevice physicalDevice, QueueVulkan* queue) {
+        const auto supportsPresent = [surface](VkPhysicalDevice pDevice, QueueVulkan* queue) {
             VkBool32 supportsPresent = VK_FALSE;
             const uint32_t queueFamilyIndex = queue->GetFamilyIndex();
-            checkVulkan(vkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice, queueFamilyIndex, surface, &supportsPresent));
+            checkVulkan(vkGetPhysicalDeviceSurfaceSupportKHR(pDevice, queueFamilyIndex, surface, &supportsPresent));
             return supportsPresent == VK_TRUE;
         };
 
-        bool graphics = supportsPresent(physicalDevice, queues[P_Graphics].get());
+        bool graphics = supportsPresent(physicalDevice.GetPhysicalDevice(), queues[P_Graphics].get());
 
         if(!graphics) {
             SPOOPY_LOG_ERROR("No graphics queue found for Vulkan!");

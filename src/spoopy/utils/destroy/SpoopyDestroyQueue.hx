@@ -8,7 +8,7 @@ import sys.thread.Lock;
 
 /*
 * At first, I planned to use the regular built-in `Array` class. However, I only needed a
-* FIFO (first in, first out) system for deallocating Vulkan handles when necessary, and
+* FILO (first in, last out) system for deallocating Vulkan handles when necessary, and
 * an array would be overly complicated. I preferred a linked list since it’s much easier
 * to maintain, keep organized, and basic.
 */

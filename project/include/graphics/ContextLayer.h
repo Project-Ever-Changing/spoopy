@@ -1,5 +1,9 @@
 #pragma once
 
+#ifdef SPOOPY_SDL
+#include <SDL.h>
+#endif
+
 #include <system/Mutex.h>
 #include <system/ValuePointer.h>
 #include <core/Log.h>
@@ -21,6 +25,10 @@ namespace lime { namespace spoopy {
     class ContextStage;
     class Surface;
 
+    #ifdef SPOOPY_SDL
+    using RAW_Window = SDL_Window;
+    #endif
+
     class ContextVulkan {
         public:
             friend class GraphicsHandler;
@@ -30,17 +38,17 @@ namespace lime { namespace spoopy {
 
             uint32_t GetImageCount() const;
 
-            template<typename... Args> void CreateSurface(Args&&... args) { this->surface = std::make_unique<Surface>(std::forward<Args>(args)...); }
+            Surface* CreateSurface(LogicalDevice &device, PhysicalDevice &physicalDevice, RAW_Window* window) const;
+
+
             void SetVSYNC(bool sync) { this->vsync = sync; }
 
-            Surface* GetSurface() const { return surface.get(); }
             SwapchainVulkan* GetSwapchain() const { return swapchain; }
             std::shared_ptr<QueueVulkan> GetQueue() const { return queue; }
             bool RecreateSwapchainWrapper(int width, int height);
-
-            void InitSwapchain(int32 width, int32 height, const PhysicalDevice &physicalDevice);
+            void InitSwapchain(int32 width, int32 height, RAW_Window* m_window, PhysicalDevice &physicalDevice);
             int PresentImageSwapchain(QueueVulkan* queue, SemaphoreVulkan* waitSemaphore);
-            void CreateSwapchain();
+            void CreateSwapchain(RAW_Window* m_window);
             void DestroySwapchain();
 
             std::unique_ptr<ContextStage> stage;
@@ -50,15 +58,14 @@ namespace lime { namespace spoopy {
 
             ValuePointer* coreRecreateSwapchain;
 
+            Mutex swapchainMutex;
+
         private:
             bool vsync;
             SwapchainVulkan* swapchain;
             VkSwapchainKHR oldSwapchain;
 
-            std::unique_ptr<Surface> surface;
             std::shared_ptr<QueueVulkan> queue;
-
-            Mutex swapchainMutex;
     };
 
     #endif

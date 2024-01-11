@@ -33,27 +33,6 @@ namespace lime { namespace spoopy {
         }
     }
 
-    int GraphicsHandler::Handler_MakeCurrent(SDL_Window* m_window, const Context &context) {
-        auto element = std::find_if(GraphicsVulkan::Main->contexts.begin(), GraphicsVulkan::Main->contexts.end(),
-        [context](const Context &contextPtr) {
-            return contextPtr.get() == context.get();
-        });
-
-        if(element == GraphicsVulkan::Main->contexts.end()) {
-            SPOOPY_LOG_WARN("Context was not found within GraphicsVulkan::Main->contexts");
-            return 1;
-        }
-
-        context->CreateSurface(
-            *GraphicsVulkan::Main->instance,
-            *GraphicsVulkan::Main->physicalDevice,
-            *GraphicsVulkan::Main->logicalDevice,
-            m_window
-        );
-
-        return 0;
-    }
-
     int GraphicsHandler::Handler_SwapInterval(bool vsync) {
         auto& contexts = GraphicsVulkan::Main->contexts;
 

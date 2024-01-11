@@ -12,9 +12,8 @@ namespace lime { namespace spoopy {
         public:
             PhysicalDevice(const Instance &instance);
 
-            operator const VkPhysicalDevice &() const { return physicalDevice; }
+            inline VkPhysicalDevice GetPhysicalDevice() const { return physicalDevice; }
 
-            const VkPhysicalDevice &GetPhysicalDevice() const { return physicalDevice; }
             const VkPhysicalDeviceProperties &GetProperties() const { return properties; }
             const VkPhysicalDeviceFeatures &GetFeatures() const { return features; }
             const VkPhysicalDeviceMemoryProperties &GetMemoryProperties() const { return memoryProperties; }

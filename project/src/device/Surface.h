@@ -9,7 +9,7 @@ namespace lime { namespace spoopy {
 
     class Surface {
         public:
-            Surface(const Instance &instance, const PhysicalDevice &physicalDevice, LogicalDevice &logicalDevice, SDL_Window* window);
+            Surface(const Instance &instance, PhysicalDevice &physicalDevice, LogicalDevice &logicalDevice, SDL_Window* window);
             ~Surface();
 
             operator const VkSurfaceKHR &() const { return surface; }
@@ -20,17 +20,16 @@ namespace lime { namespace spoopy {
 
             void CreateSurface();
             void DestroySurface();
-        private:
-            void CreateWindowSurface(SDL_Window* window, VkInstance instance, VkSurfaceKHR* surface);
 
+        private:
             const Instance &instance;
-            const PhysicalDevice &physicalDevice;
             LogicalDevice &logicalDevice;
+            PhysicalDevice &physicalDevice;
 
             SDL_Window* window;
 
-            VkSurfaceKHR surface = VK_NULL_HANDLE;
-            VkSurfaceCapabilitiesKHR capabilities = {};
-            VkSurfaceFormatKHR format = {};
+            VkSurfaceKHR surface;
+            VkSurfaceCapabilitiesKHR capabilities;
+            VkSurfaceFormatKHR format;
     };
 }}
