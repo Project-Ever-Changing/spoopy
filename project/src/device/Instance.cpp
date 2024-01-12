@@ -12,12 +12,10 @@
 #endif
 
 namespace lime { namespace spoopy {
-    #if VULKAN_USE_KHRONOS_STANDARD_VALIDATION
+    #if VK_HEADER_VERSION > 101
         const std::vector<const char*> Instance::ValidationLayers = {"VK_LAYER_KHRONOS_validation"};
-    #elif VULKAN_USE_LUNARG_STANDARD_VALIDATION
-        const std::vector<const char*> Instance::ValidationLayers = {"VK_LAYER_LUNARG_standard_validation"};
     #else
-        const std::vector<const char*> Instance::ValidationLayers = {};
+        const std::vector<const char*> Instance::ValidationLayers = {"VK_LAYER_LUNARG_standard_validation"};
     #endif
 
     #if SPOOPY_DEBUG_MESSENGER
