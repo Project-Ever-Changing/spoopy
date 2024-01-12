@@ -89,8 +89,8 @@ namespace lime { namespace spoopy {
         VkInstanceCreateInfo instanceCreateInfo = {};
         instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
         instanceCreateInfo.pApplicationInfo = &applicationInfo;
-        //instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
-        //instanceCreateInfo.ppEnabledExtensionNames = extensions.data();
+        instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
+        instanceCreateInfo.ppEnabledExtensionNames = extensions.data();
 
         #ifdef __APPLE__
             instanceCreateInfo.flags = VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
@@ -240,22 +240,23 @@ namespace lime { namespace spoopy {
                 continue;
             }
 
-            if(platform::stringCompare(extension.extensionName, VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME) == 0
-            && volkGetInstanceVersion() >= VK_API_VERSION_1_3) {
+            #if defined(__APPLE__)
+
+            if(platform::stringCompare(extension.extensionName, VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME) == 0) {
                 extensions.emplace_back(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME);
                 continue;
             }
 
-            #if defined(__APPLE__)
-            if(platform::stringCompare(extension.extensionName, "VK_KHR_portability_enumeration") == 0) {
-                extensions.emplace_back("VK_KHR_portability_enumeration");
+            if(platform::stringCompare(extension.extensionName, VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME) == 0) {
+                extensions.emplace_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
                 continue;
             }
 
-            if(platform::stringCompare(extension.extensionName, "VK_KHR_portability_subset") == 0) {
-                extensions.emplace_back("VK_KHR_portability_subset");
+            if(platform::stringCompare(extension.extensionName, VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME) == 0) {
+                extensions.emplace_back(VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME);
                 continue;
             }
+
             #endif
 
             #if defined(VK_USE_PLATFORM_WIN32_KHR)
