@@ -1,5 +1,5 @@
 #include "Instance.h"
-#include "Capabilities.h"
+#include "Extensions.h"
 
 #include <spoopy.h>
 
