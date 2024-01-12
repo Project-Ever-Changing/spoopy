@@ -77,7 +77,7 @@ namespace lime { namespace spoopy {
         applicationInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
         applicationInfo.pEngineName = "Spoopy";
         applicationInfo.engineVersion = SPOOPY_ENGINE_VERSION;
-        applicationInfo.apiVersion = volkGetInstanceVersion();
+        applicationInfo.apiVersion = volkGetInstanceVersion() >= VK_API_VERSION_1_1 ? VK_API_VERSION_1_1 : VK_MAKE_VERSION(1, 0, 57);
 
         if(enableValidationLayers && !CheckValidationLayerSupport()) {
             SPOOPY_LOG_ERROR("Vulkan validation layers requested, but not available!");
