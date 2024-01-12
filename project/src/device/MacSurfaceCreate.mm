@@ -30,7 +30,13 @@ namespace spoopy_mac {
         surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_MACOS_SURFACE_CREATE_INFO_MVK;
         surfaceCreateInfo.pView = (__bridge void*)nsView;
 
-        lime::spoopy::FvkCreateMacOSSurfaceMVK(instance, &surfaceCreateInfo, nullptr, surface);
+        VkResult result = lime::spoopy::FvkCreateMacOSSurfaceMVK(instance, &surfaceCreateInfo, nullptr, surface);
+
+        if(result != VK_SUCCESS) {
+            printf("Failed to create macOS surface, VkResult: %d", result);
+            return false;
+        }
+
         return true;
     }
 }

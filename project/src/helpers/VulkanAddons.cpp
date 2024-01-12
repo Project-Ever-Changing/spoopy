@@ -1,5 +1,4 @@
 #include "VulkanAddons.h"
-#include "SpoopyHelpersVulkan.h"
 
 #include <iostream>
 
@@ -72,13 +71,15 @@ namespace lime { namespace spoopy {
 
     #ifdef HX_MACOS
 
-    void FvkCreateMacOSSurfaceMVK(VkInstance instance, const VkMacOSSurfaceCreateInfoMVK *pCreateInfo, const VkAllocationCallbacks *pAllocator
+    VkResult FvkCreateMacOSSurfaceMVK(VkInstance instance, const VkMacOSSurfaceCreateInfoMVK *pCreateInfo, const VkAllocationCallbacks *pAllocator
     , VkSurfaceKHR *pSurface) {
         auto func = reinterpret_cast<PFN_vkCreateMacOSSurfaceMVK>(vkGetInstanceProcAddr(instance, "vkCreateMacOSSurfaceMVK"));
 
         if(func) {
-            checkVulkan(func(instance, pCreateInfo, pAllocator, pSurface));
+            return func(instance, pCreateInfo, pAllocator, pSurface);
         }
+
+        return VK_ERROR_EXTENSION_NOT_PRESENT;
     }
 
     #endif
