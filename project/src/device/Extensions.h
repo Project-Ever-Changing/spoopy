@@ -66,4 +66,11 @@
 #define VK_MVK_IOS_SURFACE_EXTENSION_NAME "VK_MVK_ios_surface"
 #endif
 
+// For Metal
+#define VK_USE_PLATFORM_METAL_EXT
+
+#ifndef VK_EXT_METAL_SURFACE_EXTENSION_NAME
+#define VK_EXT_METAL_SURFACE_EXTENSION_NAME "VK_EXT_metal_surface"
+#endif
+
 #endif

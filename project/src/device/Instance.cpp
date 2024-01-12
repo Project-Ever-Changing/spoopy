@@ -297,6 +297,13 @@ namespace lime { namespace spoopy {
                     continue;
                 }
             #endif
+
+            #if defined(VK_USE_PLATFORM_METAL_EXT)
+                if(platform::stringCompare(extension.extensionName, VK_EXT_METAL_SURFACE_EXTENSION_NAME) == 0) {
+                    extensions.emplace_back(VK_EXT_METAL_SURFACE_EXTENSION_NAME);
+                    continue;
+                }
+            #endif
         }
 
         return extensions;
