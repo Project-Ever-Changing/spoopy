@@ -115,8 +115,10 @@ namespace lime { namespace spoopy {
             instanceCreateInfo.ppEnabledLayerNames = ValidationLayers.data();
         }
 
-
+        SPOOPY_LOG_INFO("Creating Vulkan instance...");
         VkResult result = vkCreateInstance(&instanceCreateInfo, nullptr, &instance);
+        SPOOPY_LOG_INFO("Vulkan instance created!");
+
         if(result == VK_ERROR_INCOMPATIBLE_DRIVER) {
             #if defined(__APPLE__)
 
