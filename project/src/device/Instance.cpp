@@ -112,28 +112,28 @@ namespace lime { namespace spoopy {
             instanceCreateInfo.ppEnabledLayerNames = ValidationLayers.data();
         }
 
-        SPOOPY_LOG_INFO("Creating Vulkan instance...");
+        try {
+            VkResult result = vkCreateInstance(&instanceCreateInfo, nullptr, &instance);
+            if(result == VK_ERROR_INCOMPATIBLE_DRIVER) {
+                #if defined(__APPLE__)
 
-        VkResult result = vkCreateInstance(&instanceCreateInfo, nullptr, &instance);
+                    SPOOPY_LOG_ERROR("Cannot find Metal driver, please make sure MoltenVK is installed!");
 
-        SPOOPY_LOG_INFO("Vulkan instance created!");
+                #else
 
-        if(result == VK_ERROR_INCOMPATIBLE_DRIVER) {
-            #if defined(__APPLE__)
+                    SPOOPY_LOG_ERROR("Cannot find a compatible Vulkan installable client driver (ICD)!");
 
-                SPOOPY_LOG_ERROR("Cannot find Metal driver, please make sure MoltenVK is installed!");
+                #endif
 
-            #else
+                return;
+            }
 
-                SPOOPY_LOG_ERROR("Cannot find a compatible Vulkan installable client driver (ICD)!");
-
-            #endif
-
-            return;
-        }
-
-        if(result != VK_SUCCESS) {
-            checkVulkan(result);
+            if(result != VK_SUCCESS) {
+                checkVulkan(result);
+                return;
+            }
+        }catch(const std::runtime_error& e) {
+            SPOOPY_LOG_ERROR(e.what());
             return;
         }
 
@@ -288,19 +288,11 @@ namespace lime { namespace spoopy {
             #elif defined(VK_USE_PLATFORM_MACOS_MVK)
                 if(platform::stringCompare(extension.extensionName, VK_MVK_MACOS_SURFACE_EXTENSION_NAME) == 0) {
                     extensions.emplace_back(VK_MVK_MACOS_SURFACE_EXTENSION_NAME);
-                    SPOOPY_LOG_INFO("Using VK_MVK_macos_surface for Spoopy Engine");
                     continue;
                 }
             #elif defined(VK_USE_PLATFORM_IOS_MVK)
                 if(platform::stringCompare(extension.extensionName, VK_MVK_IOS_SURFACE_EXTENSION_NAME) == 0) {
                     extensions.emplace_back(VK_MVK_IOS_SURFACE_EXTENSION_NAME);
-                    continue;
-                }
-            #endif
-
-            #if defined(VK_USE_PLATFORM_METAL_EXT)
-                if(platform::stringCompare(extension.extensionName, VK_EXT_METAL_SURFACE_EXTENSION_NAME) == 0) {
-                    extensions.emplace_back(VK_EXT_METAL_SURFACE_EXTENSION_NAME);
                     continue;
                 }
             #endif
