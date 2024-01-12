@@ -222,6 +222,7 @@ namespace lime { namespace spoopy {
         std::vector<const char *> extensions(availableExtensionCount);
 
         for(const auto& extension: availableExtensions) {
+            /*
             #if VK_EXT_debug_utils
                 if(platform::stringCompare(extension.extensionName, VK_EXT_DEBUG_UTILS_EXTENSION_NAME) == 0) {
                     extensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
@@ -234,12 +235,14 @@ namespace lime { namespace spoopy {
                 extensions.emplace_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
                 continue;
             }
+             */
 
             if(platform::stringCompare(extension.extensionName, VK_KHR_SURFACE_EXTENSION_NAME) == 0) {
                 extensions.emplace_back(VK_KHR_SURFACE_EXTENSION_NAME);
                 continue;
             }
 
+            /*
             #if defined(__APPLE__)
 
             if(platform::stringCompare(extension.extensionName, VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME) == 0) {
@@ -258,6 +261,7 @@ namespace lime { namespace spoopy {
             }
 
             #endif
+             */
 
             #if defined(VK_USE_PLATFORM_WIN32_KHR)
                 if(platform::stringCompare(extension.extensionName, VK_KHR_WIN32_SURFACE_EXTENSION_NAME) == 0) {
