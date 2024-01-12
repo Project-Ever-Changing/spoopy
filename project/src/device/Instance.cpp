@@ -88,10 +88,13 @@ namespace lime { namespace spoopy {
 
         VkInstanceCreateInfo instanceCreateInfo = {};
         instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-        instanceCreateInfo.flags = VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
         instanceCreateInfo.pApplicationInfo = &applicationInfo;
-        instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
-        instanceCreateInfo.ppEnabledExtensionNames = extensions.data();
+        //instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
+        //instanceCreateInfo.ppEnabledExtensionNames = extensions.data();
+
+        #ifdef __APPLE__
+            instanceCreateInfo.flags = VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
+        #endif
 
         #ifdef SPOOPY_DEBUG_MESSENGER
             VkDebugUtilsMessengerCreateInfoEXT debugUtilsMessengerCreateInfo = {};
