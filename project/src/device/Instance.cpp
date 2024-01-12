@@ -93,8 +93,6 @@ namespace lime { namespace spoopy {
         instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
         instanceCreateInfo.ppEnabledExtensionNames = extensions.data();
 
-        SPOOPY_LOG_INFO("Vulkan Extensions");
-
         #ifdef SPOOPY_DEBUG_MESSENGER
             VkDebugUtilsMessengerCreateInfoEXT debugUtilsMessengerCreateInfo = {};
         #endif
@@ -115,6 +113,8 @@ namespace lime { namespace spoopy {
         }
 
         VkResult result = vkCreateInstance(&instanceCreateInfo, nullptr, &instance);
+
+        SPOOPY_LOG_INFO("Vulkan Extensions");
 
         if(result == VK_ERROR_INCOMPATIBLE_DRIVER) {
             #if defined(__APPLE__)
