@@ -4,6 +4,7 @@
 #include <spoopy.h>
 
 #include <sstream>
+#include <stack>
 
 #ifndef VK_EXT_DEBUG_UTILS_EXTENSION_NAME
 
@@ -84,12 +85,14 @@ namespace lime { namespace spoopy {
             enableValidationLayers = false;
         }
 
-        auto extensions = GetExtensions();
+        std::vector<const char*> extensions;
+        uint32_t size = 0;
+        GetExtensions(extensions, size);
 
         VkInstanceCreateInfo instanceCreateInfo = {};
         instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
         instanceCreateInfo.pApplicationInfo = &applicationInfo;
-        instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
+        instanceCreateInfo.enabledExtensionCount = size;
         instanceCreateInfo.ppEnabledExtensionNames = extensions.data();
 
         #ifdef __APPLE__
@@ -115,7 +118,7 @@ namespace lime { namespace spoopy {
             instanceCreateInfo.ppEnabledLayerNames = ValidationLayers.data();
         }
 
-        SPOOPY_LOG_INFO("Creating Vulkan instance...");
+        SPOOPY_LOG_INFO("Creating Vulkan instance...2");
         VkResult result = vkCreateInstance(&instanceCreateInfo, nullptr, &instance);
         SPOOPY_LOG_INFO("Vulkan instance created!");
 
@@ -215,94 +218,63 @@ namespace lime { namespace spoopy {
         return true;
     }
 
-    std::vector<const char *> Instance::GetExtensions() const {
+    void Instance::GetExtensions(std::vector<const char*> &extensions, uint32_t &size) const {
+
         uint32_t availableExtensionCount = 0;
         vkEnumerateInstanceExtensionProperties(nullptr, &availableExtensionCount, nullptr);
         std::vector<VkExtensionProperties> availableExtensions(availableExtensionCount);
         vkEnumerateInstanceExtensionProperties(nullptr, &availableExtensionCount, availableExtensions.data());
 
-        std::vector<const char *> extensions(availableExtensionCount);
+        std::stack<const char*> extensionStack;
 
-        for(const auto& extension: availableExtensions) {
-            /*
-            #if VK_EXT_debug_utils
-                if(platform::stringCompare(extension.extensionName, VK_EXT_DEBUG_UTILS_EXTENSION_NAME) == 0) {
-                    extensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
-                    continue;
+        for(const auto &extension: availableExtensions) {
+            #define ADD_EXTENSION(name) \
+                if(platform::stringCompare(extension.extensionName, name) == 0) { \
+                    extensionStack.push(name); \
+                    size++; \
+                    continue; \
                 }
+
+            ADD_EXTENSION(VK_KHR_SURFACE_EXTENSION_NAME);
+
+            #if VK_EXT_debug_utils
+                ADD_EXTENSION(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
             #endif
 
-            if(platform::stringCompare(extension.extensionName, VK_EXT_DEBUG_REPORT_EXTENSION_NAME) == 0
-            && enableValidationLayers) {
-                extensions.emplace_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
-                continue;
-            }
-             */
-
-            if(platform::stringCompare(extension.extensionName, VK_KHR_SURFACE_EXTENSION_NAME) == 0) {
-                extensions.emplace_back(VK_KHR_SURFACE_EXTENSION_NAME);
-                continue;
+            if(enableValidationLayers) {
+                ADD_EXTENSION(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
             }
 
-            /*
             #if defined(__APPLE__)
-
-            if(platform::stringCompare(extension.extensionName, VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME) == 0) {
-                extensions.emplace_back(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME);
-                continue;
-            }
-
-            if(platform::stringCompare(extension.extensionName, VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME) == 0) {
-                extensions.emplace_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
-                continue;
-            }
-
-            if(platform::stringCompare(extension.extensionName, VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME) == 0) {
-                extensions.emplace_back(VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME);
-                continue;
-            }
-
+                ADD_EXTENSION(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME);
+                ADD_EXTENSION(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
+                ADD_EXTENSION(VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME);
             #endif
-             */
 
             #if defined(VK_USE_PLATFORM_WIN32_KHR)
-                if(platform::stringCompare(extension.extensionName, VK_KHR_WIN32_SURFACE_EXTENSION_NAME) == 0) {
-                    extensions.emplace_back(VK_KHR_WIN32_SURFACE_EXTENSION_NAME);
-                    continue;
-                }
+                ADD_EXTENSION(VK_KHR_WIN32_SURFACE_EXTENSION_NAME);
             #elif defined(VK_USE_PLATFORM_XCB_KHR)
-                if(platform::stringCompare(extension.extensionName, VK_KHR_XCB_SURFACE_EXTENSION_NAME) == 0) {
-                    extensions.emplace_back(VK_KHR_XCB_SURFACE_EXTENSION_NAME);
-                    continue;
-                }
+                ADD_EXTENSION(VK_KHR_XCB_SURFACE_EXTENSION_NAME);
             #elif defined(VK_USE_PLATFORM_XLIB_KHR)
-                if(platform::stringCompare(extension.extensionName, VK_KHR_XLIB_SURFACE_EXTENSION_NAME) == 0) {
-                    extensions.emplace_back(VK_KHR_XLIB_SURFACE_EXTENSION_NAME);
-                    continue;
-                }
+                ADD_EXTENSION(VK_KHR_XLIB_SURFACE_EXTENSION_NAME);
             #elif defined(VK_USE_PLATFORM_WAYLAND_KHR)
-                if(platform::stringCompare(extension.extensionName, VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME) == 0) {
-                    extensions.emplace_back(VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME);
-                    continue;
-                }
+                ADD_EXTENSION(VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME);
             #elif defined(VK_USE_PLATFORM_ANDROID_KHR)
-                if(platform::stringCompare(extension.extensionName, VK_KHR_ANDROID_SURFACE_EXTENSION_NAME) == 0) {
-                    extensions.emplace_back(VK_KHR_ANDROID_SURFACE_EXTENSION_NAME);
-                    continue;
-                }
-            #elif defined(VK_USE_PLATFORM_MACOS_MVK)
-                if(platform::stringCompare(extension.extensionName, VK_MVK_MACOS_SURFACE_EXTENSION_NAME) == 0) {
-                    extensions.emplace_back(VK_MVK_MACOS_SURFACE_EXTENSION_NAME);
-                    continue;
-                }
-            #elif defined(VK_USE_PLATFORM_IOS_MVK)
-                if(platform::stringCompare(extension.extensionName, VK_MVK_IOS_SURFACE_EXTENSION_NAME) == 0) {
-                    extensions.emplace_back(VK_MVK_IOS_SURFACE_EXTENSION_NAME);
-                    continue;
-                }
+                ADD_EXTENSION(VK_KHR_ANDROID_SURFACE_EXTENSION_NAME);
+            #elif defined(VK_MVK_MACOS_SURFACE_EXTENSION_NAME)
+                ADD_EXTENSION(VK_MVK_MACOS_SURFACE_EXTENSION_NAME);
+            #elif defined(VK_MVK_IOS_SURFACE_EXTENSION_NAME)
+                ADD_EXTENSION(VK_MVK_IOS_SURFACE_EXTENSION_NAME);
             #endif
+
+            #undef ADD_EXTENSION
         }
 
-        return extensions;
+        extensions.reserve(size);
+
+        for(uint32_t i=0; i<size; i++) {
+            extensions.emplace_back(extensionStack.top());
+            extensionStack.pop();
+        }
     }
 }}

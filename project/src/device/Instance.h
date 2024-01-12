@@ -22,7 +22,7 @@ namespace lime { namespace spoopy {
 
         private:
             bool CheckValidationLayerSupport() const;
-            std::vector<const char*> GetExtensions() const;
+            void GetExtensions(std::vector<const char*> &extensions, uint32_t &size) const;
 
             void CreateInstance();
             void CreateDebugMessenger();
