@@ -40,13 +40,9 @@ namespace lime { namespace spoopy {
         SP_ASSERT(window && instance != VK_NULL_HANDLE
         && physicalDevice.GetPhysicalDevice() != VK_NULL_HANDLE);
 
-        SPOOPY_LOG_INFO("About to create window surface");
-
         if(!VK_CREATE_SURFACE(window, instance, &surface)) {
             printf("Failed to create window surface, SDL_Error: %s\n", SDL_GetError());
         }
-
-        SPOOPY_LOG_INFO("Window surface created");
 
         uint32_t surfaceFormatCount;
         vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice.GetPhysicalDevice(), surface, &surfaceFormatCount, nullptr);
