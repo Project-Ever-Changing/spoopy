@@ -76,7 +76,7 @@ namespace lime { namespace spoopy {
         auto func = reinterpret_cast<PFN_vkCreateMacOSSurfaceMVK>(vkGetInstanceProcAddr(instance, "vkCreateMacOSSurfaceMVK"));
 
         if(func) {
-            return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
+            return func(instance, pCreateInfo, pAllocator, pSurface);
         }
 
         return VK_ERROR_EXTENSION_NOT_PRESENT;
