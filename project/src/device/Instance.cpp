@@ -85,6 +85,7 @@ namespace lime { namespace spoopy {
         }
 
         auto extensions = GetExtensions();
+        SPOOPY_LOG_INFO("Available Vulkan extensions");
 
         VkInstanceCreateInfo instanceCreateInfo = {};
         instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
