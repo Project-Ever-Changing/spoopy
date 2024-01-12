@@ -288,18 +288,12 @@ namespace lime { namespace spoopy {
             #elif defined(VK_USE_PLATFORM_MACOS_MVK)
                 if(platform::stringCompare(extension.extensionName, VK_MVK_MACOS_SURFACE_EXTENSION_NAME) == 0) {
                     extensions.emplace_back(VK_MVK_MACOS_SURFACE_EXTENSION_NAME);
+                    SPOOPY_LOG_INFO("Using VK_MVK_macos_surface for Spoopy Engine");
                     continue;
                 }
             #elif defined(VK_USE_PLATFORM_IOS_MVK)
                 if(platform::stringCompare(extension.extensionName, VK_MVK_IOS_SURFACE_EXTENSION_NAME) == 0) {
                     extensions.emplace_back(VK_MVK_IOS_SURFACE_EXTENSION_NAME);
-                    continue;
-                }
-            #endif
-
-            #if defined(VK_USE_PLATFORM_METAL_EXT)
-                if(platform::stringCompare(extension.extensionName, VK_EXT_METAL_SURFACE_EXTENSION_NAME) == 0) {
-                    extensions.emplace_back(VK_EXT_METAL_SURFACE_EXTENSION_NAME);
                     continue;
                 }
             #endif
