@@ -12,9 +12,9 @@
 #endif
 
 namespace lime { namespace spoopy {
-    #if VK_HEADER_VERSION > 101
+    #if VULKAN_USE_KHRONOS_STANDARD_VALIDATION
         const std::vector<const char*> Instance::ValidationLayers = {"VK_LAYER_KHRONOS_validation"};
-    #else
+    #elif VULKAN_USE_LUNARG_STANDARD_VALIDATION
         const std::vector<const char*> Instance::ValidationLayers = {"VK_LAYER_LUNARG_standard_validation"};
     #endif
 
@@ -112,28 +112,24 @@ namespace lime { namespace spoopy {
             instanceCreateInfo.ppEnabledLayerNames = ValidationLayers.data();
         }
 
-        try {
-            VkResult result = vkCreateInstance(&instanceCreateInfo, nullptr, &instance);
-            if(result == VK_ERROR_INCOMPATIBLE_DRIVER) {
-                #if defined(__APPLE__)
 
-                    SPOOPY_LOG_ERROR("Cannot find Metal driver, please make sure MoltenVK is installed!");
+        VkResult result = vkCreateInstance(&instanceCreateInfo, nullptr, &instance);
+        if(result == VK_ERROR_INCOMPATIBLE_DRIVER) {
+            #if defined(__APPLE__)
 
-                #else
+                SPOOPY_LOG_ERROR("Cannot find Metal driver, please make sure MoltenVK is installed!");
 
-                    SPOOPY_LOG_ERROR("Cannot find a compatible Vulkan installable client driver (ICD)!");
+            #else
 
-                #endif
+                SPOOPY_LOG_ERROR("Cannot find a compatible Vulkan installable client driver (ICD)!");
 
-                return;
-            }
+            #endif
 
-            if(result != VK_SUCCESS) {
-                checkVulkan(result);
-                return;
-            }
-        }catch(const std::runtime_error& e) {
-            SPOOPY_LOG_ERROR(e.what());
+            return;
+        }
+
+        if(result != VK_SUCCESS) {
+            checkVulkan(result);
             return;
         }
 
@@ -223,17 +219,16 @@ namespace lime { namespace spoopy {
         std::vector<const char *> extensions(availableExtensionCount);
 
         for(const auto& extension: availableExtensions) {
-            if(platform::stringCompare(extension.extensionName, VK_EXT_DEBUG_UTILS_EXTENSION_NAME) == 0
-            && enableValidationLayers) {
-                extensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
-                SPOOPY_LOG_INFO("Using VK_EXT_debug_utils for Spoopy Engine");
-                continue;
-            }
+            #if VK_EXT_debug_utils
+                if(platform::stringCompare(extension.extensionName, VK_EXT_DEBUG_UTILS_EXTENSION_NAME) == 0) {
+                    extensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+                    continue;
+                }
+            #endif
 
             if(platform::stringCompare(extension.extensionName, VK_EXT_DEBUG_REPORT_EXTENSION_NAME) == 0
             && enableValidationLayers) {
                 extensions.emplace_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
-                SPOOPY_LOG_INFO("Using VK_EXT_debug_utils for Spoopy Engine");
                 continue;
             }
 
