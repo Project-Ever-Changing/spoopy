@@ -43,7 +43,7 @@ namespace lime { namespace spoopy {
 
     #ifdef HX_MACOS
 
-    void FvkCreateMacOSSurfaceMVK(VkInstance instance, const VkMacOSSurfaceCreateInfoMVK *pCreateInfo, const VkAllocationCallbacks *pAllocator
+    VkResult FvkCreateMacOSSurfaceMVK(VkInstance instance, const VkMacOSSurfaceCreateInfoMVK *pCreateInfo, const VkAllocationCallbacks *pAllocator
     , VkSurfaceKHR *pSurface);
 
     #endif
