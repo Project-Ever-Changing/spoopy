@@ -4,4 +4,5 @@ package spoopy.graphics.modules;
     public var PIPELINE = 0;
     public var SEMAPHORE = 1;
     public var FENCE = 2;
+    public var RENDER_PASS = 3;
 }

@@ -4,8 +4,10 @@ import spoopy.events.SpoopyEvent;
 import spoopy.events.SpoopyEventDispatcher;
 import spoopy.events.SpoopyUncaughtDispatcher;
 import spoopy.graphics.descriptor.SpoopyDescriptorManager;
+import spoopy.graphics.modules.SpoopyEntry;
 import spoopy.graphics.SpoopyGraphicsModule;
 import spoopy.graphics.SpoopyWindowContext;
+import spoopy.utils.destroy.SpoopyDestroyQueue;
 import spoopy.utils.SpoopyLogger;
 
 import lime.app.IModule;
@@ -37,6 +39,7 @@ class SpoopyEngine implements IModule {
 
     @:allow(spoopy.graphics.SpoopyGraphicsModule) private var eventModuleDispatcher(default, null):SpoopyEventDispatcher<GraphicsEventType>;
     @:allow(spoopy.graphics.SpoopyGraphicsModule) private var uncaughtModuleDispatcher(default, null):SpoopyUncaughtDispatcher<GraphicsEventType>;
+    @:allow(spoopy.graphics.SpoopyGraphicsModule) private var __deletionQueue(default, null):SpoopyDestroyQueue<SpoopyEntry>;
 
     @:noCompletion private var __isRendering:Bool;
 
@@ -51,6 +54,8 @@ class SpoopyEngine implements IModule {
     public static var MAX_BACK_BUFFERS(default, null):UInt = 4;
 
     private function new() {
+        __deletionQueue = new SpoopyDestroyQueue<SpoopyEntry>();
+
         __isRendering = false;
         cpuLimiterEnabled = true;
         updateFramerate = 60;
@@ -111,6 +116,8 @@ class SpoopyEngine implements IModule {
     @:noCompletion private function __draw():Void {
         if(__isRendering) return;
         __isRendering = true;
+
+        __deletionQueue.releaseItems();
 
         __broadcastEvent(DRAW_EVENT, eventModuleDispatcher, uncaughtModuleDispatcher);
         __broadcastEvent(DRAW_EVENT, eventDispatcher, uncaughtDispatcher);

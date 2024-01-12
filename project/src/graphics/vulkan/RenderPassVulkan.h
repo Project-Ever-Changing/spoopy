@@ -2,6 +2,8 @@
 
 #include "../../helpers/SpoopyHelpersVulkan.h"
 
+#include <graphics/GPUResource.h>
+
 #include <vector>
 
 #ifdef SPOOPY_SDL
@@ -9,13 +11,20 @@
 #endif
 
 namespace lime { namespace spoopy {
-    class RenderPassVulkan {
-        public:
-            RenderPassVulkan(VkDevice device): device(device) {};
-            ~RenderPassVulkan();
+    class LogicalDevice;
 
-            void CreateRenderPass();
+    class RenderPassVulkan: GPUResource<VkRenderPass> {
+        public:
+            explicit RenderPassVulkan(const LogicalDevice &device)
+            : GPUResource(device)
+            , renderpass(handle) {
+                renderpass = VK_NULL_HANDLE;
+            };
+
             void CreateSubpass();
+
+            void Create() override;
+            void Destroy() override;
 
             void AddDepthAttachment(uint32_t location, VkImageLayout layout, uint32_t format,
                 VkSampleCountFlagBits samples, VkImageLayout finalLayout = VK_IMAGE_LAYOUT_GENERAL,
@@ -40,7 +49,6 @@ namespace lime { namespace spoopy {
             void AddAttachment(uint32_t format, VkSampleCountFlagBits samples,
                 VkImageLayout finalLayout, VkImageLayout initialLayout, bool hasStencil = false);
 
-            VkDevice device;
             VkAttachmentReference depthReference;
             std::vector<VkAttachmentReference> colorReferences;
             std::vector<VkAttachmentDescription> attachmentDescriptions;
@@ -48,7 +56,7 @@ namespace lime { namespace spoopy {
             std::vector<VkSubpassDependency> subpassDependencies;
             std::vector<VkSubpassDescription> subpassDescriptions;
 
-            VkRenderPass renderpass = VK_NULL_HANDLE;
+            VkRenderPass &renderpass;
             uint32_t colorAttachmentCount = 0;
     };
 }}

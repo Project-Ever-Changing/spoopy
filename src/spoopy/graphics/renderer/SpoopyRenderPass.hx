@@ -3,8 +3,9 @@ package spoopy.graphics.renderer;
 import spoopy.graphics.SpoopyFormat;
 import spoopy.graphics.SpoopyAccessFlagBits;
 import spoopy.graphics.SpoopyPipelineStageFlagBits;
+import spoopy.graphics.modules.SpoopyGPUObject;
 
-class SpoopyRenderPass {
+class SpoopyRenderPass extends SpoopyGPUObject {
     @:allow(spoopy.graphics.SpoopyGraphicsModule) private var __hasImageLayout:Bool = false;
 
     @:noCompletion #if haxe4 final #else @:final var #end __sampled:Bool;
@@ -16,7 +17,9 @@ class SpoopyRenderPass {
     @:noCompletion private var __colorCount:Int = 0;
     @:noCompletion private var __depthCount:Int = 0;
 
-    public function new(sampled:Bool = false) {
+    public function new(module:SpoopyGraphicsModule, sampled:Bool = false) {
+        super(RENDER_PASS, module);
+
         __attachments = new Map<Int, SpoopyFormat>();
         __stencilAttachments = new Map<Int, Bool>();
         __backend = new SpoopyBackendPass();
@@ -50,10 +53,6 @@ class SpoopyRenderPass {
 
     public function createSubpass():Void {
         __backend.createSubpass();
-    }
-
-    public function createRenderpass():Void {
-        __backend.createRenderpass();
     }
 
     public function processAttachments():Void {

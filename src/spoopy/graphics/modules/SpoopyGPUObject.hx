@@ -24,6 +24,7 @@ class SpoopyGPUObject implements ISpoopyDestroyable {
         // TODO: If OpenGL, then have an actual pointer static function.
         switch(flag) {
             case SEMAPHORE: __pointer = SpoopyStaticBackend.spoopy_create_semaphore();
+            case RENDER_PASS: __pointer = SpoopyStaticBackend.spoopy_create_render_pass();
             case PIPELINE: /* WIP */
 
             default:
@@ -34,6 +35,7 @@ class SpoopyGPUObject implements ISpoopyDestroyable {
     public function create():Void {
         switch(flag) {
             case SEMAPHORE: SpoopyStaticBackend.spoopy_recreate_semaphore(__pointer);
+            case RENDER_PASS: SpoopyStaticBackend.spoopy_create_renderpass(__pointer);
             case PIPELINE: /* WIP */
 
             default:

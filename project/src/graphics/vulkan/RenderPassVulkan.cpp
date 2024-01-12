@@ -1,11 +1,8 @@
 #include "RenderPassVulkan.h"
+#include "../../device/LogicalDevice.h"
 
 namespace lime { namespace spoopy {
-    RenderPassVulkan::~RenderPassVulkan() {
-        vkDestroyRenderPass(device, renderpass, nullptr);
-    }
-
-    void RenderPassVulkan::CreateRenderPass() {
+    void RenderPassVulkan::Create() {
         VkRenderPassCreateInfo renderPassInfo = {};
         renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
         renderPassInfo.pNext = nullptr;
@@ -17,6 +14,10 @@ namespace lime { namespace spoopy {
         renderPassInfo.dependencyCount = static_cast<uint32_t>(subpassDependencies.size());
 
         checkVulkan(vkCreateRenderPass(device, &renderPassInfo, nullptr, &renderpass));
+    }
+
+    void RenderPassVulkan::Destroy() {
+        vkDestroyRenderPass(device, renderpass, nullptr);
     }
 
     void RenderPassVulkan::CreateSubpass() {

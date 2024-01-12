@@ -63,7 +63,7 @@ class SpoopyWindowContext implements IWindowHolder {
 
         var attributes = __window.__attributes.context;
 
-        __renderPass = new SpoopyRenderPass();
+        __renderPass = new SpoopyRenderPass(__module);
         __renderPass.__hasImageLayout = true;
         __renderPass.addColorAttachment(SpoopyRenderPass.getFormatFromColorDepth(attributes.colorDepth));
 
@@ -83,7 +83,7 @@ class SpoopyWindowContext implements IWindowHolder {
 
         __renderPass.processAttachments();
         __renderPass.createSubpass();
-        __renderPass.createRenderpass();
+        __renderPass.create();
     }
 
     @:noCompletion private function __setViewport(width:Int, height:Int):Void {

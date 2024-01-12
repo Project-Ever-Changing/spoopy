@@ -27,8 +27,4 @@ class SpoopyNativePass {
     public function createSubpass():Void {
         SpoopyNativeCFFI.spoopy_create_subpass(handle);
     }
-
-    public function createRenderpass():Void {
-        SpoopyNativeCFFI.spoopy_create_renderpass(handle);
-    }
 }
