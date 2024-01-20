@@ -74,11 +74,19 @@ namespace lime { namespace spoopy {
         checkVulkan(volkInitialize());
         #endif
 
+        uint32_t volkVersion = volkGetInstanceVersion();
+
+        if(volkVersion < VK_API_VERSION_1_2) {
+            SPOOPY_LOG_ERROR("Vulkan version is too low! Please update your Vulkan drivers to at least version 1.2!");
+            return;
+        }
+
+
         VkApplicationInfo applicationInfo = {};
         applicationInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-        applicationInfo.pEngineName = "Spoopy";
+        applicationInfo.pEngineName = "spoopy";
         applicationInfo.engineVersion = SPOOPY_ENGINE_VERSION;
-        applicationInfo.apiVersion = volkGetInstanceVersion() >= VK_API_VERSION_1_1 ? VK_API_VERSION_1_1 : VK_MAKE_VERSION(1, 0, 57);
+        applicationInfo.apiVersion =volkVersion >= VK_API_VERSION_1_3 ? VK_API_VERSION_1_3 : VK_API_VERSION_1_2;
 
         if(enableValidationLayers && !CheckValidationLayerSupport()) {
             SPOOPY_LOG_ERROR("Vulkan validation layers requested, but not available!");

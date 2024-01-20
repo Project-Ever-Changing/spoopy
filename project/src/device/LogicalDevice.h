@@ -43,6 +43,8 @@ namespace lime { namespace spoopy {
             VkResult CreateHostBuffer(uint32_t size, VkBuffer* buffer, VmaAllocation* allocation
             , VmaMemoryUsage usage = VMA_MEMORY_USAGE_AUTO_PREFER_HOST);
 
+            bool FindInstanceExtensions(const char* extension) const;
+
         public:
             Mutex fenceMutex;
 

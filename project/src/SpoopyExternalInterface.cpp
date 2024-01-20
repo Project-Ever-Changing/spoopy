@@ -60,7 +60,7 @@ namespace lime { namespace spoopy {
     void spoopy_device_init_swapchain(value window_handle, value callback) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
-        Context context = sdlWindow->context;
+        Context &context = sdlWindow->context;
 
         int32 width, height;
         GetDrawableSize(sdlWindow->sdlWindow, &width, &height);
@@ -85,7 +85,7 @@ namespace lime { namespace spoopy {
     void spoopy_device_create_swapchain(value window_handle) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
-        Context context = sdlWindow->context;
+        Context &context = sdlWindow->context;
 
         context->CreateSwapchain(sdlWindow->sdlWindow);
     }
@@ -94,7 +94,7 @@ namespace lime { namespace spoopy {
     void spoopy_device_destroy_swapchain(value window_handle) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
-        Context context = sdlWindow->context;
+        Context &context = sdlWindow->context;
 
         if(!context->GetSwapchain()) {
             SPOOPY_LOG_ERROR("Attempted to destroy a swapchain that doesn't exist!");
@@ -108,7 +108,7 @@ namespace lime { namespace spoopy {
     void spoopy_device_recreate_swapchain(value window_handle) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
-        Context context = sdlWindow->context;
+        Context &context = sdlWindow->context;
 
         int32 width, height;
         GetDrawableSize(sdlWindow->sdlWindow, &width, &height);
@@ -119,7 +119,7 @@ namespace lime { namespace spoopy {
     int spoopy_device_get_swapchain_image_count(value window_handle) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
-        Context context = sdlWindow->context;
+        Context &context = sdlWindow->context;
 
         return (int)context->GetSwapchain()->GetImageCount();
     }
@@ -128,7 +128,7 @@ namespace lime { namespace spoopy {
     void spoopy_device_set_swapchain_size(value window_handle, int width, int height) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
-        Context context = sdlWindow->context;
+        Context &context = sdlWindow->context;
 
         context->GetSwapchain()->SetSize(width, height);
     }
@@ -137,7 +137,7 @@ namespace lime { namespace spoopy {
     void spoopy_check_context(value window_handle) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
-        Context context = sdlWindow->context;
+        Context &context = sdlWindow->context;
 
         if(context) {
             SPOOPY_LOG_SUCCESS("Window has a context!");
@@ -151,7 +151,7 @@ namespace lime { namespace spoopy {
     void spoopy_create_context_stage(value window_handle, value viewport) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
-        Context context = sdlWindow->context;
+        Context &context = sdlWindow->context;
         context->stage = std::make_unique<ContextStage>(*context, Viewport(viewport));
     }
     DEFINE_PRIME2v(spoopy_create_context_stage);
@@ -192,7 +192,7 @@ namespace lime { namespace spoopy {
     value spoopy_create_command_pool(value window_handle) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
-        Context context = sdlWindow->context;
+        Context &context = sdlWindow->context;
 
         CommandPool* _commandPool = new CommandPool(*GraphicsModule::GetCurrent()->GetLogicalDevice(), context->GetQueue()->GetFamilyIndex());
         return CFFIPointer(_commandPool, spoopy_gc_command_pool);
@@ -244,7 +244,7 @@ namespace lime { namespace spoopy {
     value spoopy_create_entry(value window_handle) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
-        Context context = sdlWindow->context;
+        Context &context = sdlWindow->context;
 
         Entry* _entry = new Entry(*context->GetQueue());
         return CFFIPointer(_entry, spoopy_gc_entry);

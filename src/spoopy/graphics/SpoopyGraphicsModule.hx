@@ -23,6 +23,7 @@ import lime.math.Matrix3;
     var UPDATE_FRAME = "sgm-updateFrame";
 }
 
+@:allow(spoopy.graphics.modules.SpoopyGPUObject)
 @:access(spoopy.graphics.SpoopyWindowContext)
 class SpoopyGraphicsModule implements IWindowModule {
     public var window(get, never):Window;
@@ -132,6 +133,7 @@ class SpoopyGraphicsModule implements IWindowModule {
         __engine.eventModuleDispatcher.removeEventListener(GraphicsEventType.UPDATE_FRAME);
         __engine.eventModuleDispatcher.removeEventListener(GraphicsEventType.DRAW_FRAME);
 
+        __context.onFlush();
         __context = null;
     }
 

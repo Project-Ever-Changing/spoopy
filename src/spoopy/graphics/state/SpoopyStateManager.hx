@@ -27,17 +27,13 @@ class SpoopyStateManager {
     /* TODO: Also have these modules to be parameters in the constructor. */
     public function new(?__initialState:Class<SpoopyState>) {
         this.__initialState = (__initialState == null) ? SpoopyState : __initialState;
-        // __commandManager = new SpoopyCommandManager<SpoopyWindowContext>(this);
-    }
-
-    public function flushState():Void {
-        var cmdBuffer = __commandManager.getCmdBuffer();
-
-        // TODO STATE: Handle render pass and pipeline barrier
     }
 
     public function flush():Void {
         // TODO: Work on this
+
+        __commandManager.destroy();
+        __commandManager = null;
     }
 
     public function resetState():Void {
@@ -52,15 +48,24 @@ class SpoopyStateManager {
         __queueState = next;
     }
 
+    public function draw():Void {
+        
+    }
+
     public function update():Void {
         if(__queueState != null) {
             processSwitchState();
         }
     }
 
+    public function endRenderPass():Void {
+        var cmdBuffer = __commandManager.getCmdBuffer();
+        cmdBuffer.endRenderPass();
+    }
+
     @:allow(spoopy.graphics.SpoopyWindowContext)
     private inline function bindToContext(context:SpoopyWindowContext):Void {
-        __commandManager = new SpoopyCommandManager<SpoopyWindowContext>(context);
+        // __commandManager = new SpoopyCommandManager<SpoopyWindowContext>(context);
         __context = context;
     }
 
