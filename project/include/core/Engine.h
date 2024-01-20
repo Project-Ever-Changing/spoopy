@@ -47,9 +47,7 @@ namespace lime { namespace spoopy {
 
             bool ranMain;
             bool cpuLimiterEnabled;
-            Mutex drawMutex;
             Mutex engineMutex;
-            Mutex taskMutex;
 
             static Engine* INSTANCE;
             static bool requestingExit;

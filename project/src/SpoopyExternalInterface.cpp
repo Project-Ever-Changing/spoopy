@@ -344,5 +344,10 @@ namespace lime { namespace spoopy {
             Engine::GetInstance()->Run();
         }
         DEFINE_PRIME0v(spoopy_engine_run_raw);
+
+        void spoopy_engine_shutdown() {
+            Engine::GetInstance()->RequestExit();
+        }
+        DEFINE_PRIME0v(spoopy_engine_shutdown);
     }
 }}

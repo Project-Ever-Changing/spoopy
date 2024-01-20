@@ -76,9 +76,7 @@ namespace lime { namespace spoopy {
         if(requestingExit) return;
 
         engineMutex.Lock();
-
         requestingExit = true;
-
         engineMutex.Unlock();
     }
 
