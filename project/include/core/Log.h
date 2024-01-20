@@ -21,7 +21,7 @@ namespace lime { namespace spoopy {
         // C++ String
 
         static inline void Info(const char* message) {
-            printf("%s%s%s", "\033[1m\033[37m", "[Info] ", "\033[0m");
+            printf("%s%s%s", "\033[1m\033[37m", "[INFO] ", "\033[0m");
             printf("%s%s\n", "\033[0m", message);
         }
 
@@ -44,7 +44,7 @@ namespace lime { namespace spoopy {
         }
 
         static inline void Info(std::string message) {
-            printf("%s%s%s", "\033[1m\033[37m", "[Info] ", "\033[0m");
+            printf("%s%s%s", "\033[1m\033[37m", "[INFO] ", "\033[0m");
             printf("%s%s\n", "\033[0m", message.c_str());
         }
 
@@ -79,7 +79,7 @@ namespace lime { namespace spoopy {
         }
 
         static inline void Info(const LOG_TYPE isFormatted, const char* format, ...) {
-            printf("%s%s%s", "\033[1m\033[37m", "[Info] ", "\033[0m");
+            printf("%s%s%s", "\033[1m\033[37m", "[INFO] ", "\033[0m");
             printf("%s", "\033[0m");
 
             va_list args;
