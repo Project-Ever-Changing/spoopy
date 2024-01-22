@@ -38,8 +38,8 @@ namespace lime { namespace spoopy {
                 private:
                     friend class Engine;
 
-                    std::unique_ptr<ValuePointer> updateCallback;
-                    std::unique_ptr<ValuePointer> drawCallback;
+                    ValuePointer* updateCallback;
+                    ValuePointer* drawCallback;
             };
 
         private:
