@@ -63,6 +63,12 @@
 		<compilerflag value="-DLIME_OPENGL_FLAG" if="LIME_OPENGL_FLAG" />
 		<compilerflag value="-DLIME_METAL" if="LIME_METAL" />
 
+		<compilerflag value="-DLIME_OPENGL" if="LIME_OPENGL" />
+
+		<section if="SPOOPY_DEBUG">
+            <linkerflag value="-fsanitize=thread" />
+		</section>
+
 		<section if="SPOOPY_VOLK">
 			<compilerflag value="-DSPOOPY_VOLK" />
 			<!--<compilerflag value="-DLIME_VOLK" />-->
@@ -164,6 +170,8 @@
 				<vflag name="-framework" value="Metal" />
 				<vflag name="-framework" value="MetalKit" />
 				<vflag name="-framework" value="QuartzCore" />
+				<vflag name="-framework" value="IOKit" />
+				<vflag name="-framework" value="IOSurface" />
 
 				<!--<vflag name="-arch" value="arm64" />-->
 			</section>
@@ -172,6 +180,8 @@
 				<vflag name="-framework" value="Metal" />
 				<vflag name="-framework" value="MetalKit" />
 				<vflag name="-framework" value="QuartzCore" />
+				<vflag name="-framework" value="UIKit" />
+				<vflag name="-framework" value="IOSurface" />
 			</section>
 		</section>
 	</target>
