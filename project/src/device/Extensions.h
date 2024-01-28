@@ -57,6 +57,7 @@
 // For MacOS
 #ifndef VK_MVK_MACOS_SURFACE_EXTENSION_NAME
 #define VK_MVK_MACOS_SURFACE_EXTENSION_NAME "VK_MVK_macos_surface"
+#define APPLE_PLATFORM "../MacOS"
 #endif
 
 // For iOS

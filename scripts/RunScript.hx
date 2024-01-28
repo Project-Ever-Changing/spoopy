@@ -240,7 +240,11 @@ class RunScript {
         }
     }
 
-    static inline function testCMD(args:Array<String>):Void {
+    static inline function buildProjectCMD(args:Array<String>):Void {
+
+    }
+
+    static inline function testCMD(args:Array<String>):Void { // TODO: Maybe have this just be a runner after the `build` command?
         args.shift();
         args = ["build"].concat(args);
 
@@ -263,6 +267,10 @@ class RunScript {
 
         if(project.project.defines.exists("spoopy-vulkan")) {
             ndll_path = "/ndll-vulkan/";
+        }
+
+        if(FileSys.isMac) {
+            project.addDependancy("moltenvk", haxeLibPath, ["libMoltenVK.dylib", "MoltenVK_icd.json"]);
         }
 
         project.setupContentDirectory(host);
