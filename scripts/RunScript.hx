@@ -45,6 +45,10 @@ class RunScript {
             description: "Create a new project."
         },
         {
+            name: "build",
+            description: "Build project."
+        },
+        {
             name: "test",
             description: "Build and run project."
         },
@@ -240,11 +244,7 @@ class RunScript {
         }
     }
 
-    static inline function buildProjectCMD(args:Array<String>):Void {
-
-    }
-
-    static inline function testCMD(args:Array<String>):Void { // TODO: Maybe have this just be a runner after the `build` command?
+    static inline function buildBackend(args:Array<String>, limeCmd:String):Void {
         args.shift();
         args = ["build"].concat(args);
 
@@ -263,7 +263,7 @@ class RunScript {
 
         var project:SpoopyProject = new SpoopyProject(false);
         project.xmlProject(Sys.getCwd());
-        project.targetPlatform("test");
+        project.targetPlatform(limeCmd);
 
         if(project.project.defines.exists("spoopy-vulkan")) {
             ndll_path = "/ndll-vulkan/";
@@ -277,6 +277,14 @@ class RunScript {
         project.setupShaders(host.toLowerCase(), haxeLibPath);
         project.replaceProjectNDLL(haxeLibPath + ndll_path + host, "lime.ndll");
         runApplication(project);
+    }
+
+    static inline function buildProjectCMD(args:Array<String>):Void {
+        buildBackend(args, "build");
+    }
+
+    static inline function testCMD(args:Array<String>):Void {
+    buildBackend(args, "test");
     }
 
     /*
