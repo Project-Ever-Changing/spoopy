@@ -1,6 +1,8 @@
-<xml>
-    <include name="${HXCPP}/build-tool/BuildCommon.xml" />
+<!-- TODO: Replace this with Zig.. that's not a joke -->
+<!-- Best way to do this is by making an xml parser for the `build.zig` to use -->
+<!-- But there's the problem that developers will have to compile for more than one language -->
 
+<xml>
 	<set name="HXCPP_CPP11" value="1" />
 	<set name="PLATFORM" value="android-21" if="android" />
 
@@ -9,15 +11,12 @@
     <set name="mac" value="1" if="macos" />
 
 	<set name="SPOOPY_HASHLINK" value="1" if="hashlink" />
-	<set name="SPOOPY_HXCPP" value="1" />
 	<set name="SPOOPY_SDL" value="1" />
 	<set name="SPOOPY_ROCKET" value="1" />
 	<set name="SPOOPY_SDL_SUPPORT_RENDERER" value="1" />
-	<set name="SPOOPY_SDL_ANGLE" value="1" if="windows SPOOPY_SDL_ANGLE" unless="static_link" />
 	<set name="SPOOPY_SDL_ANGLE" value="1" if="windows angle" unless="static_link" />
 	<set name="SPOOPY_SDL_ANGLE" value="1" if="winrt" />
 	<set name="NATIVE_TOOLKIT_PATH" value="../lime-project/lib" unless="NATIVE_TOOLKIT_PATH" />
-	<set name="NATIVE_TOOLKIT_HAVE_SDL" value="1" if="SPOOPY_SDL" />
 
 	<set name="NATIVE_TOOLKIT_SDL_STATIC" value="1" />
 	<set name="NATIVE_TOOLKIT_SDL_ANGLE" value="1" if="SPOOPY_SDL_ANGLE" />
@@ -159,8 +158,6 @@
 		<files id="spoopy-toolkit-volk" if="SPOOPY_VOLK" />
 		<files id="spoopy-toolkit-spirv" if="SPOOPY_SPIRV_CROSS" />
 
-		<cppflag value="-std=c++14" if="HXCPP_CPP14" />
-        <cppflag value="-Wc++14-extensions" if="HXCPP_CPP14" />
         <cppflag value="-std=c++11" if="HXCPP_CPP11" />
 
         <flag value="-g" if="SPOOPY_DEBUG"/>
