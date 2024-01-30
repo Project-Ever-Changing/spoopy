@@ -35,9 +35,13 @@ class SpoopyWindowContext implements IWindowHolder {
     @:noCompletion private var __displayMatrix:Matrix3;
     @:noCompletion private var __viewportRect:Rectangle;
     @:noCompletion private var __active:Bool;
+    @:noCompletion private var __rtCount:Int;
+    @:noCompletion private var __rtDirty:Bool;
 
     public function new(module:SpoopyGraphicsModule, window:Window, ?stateManager:SpoopyStateManager) {
         __active = false;
+        __rtDirty = false;
+        __rtCount = 0;
 
         __window = window;
         __module = module;
@@ -49,6 +53,31 @@ class SpoopyWindowContext implements IWindowHolder {
         __stateManager.bindToContext(this);
     }
 
+    public function onFlush():Void {
+        __active = false;
+
+        /*
+        __stateManager.flush();
+        __stateManager = null;
+
+        __renderPass.destroy();
+        __renderPass = null;
+        */
+    }
+
+    public function onDraw():Void {
+        // TODO: Implement the pipeline manager and check if the pipeline is good to go
+
+        var cmdBuffer = __stateManager.__commandManager.getCmdBuffer();
+        // TODO: Get the pipeline Layout and check if it's good to go
+
+        if(__rtDirty && cmdBuffer.state == INSIDE_RENDER_PASS) {
+            endRenderPass();
+        }
+
+        __stateManager.draw();
+    }
+
     public function resize():Void {
         var windowWidth = Std.int(__window.width * __window.scale);
 		var windowHeight = Std.int(__window.height * __window.scale);
@@ -56,34 +85,48 @@ class SpoopyWindowContext implements IWindowHolder {
         __setViewport(windowWidth, windowHeight);
     }
 
-    private inline function createRenderPass():Void {
+    public function resetRenderTarget():Void {
+        if(__rtCount != 0) {
+            __rtDirty = true;
+            __rtCount = 0;
+        }
+
+        // TODO: Call destroy `__depthView` which if the wrapper has a CFFIPointer, then delete it.
+        // `__depthView` should be a Depth Image View for Haxe, this would allow for frontend flexibility.
+
+        var cmdBuffer = __stateManager.__commandManager.getCmdBuffer();
+
+        if(cmdBuffer.state == INSIDE_RENDER_PASS) {
+            endRenderPass();
+        }
+    }
+
+    public function endRenderPass():Void {
+        __stateManager.endRenderPass();
+
+        __renderPass.destroy();
+        __renderPass = null;
+
+        // TODO STATE: Handle pipeline barrier
+    }
+
+    public function flushState():Void {
+        var cmdBuffer = __stateManager.__commandManager.getCmdBuffer();
+
+        if(cmdBuffer.state == INSIDE_RENDER_PASS) {
+            endRenderPass();
+        }
+
+        // TODO STATE: Handle render pass and pipeline barrier
+        __stateManager.flush();
+    }
+
+    @:noCompletion private function createRenderPass():Void {
         if(__renderPass != null) {
             return;
         }
 
-        var attributes = __window.__attributes.context;
-
-        __renderPass = new SpoopyRenderPass();
-        __renderPass.__hasImageLayout = true;
-        __renderPass.addColorAttachment(SpoopyRenderPass.getFormatFromColorDepth(attributes.colorDepth));
-
-        // Subpass dependency for color attachment
-        __renderPass.addSubpassDependency(true, false, COLOR_ATTACHMENT_OUTPUT_BIT, COLOR_ATTACHMENT_OUTPUT_BIT,
-            MEMORY_READ_BIT, COLOR_ATTACHMENT_READ_BIT | COLOR_ATTACHMENT_WRITE_BIT, 0);
-
-        if(attributes.hardware) {
-            if(attributes.depth) {
-                var format:SpoopyFormat = attributes.stencil ? SpoopyFormat.D32_SFLOAT_S8_UINT : SpoopyFormat.D32_SFLOAT;
-                __renderPass.addDepthAttachment(format, attributes.stencil);
-
-                __renderPass.addSubpassDependency(true, false, LATE_FRAGMENT_TESTS_BIT, LATE_FRAGMENT_TESTS_BIT,
-                    MEMORY_READ_BIT, DEPTH_STENCIL_ATTACHMENT_READ_BIT | DEPTH_STENCIL_ATTACHMENT_WRITE_BIT, 0);
-            }
-        }
-
-        __renderPass.processAttachments();
-        __renderPass.createSubpass();
-        __renderPass.createRenderpass();
+        //var attributes = __window.__attributes.context;
     }
 
     @:noCompletion private function __setViewport(width:Int, height:Int):Void {

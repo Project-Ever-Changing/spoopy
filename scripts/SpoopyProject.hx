@@ -149,6 +149,25 @@ class SpoopyProject {
         System.copyFile(path + "/" + dep, replacing);
     }
 
+    public function addDependancy(dep:String, haxeLibPath:String, files:Array<String>):Void {
+        var depPath = haxeLibPath + "dependencies/" + dep + "/";
+        var dest = platform.targetDirectory + "/bin/";
+
+        switch(project.target) {
+            case MAC:
+                depPath += "mac/";
+                dest += "Contents/MacOS/";
+            default:
+        }
+
+        for(file in files) {
+            var destFile = dest + file;
+
+            if(FileSystem.exists(destFile)) continue;
+            System.copyFile(depPath + file, destFile);
+        }
+    }
+
     public function targetPlatform(command:String):Void {
         var targetFlags = new Map<String, String>();
 
@@ -215,7 +234,7 @@ class SpoopyProject {
                 }
 
                 if(FileSystem.isDirectory(shader.sourcePath)) {
-                    continue;   
+                    continue;
                 }
 
                 if(FileSystem.exists(objCached + shader.targetPath)) {
@@ -226,9 +245,7 @@ class SpoopyProject {
                     FileSystem.deleteFile(shaderSPV);
                 }
 
-                if(FileSys.isWindows) {
-                    //Sys.command('"' + haxeLibPath +  "./dependencies/glslang/" + getSlangHost(host) + "/glslangValidator.exe" + '"', ["-V", '"' + ]);
-                }else {
+                if(!FileSys.isWindows) { // I'll figure out how to do this on windows later
                     Sys.command(haxeLibPath + "dependencies/glslang/" + getSlangHost(host) + "/glslangValidator", ["-V", shader.sourcePath, "-o", shaderSPV]);
                 }
 

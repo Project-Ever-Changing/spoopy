@@ -2,14 +2,9 @@ package spoopy.app;
 
 import lime.system.System;
 import lime.ui.Window;
-import lime.ui.WindowAttributes;
 import lime.app.Application;
-import lime.utils.Log;
-
 import spoopy.window.IWindowModule;
 import spoopy.io.SpoopyU64;
-
-
 import haxe.ds.ObjectMap;
 import haxe.io.Bytes;
 
@@ -20,6 +15,7 @@ class SpoopyApplication extends Application {
 	* A list of active Window module instances associated with this Application.
 	*/
 	public var windowModules(default, null):ObjectMap<Window, IWindowModule>;
+
 
     public static function getTimer():Int {
         return System.getTimer();
@@ -45,6 +41,15 @@ class SpoopyApplication extends Application {
     public function addWindowModule(module:IWindowModule, window:Window):Void {
         module.__registerWindowModule(window);
         windowModules.set(window, module);
+    }
+
+    // Unlike Lime, this engine will clean up after itself when the application exits.
+    public override function onModuleExit(code:Int):Void {
+        super.onModuleExit(code);
+
+        for(module in modules) {
+            removeModule(module);
+        }
     }
 
     @:noCompletion private override function __removeWindow(window:Window):Void {

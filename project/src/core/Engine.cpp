@@ -16,7 +16,6 @@ namespace lime { namespace spoopy {
 
     Engine::~Engine() {
         if(threadData) delete threadData;
-        if(thread) SDL_WaitThread(thread, nullptr);
     }
 
     int Engine::Run() {
@@ -76,27 +75,27 @@ namespace lime { namespace spoopy {
         if(requestingExit) return;
 
         engineMutex.Lock();
-
         requestingExit = true;
-
         engineMutex.Unlock();
     }
+
 
     /*
      * ThreadData
      */
+
     Engine::ThreadData::ThreadData(value updateCallback, value drawCallback) {
-        this->updateCallback = std::make_unique<ValuePointer>(updateCallback);
-        this->drawCallback = std::make_unique<ValuePointer>(drawCallback);
+        this->updateCallback = new ValuePointer(updateCallback);
+        this->drawCallback = new ValuePointer(drawCallback);
     }
 
     Engine::ThreadData::ThreadData(vclosure* updateCallback, vclosure* drawCallback) {
-        this->updateCallback = std::make_unique<ValuePointer>(updateCallback);
-        this->drawCallback = std::make_unique<ValuePointer>(drawCallback);
+        this->updateCallback = new ValuePointer(updateCallback);
+        this->drawCallback = new ValuePointer(drawCallback);
     }
 
     Engine::ThreadData::~ThreadData() {
-        if(this->updateCallback.get()) this->updateCallback.reset();
-        if(this->drawCallback.get()) this->drawCallback.reset();
+        if(this->updateCallback) {delete this->updateCallback; this->updateCallback = nullptr;}
+        if(this->drawCallback) {delete this->drawCallback; this->drawCallback = nullptr;}
     }
 }}

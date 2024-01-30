@@ -38,6 +38,10 @@ class SpoopyNativeEngine {
     }
 
     @:noCompletion private static function shutdown():Void {
-        // shutdown
+        #if spoopy_debug
+        spoopy.utils.SpoopyLogger.info("Shutting down engine...");
+        #end
+
+        SpoopyNativeCFFI.spoopy_engine_shutdown();
     }
 }

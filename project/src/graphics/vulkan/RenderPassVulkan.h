@@ -2,53 +2,66 @@
 
 #include "../../helpers/SpoopyHelpersVulkan.h"
 
+#include <graphics/GPUResource.h>
+#include <graphics/PixelFormat.h>
+#include <spoopy_hash.h>
+
 #include <vector>
 
 #ifdef SPOOPY_SDL
 #include <SDL.h>
 #endif
 
+/*
+ * TODO: Allow users to clear the hash table
+ */
 namespace lime { namespace spoopy {
-    class RenderPassVulkan {
+    class LogicalDevice;
+
+    struct RenderPassValue {
+        bool hasDepth = false;
+        bool hasStencil = false;
+        int numColorAttachments = 0;
+        int MSAALevel = 1;
+
+        bool writeDepth = false;
+        bool readDepth = false;
+
+        VkFormat colorFormat = VK_FORMAT_UNDEFINED;
+
+        // TODO: Add depth buffer that isn't bound to a frontend wrapper class
+
+        virtual bool operator==(const RenderPassValue& other) const {
+            return hasDepth == other.hasDepth
+           && hasStencil == other.hasStencil
+           && numColorAttachments == other.numColorAttachments
+           && MSAALevel == other.MSAALevel
+           && colorFormat == other.colorFormat;
+        }
+    };
+
+    struct RenderPassKey: public hashable<RenderPassValue> {
+        VkRenderPass pass;
+        const LogicalDevice &device;
+
+        RenderPassKey(const LogicalDevice &device);
+        ~RenderPassKey();
+
+        std::size_t GetHash(const uint16_t &start) const override;
+    };
+
+    class RenderPassVulkan: public GPUResource<hashtable<RenderPassValue>> {
         public:
-            RenderPassVulkan(VkDevice device): device(device) {};
-            ~RenderPassVulkan();
+            explicit RenderPassVulkan(const LogicalDevice &device, const VkFormat &format, const int &msaaLevel);
 
-            void CreateRenderPass();
-            void CreateSubpass();
+            void Create();
+            void Destroy() override;
 
-            void AddDepthAttachment(uint32_t location, VkImageLayout layout, uint32_t format,
-                VkSampleCountFlagBits samples, VkImageLayout finalLayout = VK_IMAGE_LAYOUT_GENERAL,
-                VkImageLayout initialLayout = VK_IMAGE_LAYOUT_UNDEFINED, bool hasStencil = false);
-            void AddColorAttachment(uint32_t location, VkImageLayout layout, uint32_t format,
-                VkSampleCountFlagBits samples, VkImageLayout finalLayout = VK_IMAGE_LAYOUT_GENERAL,
-                VkImageLayout initialLayout = VK_IMAGE_LAYOUT_UNDEFINED);
-            void AddSubpassDependency(uint32_t srcSubpass, uint32_t dstSubpass, VkPipelineStageFlags srcStageMask,
-                VkPipelineStageFlags dstStageMask, VkAccessFlags srcAccessMask, VkAccessFlags dstAccessMask,
-                VkDependencyFlags dependencyFlags = 0);
-
-
-            operator const VkRenderPass &() const { return renderpass; }
-            const VkRenderPass &GetRenderpass() const { return renderpass; }
-
-            const uint32_t GetColorAttachmentCount() const { return colorAttachmentCount; }
-            const uint32_t GetDepthAttachmentCount() const { return depthAttachmentsDescriptions.size(); }
-            const bool HasDepthAttachment() const { return depthAttachmentsDescriptions.size() > 0; }
-            const VkAttachmentDescription &GetAttachmentDescriptions() const { return attachmentDescriptions.front(); }
+        public:
+            RenderPassKey createInfo;
+            // static RenderPassVulkan* GetOrCreate(const RenderPassCreateInfo &createInfo);
 
         private:
-            void AddAttachment(uint32_t format, VkSampleCountFlagBits samples,
-                VkImageLayout finalLayout, VkImageLayout initialLayout, bool hasStencil = false);
-
-            VkDevice device;
-            VkAttachmentReference depthReference;
-            std::vector<VkAttachmentReference> colorReferences;
-            std::vector<VkAttachmentDescription> attachmentDescriptions;
-            std::vector<VkAttachmentDescription> depthAttachmentsDescriptions;
-            std::vector<VkSubpassDependency> subpassDependencies;
-            std::vector<VkSubpassDescription> subpassDescriptions;
-
-            VkRenderPass renderpass = VK_NULL_HANDLE;
-            uint32_t colorAttachmentCount = 0;
+            bool prevDepthLoaded = false;
     };
 }}

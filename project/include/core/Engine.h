@@ -38,8 +38,8 @@ namespace lime { namespace spoopy {
                 private:
                     friend class Engine;
 
-                    std::unique_ptr<ValuePointer> updateCallback;
-                    std::unique_ptr<ValuePointer> drawCallback;
+                    ValuePointer* updateCallback;
+                    ValuePointer* drawCallback;
             };
 
         private:
@@ -47,9 +47,7 @@ namespace lime { namespace spoopy {
 
             bool ranMain;
             bool cpuLimiterEnabled;
-            Mutex drawMutex;
             Mutex engineMutex;
-            Mutex taskMutex;
 
             static Engine* INSTANCE;
             static bool requestingExit;

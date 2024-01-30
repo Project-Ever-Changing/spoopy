@@ -18,6 +18,10 @@ namespace lime { namespace spoopy {
     }
 
     LogicalDevice::~LogicalDevice() {
+        #ifdef SPOOPY_DEBUG
+        SPOOPY_LOG_INFO("Destroying logical device");
+        #endif
+
         checkVulkan(vkDeviceWaitIdle(logicalDevice));
         vkDestroyDevice(logicalDevice, nullptr);
     }
@@ -259,5 +263,21 @@ namespace lime { namespace spoopy {
         allocationCreateInfo.usage = usage;
 
         return vmaCreateBuffer(allocator, &bufferCreateInfo, &allocationCreateInfo, buffer, allocation, nullptr);
+    }
+
+    // At first, I thought of using a binary search, but I think linear is fine.
+    bool LogicalDevice::FindInstanceExtensions(const char* extensionName) const {
+        uint32_t availableExtensionCount = 0;
+        vkEnumerateInstanceExtensionProperties(nullptr, &availableExtensionCount, nullptr);
+        std::vector<VkExtensionProperties> availableExtensions(availableExtensionCount);
+        vkEnumerateInstanceExtensionProperties(nullptr, &availableExtensionCount, availableExtensions.data());
+
+        for(const auto &extension: availableExtensions) {
+            if(platform::stringCompare(extension.extensionName, extensionName) == 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }}

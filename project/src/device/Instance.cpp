@@ -37,9 +37,9 @@ namespace lime { namespace spoopy {
     VKAPI_ATTR VkBool32 VKAPI_CALL CallbackDebug(VkDebugReportFlagsEXT flags, VkDebugReportObjectTypeEXT objectType, uint64_t object, size_t location, int32_t messageCode,
         const char *pLayerPrefix, const char *pMessage, void *pUserData) {
 
-        if (flags & VK_DEBUG_REPORT_WARNING_BIT_EXT) {
+        if (flags & VK_DEBUG_REPORT_WARNING_BIT_EXT || flags & VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT) {
             SPOOPY_LOG_WARN(pMessage);
-        }else if (flags & VK_DEBUG_REPORT_INFORMATION_BIT_EXT) {
+        }else if (flags & VK_DEBUG_REPORT_INFORMATION_BIT_EXT || flags & VK_DEBUG_REPORT_DEBUG_BIT_EXT) {
             SPOOPY_LOG_INFO(pMessage);
         }else {
             SPOOPY_LOG_ERROR(pMessage);
@@ -74,11 +74,19 @@ namespace lime { namespace spoopy {
         checkVulkan(volkInitialize());
         #endif
 
+        uint32_t volkVersion = volkGetInstanceVersion();
+
+        if(volkVersion < VK_API_VERSION_1_2) {
+            SPOOPY_LOG_ERROR("Vulkan version is too low! Please update your Vulkan drivers to at least version 1.2!");
+            return;
+        }
+
+
         VkApplicationInfo applicationInfo = {};
         applicationInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-        applicationInfo.pEngineName = "Spoopy";
+        applicationInfo.pEngineName = "spoopy";
         applicationInfo.engineVersion = SPOOPY_ENGINE_VERSION;
-        applicationInfo.apiVersion = volkGetInstanceVersion() >= VK_API_VERSION_1_1 ? VK_API_VERSION_1_1 : VK_MAKE_VERSION(1, 0, 57);
+        applicationInfo.apiVersion =volkVersion >= VK_API_VERSION_1_3 ? VK_API_VERSION_1_3 : VK_API_VERSION_1_2;
 
         if(enableValidationLayers && !CheckValidationLayerSupport()) {
             SPOOPY_LOG_ERROR("Vulkan validation layers requested, but not available!");
@@ -118,10 +126,7 @@ namespace lime { namespace spoopy {
             instanceCreateInfo.ppEnabledLayerNames = ValidationLayers.data();
         }
 
-        SPOOPY_LOG_INFO("Creating Vulkan instance...2");
         VkResult result = vkCreateInstance(&instanceCreateInfo, nullptr, &instance);
-        SPOOPY_LOG_INFO("Vulkan instance created!");
-
         if(result == VK_ERROR_INCOMPATIBLE_DRIVER) {
             #if defined(__APPLE__)
 

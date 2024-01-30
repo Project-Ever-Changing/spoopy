@@ -1,11 +1,10 @@
 package spoopy.graphics;
 
-import spoopy.utils.destroy.SpoopyDestroyQueue;
 import spoopy.window.IWindowModule;
 import spoopy.utils.SpoopyLogger;
 import spoopy.graphics.state.SpoopyStateManager;
-import spoopy.graphics.modules.SpoopyEntry;
 import spoopy.graphics.modules.SpoopyGPUObject;
+import spoopy.graphics.modules.SpoopyEntry;
 import spoopy.app.SpoopyEngine;
 import spoopy.events.SpoopyEvent;
 import lime.app.Application;
@@ -24,6 +23,7 @@ import lime.math.Matrix3;
     var UPDATE_FRAME = "sgm-updateFrame";
 }
 
+@:allow(spoopy.graphics.modules.SpoopyGPUObject)
 @:access(spoopy.graphics.SpoopyWindowContext)
 class SpoopyGraphicsModule implements IWindowModule {
     public var window(get, never):Window;
@@ -31,7 +31,6 @@ class SpoopyGraphicsModule implements IWindowModule {
 
     @:noCompletion private var __backend:BackendGraphicsModule;
     @:noCompletion private var __context:SpoopyWindowContext;
-    @:noCompletion private var __deletionQueue:SpoopyDestroyQueue<SpoopyEntry>;
     @:noCompletion private var __tempStateManager:SpoopyStateManager;
     @:noCompletion private var __engine:SpoopyEngine;
 
@@ -41,7 +40,6 @@ class SpoopyGraphicsModule implements IWindowModule {
 
     public function new(engine:SpoopyEngine, ?stateManager:SpoopyStateManager) {
         __backend = new BackendGraphicsModule();
-        __deletionQueue = new SpoopyDestroyQueue<SpoopyEntry>();
         __tempStateManager = stateManager;
         __engine = engine;
     }
@@ -58,12 +56,12 @@ class SpoopyGraphicsModule implements IWindowModule {
         }
 
         var entry = new SpoopyEntry(this, __context, frame, item);
-        __deletionQueue.enqueue(entry);
+        __engine.__deletionQueue.enqueue(entry);
     }
 
     public function autoDeleteAll():Void {
-        while(!__deletionQueue.isEmpty()) {
-            var entry:SpoopyEntry = __deletionQueue.dequeue();
+        while(!__engine.__deletionQueue.isEmpty()) {
+            var entry:SpoopyEntry = __engine.__deletionQueue.dequeue();
             entry.flush();
         }
     }
@@ -135,6 +133,7 @@ class SpoopyGraphicsModule implements IWindowModule {
         __engine.eventModuleDispatcher.removeEventListener(GraphicsEventType.UPDATE_FRAME);
         __engine.eventModuleDispatcher.removeEventListener(GraphicsEventType.DRAW_FRAME);
 
+        __context.onFlush();
         __context = null;
     }
 

@@ -20,7 +20,6 @@ namespace lime { namespace spoopy {
             VkSemaphore &GetSemaphore() { return semaphore; }
 
             void Create();
-
             void Destroy() override;
 
         private:

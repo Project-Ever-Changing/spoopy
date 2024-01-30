@@ -21,12 +21,8 @@ class SpoopyNativeCFFI {
     public static var spoopy_resize_graphics_context = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_resize_graphics_context", "oov", false));
     public static var spoopy_device_lock_fence = new cpp.Callable<Void->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_device_lock_fence", "v", false));
     public static var spoopy_device_unlock_fence = new cpp.Callable<Void->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_device_unlock_fence", "v", false));
-    public static var spoopy_create_render_pass = new cpp.Callable<Void->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_render_pass", "o", false));
-    public static var spoopy_add_subpass_dependency = new cpp.Callable<cpp.Object->Bool->Bool->Int->Int->Int->Int->Int->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_add_subpass_dependency", "obbiiiiiv", false));
-    public static var spoopy_add_color_attachment = new cpp.Callable<cpp.Object->Int->Int->Bool->Bool->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_add_color_attachment", "oiibbv", false));
-    public static var spoopy_add_depth_attachment = new cpp.Callable<cpp.Object->Int->Int->Bool->Bool->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_add_depth_attachment", "oiibbv", false));
-    public static var spoopy_create_subpass = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_create_subpass", "ov", false));
-    public static var spoopy_create_renderpass = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_create_renderpass", "ov", false));
+    public static var spoopy_create_render_pass = new cpp.Callable<Int->cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_render_pass", "ioo", false));
+    public static var spoopy_recreate_render_pass = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_recreate_render_pass", "ov", false));
     public static var spoopy_check_context = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_check_context", "ov", false));
     public static var spoopy_create_context_stage = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_create_context_stage", "oov", false));
     public static var spoopy_create_memory_reader = new cpp.Callable<String->Int->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_memory_reader", "sio", false));
@@ -43,9 +39,10 @@ class SpoopyNativeCFFI {
     public static var spoopy_create_entry = new cpp.Callable<cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_entry", "oo", false));
     public static var spoopy_entry_is_gpu_operation_complete = new cpp.Callable<cpp.Object->Bool>(cpp.Prime._loadPrime("lime", "spoopy_entry_is_gpu_operation_complete", "ob", false));
     public static var spoopy_dealloc_gpu_cffi_pointer = new cpp.Callable<Int->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_dealloc_gpu_cffi_pointer", "iov", false));
-    public static var spoopy_engine_apply = new cpp.Callable<Bool->Float->Float->Float->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_engine_apply", "bfffv", false));
+    public static var spoopy_engine_apply = new cpp.Callable<Bool->Float32->Float32->Float32->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_engine_apply", "bfffv", false));
     public static var spoopy_engine_bind_callbacks = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_engine_bind_callbacks", "oov", false));
     public static var spoopy_engine_run_raw = new cpp.Callable<Void->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_engine_run_raw", "v", false));
+    public static var spoopy_engine_shutdown = new cpp.Callable<Void->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_engine_shutdown", "v", false));
     public static var spoopy_create_threading_semaphore = new cpp.Callable<Void->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_threading_semaphore", "o", false));
     public static var spoopy_threading_semaphore_wait = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_threading_semaphore_wait", "ov", false));
     public static var spoopy_threading_semaphore_set = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_threading_semaphore_set", "ov", false));
@@ -73,12 +70,8 @@ class SpoopyNativeCFFI {
     public static var spoopy_resize_graphics_context = CFFI.load("lime", "spoopy_resize_graphics_context", 2);
     public static var spoopy_device_lock_fence = CFFI.load("lime", "spoopy_device_lock_fence", 0);
     public static var spoopy_device_unlock_fence = CFFI.load("lime", "spoopy_device_unlock_fence", 0);
-    public static var spoopy_create_render_pass = CFFI.load("lime", "spoopy_create_render_pass", 0);
-    public static var spoopy_add_subpass_dependency = CFFI.load("lime", "spoopy_add_subpass_dependency", 8);
-    public static var spoopy_add_color_attachment = CFFI.load("lime", "spoopy_add_color_attachment", 5);
-    public static var spoopy_add_depth_attachment = CFFI.load("lime", "spoopy_add_depth_attachment", 5);
-    public static var spoopy_create_subpass = CFFI.load("lime", "spoopy_create_subpass", 1);
-    public static var spoopy_create_renderpass = CFFI.load("lime", "spoopy_create_renderpass", 1);
+    public static var spoopy_create_render_pass = CFFI.load("lime", "spoopy_create_render_pass", 2);
+    public static var spoopy_recreate_render_pass = CFFI.load("lime", "spoopy_recreate_render_pass", 1);
     public static var spoopy_check_context = CFFI.load("lime", "spoopy_check_context", 1);
     public static var spoopy_create_context_stage = CFFI.load("lime", "spoopy_create_context_stage", 2);
     public static var spoopy_create_memory_reader = CFFI.load("lime", "spoopy_create_memory_reader", 2);
@@ -98,6 +91,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_engine_apply = CFFI.load("lime", "spoopy_engine_apply", 4);
     public static var spoopy_engine_bind_callbacks = CFFI.load("lime", "spoopy_engine_bind_callbacks", 2);
     public static var spoopy_engine_run_raw = CFFI.load("lime", "spoopy_engine_run_raw", 0);
+    publci static var spoopy_engine_shutdown = CFFI.load("lime", "spoopy_engine_shutdown", 0);
     public static var spoopy_create_threading_semaphore = CFFI.load("lime", "spoopy_create_threading_semaphore", 0);
     public static var spoopy_threading_semaphore_wait = CFFI.load("lime", "spoopy_threading_semaphore_wait", 1);
     public static var spoopy_threading_semaphore_set = CFFI.load("lime", "spoopy_threading_semaphore_set", 1);
@@ -129,27 +123,11 @@ class SpoopyNativeCFFI {
         return;
     }
 
-    public static function spoopy_create_render_pass():Dynamic {
+    public static function spoopy_create_render_pass(msaaLevel:Int, window:Dynamic,):Dynamic {
         return null;
     }
 
-    public static function spoopy_add_subpass_dependency(renderPass:Dynamic, srcSubpass:Bool, dstSubpass:Bool, srcStageMask:Int, dstStageMask:Int, srcAccessMask:Int, dstAccessMask:Int, dependencyFlags:Int):Void {
-        return;
-    }
-
-    public static function spoopy_add_color_attachment(renderPass:Dynamic, location:Int, format:Int, hasImageLayout:Bool, sampled:Bool):Void {
-        return;
-    }
-
-    public static function spoopy_add_depth_attachment(renderPass:Dynamic, location:Int, format:Int, hasStencil:Bool, sampled:Bool):Void {
-        return;
-    }
-
-    public static function spoopy_create_subpass(renderPass:Dynamic):Void {
-        return;
-    }
-
-    public static function spoopy_create_renderpass(renderPass:Dynamic):Void {
+    public static function spoopy_recreate_render_pass(renderPass:Dynamic):Void {
         return;
     }
 
@@ -226,6 +204,10 @@ class SpoopyNativeCFFI {
     }
 
     public static function spoopy_engine_run_raw():Void {
+        return;
+    }
+
+    public static function spoopy_engine_shutdown():Void {
         return;
     }
 

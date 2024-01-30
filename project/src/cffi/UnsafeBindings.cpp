@@ -18,6 +18,7 @@
 #include "../graphics/vulkan/GraphicsVulkan.h"
 #include "../graphics/vulkan/components/SemaphoreVulkan.h"
 #include "../graphics/vulkan/PipelineVulkan.h"
+#include "../graphics/vulkan/RenderPassVulkan.h"
 #include "../graphics/vulkan/components/FenceVulkan.h"
 #include "../graphics/vulkan/CommandBufferVulkan.h"
 #include "../graphics/vulkan/QueueVulkan.h"
@@ -27,6 +28,7 @@ typedef lime::spoopy::GraphicsVulkan GraphicsModule;
 typedef lime::spoopy::PipelineVulkan Pipeline;
 typedef lime::spoopy::FenceVulkan GPUFence;
 typedef lime::spoopy::CommandBufferVulkan GPUCommandBuffer;
+typedef lime::spoopy::RenderPassVulkan RenderPass;
 
 #endif
 
@@ -47,6 +49,11 @@ namespace lime { namespace spoopy {
     void spoopy_delete_gpu_fence(value fence) {
         GPUFence* _fence = (GPUFence*)val_data(fence);
         delete _fence;
+    }
+
+    void spoopy_gc_render_pass(value handle) {
+        RenderPass* _renderPass = (RenderPass*)val_data(handle);
+        delete _renderPass;
     }
 
 
@@ -74,6 +81,28 @@ namespace lime { namespace spoopy {
     }
     DEFINE_PRIME1(spoopy_create_gpu_fence);
 
+    value spoopy_create_render_pass(int msaaLevel, value window_handle) {
+        Window* window = (Window*)val_data(window_handle);
+        SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
+        Context &context = sdlWindow->context;
+        
+        RenderPass* _renderPass = new RenderPass(
+            *GraphicsModule::GetCurrent()->GetLogicalDevice()
+            , context->GetSwapchain()->GetFormat()
+            , msaaLevel
+        );
+
+        return CFFIPointer(_renderPass, spoopy_gc_render_pass);
+    }
+    DEFINE_PRIME2(spoopy_create_render_pass);
+
+    void spoopy_recreate_render_pass(value renderPass) {
+        RenderPass* _renderPass = (RenderPass*)val_data(renderPass);
+        _renderPass->Create();
+    }
+    DEFINE_PRIME1v(spoopy_recreate_render_pass);
+
+
     void spoopy_set_gpu_fence_signal(value fence, bool signaled) {
         GPUFence* _fence = (GPUFence*)val_data(fence);
         _fence->SetSignaled(signaled);
@@ -91,6 +120,7 @@ namespace lime { namespace spoopy {
         uint32_t high = *((uint32_t*)(bytes + 4));
 
         // Combine the high and low parts into a uint64_t
+        // We need to make room for the low bits
         uint64_t nanoseconds = ((uint64_t)high << 32) | low;
         return _fence->Wait(nanoseconds);
     }
@@ -119,7 +149,7 @@ namespace lime { namespace spoopy {
     , value fence_handle, int prevSemaphoreIndex, int semaphoreIndex) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
-        Context context = sdlWindow->context;
+        Context &context = sdlWindow->context;
 
         return (int)context->GetSwapchain()->AcquireNextImage(
             imageAvailableSemaphore,
@@ -133,7 +163,7 @@ namespace lime { namespace spoopy {
     int spoopy_device_present_image(value window_handle, value semaphore) {
         Window* window = (Window*)val_data(window_handle);
         SDLWindow* sdlWindow = static_cast<SDLWindow*>(window);
-        Context context = sdlWindow->context;
+        Context &context = sdlWindow->context;
 
         GPUSemaphore* _semaphore = (GPUSemaphore*)val_data(semaphore);
         return context->PresentImageSwapchain(GraphicsModule::GetCurrent()->GetLogicalDevice()->GetPresentQueue(), _semaphore);

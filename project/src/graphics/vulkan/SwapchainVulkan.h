@@ -38,9 +38,9 @@ namespace lime { namespace spoopy {
             SwapchainStatus Present(QueueVulkan* queue, SemaphoreVulkan* waitSemaphore);
             void Create(const VkSwapchainKHR &oldSwapchain, RAW_Window* m_window);
             void Destroy(VkSwapchainKHR &oldSwapchain);
-            void FindSurfaceFormat(VkSurfaceFormatKHR &resultFormat, VkColorSpaceKHR colorSpace);
 
             size_t GetImageCount() const { return images.size(); }
+            VkFormat GetFormat() const { return surface->GetFormat().format; }
 
         private:
             void ReleaseImageViews();

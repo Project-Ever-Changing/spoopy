@@ -22,6 +22,17 @@
 #endif
 
 namespace lime { namespace spoopy {
+
+    // Basic helper function to convert SDL_PixelFormatEnum to VkFormat
+    VkFormat SDLFormatToVkFormat(const Uint32 &format) {
+        switch(format) {
+            case SDL_PIXELFORMAT_ARGB8888: return VK_FORMAT_A2R10G10B10_UNORM_PACK32;
+            case SDL_PIXELFORMAT_BGRA8888: return VK_FORMAT_B8G8R8A8_UNORM;
+            case SDL_PIXELFORMAT_RGBA8888: return VK_FORMAT_R8G8B8A8_UNORM;
+            default: return VK_FORMAT_UNDEFINED;
+        }
+    }
+
     Surface::Surface(const Instance &instance, PhysicalDevice &physicalDevice, LogicalDevice &logicalDevice, SDL_Window* window):
     instance(instance),
     physicalDevice(physicalDevice),
@@ -51,24 +62,33 @@ namespace lime { namespace spoopy {
         std::vector<VkSurfaceFormatKHR> surfaceFormats(surfaceFormatCount);
         vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice.GetPhysicalDevice(), surface, &surfaceFormatCount, surfaceFormats.data());
 
-        if(surfaceFormatCount == 1 && surfaceFormats[0].format == VK_FORMAT_UNDEFINED) {
-            format.format = VK_FORMAT_B8G8R8A8_UNORM;
-            format.colorSpace = surfaceFormats[0].colorSpace;
+        Uint32 pixelFormat = SDL_GetWindowPixelFormat(window);
+        VkFormat findFormat = SDLFormatToVkFormat(pixelFormat);
+        bool foundFormat = false;
 
-            SPOOPY_LOG_INFO("Surface format is undefined, using B8G8R8A8_UNORM");
-        }else {
-            bool found_B8G8R8A8_UNORM = false;
+        for(auto &surfaceFormat: surfaceFormats) {
+            if(surfaceFormat.format == findFormat) {
+                format.format = surfaceFormat.format;
+                format.colorSpace = surfaceFormat.colorSpace;
+                foundFormat = true;
 
-            for (auto &surfaceFormat: surfaceFormats) {
-                if (surfaceFormat.format == VK_FORMAT_B8G8R8A8_UNORM) {
-                    format.format = surfaceFormat.format;
-                    format.colorSpace = surfaceFormat.colorSpace;
-                    found_B8G8R8A8_UNORM = true;
-                    break;
-                }
+                #ifdef SPOOPY_DEBUG
+                SPOOPY_LOG_INFO("Found matching surface format");
+                #endif
+
+                break;
             }
+        }
 
-            if (!found_B8G8R8A8_UNORM) {
+        if (!foundFormat) {
+            if(surfaceFormatCount == 1 && surfaceFormats[0].format == VK_FORMAT_UNDEFINED) {
+                format.format = VK_FORMAT_B8G8R8A8_UNORM;
+                format.colorSpace = surfaceFormats[0].colorSpace;
+
+                #ifdef SPOOPY_DEBUG
+                SPOOPY_LOG_INFO("Surface format is undefined, using VK_FORMAT_B8G8R8A8_UNORM");
+                #endif
+            } else {
                 format.format = surfaceFormats[0].format;
                 format.colorSpace = surfaceFormats[0].colorSpace;
             }

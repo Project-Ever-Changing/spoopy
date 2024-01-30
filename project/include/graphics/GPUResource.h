@@ -18,6 +18,6 @@ namespace lime { namespace spoopy {
         protected:
             Device &device;
 
-            T handle = 0;
+            T handle;
     };
 }}

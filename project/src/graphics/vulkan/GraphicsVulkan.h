@@ -31,8 +31,9 @@ namespace lime { namespace spoopy {
             static GraphicsVulkan *GetCurrent() { return Main.get(); }
             static bool MultisamplingEnabled;
 
-            PhysicalDevice *GetPhysicalDevice() const { return physicalDevice.get(); }
-            const LogicalDevice *GetLogicalDevice() const { return logicalDevice.get(); }
+            inline PhysicalDevice* GetPhysicalDevice() const { return physicalDevice.get(); }
+
+            const LogicalDevice* GetLogicalDevice() const { return logicalDevice.get(); }
             const VkPipelineCache &GetPipelineCache() const { return pipelineCache; }
 
             std::unique_ptr<Instance> instance;

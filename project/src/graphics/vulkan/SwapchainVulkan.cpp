@@ -51,7 +51,6 @@ namespace lime { namespace spoopy {
 
 
         // Surface Creation (When needed) (1)
-        // Since I'm using SDL_Vulkan_CreateSurface, I don't need to create the surface everytime I create a swapchain.
 
         ScopeLock lock(context.swapchainMutex);
 

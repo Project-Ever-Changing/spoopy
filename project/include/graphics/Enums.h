@@ -13,7 +13,8 @@ enum class PrimTopologyType {
 enum class BackendType {
     Pipeline = 0,
     GPUSemaphore = 1,
-    GPUFence = 2
+    GPUFence = 2,
+    RenderPass = 3,
 };
 
 #endif

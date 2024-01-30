@@ -3,13 +3,16 @@ package spoopy.graphics.modules;
 import spoopy.utils.SpoopyLogger;
 import spoopy.utils.destroy.SpoopyDestroyable;
 import spoopy.backend.SpoopyStaticBackend;
+import spoopy.graphics.SpoopyMSAA;
 
+import lime.ui.Window;
 
 /*
-* CAREFUL: Do not de-allocate the gpu object regularaly!
+* CAREFUL: Do not de-allocate the gpu object regularly!
 * YOU MUST: Use the `destroy()` method to de-allocate the gpu object then `obj = null.`
 */
 
+@:access(lime.ui.Window)
 class SpoopyGPUObject implements ISpoopyDestroyable {
     @:noCompletion private var __flag:SpoopyFlags;
     @:noCompletion private var __pointer:SpoopyGPUObjectPointer;
@@ -23,8 +26,17 @@ class SpoopyGPUObject implements ISpoopyDestroyable {
 
         // TODO: If OpenGL, then have an actual pointer static function.
         switch(flag) {
-            case SEMAPHORE: __pointer = SpoopyStaticBackend.spoopy_create_semaphore();
-            case PIPELINE: /* WIP */
+            case SEMAPHORE:
+                __pointer = SpoopyStaticBackend.spoopy_create_semaphore();
+
+            case RENDER_PASS:
+                __pointer = SpoopyStaticBackend.spoopy_create_render_pass(
+                    SpoopyMSAA.NONE, // TODO: Make this actually configurable by the user or dev.
+                    module.__context.window.__backend.handle
+                );
+
+            case PIPELINE:
+                /* WIP */
 
             default:
                 SpoopyLogger.warn("Invalid flag for GPU object creation.");
@@ -33,8 +45,14 @@ class SpoopyGPUObject implements ISpoopyDestroyable {
 
     public function create():Void {
         switch(flag) {
-            case SEMAPHORE: SpoopyStaticBackend.spoopy_recreate_semaphore(__pointer);
-            case PIPELINE: /* WIP */
+            case SEMAPHORE:
+                SpoopyStaticBackend.spoopy_recreate_semaphore(__pointer);
+
+            case RENDER_PASS:
+                SpoopyStaticBackend.spoopy_recreate_render_pass(__pointer);
+
+            case PIPELINE:
+                /* WIP */
 
             default:
                 SpoopyLogger.warn("Invalid flag for GPU object recreation.");
