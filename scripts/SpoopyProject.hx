@@ -1,5 +1,6 @@
 package;
 
+import haxe.display.Display.Package;
 #if lime
 
 import lime.tools.PlatformTarget;
@@ -30,11 +31,16 @@ class SpoopyProject {
     public var shaders(default, null):Array<Asset>;
     public var contentDirectory(default, null):String;
 
-    public function new(createProject:Bool = true) {
+    @:noCompletion private var __debug:Bool;
+
+    public function new(debug:Bool, createProject:Bool = true) {
         if(createProject) {
             project = new HXProject();
             project.architectures = [];
+            project.debug = debug;
         }
+
+        __debug = debug;
     }
 
     public function addTemplate(arg:String):Void {
@@ -147,25 +153,6 @@ class SpoopyProject {
 
         FileSystem.deleteFile(replacing);
         System.copyFile(path + "/" + dep, replacing);
-    }
-
-    public function addDependancy(dep:String, haxeLibPath:String, files:Array<String>):Void {
-        var depPath = haxeLibPath + "dependencies/" + dep + "/";
-        var dest = platform.targetDirectory + "/bin/";
-
-        switch(project.target) {
-            case MAC:
-                depPath += "mac/";
-                dest += "Contents/MacOS/";
-            default:
-        }
-
-        for(file in files) {
-            var destFile = dest + file;
-
-            if(FileSystem.exists(destFile)) continue;
-            System.copyFile(depPath + file, destFile);
-        }
     }
 
     public function targetPlatform(command:String):Void {

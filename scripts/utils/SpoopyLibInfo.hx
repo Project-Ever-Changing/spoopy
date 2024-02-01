@@ -1,7 +1,7 @@
 package utils;
 
 class SpoopyLibInfo {
-    @:final public static var commandName = "spoopy";
-	@:final public static var defaultLibrary = "spoopy";
-	@:final public static var defaultLibraryName = "Spoopy Game";
+    #if haxe4 @:final public static var #else public static final #end commandName = "spoopy";
+	#if haxe4 @:final public static var #else public static final #end defaultLibrary = "spoopy";
+	#if haxe4 @:final public static var #else public static final #end defaultLibraryName = "Spoopy Game";
 }
