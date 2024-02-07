@@ -269,6 +269,10 @@ class RunScript {
             ndll_path = "/ndll-vulkan/";
         }
 
+        if(FileSys.isMac) {
+            project.addDependancy("moltenvk", haxeLibPath, ["libMoltenVK.dylib", "MoltenVK_icd.json"]);
+        }
+
         project.replaceProjectNDLL(haxeLibPath + ndll_path + host, "lime.ndll");
         runApplication(project);
     }

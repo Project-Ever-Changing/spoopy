@@ -74,5 +74,7 @@ namespace lime { namespace spoopy {
             VkDevice logicalDevice = VK_NULL_HANDLE;
             VkDeviceCreateInfo deviceCreateInfo = {};
             VkPhysicalDeviceFeatures enabledFeatures = {};
+
+            std::vector<const char*> validationLayers = {};
     };
 }}

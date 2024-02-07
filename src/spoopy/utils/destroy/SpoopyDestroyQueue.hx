@@ -2,18 +2,22 @@ package spoopy.utils.destroy;
 
 import spoopy.utils.destroy.SpoopyDestroyable;
 
-#if !web
-import sys.thread.Lock;
+#if !(web || js)
+import sys.thread.Mutex;
 #end
 
 /*
 * At first, I planned to use the regular built-in `Array` class. However, I only needed a
-* FILO (first in, last out) system for deallocating Vulkan handles when necessary, and
+* FIFO (first in, first out) system for deallocating Vulkan handles when necessary, and
 * an array would be overly complicated. I preferred a linked list since it’s much easier
 * to maintain, keep organized, and basic.
 */
 
 class SpoopyDestroyQueue<T:ISpoopyDestroyable> {
+    #if !(web || js)
+    private var mutex:Mutex = new Mutex();
+    #end
+    
     private var head:Node<T>;
     private var tail:Node<T>;
 
@@ -23,6 +27,10 @@ class SpoopyDestroyQueue<T:ISpoopyDestroyable> {
     }
 
     public function enqueue(item:T):Void {
+        #if !(web || js)
+        mutex.acquire();
+        #end
+
         var oldTail = tail;
         tail = {item: item, next: null};
 
@@ -31,9 +39,17 @@ class SpoopyDestroyQueue<T:ISpoopyDestroyable> {
         } else {
             oldTail.next = tail;
         }
+
+        #if !(web || js)
+        mutex.release();
+        #end
     }
 
     public function releaseItems():Void {
+        #if !(web || js)
+        mutex.acquire();
+        #end
+
         var curr = head;
 
         while(!isEmpty() && curr != null) {
@@ -43,6 +59,10 @@ class SpoopyDestroyQueue<T:ISpoopyDestroyable> {
             dequeue();
             curr = next;
         }
+
+        #if !(web || js)
+        mutex.release();
+        #end
     }
 
     public function isEmpty():Bool {
@@ -60,6 +80,7 @@ class SpoopyDestroyQueue<T:ISpoopyDestroyable> {
         if(isEmpty()) {
             tail = null;
         }
+        
         return item;
     }
 }

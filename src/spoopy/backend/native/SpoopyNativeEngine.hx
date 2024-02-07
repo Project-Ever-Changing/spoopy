@@ -1,5 +1,7 @@
 package spoopy.backend.native;
 
+import spoopy.app.SpoopyEngine;
+import spoopy.events.SpoopyEvent;
 import sys.thread.Thread;
 
 /*
@@ -12,20 +14,27 @@ class SpoopyNativeEngine {
     public static var fenceManager(default, null):SpoopyNativeFenceManager = new SpoopyNativeFenceManager();
     
     @:noCompletion private static var tasks(default, null):Array<SpoopyNativeRenderTask> = [];
+    @:noCompletion private static var thread(default, null):Thread;
 
     @:noCompletion private static function apply(cpuLimiterEnabled:Bool, updateFramerate:Float, drawFramerate:Float, timeScale:Float):Void {
         SpoopyNativeCFFI.spoopy_engine_apply(cpuLimiterEnabled, updateFramerate, drawFramerate, timeScale);
     }
 
-    @:noCompletion private static function bindCallbacks(updateCallback:Dynamic, drawCallback:Dynamic):Void {
-        SpoopyNativeCFFI.spoopy_engine_bind_callbacks(updateCallback, drawCallback);
+    @:noCompletion private static function bindCallbacks(updateCallback:Dynamic, drawCallback:Dynamic, syncGC:Dynamic):Void {
+        SpoopyNativeCFFI.spoopy_engine_bind_callbacks(updateCallback, drawCallback, syncGC);
     }
 
-    @:noCompletion private static function run():Void {
-        Thread.create(runRaw);
+    @:noCompletion private static function run(engine:SpoopyEngine):Void {
+        thread = Thread.create(runRaw.bind(engine));
     }
 
-    @:noCompletion private static function runRaw():Void {
+    @:noCompletion private static function runRaw(engine:SpoopyEngine):Void {
+        engine.UPDATE_EVENT = SpoopyEvent.__pool.get();
+        engine.UPDATE_EVENT.type = SpoopyEvent.ENTER_UPDATE_FRAME;
+
+        engine.DRAW_EVENT = SpoopyEvent.__pool.get();
+        engine.DRAW_EVENT.type = SpoopyEvent.ENTER_DRAW_FRAME;
+
         SpoopyNativeCFFI.spoopy_engine_run_raw();
     }
 
@@ -43,5 +52,6 @@ class SpoopyNativeEngine {
         #end
 
         SpoopyNativeCFFI.spoopy_engine_shutdown();
+        thread = null;
     }
 }

@@ -117,10 +117,18 @@ namespace lime { namespace spoopy {
             enabledFeatures.textureCompressionETC2 = VK_TRUE;
         }
 
-        if(instance.GetEnableValidationLayers()) {
-            deviceCreateInfo.enabledLayerCount = static_cast<uint32_t>(Instance::ValidationLayers.size());
-            deviceCreateInfo.ppEnabledLayerNames = Instance::ValidationLayers.data();
-        }
+        #ifdef SPOOPY_DEBUG
+
+        uint32_t layerCount;
+        vkEnumerateDeviceLayerProperties(physicalDevice.GetPhysicalDevice(), &layerCount, nullptr);
+        std::vector<VkLayerProperties> availableLayers(layerCount);
+        vkEnumerateDeviceLayerProperties(physicalDevice.GetPhysicalDevice(), &layerCount, availableLayers.data());
+
+        Instance::AddValidationLayers(availableLayers, validationLayers);
+        deviceCreateInfo.ppEnabledLayerNames = validationLayers.data();
+        deviceCreateInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+
+        #endif
 
         deviceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(Extensions.size());
         deviceCreateInfo.ppEnabledExtensionNames = Extensions.data();

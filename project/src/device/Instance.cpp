@@ -1,24 +1,18 @@
 #include "Instance.h"
 #include "Extensions.h"
+#include "MacVulkanBindings.h"
 
 #include <spoopy.h>
 
+#include <utility>
 #include <sstream>
 #include <stack>
 
 #ifndef VK_EXT_DEBUG_UTILS_EXTENSION_NAME
-
 #define VK_EXT_DEBUG_UTILS_EXTENSION_NAME "VK_EXT_debug_utils"
-
 #endif
 
 namespace lime { namespace spoopy {
-    #if VK_HEADER_VERSION > 101
-        const std::vector<const char*> Instance::ValidationLayers = {"VK_LAYER_KHRONOS_validation"};
-    #else
-        const std::vector<const char*> Instance::ValidationLayers = {"VK_LAYER_LUNARG_standard_validation"};
-    #endif
-
     #if SPOOPY_DEBUG_MESSENGER
     VKAPI_ATTR VkBool32 VKAPI_CALL CallbackDebug(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageTypes,
         const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData, void *pUserData) {
@@ -65,11 +59,19 @@ namespace lime { namespace spoopy {
         FvkDestroyDebugReportCallbackEXT(instance, debugMessenger, nullptr);
         #endif
 
-        vkDestroyInstance(instance, nullptr);
+	vkDestroyInstance(instance, nullptr);
         m_window = nullptr;
     }
 
     void Instance::CreateInstance() {
+        #if defined(__APPLE__)
+
+        // So that MoltenVK can be used on macOS, we need to set the VK_ICD_FILENAMES environment variable to point to the MoltenVK_icd.json file
+        // Else it go boom boom (Not really but it won't work)
+	spoopy_mac::SetICDEnv();
+        #endif
+
+
         #if !defined(SPOOPY_SWITCH)
         checkVulkan(volkInitialize());
         #endif
@@ -122,8 +124,10 @@ namespace lime { namespace spoopy {
                 instanceCreateInfo.pNext = static_cast<VkDebugUtilsMessengerCreateInfoEXT *>(&debugUtilsMessengerCreateInfo);
             #endif
 
-            instanceCreateInfo.enabledLayerCount = static_cast<uint32_t>(ValidationLayers.size());
-            instanceCreateInfo.ppEnabledLayerNames = ValidationLayers.data();
+            AddValidationLayers(availableLayers, validationLayers);
+
+            instanceCreateInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+            instanceCreateInfo.ppEnabledLayerNames = validationLayers.data();
         }
 
         VkResult result = vkCreateInstance(&instanceCreateInfo, nullptr, &instance);
@@ -194,14 +198,18 @@ namespace lime { namespace spoopy {
         #endif
     }
 
-    bool Instance::CheckValidationLayerSupport() const {
+    bool Instance::CheckValidationLayerSupport() {
+        if(!availableLayers.empty()) {
+            SPOOPY_LOG_WARN("Validation layers already enumerated!");
+            return false;
+        }
+
         uint32_t count;
         vkEnumerateInstanceLayerProperties(&count, nullptr);
-
         std::vector<VkLayerProperties> instanceLayerProperties(count);
         vkEnumerateInstanceLayerProperties(&count, instanceLayerProperties.data());
 
-        for(const char* layerName: ValidationLayers) {
+        for(const char* layerName: validationLayers) {
             bool layerFound = false;
 
             for(const auto& layerProperties: instanceLayerProperties) {
@@ -220,6 +228,7 @@ namespace lime { namespace spoopy {
             }
         }
 
+        availableLayers = std::move(instanceLayerProperties);
         return true;
     }
 
@@ -281,5 +290,70 @@ namespace lime { namespace spoopy {
             extensions.emplace_back(extensionStack.top());
             extensionStack.pop();
         }
+    }
+
+    void Instance::AddValidationLayers(std::vector<VkLayerProperties> &availableLayers
+    , std::vector<const char*> &validationLayers) {
+        bool hasKnronosStandardValidation = false;
+        bool hasLunarGValidation = false;
+
+        #if VK_USE_KHRONOS_STANDARD_VALIDATION
+
+        const char* vkLayerKhronosValidation = "VK_LAYER_KHRONOS_validation";
+        hasKnronosStandardValidation = CheckLayerSupport(availableLayers, vkLayerKhronosValidation);
+
+        if(hasKnronosStandardValidation) {
+            validationLayers.push_back(vkLayerKhronosValidation);
+            SPOOPY_LOG_INFO("Using Khronos standard validation layer.");
+        }
+
+        #endif
+
+        #if VK_USE_LUNARG_VALIDATION
+
+        if(!hasKnronosStandardValidation) {
+            const char* vkLayerLunarGValidation = "VK_LAYER_LUNARG_standard_validation";
+            hasLunarGValidation = CheckLayerSupport(availableLayers, vkLayerLunarGValidation);
+
+            if(hasLunarGValidation) {
+                validationLayers.push_back(vkLayerLunarGValidation);
+                SPOOPY_LOG_INFO("Using LunarG standard validation layer.");
+            }
+        }
+
+        #endif
+
+        if(!hasKnronosStandardValidation && !hasLunarGValidation) {
+            const std::vector<const char*> AvailableLayers = {
+                    "VK_LAYER_GOOGLE_threading",
+                    "VK_LAYER_LUNARG_parameter_validation",
+                    "VK_LAYER_LUNARG_object_tracker",
+                    "VK_LAYER_LUNARG_core_validation",
+                    "VK_LAYER_GOOGLE_unique_objects"
+            };
+
+            for(auto &layer : AvailableLayers) {
+                bool supported = CheckLayerSupport(availableLayers, layer);
+
+                if(supported) {
+                    validationLayers.push_back(layer);
+                    SPOOPY_LOG_INFO("Using validation layer: " + std::string(layer));
+                }
+            }
+
+            if(validationLayers.empty()) {
+                SPOOPY_LOG_WARN("No validation layers found!");
+            }
+        }
+    }
+
+    bool Instance::CheckLayerSupport(const std::vector<VkLayerProperties> &layers, const char* layerName) {
+        for(auto &layer : layers) {
+            if(platform::stringCompare(layer.layerName, layerName) == 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }}

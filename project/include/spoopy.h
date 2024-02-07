@@ -5,6 +5,7 @@
 
 #if defined(__WIN32__)
 #include <Windows.h>
+#define getcwd _getcwd // This is useful for debugging
 #else
 #include <unistd.h>
 #endif
@@ -20,6 +21,9 @@ typedef long long int64;
 #if defined(SPOOPY_VOLK) && defined(SPOOPY_VULKAN)
 
 #include <volk.h>
+
+#define VK_USE_KHRONOS_STANDARD_VALIDATION 1
+#define VK_USE_LUNARG_STANDARD_VALIDATION 1
 
 #define SPOOPY_SAFE_DESTROY_VULKAN(resource, device, handle)  \
     if (resourceHandle != VK_NULL_HANDLE) {                   \

@@ -191,6 +191,13 @@ namespace lime { namespace spoopy {
 
         if(!val_is_null(signalSemaphore)) {
             _signalSemaphore = (GPUSemaphore*)val_data(signalSemaphore);
+        }else {
+            return GraphicsModule::GetCurrent()->GetLogicalDevice()->GetGraphicsQueue()->Submit(
+                _cmd_buffer,
+                _fence,
+                rawWaitSemaphores,
+                state
+            );
         }
 
         return GraphicsModule::GetCurrent()->GetLogicalDevice()->GetGraphicsQueue()->Submit(
@@ -202,6 +209,12 @@ namespace lime { namespace spoopy {
         );
     }
     DEFINE_PRIME5(spoopy_queue_submit);
+
+    void spoopy_update_last_submit_cmd_buffer(value cmd_buffer) {
+        GPUCommandBuffer* _cmd_buffer = (GPUCommandBuffer*)val_data(cmd_buffer);
+        GraphicsModule::GetCurrent()->GetLogicalDevice()->GetGraphicsQueue()->UpdateLastSubmittedCommandBuffer(_cmd_buffer);
+    }
+    DEFINE_PRIME1v(spoopy_update_last_submit_cmd_buffer);
 
     void spoopy_dealloc_gpu_cffi_pointer(int type, value pointer) { // Pure Deallocator for raw references
         switch((BackendType)type) {

@@ -41,8 +41,13 @@ namespace spoopy_mac {
     }
 
     void SetICDEnv() {
-	printf("%s\n", "Getting ICD Files!");
-        setenv("VK_ICD_FILENAMES", [[NSBundle mainBundle] pathForResource:@"MoltenVK_icd" ofType:@"json"].UTF8String, 1);
-	printf("%s\n", "Got ICD file.");
-    	}
+	NSString* cdPath = [[NSBundle mainBundle] pathForResource:@"MoltenVK_icd" ofType:@"json"];
+
+	if(!cdPath) { // I'm still learning Objective-C
+		printf("Error: %s\n", "MoltenVK_icd.json not found!");
+		return;
+	}
+
+	setenv("VK_ICD_FILENAMES", [cdPath UTF8String], 1);
+    }
 }

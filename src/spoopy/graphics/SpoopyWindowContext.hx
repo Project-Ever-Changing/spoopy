@@ -1,26 +1,20 @@
 package spoopy.graphics;
 
-import spoopy.graphics.renderer.SpoopyRenderPass;
-import spoopy.graphics.renderer.SpoopyRenderPass;
-import spoopy.graphics.commands.SpoopyCommandManager;
-import spoopy.graphics.state.SpoopyStateManager;
 import spoopy.graphics.SpoopyAccessFlagBits;
 import spoopy.graphics.SpoopyPipelineStageFlagBits;
 import spoopy.window.IWindowHolder;
 
 import lime.math.Rectangle;
-import lime.math.Matrix3;
-import lime.math.Vector2;
 import lime.ui.Window;
 
 /*
-* TODO: This class is a mess. It's a mess because I'm not sure how to handle DPI scaling.
-* I also have yet to implement viewport and scissor scaling, so this class is pretty much useless.
+* TODO: Implement viewport and scissor scaling, so this class is pretty much useless.
+*
+* This class is only useful because it does some basic measurements for display sizing.
+* All of the more important stuff is handled by the state manager or state.
 */
 
 @:access(lime.ui.Window)
-@:access(spoopy.graphics.renderer.SpoopyRenderPass)
-@:access(spoopy.graphics.state.SpoopyStateManager)
 class SpoopyWindowContext implements IWindowHolder {
     public var module(get, never):SpoopyGraphicsModule;
     public var window(get, never):Window;
@@ -29,53 +23,24 @@ class SpoopyWindowContext implements IWindowHolder {
     public var displayHeight(default, null):Int = 0;
 
     @:noCompletion private var __window:Window;
-    @:noCompletion private var __renderPass:SpoopyRenderPass;
-    @:noCompletion private var __stateManager:SpoopyStateManager;
     @:noCompletion private var __module:SpoopyGraphicsModule;
-    @:noCompletion private var __displayMatrix:Matrix3;
     @:noCompletion private var __viewportRect:Rectangle;
-    @:noCompletion private var __active:Bool;
-    @:noCompletion private var __rtCount:Int;
-    @:noCompletion private var __rtDirty:Bool;
+    @:noCompletion private var __attributeWidth:Int;
+    @:noCompletion private var __attributeHeight:Int;
 
-    public function new(module:SpoopyGraphicsModule, window:Window, ?stateManager:SpoopyStateManager) {
-        __active = false;
-        __rtDirty = false;
-        __rtCount = 0;
-
+    public function new(module:SpoopyGraphicsModule, window:Window) {
         __window = window;
         __module = module;
-        
-        __displayMatrix = new Matrix3();
+
+        __attributeWidth = Std.int(window.__attributes.width);
+        __attributeHeight = Std.int(window.__attributes.height);
+
         __viewportRect = new Rectangle();
-
-        __stateManager = stateManager != null ? stateManager : new SpoopyStateManager();
-        __stateManager.bindToContext(this);
     }
 
-    public function onFlush():Void {
-        __active = false;
-
-        /*
-        __stateManager.flush();
-        __stateManager = null;
-
-        __renderPass.destroy();
-        __renderPass = null;
-        */
-    }
-
-    public function onDraw():Void {
-        // TODO: Implement the pipeline manager and check if the pipeline is good to go
-
-        var cmdBuffer = __stateManager.__commandManager.getCmdBuffer();
-        // TODO: Get the pipeline Layout and check if it's good to go
-
-        if(__rtDirty && cmdBuffer.state == INSIDE_RENDER_PASS) {
-            endRenderPass();
-        }
-
-        __stateManager.draw();
+    @:allow(spoopy.graphics.SpoopyGraphicsModule) private function onDestroy():Void {
+        __module = null;
+        __window = null;
     }
 
     public function resize():Void {
@@ -85,68 +50,38 @@ class SpoopyWindowContext implements IWindowHolder {
         __setViewport(windowWidth, windowHeight);
     }
 
-    public function resetRenderTarget():Void {
-        if(__rtCount != 0) {
-            __rtDirty = true;
-            __rtCount = 0;
-        }
-
-        // TODO: Call destroy `__depthView` which if the wrapper has a CFFIPointer, then delete it.
-        // `__depthView` should be a Depth Image View for Haxe, this would allow for frontend flexibility.
-
-        var cmdBuffer = __stateManager.__commandManager.getCmdBuffer();
-
-        if(cmdBuffer.state == INSIDE_RENDER_PASS) {
-            endRenderPass();
-        }
-    }
-
-    public function endRenderPass():Void {
-        __stateManager.endRenderPass();
-
-        __renderPass.destroy();
-        __renderPass = null;
-
-        // TODO STATE: Handle pipeline barrier
-    }
-
-    public function flushState():Void {
-        var cmdBuffer = __stateManager.__commandManager.getCmdBuffer();
-
-        if(cmdBuffer.state == INSIDE_RENDER_PASS) {
-            endRenderPass();
-        }
-
-        // TODO STATE: Handle render pass and pipeline barrier
-        __stateManager.flush();
-    }
-
-    @:noCompletion private function createRenderPass():Void {
-        if(__renderPass != null) {
-            return;
-        }
-
-        //var attributes = __window.__attributes.context;
-    }
-
     @:noCompletion private function __setViewport(width:Int, height:Int):Void {
-        displayWidth = width;
-        displayHeight = height;
+        var newWidth = displayWidth;
+        var newHeight = displayHeight;
 
-        #if !spoopy_dpi_aware
-        displayWidth = Math.round(displayWidth / __window.scale);
-        displayHeight = Math.round(displayHeight / __window.scale);
+        var windowWidth = Std.int(width * __window.scale);
+        var windowHeight = Std.int(height * __window.scale);
 
-        __displayMatrix.identity();
-        __displayMatrix.scale(__window.scale, __window.scale);
-        #end
+        if(__attributeWidth == 0 || __attributeHeight == 0 || windowWidth == 0 || windowHeight == 0) {
+            #if !spoopy_dpi_aware
+            displayWidth = width;
+            displayHeight = height;
+            #else
+            displayWidth = windowWidth;
+            displayHeight = windowHeight;
+            #end
 
-        __viewportRect.setTo(
-            __displayMatrix.tx,
-            __displayMatrix.ty,
-            displayWidth * __displayMatrix.a + __displayMatrix.tx, // Matrix transformation X
-            displayHeight * __displayMatrix.d + __displayMatrix.ty // Matrix transformation Y
-        );
+            __viewportRect.setTo(0, 0, displayWidth, displayHeight);
+        }else {
+            var scaleX = windowWidth / __attributeWidth;
+            var scaleY = windowHeight / __attributeHeight;
+
+            var scale = Math.min(scaleX, scaleY);
+
+            newWidth = Math.round(displayWidth * scale);
+            newHeight = Math.round(displayHeight * scale);
+
+            var offsetX = (windowWidth - newWidth) / 2;
+            var offsetY = (windowHeight - newHeight) / 2;
+
+            // No need to use the matrix, that's too much computation for something so simple.
+            __viewportRect.setTo(offsetX, offsetY, newWidth, newHeight);
+        }
     }
 
     @:noCompletion private function get_window():Window {

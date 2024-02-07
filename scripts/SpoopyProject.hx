@@ -1,6 +1,5 @@
 package;
 
-import haxe.display.Display.Package;
 #if lime
 
 import lime.tools.PlatformTarget;
@@ -114,6 +113,17 @@ class SpoopyProject {
         ProjectHelper.recursiveSmartCopyTemplate(project, "project", destination + "/" + name, context);
     }
 
+    public function addDependancy(dep:String, haxeLibPath:String, files:Array<String>):Void {
+        var depPath = haxeLibPath + "dependencies/" + dep + "/";
+
+        for(file in files) {
+            var destFile = contentDirectory + "/" + file;
+
+            if(FileSystem.exists(destFile)) continue;
+            System.copyFile(depPath + file, destFile);
+        }
+    }
+
     public function xmlProject(path:String):Void {
         var projectFile:String = path + "/project.xml";
 
@@ -195,7 +205,7 @@ class SpoopyProject {
 
     public function setupContentDirectory(host:String):Void {
         if(host.toLowerCase().startsWith("mac")) {
-            contentDirectory = platform.targetDirectory + "/bin/" + platform.project.app.file + ".app/" + "/Contents/Resources";
+            contentDirectory = platform.targetDirectory + "/bin/" + platform.project.app.file + ".app/" + "Contents/Resources";
         }
 
         if(host.toLowerCase().startsWith("windows") || host.toLowerCase().startsWith("linux")) {

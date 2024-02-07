@@ -22,7 +22,7 @@ namespace lime { namespace spoopy {
         mutex.Unlock();
     }
 
-    void QueueVulkan::GetLastSubmittedInfo(CommandBufferVulkan*& cmdBuffer, uint64_t& fenceCounter) {
+    void QueueVulkan::GetLastSubmittedInfo(CommandBufferVulkan* &cmdBuffer, uint64_t &fenceCounter) {
         mutex.Lock();
 
         cmdBuffer = lastSubmittedCommandBuffer;
@@ -61,7 +61,6 @@ namespace lime { namespace spoopy {
         }
 
         checkVulkan(vkQueueSubmit(queue, 1, &submitInfo, fence->GetFence()));
-
         cmdBuffer->waitDstStageMask.clear();
         return 4; // 4 means that the command buffer `is submitted` and is waiting to be executed
     }

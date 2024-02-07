@@ -14,8 +14,8 @@ namespace lime { namespace spoopy {
             ~Engine();
 
             int Run();
-            void BindCallbacks(value updateCallback, value drawCallback);
-            void BindCallbacks(vclosure* updateCallback, vclosure* drawCallback);
+            void BindCallbacks(value updateCallback, value drawCallback, value syncGC);
+            void BindCallbacks(vclosure* updateCallback, vclosure* drawCallback, vclosure* syncGC);
             void Apply(bool __cpuLimiterEnabled, float updateFPS, float drawFPS, float timeScale);
             // static void Apply(float updateFPS, float drawFPS, float physicsFPS, float timeScale); --TODO: Implement physics
             void RequestExit();
@@ -31,8 +31,8 @@ namespace lime { namespace spoopy {
         private:
             class ThreadData {
                 public:
-                    ThreadData(value updateCallback, value drawCallback);
-                    ThreadData(vclosure* updateCallback, vclosure* drawCallback);
+                    ThreadData(value updateCallback, value drawCallback, value syncGC);
+                    ThreadData(vclosure* updateCallback, vclosure* drawCallback, vclosure* syncGC);
                     ~ThreadData();
 
                 private:
@@ -40,6 +40,7 @@ namespace lime { namespace spoopy {
 
                     ValuePointer* updateCallback;
                     ValuePointer* drawCallback;
+		    ValuePointer* syncGC;
             };
 
         private:
