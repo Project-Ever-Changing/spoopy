@@ -40,7 +40,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_entry_is_gpu_operation_complete = new cpp.Callable<cpp.Object->Bool>(cpp.Prime._loadPrime("lime", "spoopy_entry_is_gpu_operation_complete", "ob", false));
     public static var spoopy_dealloc_gpu_cffi_pointer = new cpp.Callable<Int->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_dealloc_gpu_cffi_pointer", "iov", false));
     public static var spoopy_engine_apply = new cpp.Callable<Bool->Float32->Float32->Float32->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_engine_apply", "bfffv", false));
-    public static var spoopy_engine_bind_callbacks = new cpp.Callable<cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_engine_bind_callbacks", "oov", false));
+    public static var spoopy_engine_bind_callbacks = new cpp.Callable<cpp.Object->cpp.Object->cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_engine_bind_callbacks", "ooov", false));
     public static var spoopy_engine_run_raw = new cpp.Callable<Void->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_engine_run_raw", "v", false));
     public static var spoopy_engine_shutdown = new cpp.Callable<Void->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_engine_shutdown", "v", false));
     public static var spoopy_create_threading_semaphore = new cpp.Callable<Void->cpp.Object>(cpp.Prime._loadPrime("lime", "spoopy_create_threading_semaphore", "o", false));
@@ -65,6 +65,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_device_present_image = new cpp.Callable<cpp.Object->cpp.Object->Int>(cpp.Prime._loadPrime("lime", "spoopy_device_present_image", "ooi", false));
     public static var spoopy_device_recreate_swapchain = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_device_recreate_swapchain", "ov", false));
     public static var spoopy_command_buffer_reset = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_command_buffer_reset", "ov", false));
+    public static var spoopy_update_last_submit_cmd_buffer = new cpp.Callable<cpp.Object->cpp.Void>(cpp.Prime._loadPrime("lime", "spoopy_update_last_submit_cmd_buffer", "ov", false));
     #elseif (neko || cppia)
     public static var spoopy_check_graphics_module = CFFI.load("lime", "spoopy_check_graphics_module", 0);
     public static var spoopy_resize_graphics_context = CFFI.load("lime", "spoopy_resize_graphics_context", 2);
@@ -89,7 +90,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_entry_is_gpu_operation_complete = CFFI.load("lime", "spoopy_entry_is_gpu_operation_complete", 1);
     public static var spoopy_dealloc_gpu_cffi_pointer = CFFI.load("lime", "spoopy_dealloc_gpu_cffi_pointer", 2);
     public static var spoopy_engine_apply = CFFI.load("lime", "spoopy_engine_apply", 4);
-    public static var spoopy_engine_bind_callbacks = CFFI.load("lime", "spoopy_engine_bind_callbacks", 2);
+    public static var spoopy_engine_bind_callbacks = CFFI.load("lime", "spoopy_engine_bind_callbacks", 3);
     public static var spoopy_engine_run_raw = CFFI.load("lime", "spoopy_engine_run_raw", 0);
     publci static var spoopy_engine_shutdown = CFFI.load("lime", "spoopy_engine_shutdown", 0);
     public static var spoopy_create_threading_semaphore = CFFI.load("lime", "spoopy_create_threading_semaphore", 0);
@@ -114,6 +115,7 @@ class SpoopyNativeCFFI {
     public static var spoopy_device_present_image = CFFI.load("lime", "spoopy_device_present_image", 2);
     public static var spoopy_device_recreate_swapchain = CFFI.load("lime", "spoopy_device_recreate_swapchain", 1);
     public static var spoopy_command_buffer_reset = CFFI.load("lime", "spoopy_command_buffer_reset", 1);
+    public static var spoopy_update_last_submit_cmd_buffer = CFFI.load("lime", "spoopy_update_last_submit_cmd_buffer", 1);
     #else
     public static function spoopy_check_graphics_module():Void {
         return;
@@ -199,7 +201,7 @@ class SpoopyNativeCFFI {
         return;
     }
 
-    public static function spoopy_engine_bind_callbacks(updateCallback:Dynamic, drawCallback:Dynamic):Void {
+    public static function spoopy_engine_bind_callbacks(updateCallback:Dynamic, drawCallback:Dynamic, syncGC:Dynamic):Void {
         return;
     }
 
@@ -304,6 +306,10 @@ class SpoopyNativeCFFI {
     }
 
     public static function spoopy_command_buffer_reset(cmd_buffer:Dynamic):Void {
+        return;
+    }
+
+    public static function spoopy_update_last_submit_cmd_buffer(cmd_buffer:Dynamic):Void {
         return;
     }
     #end
