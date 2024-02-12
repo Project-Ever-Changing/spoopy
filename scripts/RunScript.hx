@@ -1,7 +1,6 @@
 package;
 
 import massive.sys.util.PathUtil;
-import utils.net.GitFileManager;
 import lime.tools.HXProject;
 import lime.tools.PlatformTarget;
 import lime.tools.CommandHelper;
@@ -12,7 +11,6 @@ import sys.FileSystem;
 import massive.sys.io.FileSys;
 import utils.PathUtils;
 import utils.DisplayInfo;
-import utils.net.GitFileManager;
 import hxp.*;
 
 using StringTools;
@@ -235,7 +233,7 @@ class RunScript {
             .replace("\\", "")
             .trim();
 
-        var project:SpoopyProject = new SpoopyProject();
+        var project:SpoopyProject = new SpoopyProject(debug);
         project.project.templatePaths.push("templates");
         project.copyAndCreateTemplate(args[1], projectPath);
 
@@ -261,9 +259,11 @@ class RunScript {
 
         var ndll_path:String = "/ndll/";
 
-        var project:SpoopyProject = new SpoopyProject(false);
+        var project:SpoopyProject = new SpoopyProject(debug, false);
         project.xmlProject(Sys.getCwd());
         project.targetPlatform(limeCmd);
+        project.setupContentDirectory(host);
+        project.setupShaders(host.toLowerCase(), haxeLibPath);
 
         if(project.project.defines.exists("spoopy-vulkan")) {
             ndll_path = "/ndll-vulkan/";
@@ -273,8 +273,6 @@ class RunScript {
             project.addDependancy("moltenvk", haxeLibPath, ["libMoltenVK.dylib", "MoltenVK_icd.json"]);
         }
 
-        project.setupContentDirectory(host);
-        project.setupShaders(host.toLowerCase(), haxeLibPath);
         project.replaceProjectNDLL(haxeLibPath + ndll_path + host, "lime.ndll");
         runApplication(project);
     }
@@ -284,7 +282,7 @@ class RunScript {
     }
 
     static inline function testCMD(args:Array<String>):Void {
-    buildBackend(args, "test");
+        buildBackend(args, "test");
     }
 
     /*

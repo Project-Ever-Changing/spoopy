@@ -6,4 +6,5 @@
 
 namespace spoopy_mac {
     bool MacCreateSurface(SDL_Window* window, VkInstance instance, VkSurfaceKHR* surface);
+    void SetICDEnv();
 }

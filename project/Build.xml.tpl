@@ -137,7 +137,7 @@
 			<file name="src/device/LogicalDevice.cpp" />
 			<file name="src/device/Surface.cpp" />
 
-			<file name="src/device/MacSurfaceCreate.mm" if="mac" />
+			<file name="src/device/MacVulkanBindings.mm" if="mac" />
 		</section>
 
         <file name="src/utils/MemoryReader.cpp" />

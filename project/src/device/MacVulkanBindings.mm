@@ -1,4 +1,4 @@
-#include "MacSurfaceCreate.h"
+#include "MacVulkanBindings.h"
 #include "../helpers/VulkanAddons.h"
 
 #include <SDL.h>
@@ -38,5 +38,16 @@ namespace spoopy_mac {
         }
 
         return true;
+    }
+
+    void SetICDEnv() {
+	NSString* cdPath = [[NSBundle mainBundle] pathForResource:@"MoltenVK_icd" ofType:@"json"];
+
+	if(!cdPath) { // I'm still learning Objective-C
+		printf("Error: %s\n", "MoltenVK_icd.json not found!");
+		return;
+	}
+
+	setenv("VK_ICD_FILENAMES", [cdPath UTF8String], 1);
     }
 }

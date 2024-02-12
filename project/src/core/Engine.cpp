@@ -40,20 +40,21 @@ namespace lime { namespace spoopy {
             }
         }
 
+	threadData->syncGC->Call();
         delete threadData;
         threadData = nullptr;
 
         return 0;
     }
 
-    void Engine::BindCallbacks(value updateCallback, value drawCallback) {
+    void Engine::BindCallbacks(value updateCallback, value drawCallback, value syncGC) {
         if(threadData) return;
-        threadData = new ThreadData(updateCallback, drawCallback);
+        threadData = new ThreadData(updateCallback, drawCallback, syncGC);
     }
 
-    void Engine::BindCallbacks(vclosure* updateCallback, vclosure* drawCallback) {
+    void Engine::BindCallbacks(vclosure* updateCallback, vclosure* drawCallback, vclosure* syncGC) {
         if(threadData) return;
-        threadData = new ThreadData(updateCallback, drawCallback);
+        threadData = new ThreadData(updateCallback, drawCallback, syncGC);
     }
 
     void Engine::Apply(bool __cpuLimiterEnabled, float updateFPS, float drawFPS, float timeScale) {
@@ -84,18 +85,21 @@ namespace lime { namespace spoopy {
      * ThreadData
      */
 
-    Engine::ThreadData::ThreadData(value updateCallback, value drawCallback) {
+    Engine::ThreadData::ThreadData(value updateCallback, value drawCallback, value syncGC) {
         this->updateCallback = new ValuePointer(updateCallback);
         this->drawCallback = new ValuePointer(drawCallback);
+	this->syncGC = new ValuePointer(syncGC);
     }
 
-    Engine::ThreadData::ThreadData(vclosure* updateCallback, vclosure* drawCallback) {
+    Engine::ThreadData::ThreadData(vclosure* updateCallback, vclosure* drawCallback, vclosure* syncGC) {
         this->updateCallback = new ValuePointer(updateCallback);
         this->drawCallback = new ValuePointer(drawCallback);
+	this->syncGC = new ValuePointer(syncGC);
     }
 
     Engine::ThreadData::~ThreadData() {
         if(this->updateCallback) {delete this->updateCallback; this->updateCallback = nullptr;}
         if(this->drawCallback) {delete this->drawCallback; this->drawCallback = nullptr;}
+	if(this->syncGC) {delete this->syncGC; this->syncGC = nullptr;}
     }
 }}

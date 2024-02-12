@@ -1,6 +1,7 @@
 package spoopy.graphics;
 
 import spoopy.window.IWindowModule;
+import spoopy.window.IWindowHolder;
 import spoopy.utils.SpoopyLogger;
 import spoopy.graphics.state.SpoopyStateManager;
 import spoopy.graphics.modules.SpoopyGPUObject;
@@ -25,13 +26,13 @@ import lime.math.Matrix3;
 
 @:allow(spoopy.graphics.modules.SpoopyGPUObject)
 @:access(spoopy.graphics.SpoopyWindowContext)
-class SpoopyGraphicsModule implements IWindowModule {
+class SpoopyGraphicsModule implements IWindowModule implements IWindowHolder {
     public var window(get, never):Window;
     public var frameCount(default, null):UInt = 0;
 
     @:noCompletion private var __backend:BackendGraphicsModule;
     @:noCompletion private var __context:SpoopyWindowContext;
-    @:noCompletion private var __tempStateManager:SpoopyStateManager;
+    @:noCompletion private var __stateManager:SpoopyStateManager;
     @:noCompletion private var __engine:SpoopyEngine;
 
     #if spoopy_debug
@@ -40,7 +41,7 @@ class SpoopyGraphicsModule implements IWindowModule {
 
     public function new(engine:SpoopyEngine, ?stateManager:SpoopyStateManager) {
         __backend = new BackendGraphicsModule();
-        __tempStateManager = stateManager;
+        __stateManager = stateManager;
         __engine = engine;
     }
 
@@ -56,18 +57,18 @@ class SpoopyGraphicsModule implements IWindowModule {
         }
 
         var entry = new SpoopyEntry(this, __context, frame, item);
-        __engine.__deletionQueue.enqueue(entry);
+        __engine.deletionQueue.enqueue(entry);
     }
 
     public function autoDeleteAll():Void {
-        while(!__engine.__deletionQueue.isEmpty()) {
-            var entry:SpoopyEntry = __engine.__deletionQueue.dequeue();
+        while(!__engine.deletionQueue.isEmpty()) {
+            var entry:SpoopyEntry = __engine.deletionQueue.dequeue();
             entry.flush();
         }
     }
 
 
-    /**
+    /*
      * Backend methods
      */
 
@@ -81,13 +82,18 @@ class SpoopyGraphicsModule implements IWindowModule {
         __backend.checkContext(window);
         #end
 
-        __context = new SpoopyWindowContext(this, window, __tempStateManager);
-        __tempStateManager = null;
+        __context = new SpoopyWindowContext(this, window);
+
+        if(__stateManager != null) {
+            __stateManager.bindToModule(this);
+            __engine.managerQueue.enqueue(__stateManager);
+        }else {
+            SpoopyLogger.warn("A state manager was not provided, it's recommended to have one for drawing objects in the scene.");
+        }
 
         __backend.createContextStage(window, __context.__viewportRect);
         __windowResize(__context);
         __initWindowWithEngine(__context);
-        __context.createRenderPass();
     }
 
     @:noCompletion private function __initWindowWithEngine(context:SpoopyWindowContext):Void {
@@ -97,7 +103,6 @@ class SpoopyGraphicsModule implements IWindowModule {
         }
 
         __backend.initSwapChain(context);
-        context.__active = true;
     }
 
     @:noCompletion private function __windowResize(context:SpoopyWindowContext):Void {
@@ -130,10 +135,12 @@ class SpoopyGraphicsModule implements IWindowModule {
     }
 
     @:noCompletion private function __unregisterWindowModule(window:Window):Void {
+        autoDeleteAll();
+
         __engine.eventModuleDispatcher.removeEventListener(GraphicsEventType.UPDATE_FRAME);
         __engine.eventModuleDispatcher.removeEventListener(GraphicsEventType.DRAW_FRAME);
 
-        __context.onFlush();
+        __stateManager = null;
         __context = null;
     }
 

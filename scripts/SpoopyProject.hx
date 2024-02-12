@@ -30,11 +30,16 @@ class SpoopyProject {
     public var shaders(default, null):Array<Asset>;
     public var contentDirectory(default, null):String;
 
-    public function new(createProject:Bool = true) {
+    @:noCompletion private var __debug:Bool;
+
+    public function new(debug:Bool, createProject:Bool = true) {
         if(createProject) {
             project = new HXProject();
             project.architectures = [];
+            project.debug = debug;
         }
+
+        __debug = debug;
     }
 
     public function addTemplate(arg:String):Void {
@@ -108,6 +113,17 @@ class SpoopyProject {
         ProjectHelper.recursiveSmartCopyTemplate(project, "project", destination + "/" + name, context);
     }
 
+    public function addDependancy(dep:String, haxeLibPath:String, files:Array<String>):Void {
+        var depPath = haxeLibPath + "dependencies/" + dep + "/";
+
+        for(file in files) {
+            var destFile = contentDirectory + "/" + file;
+
+            if(FileSystem.exists(destFile)) continue;
+            System.copyFile(depPath + file, destFile);
+        }
+    }
+
     public function xmlProject(path:String):Void {
         var projectFile:String = path + "/project.xml";
 
@@ -147,25 +163,6 @@ class SpoopyProject {
 
         FileSystem.deleteFile(replacing);
         System.copyFile(path + "/" + dep, replacing);
-    }
-
-    public function addDependancy(dep:String, haxeLibPath:String, files:Array<String>):Void {
-        var depPath = haxeLibPath + "dependencies/" + dep + "/";
-        var dest = platform.targetDirectory + "/bin/";
-
-        switch(project.target) {
-            case MAC:
-                depPath += "mac/";
-                dest += "Contents/MacOS/";
-            default:
-        }
-
-        for(file in files) {
-            var destFile = dest + file;
-
-            if(FileSystem.exists(destFile)) continue;
-            System.copyFile(depPath + file, destFile);
-        }
     }
 
     public function targetPlatform(command:String):Void {
@@ -208,7 +205,7 @@ class SpoopyProject {
 
     public function setupContentDirectory(host:String):Void {
         if(host.toLowerCase().startsWith("mac")) {
-            contentDirectory = platform.targetDirectory + "/bin/" + platform.project.app.file + ".app/" + "/Contents/Resources";
+            contentDirectory = platform.targetDirectory + "/bin/" + platform.project.app.file + ".app/" + "Contents/Resources";
         }
 
         if(host.toLowerCase().startsWith("windows") || host.toLowerCase().startsWith("linux")) {

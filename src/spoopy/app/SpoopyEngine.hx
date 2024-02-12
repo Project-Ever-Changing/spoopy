@@ -4,6 +4,7 @@ import spoopy.events.SpoopyEvent;
 import spoopy.events.SpoopyEventDispatcher;
 import spoopy.events.SpoopyUncaughtDispatcher;
 import spoopy.graphics.descriptor.SpoopyDescriptorManager;
+import spoopy.graphics.state.SpoopyStateManager;
 import spoopy.graphics.modules.SpoopyEntry;
 import spoopy.graphics.SpoopyGraphicsModule;
 import spoopy.graphics.SpoopyWindowContext;
@@ -17,9 +18,9 @@ import lime.app.Application;
 /*
 * Only one instance of this class should exist.
 */
-@:access(spoopy.events.SpoopyEvent)
 @:access(spoopy.events.SpoopyUncaughtDispatcher)
 @:access(spoopy.events.SpoopyEventDispatcher)
+@:allow(spoopy.backend.native.SpoopyNativeEngine)
 class SpoopyEngine implements IModule {
     public static var INSTANCE(default, null):SpoopyEngine = new SpoopyEngine();
 
@@ -39,7 +40,8 @@ class SpoopyEngine implements IModule {
 
     @:allow(spoopy.graphics.SpoopyGraphicsModule) private var eventModuleDispatcher(default, null):SpoopyEventDispatcher<GraphicsEventType>;
     @:allow(spoopy.graphics.SpoopyGraphicsModule) private var uncaughtModuleDispatcher(default, null):SpoopyUncaughtDispatcher<GraphicsEventType>;
-    @:allow(spoopy.graphics.SpoopyGraphicsModule) private var __deletionQueue(default, null):SpoopyDestroyQueue<SpoopyEntry>;
+    @:allow(spoopy.graphics.SpoopyGraphicsModule) private var deletionQueue(default, null):SpoopyDestroyQueue<SpoopyEntry>;
+    @:allow(spoopy.graphics.SpoopyGraphicsModule) private var managerQueue(default, null):SpoopyDestroyQueue<SpoopyStateManager>;
 
     @:noCompletion private var __isRendering:Bool;
 
@@ -54,13 +56,15 @@ class SpoopyEngine implements IModule {
     public static var MAX_BACK_BUFFERS(default, null):UInt = 4;
 
     private function new() {
-        __deletionQueue = new SpoopyDestroyQueue<SpoopyEntry>();
+        deletionQueue = new SpoopyDestroyQueue<SpoopyEntry>();
+        managerQueue = new SpoopyDestroyQueue<SpoopyStateManager>();
 
-        __isRendering = false;
         cpuLimiterEnabled = true;
         updateFramerate = 60;
         drawFramerate = 60;
         frameCounter = 0;
+
+        __isRendering = false;
     }
 
     public function update(updateFramerate:Int = 60, drawFramerate:Int = 60, timeScale:Float = 1.0, cpuLimiterEnabled:Bool = true) {
@@ -86,24 +90,15 @@ class SpoopyEngine implements IModule {
         eventModuleDispatcher = new SpoopyEventDispatcher<GraphicsEventType>();
         uncaughtModuleDispatcher = new SpoopyUncaughtDispatcher<GraphicsEventType>();
 
-        UPDATE_EVENT = SpoopyEvent.__pool.get();
-        UPDATE_EVENT.type = SpoopyEvent.ENTER_UPDATE_FRAME;
-
-        DRAW_EVENT = SpoopyEvent.__pool.get();
-        DRAW_EVENT.type = SpoopyEvent.ENTER_DRAW_FRAME;
-
-        SpoopyEngineBackend.bindCallbacks(__update, __draw);
-        SpoopyEngineBackend.run();
+        SpoopyEngineBackend.bindCallbacks(__update, __draw, __syncGC);
+        SpoopyEngineBackend.run(this);
 
         descriptorManager = new SpoopyDescriptorManager();
     }
 
     @:noCompletion private function __unregisterLimeModule(application:Application):Void {
-        eventDispatcher = null;
-        uncaughtDispatcher = null;
-
-        eventModuleDispatcher = null;
-        uncaughtModuleDispatcher = null;
+        managerQueue.releaseItems();
+        managerQueue = null;
 
         SpoopyEngineBackend.shutdown();
     }
@@ -117,7 +112,7 @@ class SpoopyEngine implements IModule {
         if(__isRendering) return;
         __isRendering = true;
 
-        __deletionQueue.releaseItems();
+        deletionQueue.releaseItems();
 
         __broadcastEvent(DRAW_EVENT, eventModuleDispatcher, uncaughtModuleDispatcher);
         __broadcastEvent(DRAW_EVENT, eventDispatcher, uncaughtDispatcher);
@@ -154,6 +149,18 @@ class SpoopyEngine implements IModule {
             throw e;
             #end
         }
+    }
+
+    @:noCompletion private function __syncGC():Void {
+        eventDispatcher = null;
+        uncaughtDispatcher = null;
+        eventModuleDispatcher = null;
+        uncaughtModuleDispatcher = null;
+        deletionQueue = null;
+
+        #if spoopy_debug
+        SpoopyLogger.success("Syncronized the Garbage Collector.");
+        #end
     }
 }
 

@@ -23,7 +23,7 @@ class SpoopyCommandManager<T:IWindowHolder> implements ISpoopyDestroyable {
         __pool = new SpoopyCommandPool<T>(this);
     }
 
-    public function submitActiveCmdBuffer(signalSemaphore:SpoopyGPUObject):Void {
+    public function submitActiveCmdBuffer(signalSemaphore:SpoopyGPUObject = null):Void {
         if(__activeCmdBuffer.hasBegun()) {
             if(__activeCmdBuffer.state == INSIDE_RENDER_PASS) {
                 __activeCmdBuffer.endRenderPass();

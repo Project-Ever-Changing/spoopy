@@ -12,9 +12,11 @@ import spoopy.app.SpoopyEngine;
 @:allow(spoopy.graphics.commands.SpoopyCommandPool)
 class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
     public var parent(get, never):SpoopyCommandPool<T>;
+    public var manager(get, never):SpoopyCommandManager<T>;
     public var state(get, never):SpoopyCommandState;
 
     @:noCompletion private var __holder:T;
+    @:noCompletion private var __manager:SpoopyCommandManager<T>;
     @:noCompletion private var __parent:SpoopyCommandPool<T>;
     @:noCompletion private var __handle:SpoopyCommandBufferBackend;
     @:noCompletion private var __state:SpoopyCommandState;
@@ -28,6 +30,7 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
     private function new(parent:SpoopyCommandPool<T>, begin:Bool = true) {
         __state = WAITING_FOR_BEGIN;
         __parent = parent;
+        __manager = parent.manager;
         __holder = parent.manager.parent;
 
         __handle = SpoopyStaticBackend.spoopy_create_command_buffer(parent.__handle, begin);
@@ -96,6 +99,8 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
         __submittedSemaphores = __waitSemaphores;
         __waitSemaphores = [];
         __submittedFenceSignaledCounter = __fenceSignaledCounter;
+
+        SpoopyStaticBackend.spoopy_update_last_submit_cmd_buffer(__handle);
     }
 
     public function refreshFenceStatus():Void {
@@ -107,8 +112,7 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
         if(__fence.signaled) {
             __state = WAITING_FOR_BEGIN;
 
-            // Destroy all submitted semaphores before clearing the array.
-            for(i in 0...__submittedSemaphores.length) {
+            for(i in 0...__submittedSemaphores.length) { // GC the old semaphores.
                 var submittedSemaphore:SpoopyGPUObject = __submittedSemaphores[i];
                 submittedSemaphore.destroy();
             }
@@ -143,6 +147,10 @@ class SpoopyCommandBuffer<T:IWindowHolder> implements ISpoopyDestroyable {
 
         SpoopyStaticBackend.spoopy_command_buffer_end_record(__handle);
         __state = HAS_ENDED;
+    }
+
+    @:noCompletion private function get_manager():SpoopyCommandManager<T> {
+        return __manager;
     }
 
     @:noCompletion private function get_parent():SpoopyCommandPool<T> {

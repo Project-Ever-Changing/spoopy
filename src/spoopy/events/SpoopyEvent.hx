@@ -7,6 +7,8 @@ import lime.utils.ObjectPool;
 * TODO: Add proper documentation
 */
 @:allow(spoopy.events.SpoopyEventDispatcher)
+@:allow(spoopy.backend.native.SpoopyNativeEngine)
+@:allow(spoopy.app.SpoopyEngine)
 class SpoopyEvent #if openfl extends Event #end {
 
     /*

@@ -316,7 +316,7 @@ namespace lime { namespace spoopy {
      */
 
     extern "C" {
-        void spoopy_engine_bind_callbacks(value updateCallback, value drawCallback) {
+        void spoopy_engine_bind_callbacks(value updateCallback, value drawCallback, value syncGC) {
             if (!val_is_function(updateCallback)) {
                 SPOOPY_LOG_ERROR("Update callback is not a function!");
                 return;
@@ -327,9 +327,14 @@ namespace lime { namespace spoopy {
                 return;
             }
 
-            Engine::GetInstance()->BindCallbacks(updateCallback, drawCallback);
+	    if (!val_is_function(syncGC)) {
+		SPOOPY_LOG_ERROR("SyncGC callback is not a function!");
+		return;
+	    }
+
+            Engine::GetInstance()->BindCallbacks(updateCallback, drawCallback, syncGC);
         }
-        DEFINE_PRIME2v(spoopy_engine_bind_callbacks);
+        DEFINE_PRIME3v(spoopy_engine_bind_callbacks);
 
         void spoopy_engine_apply(bool cpuLimiterEnabled, float updateFPS, float drawFPS, float timeScale) {
             if(updateFPS < drawFPS) {

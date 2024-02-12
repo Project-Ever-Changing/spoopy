@@ -18,10 +18,12 @@ namespace lime { namespace spoopy {
             bool GetEnableValidationLayers() const { return enableValidationLayers; }
             const VkInstance &GetInstance() const { return instance; }
 
-        static const std::vector<const char*> ValidationLayers;
+            static void AddValidationLayers(std::vector<VkLayerProperties> &availableLayers
+            , std::vector<const char*> &validationLayers);
+            static bool CheckLayerSupport(const std::vector<VkLayerProperties> &layers, const char* layerName);
 
         private:
-            bool CheckValidationLayerSupport() const;
+            bool CheckValidationLayerSupport();
             void GetExtensions(std::vector<const char*> &extensions, uint32_t &size) const;
 
             void CreateInstance();
@@ -33,6 +35,9 @@ namespace lime { namespace spoopy {
             bool enableDebugMode = false;
 
             VkInstance instance = VK_NULL_HANDLE;
+
+            std::vector<const char*> validationLayers = {};
+            std::vector<VkLayerProperties> availableLayers = {};
 
             #if SPOOPY_DEBUG_MESSENGER
             VkDebugUtilsMessengerEXT debugMessenger = VK_NULL_HANDLE;

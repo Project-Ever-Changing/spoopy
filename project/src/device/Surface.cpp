@@ -7,7 +7,7 @@
 
 #if defined(HX_MACOS)
 
-#include "MacSurfaceCreate.h"
+#include "MacVulkanBindings.h"
 
 #endif
 

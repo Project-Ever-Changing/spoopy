@@ -37,9 +37,9 @@ class SpoopyLogger {
         var smsg = "\033[1m\033[32m" + Std.string(msg) + "\033[0m";
 
         #if js
-        untyped #if haxe4 js.Syntax.code #else __js__ #end (typeOfOutput("[ERROR]") + smsg);
+        untyped #if haxe4 js.Syntax.code #else __js__ #end (typeOfOutput("[SUCCESS]") + smsg);
         #else
-        Log.println(typeOfOutput("[ERROR]") + smsg);
+        Log.println(typeOfOutput("[SUCCESS]") + smsg);
         #end
     }
 
