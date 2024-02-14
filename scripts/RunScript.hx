@@ -212,7 +212,6 @@ class RunScript {
         
         if(args.indexOf("-ndll") > 0) {
             destroyCMD(args);
-
             buildCMD(args);
         }
     }
@@ -289,7 +288,7 @@ class RunScript {
     * Tools pretty much.
     */
     static inline function buildScript(api:String, args:Array<String>):Void {
-        if(FileSystem.exists("project/obj")) {
+        if(FileSystem.exists("project/obj") && args.indexOf("-clean") > 0) {
             PathUtils.deleteDirRecursively("project/obj");
             FileSystem.deleteDirectory("project/obj");
         }
