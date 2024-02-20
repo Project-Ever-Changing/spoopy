@@ -33,19 +33,19 @@ class SpoopyStateManager implements ISpoopyDestroyable {
     public function destroy():Void {
         // TODO: Work on this
 
-        __commandManager.submitActiveCmdBuffer();
-        __commandManager.destroy();
-        __commandManager = null;
-
         if(__queueState != null) {
             __queueState.destroy();
             __queueState = null;
         }
 
         if(__currentState != null) {
+            __commandManager.submitActiveCmdBuffer();
             __currentState.destroy();
             __currentState = null;
         }
+
+        __commandManager.destroy();
+        __commandManager = null;
     }
 
     public function resetState():Void {
