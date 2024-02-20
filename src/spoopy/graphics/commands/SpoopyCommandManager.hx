@@ -24,7 +24,7 @@ class SpoopyCommandManager<T:IWindowHolder> implements ISpoopyDestroyable {
     }
 
     public function submitActiveCmdBuffer(signalSemaphore:SpoopyGPUObject = null):Void {
-        if(__activeCmdBuffer.hasBegun()) {
+        if(__activeCmdBuffer.hasBegun() && __activeCmdBuffer.state != SUBMITTED) {
             if(__activeCmdBuffer.state == INSIDE_RENDER_PASS) {
                 __activeCmdBuffer.endRenderPass();
             }
