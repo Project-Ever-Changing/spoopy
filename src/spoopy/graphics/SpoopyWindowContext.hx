@@ -76,8 +76,8 @@ class SpoopyWindowContext implements IWindowHolder {
             newWidth = Math.round(displayWidth * scale);
             newHeight = Math.round(displayHeight * scale);
 
-            var offsetX = (windowWidth - newWidth) / 2;
-            var offsetY = (windowHeight - newHeight) / 2;
+            var offsetX = (windowWidth - newWidth) >> 1;
+            var offsetY = (windowHeight - newHeight) >> 1;
 
             // No need to use the matrix, that's too much computation for something so simple.
             __viewportRect.setTo(offsetX, offsetY, newWidth, newHeight);
